@@ -2,10 +2,10 @@
 
 The client app for RRIV hardware.
 
-# building
+# build & run
 
  npm install
+
  npm run build
 
-# running
-npm start
+ npm start
