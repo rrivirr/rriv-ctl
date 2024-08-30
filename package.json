@@ -19,6 +19,7 @@
     "@types/inquirer": "^9.0.1",
     "commander": "^9.4.0",
     "enquirer": "^2.3.6",
-    "serialport": "^10.4.0"
+    "moment": "^2.30.1",
+    "serialport": "^10.5.0"
   }
 }
