@@ -20,11 +20,25 @@ cli
     console.log('test command called')
   })
 
+
+function getRRIVDir(){
+  const homedir = require('os').homedir();
+  return path.join(homedir, ".rriv");
+}
+
+function connectSerial(serialPath: string){
+  return new SerialPort({
+    path: serialPath,
+    baudRate: 57600,
+  });
+
+
+}
+
 function readSerialUntilQuit(serialPath: string, file: string) {
 
-  const homedir = require('os').homedir();
 
-  const dir = path.join(homedir, ".rriv", "watch");
+  const dir = path.join(getRRIVDir(), "watch");
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -44,11 +58,10 @@ function readSerialUntilQuit(serialPath: string, file: string) {
     delimiter: '\n',
     includeDelimiter: false
   })
-  const serialPort = new SerialPort({
-    path: serialPath, //'/dev/serial/by-id/usb-RRIV_RRIV_Data_Logger__rriv-if00',
-    baudRate: 57600,
-  });
+  const serialPort = connectSerial(serialPath);
   serialPort.write("{\"object\":\"datalogger\", \"action\":\"set_mode\", \"mode\":\"quiet\"}\n");
+  // TODO: note sure if drain, timeout, and flush are all necessary
+  // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
   serialPort.drain(() => {
 
     setTimeout(() => {
@@ -122,6 +135,94 @@ cli
     }
   })
 
+
+cli
+  .command('set')
+  .argument('<object>')
+  .argument('[properities]', 'JSON representation of properties')
+  .option('-p, --path <serial_path>', 'serial path of the RRIV device')
+  .description('set values on an object or create an object')
+  .action((object, properties) => {
+    console.log(object)
+    console.log(properties)
+    let payload = JSON.parse(properties);
+    payload.object = object;
+    payload.action = 'set';
+    let payloadString = JSON.stringify(payload) + '\n'
+
+    const serialPath = getSerialPathFromCache();
+    const serialPort = connectSerial(serialPath.toString());
+    serialPort.write(payloadString);
+  })
+
+
+function getRrivCtlDir(){
+  return path.join(getRRIVDir(), '.rrivctl');
+}
+
+function defaultSerialFile(){
+  return path.join(getRrivCtlDir(), 'default_serial');
+}
+
+function cacheSerialPath(serialPath: string){
+  if(!fs.existsSync(serialPath)){
+    console.log(`The serial path ${serialPath} does not currently exist`);
+    SerialPort.list().then((list) => {
+      if(list.length == 0){
+        console.log("No serial devices found");
+        return;
+      }
+
+      console.log(`Try using one of these:`);
+      for (const pathItem of list) {
+        if(pathItem.productId){
+          console.log(pathItem.path);
+        }
+      }
+    });
+  }
+  fs.mkdirSync(getRrivCtlDir(), { recursive: true})
+  // if(!fs.existsSync(defaultSerialFile())){
+  //   fs.
+  // }
+  fs.writeFileSync(defaultSerialFile(), serialPath);
+  console.log("Connected to RRIV device");
+}
+
+function getSerialPathFromCache(){
+  const defaultSerial = path.join(getRrivCtlDir(), 'default_serial')
+  const serialPath = fs.readFileSync(defaultSerial);
+  return serialPath;
+}
+
+cli
+  .command('connect')
+  .option('-p, --path <serial_path>', 'serial path of the RRIV device')
+  .action((options) => {
+    if (!options.path) {
+      SerialPort.list().then((list) => {
+
+        // detect the serial port
+        let serialPortPath = "";
+        for (const pathItem of list) {
+          if (pathItem.productId && pathItem.pnpId?.includes('rriv')) {
+            console.log(`Found a RRIV device ${pathItem.pnpId}`)
+            console.log(`Connecting to it at ${pathItem.path}`)
+            serialPortPath = pathItem.path
+          }
+        }
+        if (serialPortPath === "") {
+          console.log("No RRIV device found")
+          console.log("Try using -p <path> to specify the path to the RRIV serial device")
+        }
+
+        cacheSerialPath(serialPortPath);
+
+      })
+    } else {
+      cacheSerialPath(options.path);
+    }
+  })
 
 cli.parse(process.argv)
 
