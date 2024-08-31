@@ -135,6 +135,24 @@ cli
     }
   })
 
+cli
+  .command('chain <object> varadic...') // change chain to set
+  .allowUnknownOption()
+  // .argument('<object>')
+  // .argument('[args...]')
+  .action( (object, args) => {
+    console.log(object);
+    console.log(args);
+
+    let setSensorProgram = new Command()
+    setSensorProgram.command('set')
+    .option('--id <id>', 'id name of the sensor')
+    .option('--type <type>', 'type of sensor')
+    args.unshift('set')
+    console.log(args)
+    setSensorProgram.parse(args, { from: 'user' })
+
+  })
 
 cli
   .command('set')
@@ -224,6 +242,7 @@ cli
     }
   })
 
+console.log(process.argv);
 cli.parse(process.argv)
 
 
