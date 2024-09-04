@@ -110,25 +110,30 @@ cli
     }
 
     if (!options.path) {
-      SerialPort.list().then((list) => {
 
-        // detect the serial port
-        let serialPortPath = "";
-        for (const pathItem of list) {
-          if (pathItem.productId && pathItem.pnpId?.includes('rriv')) {
-            console.log(`Found a RRIV device ${pathItem.pnpId}`)
-            console.log(`Connecting to it at ${pathItem.path}`)
-            serialPortPath = pathItem.path
-          }
-        }
-        if (serialPortPath === "") {
-          console.log("No RRIV device found")
-          console.log("Try using -p <path> to specify the path to the RRIV serial device")
-        }
 
-        readSerialUntilQuit(serialPortPath, file);
+      const serialPortPath = getSerialPathFromCache();
+      readSerialUntilQuit(serialPortPath.toString(), file);
+      // const serialPort = connectSerial(serialPath.toString());
+      // SerialPort.list().then((list) => {
 
-      })
+      //   // detect the serial port
+      //   let serialPortPath = "";
+      //   for (const pathItem of list) {
+      //     if (pathItem.productId && pathItem.pnpId?.includes('rriv')) {
+      //       console.log(`Found a RRIV device ${pathItem.pnpId}`)
+      //       console.log(`Connecting to it at ${pathItem.path}`)
+      //       serialPortPath = pathItem.path
+      //     }
+      //   }
+      //   if (serialPortPath === "") {
+      //     console.log("No RRIV device found")
+      //     console.log("Try using -p <path> to specify the path to the RRIV serial device")
+      //   }
+
+      //   readSerialUntilQuit(serialPortPath, file);
+
+      // })
     } else {
       readSerialUntilQuit(options.path, file);
 
