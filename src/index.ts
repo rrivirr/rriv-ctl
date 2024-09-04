@@ -111,6 +111,7 @@ cli
         if (serialPortPath === "") {
           console.log("No RRIV device found")
           console.log("Try using -p <path> to specify the path to the RRIV serial device")
+          return;
         }
 
         readSerialUntilQuit(serialPortPath, file);
