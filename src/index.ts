@@ -135,43 +135,74 @@ cli
     }
   })
 
+  let sensorProgram = new Command()
+  sensorProgram.command('set')
+  .option('--id <id>', 'id name of the sensor')
+  .option('--type <type>', 'type of sensor')
+
+  sensorProgram.command('get')
+  .option('--id <id>', 'id name of the sensor')
+
+
 cli
-  .command('chain <object> varadic...') // change chain to set
+  .command('set <object> varadic...') // change chain to set
   .allowUnknownOption()
   // .argument('<object>')
   // .argument('[args...]')
   .action( (object, args) => {
+    console.log('in')
     console.log(object);
     console.log(args);
 
-    let setSensorProgram = new Command()
-    setSensorProgram.command('set')
-    .option('--id <id>', 'id name of the sensor')
-    .option('--type <type>', 'type of sensor')
-    args.unshift('set')
-    console.log(args)
-    setSensorProgram.parse(args, { from: 'user' })
+    if(object == "sensor") {
+     
+      args.unshift('set')
+      console.log('sub')
+      console.log(args)
+      sensorProgram.parse(args, { from: 'user' })
+    }
 
   })
 
-cli
-  .command('set')
-  .argument('<object>')
-  .argument('[properities]', 'JSON representation of properties')
-  .option('-p, --path <serial_path>', 'serial path of the RRIV device')
-  .description('set values on an object or create an object')
-  .action((object, properties) => {
-    console.log(object)
-    console.log(properties)
-    let payload = JSON.parse(properties);
-    payload.object = object;
-    payload.action = 'set';
-    let payloadString = JSON.stringify(payload) + '\n'
 
-    const serialPath = getSerialPathFromCache();
-    const serialPort = connectSerial(serialPath.toString());
-    serialPort.write(payloadString);
+  cli
+  .command('get <object> varadic...') // change chain to set
+  .allowUnknownOption()
+  // .argument('<object>')
+  // .argument('[args...]')
+  .action( (object, args) => {
+    console.log('in')
+    console.log(object);
+    console.log(args);
+
+    if(object == "sensor") {
+     
+      args.unshift('get')
+      console.log('sub')
+      console.log(args)
+      sensorProgram.parse(args, { from: 'user' })
+    }
+
   })
+
+// cli
+//   .command('set')
+//   .argument('<object>')
+//   .argument('[properities]', 'JSON representation of properties')
+//   .option('-p, --path <serial_path>', 'serial path of the RRIV device')
+//   .description('set values on an object or create an object')
+//   .action((object, properties) => {
+//     console.log(object)
+//     console.log(properties)
+//     let payload = JSON.parse(properties);
+//     payload.object = object;
+//     payload.action = 'set';
+//     let payloadString = JSON.stringify(payload) + '\n'
+
+//     const serialPath = getSerialPathFromCache();
+//     const serialPort = connectSerial(serialPath.toString());
+//     serialPort.write(payloadString);
+//   })
 
 
 function getRrivCtlDir(){
@@ -242,7 +273,6 @@ cli
     }
   })
 
-console.log(process.argv);
 cli.parse(process.argv)
 
 
