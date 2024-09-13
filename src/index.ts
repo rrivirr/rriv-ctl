@@ -232,3 +232,25 @@ cli
 cli.parse(process.argv)
 
 
+cli
+  .command('debug')
+  .action(() => {
+
+
+    const serialPortPath = getSerialPathFromCache();
+    const parser = new ReadlineParser({
+      delimiter: '\n',
+      includeDelimiter: false
+    })
+    const serialPort = connectSerial(serialPortPath.toString());
+
+
+    parser.on('data', function (data: String) {
+      console.log(data);
+    });
+
+    serialPort.pipe(parser)
+
+  })
+
+  
