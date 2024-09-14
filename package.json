@@ -11,7 +11,8 @@
   "scripts": {
     "start": "node ./dist/src/index.js",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall" : "./create-alias.sh"
   },
   "author": "",
   "license": "ISC",
