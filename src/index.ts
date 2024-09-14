@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-import { Command } from 'commander'
+import { Argument, Command } from 'commander'
 import { description, version } from '../package.json'
 import { SerialPort, ReadlineParser } from 'serialport';
 import * as fs from 'fs';
 import moment from 'moment'
 import path from 'path'
+import serialCommands from './util/serial_commands';
 
 let cli = new Command()
 
@@ -59,7 +60,7 @@ function readSerialUntilQuit(serialPath: string, file: string) {
     includeDelimiter: false
   })
   const serialPort = connectSerial(serialPath);
-  serialPort.write("{\"object\":\"datalogger\", \"action\":\"set_mode\", \"mode\":\"quiet\"}\n");
+  serialPort.write(serialCommands.quietModeCommand);
   // TODO: note sure if drain, timeout, and flush are all necessary
   // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
   serialPort.drain(() => {
@@ -140,23 +141,150 @@ cli
     }
   })
 
-
-cli
-  .command('set')
-  .argument('<object>')
-  .argument('[properities]', 'JSON representation of properties')
-  .option('-p, --path <serial_path>', 'serial path of the RRIV device')
-  .description('set values on an object or create an object')
-  .action((object, properties) => {
-    console.log(object)
-    console.log(properties)
-    let payload = JSON.parse(properties);
-    payload.object = object;
-    payload.action = 'set';
-    let payloadString = JSON.stringify(payload) + '\n'
+  cli
+  .command('list')
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter']))
+  .description('get values on an object or create an object')
+  .action((object) => {
 
     const serialPath = getSerialPathFromCache();
     const serialPort = connectSerial(serialPath.toString());
+    serialPort.write(serialCommands.quietModeCommand);
+
+    const parser = new ReadlineParser({
+      delimiter: '\n',
+      includeDelimiter: false
+    })
+    parser.on('data', function (data: String) {
+      console.log(data);
+      if (data[0] == '{') {
+        // skip this line
+        return;
+      } else {
+        // process.exit();
+      }
+  
+    });
+    serialPort.pipe(parser);
+
+    let payload = new Map();
+    payload.set('object', object);
+    payload.set('action', 'list');
+
+    let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    console.log(payloadString);
+    serialPort.write(payloadString);
+
+
+  });
+
+cli
+  .command('get')
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter']))
+  .argument('[id]')
+  .description('get values on an object or create an object')
+  .action((object, id) => {
+
+
+    const serialPath = getSerialPathFromCache();
+    const serialPort = connectSerial(serialPath.toString());
+    serialPort.write(serialCommands.quietModeCommand);
+
+    const parser = new ReadlineParser({
+      delimiter: '\n',
+      includeDelimiter: false
+    })
+    parser.on('data', function (data: String) {
+      console.log(data);
+      if (data[0] == '{') {
+        // skip this line
+        return;
+      } else {
+        // process.exit();
+      }
+  
+    });
+    serialPort.pipe(parser);
+
+    let payload = new Map();
+    payload.set('object', object);
+    payload.set('action', 'get');
+    if(id){
+      console.log(id);
+      payload.set('id', id)
+    }
+    let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    console.log(payloadString);
+    serialPort.write(payloadString);
+
+
+  });
+
+cli
+  .command('set')
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter']))
+  .argument('[id]')
+  .argument('[property]')
+  .argument('[property_value]')
+  // .argument('[properities]', 'JSON representation of properties')
+  // .option('-p, --path <serial_path>', 'serial path of the RRIV device')
+  // .option('-t, --type [type]')
+  // .option('--burst-size [burst_size]')
+  // .option('--warm-up-delay [warm_up_delay]')
+  // .option('-o, --property [sensor_properties...]')
+  .option('-f, --file <file>')
+  .description('set values on an object or create an object')
+  .action((object, id, property, property_value, options) => {
+    console.log(object)
+    console.log(id)
+    
+    // let props = 
+    let payload = new Map();
+    payload.set('object', object);
+    payload.set('action', 'set');
+    if(id){
+      console.log(id);
+      payload.set('id', id)
+    }
+
+    if(property && property_value){
+      payload.set(property, property_value);
+    } else {
+
+      const properties = fs.readFileSync(options['file'])
+      console.log(properties.toString())
+      const propertiesObject = JSON.parse(properties.toString());
+      console.log(propertiesObject);
+      Object.keys(propertiesObject).forEach((key) => {
+        payload.set(key, propertiesObject[key as keyof typeof properties])
+      })
+
+    }
+
+
+    let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    console.log(payloadString);
+
+    const serialPath = getSerialPathFromCache();
+    const serialPort = connectSerial(serialPath.toString());
+    serialPort.write(serialCommands.quietModeCommand);
+
+
+    const parser = new ReadlineParser({
+      delimiter: '\n',
+      includeDelimiter: false
+    })
+    parser.on('data', function (data: String) {
+      console.log(data);
+      if (data[0] == '{') {
+        // skip this line
+        return;
+      } else {
+        // process.exit();
+      }
+  
+    });
+    serialPort.pipe(parser);
     serialPort.write(payloadString);
   })
 
