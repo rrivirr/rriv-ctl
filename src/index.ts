@@ -6,6 +6,7 @@ import * as fs from 'fs';
 import moment from 'moment'
 import path from 'path'
 import serialCommands from './util/serial_commands';
+import paths from './util/paths';
 
 let cli = new Command()
 
@@ -22,10 +23,6 @@ cli
   })
 
 
-function getRRIVDir(){
-  const homedir = require('os').homedir();
-  return path.join(homedir, ".rriv");
-}
 
 function connectSerial(serialPath: string){
   return new SerialPort({
@@ -36,10 +33,10 @@ function connectSerial(serialPath: string){
 
 }
 
-function readSerialUntilQuit(serialPath: string, file: string) {
+function readSerialUntilQuit(serialPath: string, file: string, debug: boolean) {
 
 
-  const dir = path.join(getRRIVDir(), "watch");
+  const dir = path.join(paths.getRRIVDir(), "watch");
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -52,8 +49,6 @@ function readSerialUntilQuit(serialPath: string, file: string) {
   }
 
   console.log(`Watching output and logging sensor data to ${logPath}\n`)
-
-
 
   const parser = new ReadlineParser({
     delimiter: '\n',
@@ -68,7 +63,11 @@ function readSerialUntilQuit(serialPath: string, file: string) {
     setTimeout(() => {
       serialPort.flush();
       serialPort.pipe(parser)
-      serialPort.write("{\"object\":\"datalogger\", \"action\":\"set_mode\", \"mode\":\"watch\"}\n");
+      if(debug){
+        serialPort.write("{\"object\":\"datalogger\", \"action\":\"set_mode\", \"mode\":\"watch-debug\"}\n");
+      } else {
+        serialPort.write("{\"object\":\"datalogger\", \"action\":\"set_mode\", \"mode\":\"watch\"}\n");
+      }
     }, 1000);
   });
 
@@ -90,55 +89,62 @@ function readSerialUntilQuit(serialPath: string, file: string) {
 }
 
 
+function sendCommandAndEchoResponse(command: string) {
+
+  const serialPath = getSerialPathFromCache().toString()
+  const serialPort = connectSerial(serialPath);
+  
+  const parser = new ReadlineParser({
+    delimiter: '\n',
+    includeDelimiter: false
+  })
+  parser.on('data', function (data: string) {
+    // console.log("got data");
+    if (data.includes("action")) {
+      // skip this line, it's just the echo back
+      return;
+    } else {
+      const response = JSON.stringify(JSON.parse(data), null, 2);
+      console.log(response);
+      process.exit();
+    }
+
+  });
+
+  serialPort.write(serialCommands.quietModeCommand);
+  // TODO: note sure if drain, timeout, and flush are all necessary
+  // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
+  serialPort.drain(() => {
+
+    setTimeout(() => {
+      serialPort.flush();
+      serialPort.pipe(parser)
+      serialPort.write(command);
+    }, 1000);
+
+  });
+
+
+}
+
+
 cli
   .command('watch')
   .description('watch data output and log to a file')
+  .option('-d, --debug', 'enabled debuggin output', false)
   .option('-f, --file <file>', 'name of a file to output sensor data to')
   .option('-p, --path <serial_path>', 'serial path of the RRIV device')
   .option('--project <project>', 'a project name for organizing watch files')
   .action((options) => {
 
-    let file = options.file
-    let project = options.project
+    let project = options.project ?? "rriv"
+    let file = options.file ?? project + "_" + moment().format('YYYY-MM-DDTHH:mm') + "_watch.txt"
+    let debug = options.debug
 
-    if (!project) {
-      project = "rriv";
-    }
+    let serialPortPath = options.path ?? getSerialPathFromCache();
 
-    if (!file) {
-      // file = path.join(project, project + "_" + moment().format('YYYY-MM-DDTHH:mm') + "_watch.txt")
-      file = project + "_" + moment().format('YYYY-MM-DDTHH:mm') + "_watch.txt"
-    }
+    readSerialUntilQuit(serialPortPath.toString(), file, debug);
 
-    if (!options.path) {
-
-
-      const serialPortPath = getSerialPathFromCache();
-      readSerialUntilQuit(serialPortPath.toString(), file);
-      // const serialPort = connectSerial(serialPath.toString());
-      // SerialPort.list().then((list) => {
-
-      //   // detect the serial port
-      //   let serialPortPath = "";
-      //   for (const pathItem of list) {
-      //     if (pathItem.productId && pathItem.pnpId?.includes('rriv')) {
-      //       console.log(`Found a RRIV device ${pathItem.pnpId}`)
-      //       console.log(`Connecting to it at ${pathItem.path}`)
-      //       serialPortPath = pathItem.path
-      //     }
-      //   }
-      //   if (serialPortPath === "") {
-      //     console.log("No RRIV device found")
-      //     console.log("Try using -p <path> to specify the path to the RRIV serial device")
-      //   }
-
-      //   readSerialUntilQuit(serialPortPath, file);
-
-      // })
-    } else {
-      readSerialUntilQuit(options.path, file);
-
-    }
   })
 
   cli
@@ -147,33 +153,42 @@ cli
   .description('get values on an object or create an object')
   .action((object) => {
 
-    const serialPath = getSerialPathFromCache();
-    const serialPort = connectSerial(serialPath.toString());
-    serialPort.write(serialCommands.quietModeCommand);
-
-    const parser = new ReadlineParser({
-      delimiter: '\n',
-      includeDelimiter: false
-    })
-    parser.on('data', function (data: String) {
-      console.log(data);
-      if (data[0] == '{') {
-        // skip this line
-        return;
-      } else {
-        // process.exit();
-      }
-  
-    });
-    serialPort.pipe(parser);
 
     let payload = new Map();
     payload.set('object', object);
     payload.set('action', 'list');
-
     let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
-    console.log(payloadString);
-    serialPort.write(payloadString);
+
+    sendCommandAndEchoResponse(payloadString);
+
+    // const serialPort = connectSerial(serialPath.toString());
+    // serialPort.write(serialCommands.quietModeCommand);
+
+    // const parser = new ReadlineParser({
+    //   delimiter: '\n',
+    //   includeDelimiter: false
+    // })
+    // parser.on('data', function (data: String) {
+    //   // console.log("got data");
+    //   if (data.includes("action")) {
+    //     // skip this line, it's just the echo back
+    //     return;
+    //   } else {
+    //     console.log(data);
+    //     // console.log("arg")
+    //     process.exit();
+    //   }
+  
+    // });
+    // serialPort.pipe(parser);
+
+    // let payload = new Map();
+    // payload.set('object', object);
+    // payload.set('action', 'list');
+
+    // let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    // console.log(payloadString);
+    // serialPort.write(payloadString);
 
 
   });
@@ -289,13 +304,7 @@ cli
   })
 
 
-function getRrivCtlDir(){
-  return path.join(getRRIVDir(), '.rrivctl');
-}
 
-function defaultSerialFile(){
-  return path.join(getRrivCtlDir(), 'default_serial');
-}
 
 function cacheSerialPath(serialPath: string){
   if(!fs.existsSync(serialPath)){
@@ -314,16 +323,16 @@ function cacheSerialPath(serialPath: string){
       }
     });
   }
-  fs.mkdirSync(getRrivCtlDir(), { recursive: true})
+  fs.mkdirSync(paths.getRrivCtlDir(), { recursive: true})
   // if(!fs.existsSync(defaultSerialFile())){
   //   fs.
   // }
-  fs.writeFileSync(defaultSerialFile(), serialPath);
+  fs.writeFileSync(paths.defaultSerialFile(), serialPath);
   console.log("Connected to RRIV device");
 }
 
 function getSerialPathFromCache(){
-  const defaultSerial = path.join(getRrivCtlDir(), 'default_serial')
+  const defaultSerial = path.join(paths.getRrivCtlDir(), 'default_serial')
   const serialPath = fs.readFileSync(defaultSerial);
   return serialPath;
 }
