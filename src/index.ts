@@ -104,6 +104,7 @@ function sendCommandAndEchoResponse(command: string) {
       // skip this line, it's just the echo back
       return;
     } else {
+      console.log(data);
       const response = JSON.stringify(JSON.parse(data), null, 2);
       console.log(response);
       process.exit();
@@ -161,77 +162,41 @@ cli
 
     sendCommandAndEchoResponse(payloadString);
 
-    // const serialPort = connectSerial(serialPath.toString());
-    // serialPort.write(serialCommands.quietModeCommand);
-
-    // const parser = new ReadlineParser({
-    //   delimiter: '\n',
-    //   includeDelimiter: false
-    // })
-    // parser.on('data', function (data: String) {
-    //   // console.log("got data");
-    //   if (data.includes("action")) {
-    //     // skip this line, it's just the echo back
-    //     return;
-    //   } else {
-    //     console.log(data);
-    //     // console.log("arg")
-    //     process.exit();
-    //   }
-  
-    // });
-    // serialPort.pipe(parser);
-
-    // let payload = new Map();
-    // payload.set('object', object);
-    // payload.set('action', 'list');
-
-    // let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
-    // console.log(payloadString);
-    // serialPort.write(payloadString);
-
-
   });
 
 cli
   .command('get')
   .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter']))
-  .argument('[id]')
-  .description('get values on an object or create an object')
+  .argument('<id>')
+  .description('get values on an object')
   .action((object, id) => {
-
-
-    const serialPath = getSerialPathFromCache();
-    const serialPort = connectSerial(serialPath.toString());
-    serialPort.write(serialCommands.quietModeCommand);
-
-    const parser = new ReadlineParser({
-      delimiter: '\n',
-      includeDelimiter: false
-    })
-    parser.on('data', function (data: String) {
-      console.log(data);
-      if (data[0] == '{') {
-        // skip this line
-        return;
-      } else {
-        // process.exit();
-      }
-  
-    });
-    serialPort.pipe(parser);
 
     let payload = new Map();
     payload.set('object', object);
     payload.set('action', 'get');
-    if(id){
-      console.log(id);
-      payload.set('id', id)
-    }
+    payload.set('id', id)
     let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
     console.log(payloadString);
-    serialPort.write(payloadString);
 
+    sendCommandAndEchoResponse(payloadString);
+
+  });
+
+  cli
+  .command('remove')
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter']))
+  .argument('<id>')
+  .description('remove an object')
+  .action((object, id) => {
+
+    let payload = new Map();
+    payload.set('object', object);
+    payload.set('action', 'remove');
+    payload.set('id', id)
+    let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    console.log(payloadString);
+
+    sendCommandAndEchoResponse(payloadString);
 
   });
 
@@ -250,10 +215,8 @@ cli
   .option('-f, --file <file>')
   .description('set values on an object or create an object')
   .action((object, id, property, property_value, options) => {
-    console.log(object)
-    console.log(id)
     
-    // let props = 
+  
     let payload = new Map();
     payload.set('object', object);
     payload.set('action', 'set');
@@ -265,7 +228,6 @@ cli
     if(property && property_value){
       payload.set(property, property_value);
     } else {
-
       const properties = fs.readFileSync(options['file'])
       console.log(properties.toString())
       const propertiesObject = JSON.parse(properties.toString());
