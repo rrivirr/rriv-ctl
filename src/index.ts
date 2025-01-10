@@ -180,10 +180,11 @@ cli
 
 cli
   .command('get')
-  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter']))
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board']))
   .argument('[id]')
+  .argument('[parameter]')
   .description('get values on an object or create an object')
-  .action((object, id) => {
+  .action((object, id, parameter) => {
 
 
     const serialPath = getSerialPathFromCache();
@@ -200,7 +201,7 @@ cli
         // skip this line
         return;
       } else {
-        // process.exit();
+        process.exit();
       }
   
     });
@@ -209,9 +210,19 @@ cli
     let payload = new Map();
     payload.set('object', object);
     payload.set('action', 'get');
-    if(id){
-      console.log(id);
-      payload.set('id', id)
+    if(object == 'board'){
+      if(id){
+        payload.set('parameter', id);
+      }
+    } else {
+      if(id){
+        console.log(id);
+        payload.set('id', id)
+      }
+      if(parameter){
+        console.log(parameter);
+        payload.set('parameter', parameter);
+      }
     }
     let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
     console.log(payloadString);
@@ -222,7 +233,7 @@ cli
 
 cli
   .command('set')
-  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter']))
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board']))
   .argument('[id]')
   .argument('[property]')
   .argument('[property_value]')
@@ -237,18 +248,35 @@ cli
   .action((object, id, property, property_value, options) => {
     console.log(object)
     console.log(id)
-    
-    // let props = 
+
     let payload = new Map();
     payload.set('object', object);
     payload.set('action', 'set');
-    if(id){
-      console.log(id);
-      payload.set('id', id)
+
+
+    if(object === 'board'){
+
+      // deal with absense of id in board command
+      // TODO: help needs to refect this somehow
+      property_value = property;
+      property = id;
+
+    } else {
+
+      if(id){
+        console.log(id);
+        payload.set('id', id)
+      }
+
     }
 
     if(property && property_value){
-      payload.set(property, property_value);
+      let number = Number(property_value);
+      if(Number.isNaN(number)){
+        payload.set(property, property_value);
+      } else {
+        payload.set(property, number);
+      }
     } else {
 
       const properties = fs.readFileSync(options['file'])
@@ -275,12 +303,13 @@ cli
       includeDelimiter: false
     })
     parser.on('data', function (data: String) {
-      console.log(data);
       if (data[0] == '{') {
+        console.log("echo: " + data);
         // skip this line
         return;
       } else {
-        // process.exit();
+        console.log(data);
+        process.exit();
       }
   
     });
@@ -351,6 +380,37 @@ cli
 
         cacheSerialPath(serialPortPath);
 
+        // set epoch
+        const now = Date.now();
+        const epoch = Math.floor(now / 1000);
+        let payload = new Map();
+        payload.set('object', 'board');
+        payload.set('action', 'set');
+        payload.set('epoch', epoch);
+
+        let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    
+        const serialPath = getSerialPathFromCache();
+        const serialPort = connectSerial(serialPath.toString());
+        serialPort.write(serialCommands.quietModeCommand);
+        
+        const parser = new ReadlineParser({
+          delimiter: '\n',
+          includeDelimiter: false
+        })
+        parser.on('data', function (data: String) {
+          // console.log(data);
+          if (data[0] == '{') {
+            // skip this line, it's just the echo back
+            return;
+          } else {
+            process.exit();
+          }
+        });
+
+        serialPort.pipe(parser);
+        serialPort.write(payloadString);
+
       })
     } else {
       cacheSerialPath(options.path);
@@ -362,7 +422,7 @@ cli.parse(process.argv)
 
 cli
   .command('debug')
-  .action(() => {
+  .action(() => {Number
 
 
     const serialPortPath = getSerialPathFromCache();
