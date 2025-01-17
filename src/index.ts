@@ -321,6 +321,39 @@ cli
   })
 
 
+  cli
+  .command('calibrate')
+  .addArgument(new Argument('<object>').choices(['sensor']))
+  .argument('<id>')
+  .argument('subcommand')
+  .argument('[point]')
+  .argument('[tag]')
+  .description('calibration commands')
+  .action((object, id, subcommand, point, tag) => {
+
+    let payload = new Map();
+    payload.set('object', object);
+    payload.set('action', 'calibrate');
+    payload.set('id', id);
+    payload.set('subcommand', subcommand);
+
+    if(subcommand == 'point'){
+      if (point === null){
+        console.log('Point subcommand requires a point value');
+        process.exit(1);
+      } else {
+        payload.set('point', parseFloat(point));
+        payload.set('tag', tag);
+      }
+    }
+
+
+    let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    console.log(payloadString);
+
+    sendCommandAndEchoResponse(payloadString);
+
+  });
 
 
 function cacheSerialPath(serialPath: string){
