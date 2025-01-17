@@ -9,3 +9,7 @@ The client app for RRIV hardware.
  npm run build
 
  npm start
+
+# Try some configurations
+
+rrivctl set sensor -f configurations/ring_temperature.json
