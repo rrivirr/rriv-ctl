@@ -105,8 +105,12 @@ function sendCommandAndEchoResponse(command: string) {
       return;
     } else {
       console.log(data);
+      try {
       const response = JSON.stringify(JSON.parse(data), null, 2);
       console.log(response);
+      } catch(e) {
+        console.warn("response not json");
+      }
       process.exit();
     }
 
