@@ -1,0 +1,5 @@
+{
+   "type" : "heater",
+   "on_time_s" : 1,
+   "off_time_s" : 7
+}
