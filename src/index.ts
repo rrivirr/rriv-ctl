@@ -2,6 +2,7 @@
 import { Argument, Command } from 'commander'
 import { description, version } from '../package.json'
 import { SerialPort, ReadlineParser } from 'serialport';
+import toHex from 'to-hex';
 import * as fs from 'fs';
 import moment from 'moment'
 import path from 'path'
@@ -359,6 +360,35 @@ cli
 
   });
 
+  cli
+  .command('serial')
+  .addArgument(new Argument('action').choices(['send']))
+  .argument('<message>')
+  .description('board command: send payload to usart output')
+  .action((action, message) => {
+
+    let message_to_send = message;
+    if(message_to_send.startsWith('0x')){
+      console.log('Sending hex');
+      const number = Number(message_to_send);
+      message_to_send = message.substring(2);
+      console.log(message_to_send);
+    }
+
+    let payload = new Map();
+    payload.set('object', 'serial');
+    payload.set('action', action);
+    payload.set('message', message_to_send);
+
+
+    let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    console.log(payloadString);
+
+
+
+    sendCommandAndEchoResponse(payloadString);
+  });
+
 
 function cacheSerialPath(serialPath: string){
   if(!fs.existsSync(serialPath)){
@@ -457,7 +487,7 @@ cli.parse(process.argv)
 
 cli
   .command('debug')
-  .action(() => {Number
+  .action(() => {
 
 
     const serialPortPath = getSerialPathFromCache();
