@@ -1,5 +1,5 @@
 import { Argument, Command } from "commander";
-import { sendCommandAndEchoResponse } from "../util/send-command-and-echo-response";
+import { sendCommandAndEchoResponse } from "../util/send-command-and-echo-response.ts";
 
 export const makeListCommand = (cli: Command) => {
   cli

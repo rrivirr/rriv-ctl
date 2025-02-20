@@ -1,19 +1,22 @@
 import { Command } from "commander";
 import { ReadlineParser } from "serialport";
-import { getSerialPathFromCache } from "../util/get-serial-path-from-cache";
-import { connectSerial } from "../util/connect-serial";
+import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
+import { connectSerial } from "../util/connect-serial.ts";
+import { logToConsole } from "../util/console-log.ts";
 
 export const makeDebugCommand = (cli: Command) => {
   cli.command("debug").action(() => {
     const serialPortPath = getSerialPathFromCache();
+    logToConsole("debug command");
+    return;
     const parser = new ReadlineParser({
       delimiter: "\n",
       includeDelimiter: false,
     });
-    const serialPort = connectSerial(serialPortPath.toString());
+    const serialPort = connectSerial(serialPortPath);
 
     parser.on("data", function (data: String) {
-      console.log(data);
+      logToConsole(data);
     });
 
     serialPort.pipe(parser);

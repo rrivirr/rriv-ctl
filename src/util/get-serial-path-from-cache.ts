@@ -1,9 +1,5 @@
-import * as fs from "fs";
-import path from "path";
-import paths from "./paths";
+import db from "../db/db.ts";
 
 export const getSerialPathFromCache = () => {
-  const defaultSerial = path.join(paths.getRrivCtlDir(), "default_serial");
-  const serialPath = fs.readFileSync(defaultSerial);
-  return serialPath;
+  return db.data.device.serialPortPath;
 };

@@ -1,70 +1,113 @@
 import { Command } from "commander";
-import { SerialPort, ReadlineParser } from "serialport";
-import { cacheSerialPath } from "../util/cache-serial-path";
-import { connectSerial } from "../util/connect-serial";
-import { getSerialPathFromCache } from "../util/get-serial-path-from-cache";
-import serialCommands from "../util/serial_commands";
+import { getConnectedDevice } from "../util/get-connected-device.ts";
+import { setDeviceEpoch } from "../util/set-device-epoch.ts";
+import db from "../db/db.ts";
+import { Device, getDevice } from "../api/device.ts";
+import { bindDevice } from "../util/bind-device.ts";
+import { getDeviceContext } from "../api/device-context.ts";
+import { createDeviceContext } from "../util/create-device-context.ts";
 
 export const makeConnectCommand = (cli: Command) => {
-  cli
-    .command("connect")
-    .option("-p, --path <serial_path>", "serial path of the RRIV device")
-    .action((options) => {
-      if (!options.path) {
-        SerialPort.list().then((list) => {
-          // detect the serial port
-          let serialPortPath = "";
-          for (const pathItem of list) {
-            if (pathItem.productId && pathItem.pnpId?.includes("rriv")) {
-              console.log(`Found a RRIV device ${pathItem.pnpId}`);
-              console.log(`Connecting to it at ${pathItem.path}`);
-              serialPortPath = pathItem.path;
-            }
-          }
-          if (serialPortPath === "") {
-            console.log("No RRIV device found");
-            console.log(
-              "Try using -p <path> to specify the path to the RRIV serial device"
-            );
-            return;
-          }
+  cli.command("connect").action(async () => {
+    // detect the serial port
+    const connectedDevice = await getConnectedDevice();
+    const { serialNumber, serialPortPath } = connectedDevice;
+    const {
+      device: { id, uniqueName, serialNumber: existingSerialNumber },
+      context,
+      deviceContext,
+      accessToken,
+    } = db.data;
 
-          cacheSerialPath(serialPortPath);
+    let toBindDevice = false;
+    let device: Device | undefined;
+    if (!id || !uniqueName || !existingSerialNumber) {
+      toBindDevice = true;
+    }
 
-          // set epoch
-          const now = Date.now();
-          const epoch = Math.floor(now / 1000);
-          let payload = new Map();
-          payload.set("object", "board");
-          payload.set("action", "set");
-          payload.set("epoch", epoch);
+    if (!toBindDevice) {
+      const devices = await getDevice({ id, accessToken });
+      const existingDevice = devices[0];
 
-          let payloadString =
-            JSON.stringify(Object.fromEntries(payload)) + "\n";
-
-          const serialPath = getSerialPathFromCache();
-          const serialPort = connectSerial(serialPath.toString());
-          serialPort.write(serialCommands.quietModeCommand);
-
-          const parser = new ReadlineParser({
-            delimiter: "\n",
-            includeDelimiter: false,
-          });
-          parser.on("data", function (data: String) {
-            // console.log(data);
-            if (data[0] == "{") {
-              // skip this line, it's just the echo back
-              return;
-            } else {
-              process.exit();
-            }
-          });
-
-          serialPort.pipe(parser);
-          serialPort.write(payloadString);
-        });
+      if (
+        !existingDevice ||
+        existingDevice.uniqueName !== uniqueName ||
+        existingDevice.serialNumber !== serialNumber ||
+        connectedDevice.serialNumber !== existingDevice.serialNumber
+      ) {
+        toBindDevice = true;
       } else {
-        cacheSerialPath(options.path);
+        device = existingDevice;
       }
+    }
+
+    if (toBindDevice) {
+      const devices = await getDevice({ serialNumber, accessToken });
+      device = devices[0];
+      if (!device) {
+        console.log("no existing device information found");
+        console.log("binding device to your account...");
+        device = await bindDevice({ accessToken, serialNumber });
+      }
+    }
+
+    if (!device) {
+      // should not happen
+      throw new Error("Internal server error");
+    }
+
+    db.update((data) => {
+      data.device = {
+        id: device.id,
+        uniqueName: device.uniqueName,
+        serialNumber: device.serialNumber,
+        serialPortPath,
+      };
     });
+
+    const { id: currentContextId } = context;
+    if (
+      !deviceContext ||
+      deviceContext.contextId !== currentContextId ||
+      deviceContext.deviceId !== device.id
+    ) {
+      try {
+        const currentDeviceContext = await getDeviceContext({
+          contextId: currentContextId,
+          deviceId: device.id,
+          accessToken,
+        });
+
+        db.update((data) => {
+          data.deviceContext = {
+            contextId: currentDeviceContext.contextId,
+            deviceId: currentDeviceContext.deviceId,
+            assignedDeviceName: currentDeviceContext.assignedDeviceName,
+          };
+        });
+      } catch (e: any) {
+        if (e?.response?.data?.code === 404) {
+          console.log("device not found in current context, adding device...");
+          const assignedDeviceName = await createDeviceContext({
+            contextId: currentContextId,
+            deviceId: device.id,
+            accessToken,
+          });
+
+          db.update((data) => {
+            data.deviceContext = {
+              contextId: currentContextId,
+              deviceId: device.id,
+              assignedDeviceName,
+            };
+          });
+        } else {
+          throw e;
+        }
+      }
+    }
+
+    // set epoch
+    setDeviceEpoch(serialPortPath);
+  });
 };

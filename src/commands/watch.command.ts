@@ -1,8 +1,7 @@
 import { Command } from "commander";
 import moment from "moment";
-
-import { getSerialPathFromCache } from "../util/get-serial-path-from-cache";
-import { readSerialUntilQuit } from "../util/read-serial-until-quit";
+import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
+import { readSerialUntilQuit } from "../util/read-serial-until-quit.ts";
 
 export const makeWatchCommand = (cli: Command) => {
   cli
@@ -21,6 +20,6 @@ export const makeWatchCommand = (cli: Command) => {
 
       let serialPortPath = options.path ?? getSerialPathFromCache();
 
-      readSerialUntilQuit(serialPortPath.toString(), file, debug);
+      readSerialUntilQuit(serialPortPath, file, debug);
     });
 };

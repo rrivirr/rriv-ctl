@@ -2,12 +2,12 @@ import { ReadlineParser } from "serialport";
 import * as fs from "fs";
 import moment from "moment";
 import path from "path";
-import serialCommands from "./serial_commands";
-import paths from "./paths";
-import { connectSerial } from "./connect-serial";
+import serialCommands from "./serial-commands.ts";
+import paths from "./paths.ts";
+import { connectSerial } from "./connect-serial.ts";
 
 export const readSerialUntilQuit = (
-  serialPath: string,
+  serialPortPath: string,
   file: string,
   debug: boolean
 ) => {
@@ -28,7 +28,7 @@ export const readSerialUntilQuit = (
     delimiter: "\n",
     includeDelimiter: false,
   });
-  const serialPort = connectSerial(serialPath);
+  const serialPort = connectSerial(serialPortPath);
   serialPort.write(serialCommands.quietModeCommand);
   // TODO: note sure if drain, timeout, and flush are all necessary
   // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output

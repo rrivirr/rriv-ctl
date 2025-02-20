@@ -1,9 +1,9 @@
 import { Argument, Command } from "commander";
 import * as fs from "fs";
 import { ReadlineParser } from "serialport";
-import serialCommands from "../util/serial_commands";
-import { connectSerial } from "../util/connect-serial";
-import { getSerialPathFromCache } from "../util/get-serial-path-from-cache";
+import serialCommands from "../util/serial-commands.ts";
+import { connectSerial } from "../util/connect-serial.ts";
+import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 
 export const makeSetCommand = (cli: Command) => {
   cli
@@ -67,8 +67,8 @@ export const makeSetCommand = (cli: Command) => {
       let payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
       console.log(payloadString);
 
-      const serialPath = getSerialPathFromCache();
-      const serialPort = connectSerial(serialPath.toString());
+      const serialPortPath = getSerialPathFromCache();
+      const serialPort = connectSerial(serialPortPath);
       serialPort.write(serialCommands.quietModeCommand);
 
       const parser = new ReadlineParser({

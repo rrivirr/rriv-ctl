@@ -1,22 +1,36 @@
 #!/usr/bin/env node
+import "dotenv/config";
 import { Command } from "commander";
-import { description, version } from "../package.json";
-import { makeWatchCommand } from "./commands/watch.command";
-import { makeListCommand } from "./commands/list.command";
-import { makeGetCommand } from "./commands/get.command";
-import { makeRemoveCommand } from "./commands/remove.command";
-import { makeSetCommand } from "./commands/set.command";
-import { makeCalibrateCommand } from "./commands/calibrate.command";
-import { makeSerialCommand } from "./commands/serial.command";
-import { makeConnectCommand } from "./commands/connect.command";
-import { makeDebugCommand } from "./commands/debug.command";
-import { makeTestCommand } from "./commands/test.command";
+import packageJson from "../package.json" with { type: "json" };
+import { makeWatchCommand } from "./commands/watch.command.ts";
+import { makeListCommand } from "./commands/list.command.ts";
+import { makeGetCommand } from "./commands/get.command.ts";
+import { makeRemoveCommand } from "./commands/remove.command.ts";
+import { makeSetCommand } from "./commands/set.command.ts";
+import { makeCalibrateCommand } from "./commands/calibrate.command.ts";
+import { makeSerialCommand } from "./commands/serial.command.ts";
+import { makeConnectCommand } from "./commands/connect.command.ts";
+import { makeDebugCommand } from "./commands/debug.command.ts";
+import { makeTestCommand } from "./commands/test.command.ts";
+import { errorHandler } from "./util/error-handler.ts";
+import { preAction } from "./pre-action/index.ts";
+import { makeAuthCommand } from "./commands/auth.command.ts";
+import { makeContextCommand } from "./commands/context.conmmand.ts";
 
 let cli = new Command();
 
-cli.name("rrivctl").description(description).version(version, "-v, --version");
+cli
+  .name("rrivctl")
+  .description(packageJson.description)
+  .version(packageJson.version, "-v, --version")
+  .option("-y", "continue with the default context");
+
+cli.hook("preAction", preAction);
+cli.exitOverride();
 
 makeTestCommand(cli);
+makeAuthCommand(cli);
+makeContextCommand(cli);
 makeWatchCommand(cli);
 makeListCommand(cli);
 makeGetCommand(cli);
@@ -27,4 +41,11 @@ makeSerialCommand(cli);
 makeConnectCommand(cli);
 makeDebugCommand(cli);
 
-cli.parse(process.argv);
+cli
+  .parseAsync()
+  .then(() => {
+    console.log("parsed without error");
+  })
+  .catch((error) => {
+    errorHandler(error);
+  });

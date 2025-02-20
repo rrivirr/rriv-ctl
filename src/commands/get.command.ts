@@ -1,8 +1,8 @@
 import { Argument, Command } from "commander";
 import { ReadlineParser } from "serialport";
-import serialCommands from "../util/serial_commands";
-import { connectSerial } from "../util/connect-serial";
-import { getSerialPathFromCache } from "../util/get-serial-path-from-cache";
+import serialCommands from "../util/serial-commands.ts";
+import { connectSerial } from "../util/connect-serial.ts";
+import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 
 export const makeGetCommand = (cli: Command) => {
   cli
@@ -19,8 +19,8 @@ export const makeGetCommand = (cli: Command) => {
     .argument("[parameter]")
     .description("get values on an object")
     .action((object, id, parameter) => {
-      const serialPath = getSerialPathFromCache();
-      const serialPort = connectSerial(serialPath.toString());
+      const serialPortPath = getSerialPathFromCache();
+      const serialPort = connectSerial(serialPortPath);
       serialPort.write(serialCommands.quietModeCommand);
 
       const parser = new ReadlineParser({

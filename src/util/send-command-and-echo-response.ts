@@ -1,11 +1,11 @@
-import { connectSerial } from "./connect-serial";
 import { ReadlineParser } from "serialport";
-import serialCommands from "./serial_commands";
-import { getSerialPathFromCache } from "./get-serial-path-from-cache";
+import { connectSerial } from "./connect-serial.ts";
+import serialCommands from "./serial-commands.ts";
+import { getSerialPathFromCache } from "./get-serial-path-from-cache.ts";
 
 export const sendCommandAndEchoResponse = (command: string) => {
-  const serialPath = getSerialPathFromCache().toString();
-  const serialPort = connectSerial(serialPath);
+  const serialPortPath = getSerialPathFromCache();
+  const serialPort = connectSerial(serialPortPath);
 
   const parser = new ReadlineParser({
     delimiter: "\n",

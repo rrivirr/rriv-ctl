@@ -1,8 +1,8 @@
 import { SerialPort } from "serialport";
 
-export const connectSerial = (serialPath: string) => {
+export const connectSerial = (serialPortPath: string) => {
   return new SerialPort({
-    path: serialPath,
+    path: serialPortPath,
     baudRate: 57600,
   });
 };
