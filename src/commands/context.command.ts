@@ -30,10 +30,10 @@ export const makeContextCommand = (cli: Command) => {
 
       if (options.list) {
         const { id: existingContextId } = db.data.context;
-        const userContexts = await getContexts(accessToken);
+        const userContexts = await getContexts({ accessToken });
         userContexts.forEach((context: any) =>
           context.id === existingContextId
-            ? console.log(pronounce(context.name))
+            ? console.log(pronounce(context.name)) // startedAt and endedAt use table to output
             : console.log(context.name)
         );
       } else if (options.current) {

@@ -1,11 +1,5 @@
 import axios from "axios";
-
-export type Device = {
-  id: string;
-  serialNumber: string;
-  uniqueName: string;
-  createdAt: string;
-};
+import { Device } from "../types.ts";
 
 export const getDevice = async (body: {
   id?: string;

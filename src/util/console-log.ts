@@ -1,8 +1,8 @@
-import { bold, blue, underline } from "yoctocolors";
+import { bold, cyan, underline } from "yoctocolors";
 import db from "../db/db.ts";
 
 export const pronounce = (phrase: string) => {
-  return underline(blue(bold(`${phrase}`)));
+  return underline(cyan(bold(`${phrase}`)));
 };
 
 export const logToConsole = (...args: unknown[]) => {

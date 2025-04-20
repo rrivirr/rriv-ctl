@@ -1,9 +1,8 @@
-import { LowSync } from "lowdb";
 import { authPrompt } from "../prompts/auth.prompt.ts";
-import { Data } from "../db/db.ts";
 import { authUserApiCall } from "../api/keycloak.ts";
+import db from "../db/db.ts";
 
-export const authUser = async (db: LowSync<Data>) => {
+export const authUser = async () => {
   const { expirationTime, accessToken: existingAccessToken } = db.data;
 
   if (new Date() < new Date(expirationTime)) {

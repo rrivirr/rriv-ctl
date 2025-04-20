@@ -1,9 +1,9 @@
 import { Argument, Command } from "commander";
 import * as fs from "fs";
-import { ReadlineParser } from "serialport";
-import serialCommands from "../util/serial-commands.ts";
-import { connectSerial } from "../util/connect-serial.ts";
-import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
+import { DefaultObject } from "../types.ts";
+import { logToConsole } from "../util/console-log.ts";
+import { writeConfigToDevice } from "../util/write-config-to-device.ts";
+import { uploadConfig } from "../modules/config/config.service.ts";
 
 export const makeSetCommand = (cli: Command) => {
   cli
@@ -12,80 +12,50 @@ export const makeSetCommand = (cli: Command) => {
       new Argument("<object>").choices([
         "sensor",
         "actuator",
-        "telemeter",
+        "datalogger",
         "board",
       ])
     )
     .argument("[id]")
     .argument("[property]")
     .argument("[property_value]")
-    // .argument('[properities]', 'JSON representation of properties')
-    // .option('-p, --path <serial_path>', 'serial path of the RRIV device')
-    // .option('-t, --type [type]')
-    // .option('--burst-size [burst_size]')
-    // .option('--warm-up-delay [warm_up_delay]')
-    // .option('-o, --property [sensor_properties...]')
     .option("-f, --file <file>")
     .description("set values on an object or create an object")
-    .action((object, id, property, property_value, options) => {
-      console.log(object);
-      console.log(id);
-
-      let payload = new Map();
-      payload.set("object", object);
-      payload.set("action", "set");
+    .action(async (object, id, property, property_value, options) => {
+      const payload: DefaultObject = { object, action: "set" };
+      let singlePropertyChange: boolean = false;
 
       if (object === "board") {
         // deal with absense of id in board command
-        // TODO: help needs to refect this somehow
-        property_value = property;
-        property = id;
+        payload[id] = +property || property;
       } else {
-        if (id) {
-          console.log(id);
-          payload.set("id", id);
+        if (id && property && property_value) {
+          payload["id"] = id;
+          payload[property] = +property_value || property_value;
+          singlePropertyChange = true;
+        } else {
+          const file = options.file;
+          if (!file) {
+            throw new Error("invalid set command received");
+          }
+          const fileBuffer = fs.readFileSync(options["file"]);
+          const rawFileContents = fileBuffer.toString();
+          logToConsole("rawFileContents", rawFileContents);
+          const fileObject = JSON.parse(rawFileContents.toString());
+          Object.assign(payload, fileObject);
         }
       }
 
-      if (property && property_value) {
-        let number = Number(property_value);
-        if (Number.isNaN(number)) {
-          payload.set(property, property_value);
-        } else {
-          payload.set(property, number);
-        }
-      } else {
-        const properties = fs.readFileSync(options["file"]);
-        console.log(properties.toString());
-        const propertiesObject = JSON.parse(properties.toString());
-        console.log(propertiesObject);
-        Object.keys(propertiesObject).forEach((key) => {
-          payload.set(key, propertiesObject[key as keyof typeof properties]);
-        });
+      const {
+        sensorDriverId: _,
+        dataloggerDriverId: __,
+        ...devicePayload
+      } = payload;
+      writeConfigToDevice(devicePayload);
+      logToConsole("config applied to device successfully");
+
+      if (object !== "board") {
+        await uploadConfig({ ...payload, singlePropertyChange });
       }
-
-      let payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
-      console.log(payloadString);
-
-      const serialPortPath = getSerialPathFromCache();
-      const serialPort = connectSerial(serialPortPath);
-      serialPort.write(serialCommands.quietModeCommand);
-
-      const parser = new ReadlineParser({
-        delimiter: "\n",
-        includeDelimiter: false,
-      });
-      parser.on("data", function (data: String) {
-        if (data[0] == "{") {
-          console.log("echo: " + data);
-          // skip this line
-          return;
-        } else {
-          console.log(data);
-          process.exit();
-        }
-      });
-      serialPort.pipe(parser);
-      serialPort.write(payloadString);
     });
 };

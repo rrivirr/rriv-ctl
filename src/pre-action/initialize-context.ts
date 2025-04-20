@@ -10,7 +10,7 @@ import { pronounce } from "../util/console-log.ts";
 export const initializeContext = async (useDefault: boolean) => {
   const { accessToken } = db.data;
   const { name: existingContextName, id: existingContextId } = db.data.context;
-  const userContexts = await getContexts(accessToken);
+  const userContexts = await getContexts({ accessToken, ended: false });
   if (
     existingContextName &&
     userContexts.find(

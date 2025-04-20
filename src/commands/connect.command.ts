@@ -45,7 +45,7 @@ export const makeConnectCommand = (cli: Command) => {
       const devices = await getDevice({ serialNumber, accessToken });
       device = devices[0];
       if (!device) {
-        console.log("no existing device information found");
+        console.log("no existing device information found for", serialNumber);
         console.log("binding device to your account...");
         device = await bindDevice({ accessToken, serialNumber });
       }

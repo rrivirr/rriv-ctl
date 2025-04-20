@@ -3,26 +3,30 @@ import { initializeContext } from "./initialize-context.ts";
 import { errorHandler } from "../util/error-handler.ts";
 import { initializeDevice } from "./initialize-device.ts";
 import { authUser } from "../util/auth-user.ts";
-import db from "../db/db.ts";
+import { syncCommands } from "../util/sync-commands.ts";
 
 export const preAction = async (
   thisCommand: Command,
   actionCommand: Command
 ) => {
+  const commandName = actionCommand.name();
   try {
-    if (actionCommand.name() !== "test") {
-      if (actionCommand.name() !== "auth") {
-        await authUser(db);
-        if (actionCommand.name() !== "context") {
+    if (commandName !== "test") {
+      if (commandName !== "auth") {
+        await authUser();
+        if (commandName !== "sync") {
+          await syncCommands("preAction");
+        }
+        if (commandName !== "context" && commandName !== "sync") {
           const useDefault = actionCommand.optsWithGlobals()?.y;
           await initializeContext(useDefault);
-          if (actionCommand.name() !== "connect") {
+          if (commandName !== "connect") {
             await initializeDevice();
           }
         }
       }
     }
-  } catch (err) {
-    errorHandler(err);
+  } catch (error) {
+    errorHandler({ error, exit: true });
   }
 };

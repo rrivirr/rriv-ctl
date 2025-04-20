@@ -15,7 +15,10 @@ import { makeTestCommand } from "./commands/test.command.ts";
 import { errorHandler } from "./util/error-handler.ts";
 import { preAction } from "./pre-action/index.ts";
 import { makeAuthCommand } from "./commands/auth.command.ts";
-import { makeContextCommand } from "./commands/context.conmmand.ts";
+import { makeContextCommand } from "./commands/context.command.ts";
+import { makeListLegacyCommand } from "./commands/list-legacy.command.ts";
+import { makeEndCommand } from "./commands/end.command.ts";
+import { makeSyncCommand } from "./commands/sync.command.ts";
 
 let cli = new Command();
 
@@ -30,22 +33,23 @@ cli.exitOverride();
 
 makeTestCommand(cli);
 makeAuthCommand(cli);
+makeEndCommand(cli);
 makeContextCommand(cli);
 makeWatchCommand(cli);
 makeListCommand(cli);
+makeListLegacyCommand(cli);
 makeGetCommand(cli);
 makeRemoveCommand(cli);
 makeSetCommand(cli);
 makeCalibrateCommand(cli);
 makeSerialCommand(cli);
 makeConnectCommand(cli);
+makeSyncCommand(cli);
 makeDebugCommand(cli);
 
 cli
   .parseAsync()
-  .then(() => {
-    console.log("parsed without error");
-  })
+  .then(() => {})
   .catch((error) => {
-    errorHandler(error);
+    errorHandler({ error, exit: true });
   });

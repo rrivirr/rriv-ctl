@@ -6,6 +6,7 @@ import { logToConsole } from "../util/console-log.ts";
 
 export const makeDebugCommand = (cli: Command) => {
   cli.command("debug").action(() => {
+    logToConsole("debug command");
     const serialPortPath = getSerialPathFromCache();
 
     const parser = new ReadlineParser({
