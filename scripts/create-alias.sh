@@ -4,12 +4,12 @@ LINE_TO_ADD="alias rr='node $WD/dist/index.js'"
 
 check_if_line_exists()
 {
-    grep -qsFx "$LINE_TO_ADD" ~/.zshrc
+    grep -qsFx "$LINE_TO_ADD" ~/.bashrc
 }
 
 add_line_to_bashrc()
 {
-    bashrc=~/.zshrc
+    bashrc=~/.bashrc
     printf "\n" >> "$bashrc"
     printf "# Alias for rrivctl\n" >> "$bashrc"
     printf "%s\n" "$LINE_TO_ADD" >> "$bashrc"

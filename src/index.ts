@@ -19,6 +19,7 @@ import { makeContextCommand } from "./commands/context.command.ts";
 import { makeListLegacyCommand } from "./commands/list-legacy.command.ts";
 import { makeEndCommand } from "./commands/end.command.ts";
 import { makeSyncCommand } from "./commands/sync.command.ts";
+import { makeSaveCommand } from "./commands/save.command.ts";
 
 let cli = new Command();
 
@@ -40,6 +41,7 @@ makeListLegacyCommand(cli);
 makeGetCommand(cli);
 makeRemoveCommand(cli);
 makeSetCommand(cli);
+makeSaveCommand(cli);
 makeCalibrateCommand(cli);
 makeSerialCommand(cli);
 makeConnectCommand(cli);

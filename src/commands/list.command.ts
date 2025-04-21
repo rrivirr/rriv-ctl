@@ -1,6 +1,7 @@
 import { Argument, Command } from "commander";
 import { listContexts } from "../modules/context/context.service.ts";
 import { listConfigHistory } from "../modules/config/config-history.service.ts";
+import { listConfigSnapshot } from "../modules/config/config-snapshot.service.ts";
 
 export const makeListCommand = (cli: Command) => {
   cli
@@ -9,9 +10,9 @@ export const makeListCommand = (cli: Command) => {
       new Argument("<object>", "resource").choices([
         "config-snapshot",
         "config-history",
-        "config-library",
-        "sensor-config-library",
-        "datalogger-config-library",
+        // "config-library",
+        // "sensor-config-library",
+        // "datalogger-config-library",
         "context",
       ])
     )
@@ -27,6 +28,8 @@ export const makeListCommand = (cli: Command) => {
           process.exit();
         }
         await listConfigHistory();
+      } else if (object === "config-snapshot") {
+        await listConfigSnapshot(options);
       }
     });
 };

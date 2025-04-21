@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AccessToken } from "../types.ts";
+import { AccessToken, DeviceContextRequest } from "../types.ts";
 
 export const getDataloggerDrivers = async (body: AccessToken) => {
   const { accessToken } = body;
@@ -63,9 +63,7 @@ export const createSensorConfig = async (
   return response.data;
 };
 
-export const getConfigHistory = async (
-  body: { deviceId: string; contextId: string } & AccessToken
-) => {
+export const getConfigHistory = async (body: DeviceContextRequest) => {
   const { accessToken, deviceId, contextId } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/configSnapshot/history?deviceId=${deviceId}&contextId=${contextId}`,
@@ -73,4 +71,40 @@ export const getConfigHistory = async (
   );
 
   return response.data;
+};
+
+export const getActiveConfigSnapshot = async (body: DeviceContextRequest) => {
+  const { accessToken, deviceId, contextId } = body;
+  const response = await axios.get(
+    `${process.env.MANAGEMENT_API_URL}/configSnapshot/active?deviceId=${deviceId}&contextId=${contextId}`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+  return response.data;
+};
+
+export const getConfigSnapshots = async (
+  body: { name?: string } & AccessToken
+) => {
+  const { accessToken, name } = body;
+  const response = await axios.get(
+    `${process.env.MANAGEMENT_API_URL}/configSnapshot`,
+    { headers: { Authorization: `Bearer ${accessToken}` }, params: { name } }
+  );
+
+  return response.data;
+};
+
+export const saveConfigSnapshot = async (
+  body: { name: string } & DeviceContextRequest
+) => {
+  const { accessToken, name, deviceId, contextId } = body;
+
+  await axios.post(
+    `${process.env.MANAGEMENT_API_URL}/configSnapshot/save`,
+    { name, deviceId, contextId },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
 };
