@@ -15,11 +15,13 @@ import { makeTestCommand } from "./commands/test.command.ts";
 import { errorHandler } from "./util/error-handler.ts";
 import { preAction } from "./pre-action/index.ts";
 import { makeAuthCommand } from "./commands/auth.command.ts";
-import { makeContextCommand } from "./commands/context.command.ts";
 import { makeListLegacyCommand } from "./commands/list-legacy.command.ts";
 import { makeEndCommand } from "./commands/end.command.ts";
 import { makeSyncCommand } from "./commands/sync.command.ts";
 import { makeSaveCommand } from "./commands/save.command.ts";
+import { makeUseCommand } from "./commands/use.command.ts";
+import { makeCreateCommand } from "./commands/create.command.ts";
+import { makeDeleteCommand } from "./commands/delete.command.ts";
 
 let cli = new Command();
 
@@ -46,6 +48,9 @@ makeCalibrateCommand(cli);
 makeSerialCommand(cli);
 makeConnectCommand(cli);
 makeSyncCommand(cli);
+makeCreateCommand(cli);
+makeDeleteCommand(cli);
+makeUseCommand(cli);
 makeDebugCommand(cli);
 
 cli

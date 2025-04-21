@@ -17,7 +17,13 @@ export const preAction = async (
         if (commandName !== "sync") {
           await syncCommands("preAction");
         }
-        if (commandName !== "context" && commandName !== "sync") {
+        const args = actionCommand.args;
+        if (
+          !(
+            (commandName === "use" && args[0] === "context") ||
+            commandName === "sync"
+          )
+        ) {
           const useDefault = actionCommand.optsWithGlobals()?.y;
           await initializeContext(useDefault);
           if (commandName !== "connect") {

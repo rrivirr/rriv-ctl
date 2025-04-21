@@ -1,5 +1,11 @@
 import Table from "cli-table3";
-import { getContexts, updateContext } from "../../api/context.ts";
+import {
+  getContextByName,
+  getContexts,
+  updateContext,
+  deleteContext as deleteContextApiCall,
+  createContext as createContextApiCall,
+} from "../../api/context.ts";
 import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
 
@@ -57,4 +63,58 @@ export const listContexts = async (options: {
       console.log("no contexts found with given parameters");
     }
   }
+};
+
+export const useContext = async (options: { name: string }) => {
+  const { name } = options;
+  const { accessToken } = db.data;
+
+  const context = await getContextByName({
+    contextName: name,
+    accessToken,
+  });
+  if (!context) {
+    throw new Error("context specified does not exist");
+  }
+  db.update((data) => {
+    data.context = {
+      id: context.id,
+      name: context.name,
+    };
+  });
+  console.log(`context successfully set to ${pronounce(context.name)}`);
+};
+
+export const deleteContext = async (options: { name: string }) => {
+  const { name } = options;
+  const {
+    accessToken,
+    context: { id: existingContextId },
+  } = db.data;
+
+  const context = await getContextByName({
+    contextName: name,
+    accessToken,
+  });
+  if (!context) {
+    throw new Error("context specified does not exist");
+  }
+  await deleteContextApiCall({ id: context.id, accessToken });
+  console.log("context deleted successfully");
+  if (existingContextId === context.id) {
+    db.update((data) => {
+      data.context = {
+        id: "",
+        name: "",
+      };
+    });
+    console.log("no context currently set");
+  }
+};
+
+export const createContext = async (options: { name: string }) => {
+  const { name } = options;
+  const { accessToken } = db.data;
+  await createContextApiCall({ accessToken, contextName: name });
+  console.log("context created successfully");
 };
