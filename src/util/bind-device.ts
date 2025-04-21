@@ -1,10 +1,11 @@
 import * as DeviceApiCalls from "../api/device.ts";
 import { bindDevicePrompt } from "../prompts/device.prompt.ts";
+import { Device } from "../types.ts";
 
 export const bindDevice = async (body: {
   serialNumber: string;
   accessToken: string;
-}): Promise<DeviceApiCalls.Device> => {
+}): Promise<Device> => {
   const { uniqueName } = await bindDevicePrompt();
 
   try {

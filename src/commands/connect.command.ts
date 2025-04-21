@@ -2,10 +2,11 @@ import { Command } from "commander";
 import { getConnectedDevice } from "../util/get-connected-device.ts";
 import { setDeviceEpoch } from "../util/set-device-epoch.ts";
 import db from "../db/db.ts";
-import { Device, getDevice } from "../api/device.ts";
+import { getDevice } from "../api/device.ts";
 import { bindDevice } from "../util/bind-device.ts";
 import { getDeviceContext } from "../api/device-context.ts";
-import { createDeviceContext } from "../util/create-device-context.ts";
+import { Device } from "../types.ts";
+import { createDeviceContext } from "../modules/context/device-context.service.ts";
 
 export const makeConnectCommand = (cli: Command) => {
   cli.command("connect").action(async () => {

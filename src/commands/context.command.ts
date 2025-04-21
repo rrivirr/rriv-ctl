@@ -12,8 +12,6 @@ export const makeContextCommand = (cli: Command) => {
   cli
     .command("context")
     .description("manage contexts")
-    .option("-l, --list", "get list of contexts")
-    .option("-r, --current", "get the currently applied context")
     .option("-u, --use <context>", "switch to the specified context")
     .option("-d, --delete <context>", "delete the specified context")
     .option("-c, --create <context>", "create a new context")
@@ -28,25 +26,7 @@ export const makeContextCommand = (cli: Command) => {
 
       const accessToken = db.data.accessToken;
 
-      if (options.list) {
-        const { id: existingContextId } = db.data.context;
-        const userContexts = await getContexts({ accessToken });
-        userContexts.forEach((context: any) =>
-          context.id === existingContextId
-            ? console.log(pronounce(context.name)) // startedAt and endedAt use table to output
-            : console.log(context.name)
-        );
-      } else if (options.current) {
-        const { name: existingContextName } = db.data.context;
-
-        if (existingContextName) {
-          console.log(
-            `context currently set to ${pronounce(existingContextName)}`
-          );
-        } else {
-          console.log("no context currently specified");
-        }
-      } else if (options.use) {
+      if (options.use) {
         const contextToUse = options.use;
         const context = await getContextByName({
           contextName: contextToUse,

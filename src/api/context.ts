@@ -4,11 +4,15 @@ import { IdRequest, Context, ContextNameRequest } from "../types.ts";
 export const getContexts = async (body: {
   accessToken: string;
   ended?: boolean;
+  name?: string;
 }): Promise<Context[]> => {
-  const { accessToken, ended } = body;
+  const { accessToken, ended, name } = body;
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/context?ended=${ended}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    `${process.env.MANAGEMENT_API_URL}/context`,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      params: { ended, name },
+    }
   );
 
   return response.data;

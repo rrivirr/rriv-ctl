@@ -1,13 +1,12 @@
 import { Argument, Command } from "commander";
-import { logToConsole } from "../util/console-log.ts";
+import { listContexts } from "../modules/context/context.service.ts";
+import { listConfigHistory } from "../modules/config/config-history.service.ts";
 
 export const makeListCommand = (cli: Command) => {
   cli
     .command("list")
     .addArgument(
       new Argument("<object>", "resource").choices([
-        // "sensor",
-        // "datalogger",
         "config-snapshot",
         "config-history",
         "config-library",
@@ -17,10 +16,17 @@ export const makeListCommand = (cli: Command) => {
       ])
     )
     .option("-c, --current", "get the current resource in use")
-    .option("-n, --name", "get resource with specified name")
-    .option("-id", "get resource with specified id")
+    .option("-n, --name <name>", "get resource with specified name")
     .description("list resources")
-    .action((object) => {
-      logToConsole(object);
+    .action(async (object, options) => {
+      if (object === "context") {
+        await listContexts(options);
+      } else if (object === "config-history") {
+        if (Object.keys(options).length) {
+          console.log("option not supported by config history");
+          process.exit();
+        }
+        await listConfigHistory();
+      }
     });
 };

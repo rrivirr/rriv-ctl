@@ -62,3 +62,15 @@ export const createSensorConfig = async (
 
   return response.data;
 };
+
+export const getConfigHistory = async (
+  body: { deviceId: string; contextId: string } & AccessToken
+) => {
+  const { accessToken, deviceId, contextId } = body;
+  const response = await axios.get(
+    `${process.env.MANAGEMENT_API_URL}/configSnapshot/history?deviceId=${deviceId}&contextId=${contextId}`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+  return response.data;
+};

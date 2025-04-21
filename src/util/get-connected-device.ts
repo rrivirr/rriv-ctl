@@ -1,10 +1,6 @@
 import { SerialPort } from "serialport";
 
 export const getConnectedDevice = async () => {
-  return {
-    serialPortPath: "portpath",
-    serialNumber: "serialNumber",
-  };
   const list = await SerialPort.list();
   // detect the serial port
   let serialPortPath = "";

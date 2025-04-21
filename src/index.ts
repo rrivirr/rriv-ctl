@@ -34,7 +34,6 @@ cli.exitOverride();
 makeTestCommand(cli);
 makeAuthCommand(cli);
 makeEndCommand(cli);
-makeContextCommand(cli);
 makeWatchCommand(cli);
 makeListCommand(cli);
 makeListLegacyCommand(cli);
