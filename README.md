@@ -12,4 +12,5 @@ The client app for RRIV hardware.
 
 # Try some configurations
 
-rrivctl set sensor -f configurations/ring_temperature.json
+## Configure the ring temperature sensor
+rrivctl set sensor RING01 -f configurations/ring_temperature.json
