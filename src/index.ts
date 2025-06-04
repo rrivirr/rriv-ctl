@@ -187,12 +187,17 @@ cli
       includeDelimiter: false
     })
     parser.on('data', function (data: String) {
+      console.log("data: ");
       console.log(data);
-      if (data[0] == '{') {
-        // skip this line
-        return;
-      } else {
+
+      if (data.includes("}") && !data.includes("action")) {
+        // } is the end message delimeter
+        console.log("response: ");
+        console.log(data);
+
         process.exit();
+      } else {
+        // process.exit();
       }
   
     });
@@ -216,6 +221,7 @@ cli
       }
     }
     let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+    console.log("sent command: ");
     console.log(payloadString);
     serialPort.write(payloadString);
 
