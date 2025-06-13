@@ -1,4 +1,5 @@
-import { createDataloggerConfig, createSensorConfig } from "../api/config.ts";
+import { createDataloggerConfig } from "../api/datalogger.ts";
+import { createSensorConfig } from "../api/sensor.ts";
 import db from "../db/db.ts";
 import { errorHandler } from "./error-handler.ts";
 

@@ -5,13 +5,14 @@ export const getContexts = async (body: {
   accessToken: string;
   ended?: boolean;
   name?: string;
+  search?: string;
 }): Promise<Context[]> => {
-  const { accessToken, ended, name } = body;
+  const { accessToken, ended, name, search } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/context`,
     {
       headers: { Authorization: `Bearer ${accessToken}` },
-      params: { ended, name },
+      params: { ended, name, search },
     }
   );
 

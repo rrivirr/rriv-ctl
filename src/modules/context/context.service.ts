@@ -29,8 +29,9 @@ export const endContext = async () => {
 export const listContexts = async (options: {
   current?: boolean;
   name?: string;
+  search?: string;
 }) => {
-  const { current, name } = options;
+  const { current, name, search } = options;
   const {
     context: { name: existingContextName, id: existingContextId },
     accessToken,
@@ -38,7 +39,7 @@ export const listContexts = async (options: {
   if (current) {
     console.log(`context currently set to ${pronounce(existingContextName)}`);
   } else {
-    const userContexts = await getContexts({ accessToken, name });
+    const userContexts = await getContexts({ accessToken, name, search });
     if (userContexts.length) {
       const table = new Table({ head: ["id", "name", "startedAt", "endedAt"] });
       for (const { id, name, startedAt, endedAt } of userContexts) {

@@ -1,7 +1,7 @@
 import {
   createDataloggerConfig,
   getDataloggerDrivers,
-} from "../../api/config.ts";
+} from "../../api/datalogger.ts";
 import { selectDriverPrompt } from "../../prompts/config.prompt.ts";
 import { DefaultObject } from "../../types.ts";
 import db from "../../db/db.ts";

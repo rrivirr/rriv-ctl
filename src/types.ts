@@ -37,3 +37,11 @@ export type Device = {
   uniqueName: string;
   createdAt: string;
 };
+
+export type ConfigLibrary = Array<{
+  id: string;
+  name: string;
+  createdAt: string;
+  description: string;
+  Creator: { firstName: string; lastName: string };
+}>;

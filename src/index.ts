@@ -22,6 +22,7 @@ import { makeSaveCommand } from "./commands/save.command.ts";
 import { makeUseCommand } from "./commands/use.command.ts";
 import { makeCreateCommand } from "./commands/create.command.ts";
 import { makeDeleteCommand } from "./commands/delete.command.ts";
+import { makePublishCommand } from "./commands/publish.command.ts";
 
 let cli = new Command();
 
@@ -43,6 +44,8 @@ makeListLegacyCommand(cli);
 makeGetCommand(cli);
 makeRemoveCommand(cli);
 makeSetCommand(cli);
+makePublishCommand(cli);
+// apply command
 makeSaveCommand(cli);
 makeCalibrateCommand(cli);
 makeSerialCommand(cli);

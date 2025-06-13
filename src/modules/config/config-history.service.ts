@@ -1,6 +1,6 @@
 import Table from "cli-table3";
 import db from "../../db/db.ts";
-import { getConfigHistory } from "../../api/config.ts";
+import { getConfigHistory } from "../../api/config-snapshot.ts";
 import { logDeviceContext } from "../../util/log-device-context.ts";
 
 export const listConfigHistory = async () => {

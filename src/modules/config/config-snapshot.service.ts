@@ -3,7 +3,7 @@ import {
   getActiveConfigSnapshot,
   getConfigSnapshots,
   saveConfigSnapshot,
-} from "../../api/config.ts";
+} from "../../api/config-snapshot.ts";
 import db from "../../db/db.ts";
 import { logDeviceContext } from "../../util/log-device-context.ts";
 import { logToConsole } from "../../util/console-log.ts";
@@ -11,8 +11,9 @@ import { logToConsole } from "../../util/console-log.ts";
 export const listConfigSnapshot = async (options: {
   current?: boolean;
   name?: string;
+  search?: string;
 }) => {
-  const { current, name } = options;
+  const { current, name, search } = options;
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
@@ -56,7 +57,11 @@ export const listConfigSnapshot = async (options: {
     console.log(table.toString());
     logDeviceContext();
   } else {
-    const configSnapshots = await getConfigSnapshots({ name, accessToken });
+    const configSnapshots = await getConfigSnapshots({
+      name,
+      accessToken,
+      search,
+    });
     if (!configSnapshots.length) {
       logToConsole("no save config snapshots found");
       return;

@@ -1,4 +1,4 @@
-import { createSensorConfig, getSensorDrivers } from "../../api/config.ts";
+import { createSensorConfig, getSensorDrivers } from "../../api/sensor.ts";
 import { selectDriverPrompt } from "../../prompts/config.prompt.ts";
 import { DefaultObject } from "../../types.ts";
 import db from "../../db/db.ts";

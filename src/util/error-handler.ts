@@ -6,8 +6,7 @@ export const errorHandler = (body: { error: any; exit: boolean }) => {
       `\nApiError:`,
       errorResponse?.error_description || errorResponse.message || errorResponse
     );
-  }
-  if (error.message === "(outputHelp)") {
+  } else if (error.message === "(outputHelp)") {
     exit && process.exit(0);
   } else if (error.errors) {
     console.log(`${error.errors}`);
