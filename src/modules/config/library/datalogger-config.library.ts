@@ -8,6 +8,9 @@ import {
 import db from "../../../db/db.ts";
 import { logToConsole } from "../../../util/console-log.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
+import { uploadDataloggerConfig } from "../datalogger-config.service.ts";
+import { writeConfigToDevice } from "../../../util/write-config-to-device.ts";
+import { sendCommandAndEchoResponse } from "../../../util/send-command-and-echo-response.ts";
 
 export const publishCurrentDataloggerConfig = async (body: {
   libraryConfigName: string;
@@ -153,4 +156,61 @@ export const listLibraryDataloggerConfig = async (body: {
   } else {
     logConfigLibrary(dataloggerLibraryConfigs);
   }
+};
+
+export const applyPublishedDataloggerConfig = async (body: {
+  name: string;
+  version?: number;
+}) => {
+  const { name, version } = body;
+  const { accessToken } = db.data;
+
+  const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
+    name,
+    accessToken,
+  });
+
+  if (!dataloggerLibraryConfigs.length) {
+    throw new Error("no datalogger library config found with specified name");
+  }
+
+  const dataloggerLibraryConfig = dataloggerLibraryConfigs[0];
+  const dataloggerLibraryConfigDetails = await getDataloggerLibraryConfigById({
+    dataloggerLibraryId: dataloggerLibraryConfig.id,
+    accessToken,
+  });
+
+  const { DataloggerLibraryConfigVersion } = dataloggerLibraryConfigDetails;
+
+  if (!DataloggerLibraryConfigVersion.length) {
+    throw new Error("library config specified is empty");
+  }
+
+  let dataloggerConfigToApply;
+  if (!version) {
+    // latest version
+    dataloggerConfigToApply = DataloggerLibraryConfigVersion[0];
+  } else {
+    dataloggerConfigToApply = DataloggerLibraryConfigVersion.find(
+      (s: any) => s.version === version
+    );
+
+    if (!dataloggerConfigToApply) {
+      throw new Error("invalid library config version received");
+    }
+  }
+  const {
+    DataloggerConfig: { config, dataloggerDriverId },
+  } = dataloggerConfigToApply;
+
+  sendCommandAndEchoResponse(
+    JSON.stringify({ action: "remove", object: config.object })
+  );
+  writeConfigToDevice(config);
+
+  await uploadDataloggerConfig({
+    ...config,
+    singlePropertyChange: false,
+    dataloggerDriverId,
+  });
 };

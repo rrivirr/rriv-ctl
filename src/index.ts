@@ -23,6 +23,7 @@ import { makeUseCommand } from "./commands/use/index.ts";
 import { makeCreateCommand } from "./commands/create/index.ts";
 import { makeDeleteCommand } from "./commands/delete/index.ts";
 import { makePublishCommand } from "./commands/publish/index.ts";
+import { makeApplyCommand } from "./commands/apply/index.ts";
 
 let cli = new Command();
 
@@ -45,7 +46,7 @@ makeGetCommand(cli);
 makeRemoveCommand(cli);
 makeSetCommand(cli);
 makePublishCommand(cli);
-// apply command
+makeApplyCommand(cli);
 makeSaveCommand(cli);
 makeCalibrateCommand(cli);
 makeSerialCommand(cli);

@@ -18,7 +18,7 @@ export const listConfigHistory = async () => {
   if (dataloggerConfigs.length) {
     const table = new Table({
       head: ["datalogger config", "changesMade", "createdAt", "deactivatedAt"],
-      colWidths: [50, 50],
+      colWidths: [45, 45, 27, 27],
       wordWrap: true,
       wrapOnWordBoundary: false,
     });
@@ -66,7 +66,7 @@ export const listConfigHistory = async () => {
     for (const name of Object.keys(sensorNamesConfigs)) {
       const table = new Table({
         head: [`${name} config`, "changesMade", "createdAt", "deactivatedAt"],
-        colWidths: [50, 50],
+        colWidths: [45, 45, 27, 27],
         wordWrap: true,
         wrapOnWordBoundary: false,
       });

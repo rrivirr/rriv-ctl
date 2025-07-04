@@ -1,3 +1,4 @@
+import { SENSOR_CONFIGS } from "../../constants.ts";
 import {
   publishConfigSnapshot,
   publishCurrentConfigSnapshot,
@@ -10,10 +11,9 @@ export const publishAction = async (object: string, options: any) => {
     options;
 
   //validations
-  const validSensors = ["actuator", "sensor"];
-  if (object === "current-sensor-config" && !validSensors.includes(sensor)) {
+  if (object === "current-sensor-config" && !SENSOR_CONFIGS.includes(sensor)) {
     throw new Error(
-      `sensor(-s) option is required for current-sensor-config and must be one of ${validSensors.join(",")}`
+      `sensor(-s) option is required for current-sensor-config and must be one of ${SENSOR_CONFIGS.join(",")}`
     );
   } else if (object !== "current-sensor-config" && sensor) {
     throw new Error(`sensor option is not supported`);

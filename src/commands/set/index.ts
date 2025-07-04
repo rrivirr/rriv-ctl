@@ -1,17 +1,11 @@
 import { Argument, Command } from "commander";
 import { setAction } from "./action.ts";
+import { CONFIGS } from "../../constants.ts";
 
 export const makeSetCommand = (cli: Command) => {
   cli
     .command("set")
-    .addArgument(
-      new Argument("<object>").choices([
-        "sensor",
-        "actuator",
-        "datalogger",
-        "board",
-      ])
-    )
+    .addArgument(new Argument("<object>").choices(CONFIGS))
     .argument("[id]")
     .argument("[property]")
     .argument("[property_value]")

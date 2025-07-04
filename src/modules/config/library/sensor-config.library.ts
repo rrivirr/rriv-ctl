@@ -9,6 +9,9 @@ import {
 import db from "../../../db/db.ts";
 import { logToConsole } from "../../../util/console-log.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
+import { writeConfigToDevice } from "../../../util/write-config-to-device.ts";
+import { sendCommandAndEchoResponse } from "../../../util/send-command-and-echo-response.ts";
+import { uploadSensorConfig } from "../sensor-config.service.ts";
 
 export const publishCurrentSensorConfig = async (body: {
   libraryConfigName: string;
@@ -163,4 +166,61 @@ export const listLibrarySensorConfig = async (body: {
   } else {
     logConfigLibrary(sensorLibraryConfigs);
   }
+};
+
+export const applyPublishedSensorConfig = async (body: {
+  name: string;
+  version?: number;
+}) => {
+  const { name, version } = body;
+  const { accessToken } = db.data;
+
+  const sensorLibraryConfigs = await getSensorLibraryConfig({
+    name,
+    accessToken,
+  });
+
+  if (!sensorLibraryConfigs.length) {
+    throw new Error("no sensor library config found with specified name");
+  }
+
+  const sensorLibraryConfig = sensorLibraryConfigs[0];
+  const sensorLibraryConfigDetails = await getSensorLibraryConfigById({
+    sensorLibraryId: sensorLibraryConfig.id,
+    accessToken,
+  });
+
+  const { SensorLibraryConfigVersion } = sensorLibraryConfigDetails;
+
+  if (!SensorLibraryConfigVersion.length) {
+    throw new Error("library config specified is empty");
+  }
+
+  let sensorConfigToApply;
+  if (!version) {
+    // latest version
+    sensorConfigToApply = SensorLibraryConfigVersion[0];
+  } else {
+    sensorConfigToApply = SensorLibraryConfigVersion.find(
+      (s: any) => s.version === version
+    );
+
+    if (!sensorConfigToApply) {
+      throw new Error("invalid library config version received");
+    }
+  }
+  const {
+    SensorConfig: { config, sensorDriverId },
+  } = sensorConfigToApply;
+
+  sendCommandAndEchoResponse(
+    JSON.stringify({ action: "remove", object: config.object })
+  );
+  writeConfigToDevice(config);
+
+  await uploadSensorConfig({
+    ...config,
+    singlePropertyChange: false,
+    sensorDriverId,
+  });
 };

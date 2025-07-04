@@ -41,6 +41,29 @@ export const getConfigSnapshots = async (
   return response.data;
 };
 
+export const overwriteConfigSnapshot = async (
+  body: {
+    dataloggerConfigId?: string;
+    sensorConfigIds: string[];
+  } & DeviceContextRequest
+) => {
+  const {
+    accessToken,
+    dataloggerConfigId,
+    sensorConfigIds,
+    deviceId,
+    contextId,
+  } = body;
+
+  await axios.put(
+    `${process.env.MANAGEMENT_API_URL}/configSnapshot/active`,
+    { dataloggerConfigId, sensorConfigIds, deviceId, contextId },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  );
+};
+
 export const saveConfigSnapshot = async (
   body: { name: string } & DeviceContextRequest
 ) => {

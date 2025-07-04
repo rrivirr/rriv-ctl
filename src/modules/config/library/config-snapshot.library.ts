@@ -9,6 +9,7 @@ import {
 import db from "../../../db/db.ts";
 import { logToConsole } from "../../../util/console-log.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
+import { applyConfigSnapshot } from "../config-snapshot.service.ts";
 
 export const publishConfigSnapshot = async (body: {
   configSnapshotName: string;
@@ -238,4 +239,62 @@ export const listLibraryConfigSnapshot = async (body: {
   } else {
     logConfigLibrary(existingConfigSnapshotLibraries);
   }
+};
+
+export const applyPublishedConfigSnapshot = async (body: {
+  name: string;
+  version?: number;
+}) => {
+  const { name, version } = body;
+  const { accessToken } = db.data;
+
+  const existingConfigSnapshotLibraries = await getLibraryConfigSnapshots({
+    name,
+    accessToken,
+  });
+
+  if (!existingConfigSnapshotLibraries.length) {
+    throw new Error("no library config found with specified name");
+  }
+
+  const libraryConfigSnapshot = existingConfigSnapshotLibraries[0];
+
+  const libraryConfigSnapshotDetails = await getLibraryConfigSnapshotById({
+    libraryConfigSnapshotId: libraryConfigSnapshot.id,
+    accessToken,
+  });
+
+  const { SystemLibraryConfigVersion } = libraryConfigSnapshotDetails;
+
+  if (!SystemLibraryConfigVersion.length) {
+    throw new Error("library config specified is empty");
+  }
+
+  let configSnapshotToApply;
+  if (!version) {
+    // latest version
+    configSnapshotToApply = SystemLibraryConfigVersion[0];
+  } else {
+    configSnapshotToApply = SystemLibraryConfigVersion.find(
+      (s: any) => s.version === version
+    );
+
+    if (!configSnapshotToApply) {
+      throw new Error("invalid library config version received");
+    }
+  }
+  const {
+    ConfigSnapshot: { DataloggerConfig, SensorConfig },
+  } = configSnapshotToApply;
+
+  await applyConfigSnapshot({
+    datalogger: {
+      config: DataloggerConfig[0]?.config,
+      configId: DataloggerConfig[0]?.id,
+    },
+    sensor: SensorConfig.map((s: any) => ({
+      config: s.config,
+      configId: s.id,
+    })),
+  });
 };
