@@ -30,7 +30,7 @@ export const initializeContext = async (useDefault: boolean) => {
     }
   }
 
-  const contextIdName: { [key: string]: string } = {};
+  const contextIdName: Record<string, string> = {};
   const { contextName } = await selectContextPrompt([
     ...userContexts.map((c: any) => {
       contextIdName[c.name] = c.id;

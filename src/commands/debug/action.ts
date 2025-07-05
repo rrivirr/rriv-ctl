@@ -13,7 +13,7 @@ export const debugAction = () => {
   });
   const serialPort = connectSerial(serialPortPath);
 
-  parser.on("data", function (data: String) {
+  parser.on("data", function (data: string) {
     logToConsole(data);
   });
 

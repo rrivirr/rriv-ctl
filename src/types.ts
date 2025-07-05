@@ -1,47 +1,45 @@
-export type DefaultObject = {
-  [key: string]: any;
-};
+export type DefaultObject = Record<string, any>;
 
-export type AccessToken = { accessToken: string };
+export interface AccessToken { accessToken: string }
 export type IdRequest = { id: string } & AccessToken;
 
 export type ContextNameRequest = {
   contextName: string;
 } & AccessToken;
 
-export type Context = {
+export interface Context {
   id: string;
   name: string;
   accountId: string;
   startedAt: string;
   endedAt: string;
-};
+}
 
 export type DeviceContextRequest = {
   contextId: string;
   deviceId: string;
 } & AccessToken;
 
-export type DeviceContext = {
+export interface DeviceContext {
   id: string;
   deviceId: string;
   contextId: string;
   assignedDeviceName: string;
   startedAt: string;
   endedAt: string;
-};
+}
 
-export type Device = {
+export interface Device {
   id: string;
   serialNumber: string;
   uniqueName: string;
   createdAt: string;
-};
+}
 
-export type ConfigLibrary = Array<{
+export type ConfigLibrary = {
   id: string;
   name: string;
   createdAt: string;
   description: string;
   Creator: { firstName: string; lastName: string };
-}>;
+}[];

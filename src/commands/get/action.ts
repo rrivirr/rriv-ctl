@@ -12,7 +12,7 @@ export const getAction = (object: string, id?: string, parameter?: string) => {
     delimiter: "\n",
     includeDelimiter: false,
   });
-  parser.on("data", function (data: String) {
+  parser.on("data", function (data: string) {
     console.log(data);
     if (data[0] == "{") {
       // skip this line
@@ -23,7 +23,7 @@ export const getAction = (object: string, id?: string, parameter?: string) => {
   });
   serialPort.pipe(parser);
 
-  let payload = new Map();
+  const payload = new Map();
   payload.set("object", object);
   payload.set("action", "get");
   if (object == "board") {
@@ -40,7 +40,7 @@ export const getAction = (object: string, id?: string, parameter?: string) => {
       payload.set("parameter", parameter);
     }
   }
-  let payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
+  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
   console.log(payloadString);
   serialPort.write(payloadString);
 };

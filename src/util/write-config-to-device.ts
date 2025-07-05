@@ -17,7 +17,7 @@ export const writeConfigToDevice = (payload: DefaultObject) => {
     delimiter: "\n",
     includeDelimiter: false,
   });
-  parser.on("data", function (data: String) {
+  parser.on("data", function (data: string) {
     if (data[0] == "{") {
       console.log("echo: " + data);
       // skip this line

@@ -25,7 +25,7 @@ import { makeDeleteCommand } from "./commands/delete/index.ts";
 import { makePublishCommand } from "./commands/publish/index.ts";
 import { makeApplyCommand } from "./commands/apply/index.ts";
 
-let cli = new Command();
+const cli = new Command();
 
 cli
   .name("rrivctl")
@@ -59,7 +59,7 @@ makeDebugCommand(cli);
 
 cli
   .parseAsync()
-  .then(() => {})
+  .then()
   .catch((error) => {
     errorHandler({ error, exit: true });
   });

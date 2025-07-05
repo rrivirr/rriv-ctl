@@ -7,11 +7,15 @@ export const errorHandler = (body: { error: any; exit: boolean }) => {
       errorResponse?.error_description || errorResponse.message || errorResponse
     );
   } else if (error.message === "(outputHelp)") {
-    exit && process.exit(0);
+    if (exit) {
+      process.exit(0);
+    }
   } else if (error.errors) {
     console.log(`${error.errors}`);
   } else {
     console.log(`\nError: ${error?.message}`);
   }
-  exit && process.exit(1);
+  if (exit) {
+    process.exit(0);
+  }
 };

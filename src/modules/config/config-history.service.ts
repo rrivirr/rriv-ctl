@@ -49,7 +49,7 @@ export const listConfigHistory = async () => {
   }
 
   if (sensorConfigs.length) {
-    const sensorNamesConfigs: { [key: string]: Array<any> } = {};
+    const sensorNamesConfigs: Record<string, any[]> = {};
 
     for (const sensorConfig of sensorConfigs) {
       const sensorNameConfigs = sensorNamesConfigs[sensorConfig.name];

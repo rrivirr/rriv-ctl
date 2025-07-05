@@ -7,7 +7,7 @@ export const calibrateAction = (
   point?: string,
   tag?: string
 ) => {
-  let payload = new Map();
+  const payload = new Map();
   payload.set("object", object);
   payload.set("action", "calibrate");
   payload.set("id", id);
@@ -23,7 +23,7 @@ export const calibrateAction = (
     }
   }
 
-  let payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
+  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
   console.log(payloadString);
 
   sendCommandAndEchoResponse(payloadString);

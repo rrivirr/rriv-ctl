@@ -48,7 +48,7 @@ export const readSerialUntilQuit = (
     }, 1000);
   });
 
-  parser.on("data", function (data: String) {
+  parser.on("data", function (data: string) {
     console.log(data);
     if (data[0] == "{") {
       // skip this line

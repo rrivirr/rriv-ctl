@@ -1,9 +1,9 @@
 import "lowdb";
 import { JSONFileSyncPreset } from "lowdb/node";
 
-type SyncObjectArray = Array<{ requestId: string; data: any }>;
+type SyncObjectArray = { requestId: string; data: any }[];
 
-export type Data = {
+export interface Data {
   accessToken: string;
   context: {
     id: string;
@@ -25,7 +25,7 @@ export type Data = {
     dataloggerConfigs: SyncObjectArray;
     sensorConfigs: SyncObjectArray;
   };
-};
+}
 
 const defaultData: Data = {
   accessToken: "",

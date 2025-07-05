@@ -161,7 +161,7 @@ export const applySavedConfigSnapshot = async (body: { name: string }) => {
 
 export const applyConfigSnapshot = async (body: {
   datalogger: { config: any; configId: string };
-  sensor: Array<{ config: any; configId: string }>;
+  sensor: { config: any; configId: string }[];
 }) => {
   const { datalogger, sensor } = body;
   const {

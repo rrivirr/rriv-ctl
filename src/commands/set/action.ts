@@ -12,7 +12,7 @@ export const setAction = async (
   options: any
 ) => {
   const payload: DefaultObject = { object, action: "set" };
-  let singlePropertyChange: boolean = false;
+  let singlePropertyChange = false;
 
   if (object === "board") {
     // deal with absense of id in board command

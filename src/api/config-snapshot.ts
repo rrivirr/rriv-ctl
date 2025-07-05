@@ -15,7 +15,7 @@ export const getActiveConfigSnapshot = async (
   body: DeviceContextRequest
 ): Promise<{
   dataloggerConfig: { config: any };
-  sensorConfig: Array<{ id: string; name: string; config: any }>;
+  sensorConfig: { id: string; name: string; config: any }[];
 }> => {
   const { accessToken, deviceId, contextId } = body;
   const response = await axios.get(

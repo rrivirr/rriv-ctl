@@ -5,8 +5,14 @@ export const authUserApiCall = async (loginDetails: {
   password: string;
 }) => {
   const { username, password } = loginDetails;
+  const keycloakUrl = process.env.KEYCLOAK_URL;
+
+  if (!keycloakUrl) {
+    throw new Error("keycloak not configured");
+  }
+
   const response = await axios.post(
-    process.env.KEYCLOAK_URL!,
+    keycloakUrl,
     {
       client_id: process.env.KEYCLOAK_CLIENT_ID,
       username,
