@@ -4,7 +4,7 @@ import db from "../../db/db.ts";
 import { getDevice } from "../../api/device.ts";
 import { bindDevice } from "../../util/bind-device.ts";
 import { getDeviceContext } from "../../api/device-context.ts";
-import { Device } from "../../types.ts";
+import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
 
 export const connectAction = async () => {

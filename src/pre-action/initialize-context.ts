@@ -14,7 +14,7 @@ export const initializeContext = async (useDefault: boolean) => {
   if (
     existingContextName &&
     userContexts.find(
-      (c: any) => c.name === existingContextName && c.id === existingContextId
+      (c) => c.name === existingContextName && c.id === existingContextId
     )
   ) {
     if (useDefault) {
@@ -32,7 +32,7 @@ export const initializeContext = async (useDefault: boolean) => {
 
   const contextIdName: Record<string, string> = {};
   const { contextName } = await selectContextPrompt([
-    ...userContexts.map((c: any) => {
+    ...userContexts.map((c) => {
       contextIdName[c.name] = c.id;
       return c.name;
     }),

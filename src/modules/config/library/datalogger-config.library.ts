@@ -192,7 +192,7 @@ export const applyPublishedDataloggerConfig = async (body: {
     dataloggerConfigToApply = DataloggerLibraryConfigVersion[0];
   } else {
     dataloggerConfigToApply = DataloggerLibraryConfigVersion.find(
-      (s: any) => s.version === version
+      (s) => s.version === version
     );
 
     if (!dataloggerConfigToApply) {
@@ -204,7 +204,8 @@ export const applyPublishedDataloggerConfig = async (body: {
   } = dataloggerConfigToApply;
 
   sendCommandAndEchoResponse(
-    JSON.stringify({ action: "remove", object: config.object })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    JSON.stringify({ action: "remove", object: (config as any).object })
   );
   writeConfigToDevice(config);
 

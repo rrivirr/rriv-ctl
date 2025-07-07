@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DeviceContext, DeviceContextRequest } from "../types.ts";
+import { DeviceContext, DeviceContextRequest } from "./types.ts";
 
 export const getDeviceContext = async (
   body: DeviceContextRequest
@@ -16,28 +16,24 @@ export const getDeviceContext = async (
 
 export const createDeviceContext = async (
   body: DeviceContextRequest & { assignedDeviceName: string }
-): Promise<DeviceContext> => {
+): Promise<void> => {
   const { deviceId, contextId, accessToken, assignedDeviceName } = body;
 
-  const response = await axios.post(
+  await axios.post(
     `${process.env.MANAGEMENT_API_URL}/context/${contextId}/device/${deviceId}`,
     { assignedDeviceName },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };
 
 export const updateDeviceContext = async (
   body: DeviceContextRequest & { end?: boolean }
-) => {
+): Promise<void> => {
   const { accessToken, contextId, deviceId, end } = body;
 
-  const response = await axios.patch(
+  await axios.patch(
     `${process.env.MANAGEMENT_API_URL}/context/${contextId}/device/${deviceId}`,
     { end },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };

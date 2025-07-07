@@ -1,6 +1,6 @@
 import * as DeviceApiCalls from "../api/device.ts";
 import { bindDevicePrompt } from "../prompts/device.prompt.ts";
-import { Device } from "../types.ts";
+import { Device } from "../api/types.ts";
 
 export const bindDevice = async (body: {
   serialNumber: string;
@@ -11,6 +11,7 @@ export const bindDevice = async (body: {
   try {
     const device = await DeviceApiCalls.bindDevice({ ...body, uniqueName });
     return device;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     const errorResponse = e?.response?.data;
     if (

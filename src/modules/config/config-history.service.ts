@@ -2,6 +2,7 @@ import Table from "cli-table3";
 import db from "../../db/db.ts";
 import { getConfigHistory } from "../../api/config-snapshot.ts";
 import { logDeviceContext } from "../../util/log-device-context.ts";
+import { SensorConfigHistory } from "../../api/types.ts";
 
 export const listConfigHistory = async () => {
   const {
@@ -49,7 +50,7 @@ export const listConfigHistory = async () => {
   }
 
   if (sensorConfigs.length) {
-    const sensorNamesConfigs: Record<string, any[]> = {};
+    const sensorNamesConfigs: Record<string, SensorConfigHistory[]> = {};
 
     for (const sensorConfig of sensorConfigs) {
       const sensorNameConfigs = sensorNamesConfigs[sensorConfig.name];

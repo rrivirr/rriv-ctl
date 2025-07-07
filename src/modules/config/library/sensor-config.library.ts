@@ -202,7 +202,7 @@ export const applyPublishedSensorConfig = async (body: {
     sensorConfigToApply = SensorLibraryConfigVersion[0];
   } else {
     sensorConfigToApply = SensorLibraryConfigVersion.find(
-      (s: any) => s.version === version
+      (s) => s.version === version
     );
 
     if (!sensorConfigToApply) {
@@ -214,7 +214,8 @@ export const applyPublishedSensorConfig = async (body: {
   } = sensorConfigToApply;
 
   sendCommandAndEchoResponse(
-    JSON.stringify({ action: "remove", object: config.object })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    JSON.stringify({ action: "remove", object: (config as any).object })
   );
   writeConfigToDevice(config);
 

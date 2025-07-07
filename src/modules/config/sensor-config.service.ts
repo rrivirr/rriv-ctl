@@ -28,7 +28,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
     const sensorDriversIdName: DefaultObject = {};
 
     const { driverName: sensorDriverName } = await selectDriverPrompt(
-      sensorDrivers.map((d: any) => {
+      sensorDrivers.map((d) => {
         sensorDriversIdName[d.name] = d.id;
         return d.name;
       })

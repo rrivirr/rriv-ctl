@@ -1,7 +1,15 @@
 import axios from "axios";
-import { AccessToken, ConfigLibrary } from "../types.ts";
+import {
+  AccessToken,
+  ConfigLibrary,
+  DataloggerConfigLibraryById,
+  Driver,
+  CreateDataloggerConfigDto,
+} from "./types.ts";
 
-export const getDataloggerDrivers = async (body: AccessToken) => {
+export const getDataloggerDrivers = async (
+  body: AccessToken
+): Promise<Driver[]> => {
   const { accessToken } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/datalogger/driver`,
@@ -12,29 +20,19 @@ export const getDataloggerDrivers = async (body: AccessToken) => {
 };
 
 export const createDataloggerConfig = async (
-  body: {
-    singlePropertyChange: boolean;
-    config: any;
-    createdAt: string;
-    dataloggerDriverId: string;
-    name: string;
-    deviceId: string;
-    contextId: string;
-  } & AccessToken
-) => {
+  body: CreateDataloggerConfigDto
+): Promise<void> => {
   const { accessToken, ...data } = body;
-  const response = await axios.post(
+  await axios.post(
     `${process.env.MANAGEMENT_API_URL}/datalogger/config`,
     data,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };
 
 export const getDataloggerLibraryConfig = async (
   body: { name?: string; search?: string; isPublic?: boolean } & AccessToken
-): Promise<ConfigLibrary> => {
+): Promise<ConfigLibrary[]> => {
   const { accessToken, name, search, isPublic } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/datalogger/libraryConfig`,
@@ -49,7 +47,7 @@ export const getDataloggerLibraryConfig = async (
 
 export const getDataloggerLibraryConfigById = async (
   body: { dataloggerLibraryId: string } & AccessToken
-) => {
+): Promise<DataloggerConfigLibraryById> => {
   const { accessToken, dataloggerLibraryId } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/datalogger/libraryConfig/${dataloggerLibraryId}`,
@@ -66,9 +64,9 @@ export const publishNewDataloggerLibraryConfig = async (
     deviceId: string;
     contextId: string;
   } & AccessToken
-) => {
+): Promise<void> => {
   const { accessToken, name, description, deviceId, contextId } = body;
-  const response = await axios.post(
+  await axios.post(
     `${process.env.MANAGEMENT_API_URL}/datalogger/libraryConfig`,
     {
       name,
@@ -78,8 +76,6 @@ export const publishNewDataloggerLibraryConfig = async (
     },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };
 
 export const publishNewDataloggerLibraryConfigVersion = async (
@@ -89,10 +85,10 @@ export const publishNewDataloggerLibraryConfigVersion = async (
     deviceId: string;
     contextId: string;
   } & AccessToken
-) => {
+): Promise<void> => {
   const { accessToken, description, deviceId, contextId, dataloggerLibraryId } =
     body;
-  const response = await axios.post(
+  await axios.post(
     `${process.env.MANAGEMENT_API_URL}/datalogger/libraryConfig/${dataloggerLibraryId}/version`,
     {
       description,
@@ -101,6 +97,4 @@ export const publishNewDataloggerLibraryConfigVersion = async (
     },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };

@@ -276,7 +276,7 @@ export const applyPublishedConfigSnapshot = async (body: {
     configSnapshotToApply = SystemLibraryConfigVersion[0];
   } else {
     configSnapshotToApply = SystemLibraryConfigVersion.find(
-      (s: any) => s.version === version
+      (s) => s.version === version
     );
 
     if (!configSnapshotToApply) {
@@ -292,7 +292,7 @@ export const applyPublishedConfigSnapshot = async (body: {
       config: DataloggerConfig[0]?.config,
       configId: DataloggerConfig[0]?.id,
     },
-    sensor: SensorConfig.map((s: any) => ({
+    sensor: SensorConfig.map((s) => ({
       config: s.config,
       configId: s.id,
     })),

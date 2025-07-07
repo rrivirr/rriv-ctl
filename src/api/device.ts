@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Device } from "../types.ts";
+import { Device } from "./types.ts";
 
 export const getDevice = async (body: {
   id?: string;

@@ -1,7 +1,16 @@
 import axios from "axios";
-import { AccessToken, ConfigLibrary, DeviceContextRequest } from "../types.ts";
+import {
+  AccessToken,
+  ConfigHistory,
+  ConfigLibrary,
+  ConfigLibraryById,
+  ConfigSnapshot,
+  DeviceContextRequest,
+} from "./types.ts";
 
-export const getConfigHistory = async (body: DeviceContextRequest) => {
+export const getConfigHistory = async (
+  body: DeviceContextRequest
+): Promise<ConfigHistory> => {
   const { accessToken, deviceId, contextId } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/configSnapshot/history?deviceId=${deviceId}&contextId=${contextId}`,
@@ -14,8 +23,8 @@ export const getConfigHistory = async (body: DeviceContextRequest) => {
 export const getActiveConfigSnapshot = async (
   body: DeviceContextRequest
 ): Promise<{
-  dataloggerConfig: { config: any };
-  sensorConfig: { id: string; name: string; config: any }[];
+  dataloggerConfig: { config: object };
+  sensorConfig: { id: string; name: string; config: object }[];
 }> => {
   const { accessToken, deviceId, contextId } = body;
   const response = await axios.get(
@@ -28,7 +37,7 @@ export const getActiveConfigSnapshot = async (
 
 export const getConfigSnapshots = async (
   body: { name?: string; search?: string } & AccessToken
-) => {
+): Promise<ConfigSnapshot[]> => {
   const { accessToken, name, search } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/configSnapshot`,
@@ -46,7 +55,7 @@ export const overwriteConfigSnapshot = async (
     dataloggerConfigId?: string;
     sensorConfigIds: string[];
   } & DeviceContextRequest
-) => {
+): Promise<void> => {
   const {
     accessToken,
     dataloggerConfigId,
@@ -66,7 +75,7 @@ export const overwriteConfigSnapshot = async (
 
 export const saveConfigSnapshot = async (
   body: { name: string } & DeviceContextRequest
-) => {
+): Promise<void> => {
   const { accessToken, name, deviceId, contextId } = body;
 
   await axios.post(
@@ -80,7 +89,7 @@ export const saveConfigSnapshot = async (
 
 export const getLibraryConfigSnapshots = async (
   body: { name?: string; search?: string; isPublic?: boolean } & AccessToken
-): Promise<ConfigLibrary> => {
+): Promise<ConfigLibrary[]> => {
   const { accessToken, name, search, isPublic } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/configSnapshot/libraryConfig`,
@@ -95,7 +104,7 @@ export const getLibraryConfigSnapshots = async (
 
 export const getLibraryConfigSnapshotById = async (
   body: { libraryConfigSnapshotId: string } & AccessToken
-) => {
+): Promise<ConfigLibraryById> => {
   const { accessToken, libraryConfigSnapshotId } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/configSnapshot/libraryConfig/${libraryConfigSnapshotId}`,
@@ -113,9 +122,9 @@ export const publishNewConfigSnapshotLibrary = async (
       | { configSnapshotId: string }
       | { deviceId: string; contextId: string };
   } & AccessToken
-) => {
+): Promise<void> => {
   const { accessToken, name, description, configSnapshot } = body;
-  const response = await axios.post(
+  await axios.post(
     `${process.env.MANAGEMENT_API_URL}/configSnapshot/libraryConfig`,
     {
       name,
@@ -124,8 +133,6 @@ export const publishNewConfigSnapshotLibrary = async (
     },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };
 
 export const publishNewConfigSnapshotLibraryVersion = async (
@@ -136,10 +143,10 @@ export const publishNewConfigSnapshotLibraryVersion = async (
       | { configSnapshotId: string }
       | { deviceId: string; contextId: string };
   } & AccessToken
-) => {
+): Promise<void> => {
   const { accessToken, description, configSnapshot, libraryConfigSnapshotId } =
     body;
-  const response = await axios.post(
+  await axios.post(
     `${process.env.MANAGEMENT_API_URL}/configSnapshot/libraryConfig/${libraryConfigSnapshotId}/version`,
     {
       description,
@@ -147,6 +154,4 @@ export const publishNewConfigSnapshotLibraryVersion = async (
     },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };

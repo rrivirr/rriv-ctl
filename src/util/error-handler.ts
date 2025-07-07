@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const errorHandler = (body: { error: any; exit: boolean }) => {
   const { error, exit } = body;
   const errorResponse = error?.response?.data;

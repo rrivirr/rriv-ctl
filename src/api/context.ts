@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IdRequest, Context, ContextNameRequest } from "../types.ts";
+import { IdRequest, Context, ContextNameRequest } from "./types.ts";
 
 export const getContexts = async (body: {
   accessToken: string;
@@ -44,23 +44,20 @@ export const createContext = async (
   return response.data;
 };
 
-export const deleteContext = async (body: IdRequest) => {
+export const deleteContext = async (body: IdRequest): Promise<void> => {
   const { id, accessToken } = body;
-  const response = await axios.delete(
-    `${process.env.MANAGEMENT_API_URL}/context/${id}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-
-  return response.data;
+  await axios.delete(`${process.env.MANAGEMENT_API_URL}/context/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 };
 
-export const updateContext = async (body: IdRequest & { end?: boolean }) => {
+export const updateContext = async (
+  body: IdRequest & { end?: boolean }
+): Promise<void> => {
   const { id, accessToken, end } = body;
-  const response = await axios.patch(
+  await axios.patch(
     `${process.env.MANAGEMENT_API_URL}/context/${id}`,
     { end },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };

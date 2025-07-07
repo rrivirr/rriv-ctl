@@ -1,7 +1,15 @@
 import axios from "axios";
-import { AccessToken, ConfigLibrary } from "../types.ts";
+import {
+  AccessToken,
+  ConfigLibrary,
+  CreateSensorConfigDto,
+  Driver,
+  SensorConfigLibraryById,
+} from "./types.ts";
 
-export const getSensorDrivers = async (body: AccessToken) => {
+export const getSensorDrivers = async (
+  body: AccessToken
+): Promise<Driver[]> => {
   const { accessToken } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/sensor/driver`,
@@ -12,29 +20,17 @@ export const getSensorDrivers = async (body: AccessToken) => {
 };
 
 export const createSensorConfig = async (
-  body: {
-    singlePropertyChange: boolean;
-    config: any;
-    createdAt: string;
-    sensorDriverId: string;
-    name: string;
-    deviceId: string;
-    contextId: string;
-  } & AccessToken
-) => {
+  body: CreateSensorConfigDto
+): Promise<void> => {
   const { accessToken, ...data } = body;
-  const response = await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/sensor/config`,
-    data,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-
-  return response.data;
+  await axios.post(`${process.env.MANAGEMENT_API_URL}/sensor/config`, data, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 };
 
 export const getSensorLibraryConfig = async (
   body: { name?: string; search?: string; isPublic?: boolean } & AccessToken
-): Promise<ConfigLibrary> => {
+): Promise<ConfigLibrary[]> => {
   const { accessToken, name, search, isPublic } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/sensor/libraryConfig`,
@@ -49,7 +45,7 @@ export const getSensorLibraryConfig = async (
 
 export const getSensorLibraryConfigById = async (
   body: { sensorLibraryId: string } & AccessToken
-) => {
+): Promise<SensorConfigLibraryById> => {
   const { accessToken, sensorLibraryId } = body;
   const response = await axios.get(
     `${process.env.MANAGEMENT_API_URL}/sensor/libraryConfig/${sensorLibraryId}`,
@@ -65,9 +61,9 @@ export const publishNewSensorLibraryConfig = async (
     description?: string;
     sensorConfigId: string;
   } & AccessToken
-) => {
+): Promise<void> => {
   const { accessToken, name, description, sensorConfigId } = body;
-  const response = await axios.post(
+  await axios.post(
     `${process.env.MANAGEMENT_API_URL}/sensor/libraryConfig`,
     {
       name,
@@ -76,8 +72,6 @@ export const publishNewSensorLibraryConfig = async (
     },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };
 
 export const publishNewSensorLibraryConfigVersion = async (
@@ -86,9 +80,9 @@ export const publishNewSensorLibraryConfigVersion = async (
     sensorLibraryId: string;
     sensorConfigId: string;
   } & AccessToken
-) => {
+): Promise<void> => {
   const { accessToken, description, sensorConfigId, sensorLibraryId } = body;
-  const response = await axios.post(
+  await axios.post(
     `${process.env.MANAGEMENT_API_URL}/sensor/libraryConfig/${sensorLibraryId}/version`,
     {
       description,
@@ -96,6 +90,4 @@ export const publishNewSensorLibraryConfigVersion = async (
     },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-
-  return response.data;
 };

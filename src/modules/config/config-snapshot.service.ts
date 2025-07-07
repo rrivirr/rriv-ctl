@@ -152,7 +152,7 @@ export const applySavedConfigSnapshot = async (body: { name: string }) => {
       config: DataloggerConfig[0]?.config,
       configId: DataloggerConfig[0]?.id,
     },
-    sensor: SensorConfig.map((s: any) => ({
+    sensor: SensorConfig.map((s) => ({
       config: s.config,
       configId: s.id,
     })),
@@ -160,8 +160,8 @@ export const applySavedConfigSnapshot = async (body: { name: string }) => {
 };
 
 export const applyConfigSnapshot = async (body: {
-  datalogger: { config: any; configId: string };
-  sensor: { config: any; configId: string }[];
+  datalogger: { config: object; configId: string };
+  sensor: { config: object; configId: string }[];
 }) => {
   const { datalogger, sensor } = body;
   const {

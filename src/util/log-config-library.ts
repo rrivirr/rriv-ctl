@@ -1,7 +1,7 @@
 import Table from "cli-table3";
-import { ConfigLibrary } from "../types.ts";
+import { ConfigLibrary } from "../api/types.ts";
 
-export const logConfigLibrary = (configLibrary: ConfigLibrary) => {
+export const logConfigLibrary = (configLibrary: ConfigLibrary[]) => {
   const table = new Table({
     head: ["id", "name", "description", "created at", "creator"],
     wordWrap: true,

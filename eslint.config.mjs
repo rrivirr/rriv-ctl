@@ -15,5 +15,11 @@ export default tseslint.config(
         { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
       ],
     },
+  },
+  {
+    files: ["**/action.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
   }
 );

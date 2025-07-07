@@ -31,7 +31,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
     const dataloggerDriversIdName: DefaultObject = {};
 
     const { driverName: dataloggerDriverName } = await selectDriverPrompt(
-      dataloggerDrivers.map((d: any) => {
+      dataloggerDrivers.map((d) => {
         dataloggerDriversIdName[d.name] = d.id;
         return d.name;
       })
