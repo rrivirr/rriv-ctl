@@ -8,6 +8,7 @@ import db from "../../db/db.ts";
 import { logToConsole } from "../../util/console-log.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { randomUUID } from "crypto";
+import { SyncDataType } from "../../constants.ts";
 
 export const uploadDataloggerConfig = async (payload: DefaultObject) => {
   const {
@@ -15,7 +16,6 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
     toSync,
     deviceContext: { deviceId, contextId },
   } = db.data;
-  const dataloggerConfigsToSync = toSync?.dataloggerConfigs;
   const {
     dataloggerDriverId: receivedDataloggerDriverId,
     singlePropertyChange,
@@ -49,11 +49,15 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
     config,
   };
 
-  if (dataloggerConfigsToSync?.length) {
+  if (toSync?.length) {
     db.update((data) => {
-      data.toSync.dataloggerConfigs = [
-        ...dataloggerConfigsToSync,
-        { requestId: randomUUID(), data: dataToUpload },
+      data.toSync = [
+        ...toSync,
+        {
+          requestId: randomUUID(),
+          data: dataToUpload,
+          type: SyncDataType.DataloggerConfig,
+        },
       ];
     });
   } else {
@@ -62,10 +66,13 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
       logToConsole("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {
-        data.toSync = {
-          ...(data.toSync && { ...data.toSync }),
-          dataloggerConfigs: [{ requestId: randomUUID(), data: dataToUpload }],
-        };
+        data.toSync = [
+          {
+            requestId: randomUUID(),
+            data: dataToUpload,
+            type: SyncDataType.DataloggerConfig,
+          },
+        ];
       });
       logToConsole("cloud upload failed");
       errorHandler({ error, exit: false });

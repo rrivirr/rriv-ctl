@@ -5,6 +5,7 @@ import db from "../../db/db.ts";
 import { logToConsole } from "../../util/console-log.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { randomUUID } from "crypto";
+import { SyncDataType } from "../../constants.ts";
 
 export const uploadSensorConfig = async (payload: DefaultObject) => {
   const {
@@ -12,7 +13,6 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
     toSync,
     deviceContext: { deviceId, contextId },
   } = db.data;
-  const sensorConfigsToSync = toSync?.sensorConfigs;
   const {
     sensorDriverId: receivedSensorDriverId,
     singlePropertyChange,
@@ -46,11 +46,15 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
     config,
   };
 
-  if (sensorConfigsToSync?.length) {
+  if (toSync?.length) {
     db.update((data) => {
-      data.toSync.sensorConfigs = [
-        ...sensorConfigsToSync,
-        { requestId: randomUUID(), data: dataToUpload },
+      data.toSync = [
+        ...toSync,
+        {
+          requestId: randomUUID(),
+          type: SyncDataType.SensorConfig,
+          data: dataToUpload,
+        },
       ];
     });
   } else {
@@ -59,10 +63,13 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
       logToConsole("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {
-        data.toSync = {
-          ...(data.toSync && { ...data.toSync }),
-          sensorConfigs: [{ requestId: randomUUID(), data: dataToUpload }],
-        };
+        data.toSync = [
+          {
+            requestId: randomUUID(),
+            data: dataToUpload,
+            type: SyncDataType.SensorConfig,
+          },
+        ];
       });
       logToConsole("cloud upload failed");
       errorHandler({ error, exit: false });

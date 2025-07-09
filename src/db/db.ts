@@ -1,9 +1,6 @@
 import "lowdb";
 import { JSONFileSyncPreset } from "lowdb/node";
-import {
-  CreateDataloggerConfigDto,
-  CreateSensorConfigDto,
-} from "../api/types.ts";
+import { toSyncConfig } from "../types.ts";
 
 export interface Data {
   accessToken: string;
@@ -23,16 +20,7 @@ export interface Data {
     assignedDeviceName: string;
   };
   expirationTime: number;
-  toSync: {
-    dataloggerConfigs: {
-      requestId: string;
-      data: Omit<CreateDataloggerConfigDto, "accessToken">;
-    }[];
-    sensorConfigs: {
-      requestId: string;
-      data: Omit<CreateSensorConfigDto, "accessToken">;
-    }[];
-  };
+  toSync: toSyncConfig[];
 }
 
 const defaultData: Data = {
@@ -45,10 +33,7 @@ const defaultData: Data = {
     assignedDeviceName: "",
   },
   expirationTime: 0,
-  toSync: {
-    dataloggerConfigs: [],
-    sensorConfigs: [],
-  },
+  toSync: [],
 };
 const db = JSONFileSyncPreset<Data>("./db.json", defaultData);
 

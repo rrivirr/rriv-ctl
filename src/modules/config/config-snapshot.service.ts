@@ -1,4 +1,5 @@
 import Table from "cli-table3";
+import { randomUUID } from "crypto";
 import {
   getActiveConfigSnapshot,
   getConfigSnapshots,
@@ -10,6 +11,8 @@ import { logDeviceContext } from "../../util/log-device-context.ts";
 import { logToConsole } from "../../util/console-log.ts";
 import { writeConfigToDevice } from "../../util/write-config-to-device.ts";
 import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
+import { errorHandler } from "../../util/error-handler.ts";
+import { SyncDataType } from "../../constants.ts";
 
 export const listConfigSnapshot = async (options: {
   current?: boolean;
@@ -167,6 +170,7 @@ export const applyConfigSnapshot = async (body: {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
+    toSync,
   } = db.data;
 
   // remove previous config
@@ -189,15 +193,41 @@ export const applyConfigSnapshot = async (body: {
   }
 
   if (datalogger?.config || sensor.length) {
-    // add function to queue if call fails confirm from upload config
-    await overwriteConfigSnapshot({
+    const dataToUpload = {
       deviceId,
       contextId,
-      accessToken,
       sensorConfigIds: sensor.map((s) => s.configId),
       dataloggerConfigId: datalogger.configId,
-    });
+      createdAt: new Date().toISOString(),
+    };
+    if (toSync?.length) {
+      db.update((data) => {
+        data.toSync = [
+          ...toSync,
+          {
+            requestId: randomUUID(),
+            data: dataToUpload,
+            type: SyncDataType.ConfigSnapshot,
+          },
+        ];
+      });
+    } else {
+      try {
+        await overwriteConfigSnapshot({ ...dataToUpload, accessToken });
+        logToConsole("config uploaded to cloud successfully");
+      } catch (error) {
+        db.update((data) => {
+          data.toSync = [
+            {
+              requestId: randomUUID(),
+              data: dataToUpload,
+              type: SyncDataType.ConfigSnapshot,
+            },
+          ];
+        });
+        logToConsole("cloud upload failed");
+        errorHandler({ error, exit: false });
+      }
+    }
   }
-
-  logToConsole("success");
 };

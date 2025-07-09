@@ -200,3 +200,9 @@ export type CreateSensorConfigDto = {
   deviceId: string;
   contextId: string;
 } & AccessToken;
+
+export type OverwriteConfigSnapshotDto = {
+  dataloggerConfigId?: string;
+  sensorConfigIds: string[];
+  createdAt: string;
+} & DeviceContextRequest;

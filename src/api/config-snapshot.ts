@@ -6,6 +6,7 @@ import {
   ConfigLibraryById,
   ConfigSnapshot,
   DeviceContextRequest,
+  OverwriteConfigSnapshotDto,
 } from "./types.ts";
 
 export const getConfigHistory = async (
@@ -51,10 +52,7 @@ export const getConfigSnapshots = async (
 };
 
 export const overwriteConfigSnapshot = async (
-  body: {
-    dataloggerConfigId?: string;
-    sensorConfigIds: string[];
-  } & DeviceContextRequest
+  body: OverwriteConfigSnapshotDto
 ): Promise<void> => {
   const {
     accessToken,
@@ -62,11 +60,12 @@ export const overwriteConfigSnapshot = async (
     sensorConfigIds,
     deviceId,
     contextId,
+    createdAt,
   } = body;
 
   await axios.put(
     `${process.env.MANAGEMENT_API_URL}/configSnapshot/active`,
-    { dataloggerConfigId, sensorConfigIds, deviceId, contextId },
+    { dataloggerConfigId, sensorConfigIds, deviceId, contextId, createdAt },
     {
       headers: { Authorization: `Bearer ${accessToken}` },
     }
