@@ -1,9 +1,9 @@
-import { overwriteConfigSnapshot } from "../api/config-snapshot.ts";
-import { createDataloggerConfig } from "../api/datalogger.ts";
-import { createSensorConfig } from "../api/sensor.ts";
-import { SyncDataType } from "../constants.ts";
-import db from "../db/db.ts";
-import { errorHandler } from "./error-handler.ts";
+import { overwriteConfigSnapshot } from "../../api/config-snapshot.ts";
+import { createDataloggerConfig } from "../../api/datalogger.ts";
+import { createSensorConfig } from "../../api/sensor.ts";
+import { SyncDataType } from "../../constants.ts";
+import db from "../../db/db.ts";
+import { errorHandler } from "../../util/error-handler.ts";
 
 export const syncCommands = async (source: "command" | "preAction") => {
   const { accessToken, toSync } = db.data;

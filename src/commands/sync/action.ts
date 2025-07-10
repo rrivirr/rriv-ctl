@@ -1,4 +1,4 @@
-import { syncCommands } from "../../util/sync-commands.ts";
+import { syncCommands } from "../../modules/config/sync-commands.ts";
 
 export const syncAction = async () => {
   await syncCommands("command");

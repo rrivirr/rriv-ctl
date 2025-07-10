@@ -3,7 +3,7 @@ import { initializeContext } from "./initialize-context.ts";
 import { errorHandler } from "../util/error-handler.ts";
 import { initializeDevice } from "./initialize-device.ts";
 import { authUser } from "../util/auth-user.ts";
-import { syncCommands } from "../util/sync-commands.ts";
+import { syncCommands } from "../modules/config/sync-commands.ts";
 
 export const preAction = async (
   thisCommand: Command,
