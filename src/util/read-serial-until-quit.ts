@@ -11,12 +11,7 @@ export const readSerialUntilQuit = (
   file: string,
   debug: boolean
 ) => {
-  const dir = path.join(paths.getRRIVDir(), "watch");
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-
-  const logPath = path.join(dir, file);
+  const logPath = path.join(paths.getRRIVDir(), "watch", file);
   const dirPath = logPath.substring(0, logPath.lastIndexOf("/"));
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });

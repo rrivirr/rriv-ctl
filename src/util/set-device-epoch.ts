@@ -5,12 +5,13 @@ import serialCommands from "./serial-commands.ts";
 export const setDeviceEpoch = (serialPortPath: string) => {
   const now = Date.now();
   const epoch = Math.floor(now / 1000);
-  const payload = new Map();
-  payload.set("object", "board");
-  payload.set("action", "set");
-  payload.set("epoch", epoch);
+  const payload = {
+    object: "board",
+    action: "set",
+    epoch,
+  };
 
-  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
+  const payloadString = JSON.stringify(payload) + "\n";
 
   const serialPort = connectSerial(serialPortPath);
   serialPort.write(serialCommands.quietModeCommand);

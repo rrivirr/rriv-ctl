@@ -17,7 +17,7 @@ export const getConnectedDevice = async () => {
     process.exit(1);
   }
 
-  // get the details of the device; serialNumber; hardware version; software version; etc
+  // @TODO get the details of the device; serialNumber; hardware version; software version; etc
   return {
     serialPortPath,
     serialNumber: "default",

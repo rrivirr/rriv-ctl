@@ -14,7 +14,7 @@ export const errorHandler = (body: { error: any; exit: boolean }) => {
   } else if (error.errors) {
     console.log(`${error.errors}`);
   } else {
-    console.log(`\nError: ${error?.message}`);
+    console.log(`\nError`, error?.message || error);
   }
   if (exit) {
     process.exit(0);
