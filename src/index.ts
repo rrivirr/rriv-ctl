@@ -100,9 +100,10 @@ function sendCommandAndEchoResponse(command: string) {
     includeDelimiter: false
   })
   parser.on('data', function (data: string) {
-    // console.log("got data");
+    console.log("got data");
     if (data.includes("action")) {
       // skip this line, it's just the echo back
+      // console.log(data);
       return;
     } else {
       console.log(data);
@@ -336,7 +337,7 @@ cli
   .command('calibrate')
   .addArgument(new Argument('<object>').choices(['sensor']))
   .argument('<id>', 'The id of the sensor to calibrate.')
-  .addArgument(new Argument('<subcommand>').choices(['point, list, fit, or clear']))
+  .addArgument(new Argument('<subcommand>').choices(['point', 'list', 'fit', 'clear']))
   .argument('[point]', 'A reference reading for the point command, float type')
   // .argument('[tag]')
   .description('calibration commands')
@@ -354,7 +355,7 @@ cli
         process.exit(1);
       } else {
         payload.set('point', parseFloat(point));
-        payload.set('tag', tag);
+        // payload.set('tag', tag);
       }
     }
 
