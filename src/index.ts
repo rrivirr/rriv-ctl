@@ -205,11 +205,14 @@ cli
         const filename = contentDisposition.split('=')[1]
 
         const finishedDownload = stream.finished;
-        const writer = fs.createWriteStream(`${dirPath}/${filename}`);
+        const file = `${dirPath}/${filename}`;
+        const writer = fs.createWriteStream(file);
         
 
-        response.data.pipe(writer)
-        await finishedDownload(writer)
+        response.data.pipe(writer);
+        await finishedDownload(writer);
+        console.log(`saved to ${file}`);
+
       } catch(error: any) {
         if(error.response?.data) {
           const errorStream = error.response.data
@@ -219,9 +222,11 @@ cli
           });
   
           errorStream.on('end', () => {
+            console.error(errorData);
             console.error(JSON.parse(errorData));
           });
         } else {
+          console.log(error);
           console.log(error?.toJSON().code || error?.message)
         }
         
