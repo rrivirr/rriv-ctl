@@ -17,4 +17,3 @@ add_line_to_bashrc()
 }
 
 check_if_line_exists || add_line_to_bashrc
-
