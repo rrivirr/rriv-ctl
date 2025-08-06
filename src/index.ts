@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import "dotenv/config";
 import { Argument, Command } from 'commander'
 import { description, version } from '../package.json'
 import { SerialPort, ReadlineParser } from 'serialport';
@@ -8,6 +9,8 @@ import moment from 'moment'
 import path from 'path'
 import serialCommands from './util/serial_commands';
 import paths from './util/paths';
+import axios from 'axios'
+import stream from 'stream/promises'
 
 let cli = new Command()
 
@@ -172,11 +175,64 @@ cli
 
 cli
   .command('get')
-  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board', 'datalogger']))
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board', 'data', 'datalogger']))
   .argument('[id]')
-  .argument('[parameter]')
+  .argument('[parameterOrstartDate]')
+  .argument('[endDate]')
   .description('get values on an object')
-.action((object, id, parameter) => {
+  .action(async (object, id, parameter, endDate) => {
+
+    if(object === 'data') {
+      const startDate = parameter;
+
+      if(!id) {
+        console.log('eui required')
+        return
+      }
+
+      const dirPath = './data'
+      if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath);
+      }
+
+      try{
+        const response = await axios.get(`${process.env.DATA_API_URL}/readings/${id}`, {
+          params: { rangeStart: startDate, rangeEnd: endDate, format: 'csv' },
+          responseType: 'stream'
+        })
+
+        const contentDisposition = response.headers['content-disposition'];
+        const filename = contentDisposition.split('=')[1]
+
+        const finishedDownload = stream.finished;
+        const file = `${dirPath}/${filename}`;
+        const writer = fs.createWriteStream(file);
+        
+
+        response.data.pipe(writer);
+        await finishedDownload(writer);
+        console.log(`saved to ${file}`);
+
+      } catch(error: any) {
+        if(error.response?.data) {
+          const errorStream = error.response.data
+          let errorData = ''
+          errorStream.on('data', (chunk: any) => {
+            errorData += chunk.toString();
+          });
+  
+          errorStream.on('end', () => {
+            console.error(errorData);
+            console.error(JSON.parse(errorData));
+          });
+        } else {
+          console.log(error);
+          console.log(error?.toJSON().code || error?.message)
+        }
+        
+      }
+      return 
+    }
 
 
     const serialPath = getSerialPathFromCache();
