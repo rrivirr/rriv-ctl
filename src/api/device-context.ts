@@ -7,7 +7,7 @@ export const getDeviceContext = async (
   const { deviceId, contextId, accessToken } = body;
 
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/context/${contextId}/device/${deviceId}`,
+    `${process.env.RRIV_API_URL}/context/${contextId}/device/${deviceId}`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 
@@ -20,19 +20,19 @@ export const createDeviceContext = async (
   const { deviceId, contextId, accessToken, assignedDeviceName } = body;
 
   await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/context/${contextId}/device/${deviceId}`,
+    `${process.env.RRIV_API_URL}/context/${contextId}/device/${deviceId}`,
     { assignedDeviceName },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 };
 
 export const updateDeviceContext = async (
-  body: DeviceContextRequest & { end?: boolean }
+  body: DeviceContextRequest & { end: true }
 ): Promise<void> => {
   const { accessToken, contextId, deviceId, end } = body;
 
   await axios.patch(
-    `${process.env.MANAGEMENT_API_URL}/context/${contextId}/device/${deviceId}`,
+    `${process.env.RRIV_API_URL}/context/${contextId}/device/${deviceId}`,
     { end },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );

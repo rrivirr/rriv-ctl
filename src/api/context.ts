@@ -8,13 +8,10 @@ export const getContexts = async (body: {
   search?: string;
 }): Promise<Context[]> => {
   const { accessToken, ended, name, search } = body;
-  const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/context`,
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      params: { ended, name, search },
-    }
-  );
+  const response = await axios.get(`${process.env.RRIV_API_URL}/context`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    params: { ended, name, search },
+  });
 
   return response.data;
 };
@@ -24,7 +21,7 @@ export const getContextByName = async (
 ): Promise<Context> => {
   const { contextName, accessToken } = body;
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/context?name=${contextName}`,
+    `${process.env.RRIV_API_URL}/context?name=${contextName}`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 
@@ -36,7 +33,7 @@ export const createContext = async (
 ): Promise<Context> => {
   const { contextName, accessToken } = body;
   const response = await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/context`,
+    `${process.env.RRIV_API_URL}/context`,
     { name: contextName },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
@@ -46,7 +43,7 @@ export const createContext = async (
 
 export const deleteContext = async (body: IdRequest): Promise<void> => {
   const { id, accessToken } = body;
-  await axios.delete(`${process.env.MANAGEMENT_API_URL}/context/${id}`, {
+  await axios.delete(`${process.env.RRIV_API_URL}/context/${id}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 };
@@ -56,7 +53,7 @@ export const updateContext = async (
 ): Promise<void> => {
   const { id, accessToken, end } = body;
   await axios.patch(
-    `${process.env.MANAGEMENT_API_URL}/context/${id}`,
+    `${process.env.RRIV_API_URL}/context/${id}`,
     { end },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );

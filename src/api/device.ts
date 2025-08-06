@@ -15,7 +15,7 @@ export const getDevice = async (body: {
     query = `serialNumber=${serialNumber}`;
   }
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/device?${query}`,
+    `${process.env.RRIV_API_URL}/device?${query}`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 
@@ -29,7 +29,7 @@ export const bindDevice = async (body: {
 }): Promise<Device> => {
   const { uniqueName, serialNumber, accessToken } = body;
   const response = await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/device/${serialNumber}/bind`,
+    `${process.env.RRIV_API_URL}/device/${serialNumber}/bind`,
     { uniqueName },
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );

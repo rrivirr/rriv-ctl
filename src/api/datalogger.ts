@@ -12,7 +12,7 @@ export const getDataloggerDrivers = async (
 ): Promise<Driver[]> => {
   const { accessToken } = body;
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/datalogger/driver`,
+    `${process.env.RRIV_API_URL}/datalogger/driver`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 
@@ -23,11 +23,9 @@ export const createDataloggerConfig = async (
   body: CreateDataloggerConfigDto
 ): Promise<void> => {
   const { accessToken, ...data } = body;
-  await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/datalogger/config`,
-    data,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  await axios.post(`${process.env.RRIV_API_URL}/datalogger/config`, data, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 };
 
 export const getDataloggerLibraryConfig = async (
@@ -35,7 +33,7 @@ export const getDataloggerLibraryConfig = async (
 ): Promise<ConfigLibrary[]> => {
   const { accessToken, name, search, isPublic } = body;
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/datalogger/libraryConfig`,
+    `${process.env.RRIV_API_URL}/datalogger/libraryConfig`,
     {
       headers: { Authorization: `Bearer ${accessToken}` },
       params: { name, search, isPublic },
@@ -50,7 +48,7 @@ export const getDataloggerLibraryConfigById = async (
 ): Promise<DataloggerConfigLibraryById> => {
   const { accessToken, dataloggerLibraryId } = body;
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/datalogger/libraryConfig/${dataloggerLibraryId}`,
+    `${process.env.RRIV_API_URL}/datalogger/libraryConfig/${dataloggerLibraryId}`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 
@@ -67,7 +65,7 @@ export const publishNewDataloggerLibraryConfig = async (
 ): Promise<void> => {
   const { accessToken, name, description, deviceId, contextId } = body;
   await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/datalogger/libraryConfig`,
+    `${process.env.RRIV_API_URL}/datalogger/libraryConfig`,
     {
       name,
       description,
@@ -89,7 +87,7 @@ export const publishNewDataloggerLibraryConfigVersion = async (
   const { accessToken, description, deviceId, contextId, dataloggerLibraryId } =
     body;
   await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/datalogger/libraryConfig/${dataloggerLibraryId}/version`,
+    `${process.env.RRIV_API_URL}/datalogger/libraryConfig/${dataloggerLibraryId}/version`,
     {
       description,
       deviceId,

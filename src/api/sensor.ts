@@ -12,7 +12,7 @@ export const getSensorDrivers = async (
 ): Promise<Driver[]> => {
   const { accessToken } = body;
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/sensor/driver`,
+    `${process.env.RRIV_API_URL}/sensor/driver`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 
@@ -23,7 +23,7 @@ export const createSensorConfig = async (
   body: CreateSensorConfigDto
 ): Promise<void> => {
   const { accessToken, ...data } = body;
-  await axios.post(`${process.env.MANAGEMENT_API_URL}/sensor/config`, data, {
+  await axios.post(`${process.env.RRIV_API_URL}/sensor/config`, data, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 };
@@ -33,7 +33,7 @@ export const getSensorLibraryConfig = async (
 ): Promise<ConfigLibrary[]> => {
   const { accessToken, name, search, isPublic } = body;
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/sensor/libraryConfig`,
+    `${process.env.RRIV_API_URL}/sensor/libraryConfig`,
     {
       headers: { Authorization: `Bearer ${accessToken}` },
       params: { name, search, isPublic },
@@ -48,7 +48,7 @@ export const getSensorLibraryConfigById = async (
 ): Promise<SensorConfigLibraryById> => {
   const { accessToken, sensorLibraryId } = body;
   const response = await axios.get(
-    `${process.env.MANAGEMENT_API_URL}/sensor/libraryConfig/${sensorLibraryId}`,
+    `${process.env.RRIV_API_URL}/sensor/libraryConfig/${sensorLibraryId}`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 
@@ -64,7 +64,7 @@ export const publishNewSensorLibraryConfig = async (
 ): Promise<void> => {
   const { accessToken, name, description, sensorConfigId } = body;
   await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/sensor/libraryConfig`,
+    `${process.env.RRIV_API_URL}/sensor/libraryConfig`,
     {
       name,
       description,
@@ -83,7 +83,7 @@ export const publishNewSensorLibraryConfigVersion = async (
 ): Promise<void> => {
   const { accessToken, description, sensorConfigId, sensorLibraryId } = body;
   await axios.post(
-    `${process.env.MANAGEMENT_API_URL}/sensor/libraryConfig/${sensorLibraryId}/version`,
+    `${process.env.RRIV_API_URL}/sensor/libraryConfig/${sensorLibraryId}/version`,
     {
       description,
       sensorConfigId,
