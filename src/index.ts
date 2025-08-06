@@ -108,8 +108,8 @@ function sendCommandAndEchoResponse(command: string) {
     } else {
       console.log(data);
       try {
-      const response = JSON.stringify(JSON.parse(data), null, 2);
-      console.log(response);
+        const response = JSON.stringify(JSON.parse(data), null, 2);
+        console.log(response);
       } catch(e) {
         console.warn("response not json");
       }
@@ -172,7 +172,7 @@ cli
 
 cli
   .command('get')
-  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board']))
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board', 'datalogger']))
   .argument('[id]')
   .argument('[parameter]')
   .description('get values on an object')
@@ -249,7 +249,7 @@ cli
 
 cli
   .command('set')
-  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board']))
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board', 'datalogger']))
   .argument('[id]')
   .argument('[property]')
   .argument('[property_value]')
@@ -270,7 +270,7 @@ cli
     payload.set('action', 'set');
 
 
-    if(object === 'board'){
+    if(object === 'board' || object === 'datalogger'){
 
       // deal with absense of id in board command
       // TODO: help needs to refect this somehow
