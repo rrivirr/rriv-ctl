@@ -21,6 +21,7 @@ export const preAction = async (
         if (
           !(
             (commandName === "use" && args[0] === "context") ||
+            (commandName === "create" && args[0] === "context") ||
             commandName === "sync"
           )
         ) {
