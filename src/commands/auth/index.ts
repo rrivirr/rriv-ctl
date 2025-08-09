@@ -6,6 +6,5 @@ export const makeAuthCommand = (cli: Command) => {
     .command("auth")
     .description("authenticate a user")
     .requiredOption("-u, --username <username>", "username to sign in with")
-    .requiredOption("-p, --password <password>", "user password")
     .action(authAction);
 };

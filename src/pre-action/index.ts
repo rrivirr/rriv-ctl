@@ -22,6 +22,7 @@ export const preAction = async (
           !(
             (commandName === "use" && args[0] === "context") ||
             (commandName === "create" && args[0] === "context") ||
+            (commandName === "list" && args[0] === "context") ||
             commandName === "sync"
           )
         ) {

@@ -1,11 +1,10 @@
 import { authUserApiCall } from "../../api/keycloak.ts";
 import db from "../../db/db.ts";
+import { passwordPrompt } from "../../prompts/auth.prompt.ts";
 
-export const authenticateUser = async (loginDetails: {
-  username: string;
-  password: string;
-}) => {
-  const { username, password } = loginDetails;
+export const authenticateUser = async (body: { username: string }) => {
+  const { username } = body;
+  const password = await passwordPrompt();
   const { accessToken, expiresIn } = await authUserApiCall({
     username,
     password,
