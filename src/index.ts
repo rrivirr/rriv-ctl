@@ -27,8 +27,6 @@ import { makeApplyCommand } from "./commands/apply/index.ts";
 
 const cli = new Command();
 
-// testing
-
 cli
   .name("rrivctl")
   .description(packageJson.description)

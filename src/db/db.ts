@@ -21,6 +21,7 @@ export interface Data {
   };
   expirationTime: number;
   toSync: toSyncConfig[];
+  lastVersionCheckAt: Date;
 }
 
 const defaultData: Data = {
@@ -34,6 +35,7 @@ const defaultData: Data = {
   },
   expirationTime: 0,
   toSync: [],
+  lastVersionCheckAt: new Date("1/1/1970"),
 };
 const db = JSONFileSyncPreset<Data>("./db.json", defaultData);
 
