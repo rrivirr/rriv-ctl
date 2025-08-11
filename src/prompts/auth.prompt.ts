@@ -11,11 +11,11 @@ export const passwordPrompt = async () => {
 };
 
 export const authPrompt = async () => {
-  const username = await input({
-    message: "username",
+  const email = await input({
+    message: "email",
     validate: (v) => (v ? true : false),
   });
   const passwordValue = await passwordPrompt();
 
-  return { username, password: passwordValue };
+  return { email, password: passwordValue };
 };

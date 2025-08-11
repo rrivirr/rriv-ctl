@@ -10,7 +10,11 @@ export const authUser = async () => {
   }
 
   const loginDetails = await authPrompt();
-  const { accessToken, expiresIn } = await authUserApiCall(loginDetails);
+  const { email, password } = loginDetails;
+  const { accessToken, expiresIn } = await authUserApiCall({
+    username: email,
+    password,
+  });
   const now = new Date();
 
   db.update((data) => {

@@ -6,24 +6,24 @@ jest.mock("@inquirer/prompts");
 
 describe("authPrompt", () => {
   it("authPrompt", async () => {
-    const username = randomUUID();
+    const email = randomUUID();
     const passwordValue = randomUUID();
     const inputMock = input as jest.MockedFunction<typeof input>;
     const passwordMock = password as jest.MockedFunction<typeof password>;
 
-    inputMock.mockResolvedValue(username);
+    inputMock.mockResolvedValue(email);
     passwordMock.mockResolvedValue(passwordValue);
 
     const result = await authPrompt();
 
-    expect(result).toEqual({ username, password: passwordValue });
+    expect(result).toEqual({ email, password: passwordValue });
     expect(inputMock).toHaveBeenCalledTimes(1);
     expect(passwordMock).toHaveBeenCalledTimes(1);
 
     const inputMockArgs = inputMock.mock.calls[0][0];
     const passwordMockArgs = passwordMock.mock.calls[0][0];
 
-    expect(inputMockArgs.message).toEqual("username");
+    expect(inputMockArgs.message).toEqual("email");
     expect(Object.keys(inputMockArgs).length).toEqual(2);
     expect(passwordMockArgs.message).toEqual("password");
     expect(passwordMockArgs.mask).toEqual(true);

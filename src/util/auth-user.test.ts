@@ -14,7 +14,7 @@ describe("authUser", () => {
       data.expirationTime = +now.setSeconds(now.getSeconds() - 1);
     });
 
-    authPromptSpy.mockResolvedValue({ username: "jack", password: "sparrow" });
+    authPromptSpy.mockResolvedValue({ email: "jack", password: "sparrow" });
     authUserApiCallSpy.mockResolvedValue({
       accessToken: "newAccessToken",
       expiresIn: 4444,
