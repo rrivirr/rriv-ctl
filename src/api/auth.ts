@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AccessToken, SignupDto } from "./types.ts";
 
 export const authUserApiCall = async (loginDetails: {
   username: string;
@@ -30,4 +31,13 @@ export const authUserApiCall = async (loginDetails: {
     accessToken: access_token,
     expiresIn: expires_in,
   };
+};
+
+export const signup = async (body: SignupDto & AccessToken) => {
+  const { accessToken, ...signupBody } = body;
+  await axios.post(
+    `${process.env.RRIV_API_URL}/account`,
+    { ...signupBody },
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
 };

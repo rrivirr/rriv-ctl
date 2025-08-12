@@ -1,11 +1,11 @@
 import { authPrompt } from "../prompts/auth.prompt.ts";
-import { authUserApiCall } from "../api/keycloak.ts";
+import { authUserApiCall } from "../api/auth.ts";
 import db from "../db/db.ts";
 
 export const authUser = async () => {
   const { expirationTime, accessToken: existingAccessToken } = db.data;
 
-  if (new Date() < new Date(expirationTime)) {
+  if (Date.now() < expirationTime) {
     return existingAccessToken;
   }
 

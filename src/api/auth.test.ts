@@ -1,10 +1,10 @@
 import axios from "axios";
 import { randomUUID } from "crypto";
-import { authUserApiCall } from "./keycloak.ts";
+import { authUserApiCall } from "./auth.ts";
 
 jest.mock("axios");
 
-describe("keycloak API Call", () => {
+describe("Auth API Call", () => {
   const axiosPostMock = axios.post as jest.MockedFunction<typeof axios.post>;
 
   it("authUserApiCall; invalid keycloak url", async () => {

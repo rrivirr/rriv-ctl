@@ -13,7 +13,7 @@ export const preAction = async (
   const commandName = actionCommand.name();
   try {
     await checkVersion();
-    if (!["auth", "test", "update"].includes(commandName)) {
+    if (!["auth", "test", "update", "signup", "whoami"].includes(commandName)) {
       await authUser();
       if (commandName !== "sync") {
         await syncCommands("preAction");

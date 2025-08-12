@@ -1,6 +1,6 @@
 import db from "../db/db.ts";
 import * as authPromptModule from "../prompts/auth.prompt.ts";
-import * as keycloak from "../api/keycloak.ts";
+import * as keycloak from "../api/auth.ts";
 import { authUser } from "./auth-user.ts";
 
 describe("authUser", () => {

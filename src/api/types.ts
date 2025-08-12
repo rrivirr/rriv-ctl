@@ -206,3 +206,11 @@ export type OverwriteConfigSnapshotDto = {
   sensorConfigIds: string[];
   createdAt: string;
 } & DeviceContextRequest;
+
+export interface SignupDto {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  phone: string;
+}
