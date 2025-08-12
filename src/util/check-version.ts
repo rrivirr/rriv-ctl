@@ -2,13 +2,14 @@ import ChildProcess from "child_process";
 import util from "util";
 import db from "../db/db.ts";
 import { confirm } from "@inquirer/prompts";
+import { Source } from "../types.ts";
 
-export const checkVersion = async () => {
+export const checkVersion = async (source: Source = "preAction") => {
   const { lastVersionCheckAt } = db.data;
 
   const diffTime = Date.now() - +new Date(lastVersionCheckAt);
 
-  if (diffTime > 21600000 || !diffTime) {
+  if (!diffTime || diffTime > 21600000 || source === "command") {
     const exec = util.promisify(ChildProcess.exec);
     try {
       // @ TODO change workingBranch to main once fully merged
@@ -23,6 +24,10 @@ export const checkVersion = async () => {
         if (answer) {
           const mergeResult = await exec(`git merge origin/${workingBranch}`);
           console.log(mergeResult.stdout);
+        }
+      } else {
+        if (source === "command") {
+          console.log("no new rrivctl updates found");
         }
       }
     } catch (error: any) {

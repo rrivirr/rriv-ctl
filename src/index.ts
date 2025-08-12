@@ -25,6 +25,7 @@ import { makeDeleteCommand } from "./commands/delete/index.ts";
 import { makePublishCommand } from "./commands/publish/index.ts";
 import { makeApplyCommand } from "./commands/apply/index.ts";
 import { makeLogoutCommand } from "./commands/logout/index.ts";
+import { makeUpdateCommand } from "./commands/update/index.ts";
 
 const cli = new Command();
 
@@ -57,6 +58,7 @@ makeSyncCommand(cli);
 makeCreateCommand(cli);
 makeDeleteCommand(cli);
 makeUseCommand(cli);
+makeUpdateCommand(cli);
 makeDebugCommand(cli);
 
 cli

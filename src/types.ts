@@ -22,3 +22,5 @@ export type toSyncConfig = { requestId: string } & (
       data: Omit<OverwriteConfigSnapshotDto, "accessToken">;
     }
 );
+
+export type Source = "command" | "preAction";

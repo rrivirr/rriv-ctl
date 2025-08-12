@@ -3,9 +3,10 @@ import { createDataloggerConfig } from "../../api/datalogger.ts";
 import { createSensorConfig } from "../../api/sensor.ts";
 import { SyncDataType } from "../../constants.ts";
 import db from "../../db/db.ts";
+import { Source } from "../../types.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 
-export const syncCommands = async (source: "command" | "preAction") => {
+export const syncCommands = async (source: Source) => {
   const { accessToken, toSync } = db.data;
 
   if (!toSync?.length) {
