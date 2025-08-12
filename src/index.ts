@@ -24,6 +24,7 @@ import { makeCreateCommand } from "./commands/create/index.ts";
 import { makeDeleteCommand } from "./commands/delete/index.ts";
 import { makePublishCommand } from "./commands/publish/index.ts";
 import { makeApplyCommand } from "./commands/apply/index.ts";
+import { makeLogoutCommand } from "./commands/logout/index.ts";
 
 const cli = new Command();
 
@@ -38,6 +39,7 @@ cli.exitOverride();
 
 makeTestCommand(cli);
 makeAuthCommand(cli);
+makeLogoutCommand(cli);
 makeEndCommand(cli);
 makeWatchCommand(cli);
 makeListCommand(cli);

@@ -18,3 +18,10 @@ export const authenticateUser = async (body: { email: string }) => {
 
   console.log("authentication successful");
 };
+
+export const logout = () => {
+  db.update((data) => {
+    data.accessToken = "";
+    data.expirationTime = 1970;
+  });
+};
