@@ -24,6 +24,10 @@ export const checkVersion = async (source: Source = "preAction") => {
         if (answer) {
           const mergeResult = await exec(`git merge origin/${workingBranch}`);
           console.log(mergeResult.stdout);
+          if (result.stdout.includes("package.json")) {
+            const npmResult = await exec(`npm i`);
+            console.log(npmResult.stdout);
+          }
         }
       } else {
         if (source === "command") {
