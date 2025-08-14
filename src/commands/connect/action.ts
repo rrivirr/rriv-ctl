@@ -84,8 +84,8 @@ export const connectAction = async () => {
           assignedDeviceName: currentDeviceContext.assignedDeviceName,
         };
       });
-    } catch (e: any) {
-      if (e?.response?.data?.code === 404) {
+    } catch (error: any) {
+      if (error?.response?.data?.code === 404) {
         console.log("device not found in current context, adding device...");
         const assignedDeviceName = await createDeviceContext({
           contextId: currentContextId,
@@ -101,7 +101,7 @@ export const connectAction = async () => {
           };
         });
       } else {
-        throw e;
+        throw error;
       }
     }
   }

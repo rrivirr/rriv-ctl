@@ -1,6 +1,6 @@
 
 WD=`pwd`
-LINE_TO_ADD="alias rr='node $WD/dist/index.js'"
+LINE_TO_ADD="alias rrivctl='node $WD/dist/index.js'"
 
 check_if_line_exists()
 {
@@ -17,4 +17,3 @@ add_line_to_bashrc()
 }
 
 check_if_line_exists || add_line_to_bashrc
-

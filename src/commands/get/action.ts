@@ -1,27 +1,32 @@
-import { ReadlineParser } from "serialport";
-import serialCommands from "../../util/serial-commands.ts";
-import { connectSerial } from "../../util/connect-serial.ts";
-import { getSerialPathFromCache } from "../../util/get-serial-path-from-cache.ts";
+import fs from "fs";
+import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
+import { getReadings } from "../../api/readings.ts";
 
-export const getAction = (object: string, id?: string, parameter?: string) => {
-  const serialPortPath = getSerialPathFromCache();
-  const serialPort = connectSerial(serialPortPath);
-  serialPort.write(serialCommands.quietModeCommand);
+export const getAction = async (
+  object: string,
+  id?: string,
+  parameter?: string,
+  endDate?: string
+) => {
+  if (object === "data") {
+    const startDate = parameter;
 
-  const parser = new ReadlineParser({
-    delimiter: "\n",
-    includeDelimiter: false,
-  });
-  parser.on("data", function (data: string) {
-    console.log(data);
-    if (data[0] == "{") {
-      // skip this line
+    if (!id) {
+      console.log("eui required");
       return;
-    } else {
-      process.exit();
     }
-  });
-  serialPort.pipe(parser);
+
+    const dirPath = "./data";
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath);
+    }
+
+    const file = await getReadings({ id, dirPath, startDate, endDate });
+    if (file) {
+      console.log(`saved to ${file}`);
+    }
+    return;
+  }
 
   const payload = new Map();
   payload.set("object", object);
@@ -41,6 +46,8 @@ export const getAction = (object: string, id?: string, parameter?: string) => {
     }
   }
   const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
+  console.log("sending command: ");
   console.log(payloadString);
-  serialPort.write(payloadString);
+
+  sendCommandAndEchoResponse(payloadString);
 };

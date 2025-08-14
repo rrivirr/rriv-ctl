@@ -5,9 +5,10 @@ import { CONFIGS } from "../../constants.ts";
 export const makeGetCommand = (cli: Command) => {
   cli
     .command("get")
-    .addArgument(new Argument("<object>").choices(CONFIGS))
+    .addArgument(new Argument("<object>").choices([...CONFIGS, "data"]))
     .argument("[id]")
-    .argument("[parameter]")
+    .argument("[parameterOrstartDate]")
+    .argument("[endDate]")
     .description("get values on an object")
     .action(getAction);
 };

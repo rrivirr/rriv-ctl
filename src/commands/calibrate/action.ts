@@ -5,7 +5,7 @@ export const calibrateAction = (
   id?: string,
   subcommand?: string,
   point?: string,
-  tag?: string
+  _tag?: string
 ) => {
   const payload = new Map();
   payload.set("object", object);
@@ -19,7 +19,7 @@ export const calibrateAction = (
       process.exit(1);
     } else {
       payload.set("point", parseFloat(point));
-      payload.set("tag", tag);
+      // payload.set("tag", tag);
     }
   }
 

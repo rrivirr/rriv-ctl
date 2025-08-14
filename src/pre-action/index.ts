@@ -30,6 +30,7 @@ export const preAction = async (
           (commandName === "list" && args[0] === "context") ||
           (commandName === "end" && args[0] === "context") ||
           (commandName === "delete" && args[0] === "context") ||
+          (commandName === "get" && args[0] === "data") ||
           commandName === "logout" ||
           commandName === "sync"
         )

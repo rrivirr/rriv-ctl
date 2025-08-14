@@ -7,7 +7,7 @@ export const makeCalibrateCommand = (cli: Command) => {
     .addArgument(new Argument("<object>").choices(["sensor"]))
     .argument("<id>", "The id of the sensor to calibrate.")
     .addArgument(
-      new Argument("<subcommand>").choices(["point, list, fit, or clear"])
+      new Argument("<subcommand>").choices(["point", "list", "fit", "clear"])
     )
     .argument(
       "[point]",

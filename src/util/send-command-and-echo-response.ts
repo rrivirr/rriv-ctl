@@ -12,20 +12,23 @@ export const sendCommandAndEchoResponse = (command: string) => {
     includeDelimiter: false,
   });
   parser.on("data", function (data: string) {
-    // console.log("got data");
+    console.log("..");
     if (data.includes("action")) {
       // skip this line, it's just the echo back
       return;
     } else {
-      console.log(data);
+      // console.log(data);
       try {
         const response = JSON.stringify(JSON.parse(data), null, 2);
         console.log(response);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         console.warn("response not json");
+        console.log(data);
       }
-      process.exit();
+      if (data.endsWith("}")) {
+        process.exit();
+      }
     }
   });
 

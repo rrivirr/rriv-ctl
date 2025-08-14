@@ -14,7 +14,7 @@ export const setAction = async (
   const payload: DefaultObject = { object, action: "set" };
   let singlePropertyChange = false;
 
-  if (object === "board") {
+  if (object === "board" || object === "datalogger") {
     // deal with absense of id in board command
     payload[id] = +property || property;
   } else {
