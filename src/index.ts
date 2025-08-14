@@ -97,26 +97,29 @@ function sendCommandAndEchoResponse(command: string) {
 
   const serialPath = getSerialPathFromCache().toString()
   const serialPort = connectSerial(serialPath);
-  
+
   const parser = new ReadlineParser({
     delimiter: '\n',
     includeDelimiter: false
   })
   parser.on('data', function (data: string) {
-    console.log("got data");
+    console.log("...");
     if (data.includes("action")) {
       // skip this line, it's just the echo back
       // console.log(data);
       return;
     } else {
-      console.log(data);
+      // console.log(data);
       try {
         const response = JSON.stringify(JSON.parse(data), null, 2);
         console.log(response);
       } catch(e) {
         console.warn("response not json");
+        console.log(data);
       }
-      process.exit();
+      if(data.endsWith("}")){
+        process.exit();
+      }
     }
 
   });
@@ -235,30 +238,30 @@ cli
     }
 
 
-    const serialPath = getSerialPathFromCache();
-    const serialPort = connectSerial(serialPath.toString());
-    serialPort.write(serialCommands.quietModeCommand);
+    // const serialPath = getSerialPathFromCache();
+    // const serialPort = connectSerial(serialPath.toString());
+    // serialPort.write(serialCommands.quietModeCommand);
 
-    const parser = new ReadlineParser({
-      delimiter: '\n',
-      includeDelimiter: false
-    })
-    parser.on('data', function (data: String) {
-      console.log("data: ");
-      console.log(data);
+    // const parser = new ReadlineParser({
+    //   delimiter: '\n',
+    //   includeDelimiter: false
+    // })
+    // parser.on('data', function (data: String) {
+    //   console.log("data: ");
+    //   console.log(data);
 
-      if (data.includes("}") && !data.includes("action")) {
-        // } is the end message delimeter
-        console.log("response: ");
-        console.log(data);
+    //   if (data.includes("}") && !data.includes("action")) {
+    //     // } is the end message delimeter
+    //     console.log("response: ");
+    //     console.log(data);
 
-        process.exit();
-      } else {
-        // process.exit();
-      }
+    //     process.exit();
+    //   } else {
+    //     // process.exit();
+    //   }
   
-    });
-    serialPort.pipe(parser);
+    // });
+    // serialPort.pipe(parser);
 
     let payload = new Map();
     payload.set('object', object);
@@ -278,10 +281,10 @@ cli
       }
     }
     let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
-    console.log("sent command: ");
+    console.log("sending command: ");
     console.log(payloadString);
-    serialPort.write(payloadString);
 
+    sendCommandAndEchoResponse(payloadString);
 
   });
 
@@ -364,28 +367,27 @@ cli
     let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
     console.log(payloadString);
 
-    const serialPath = getSerialPathFromCache();
-    const serialPort = connectSerial(serialPath.toString());
-    serialPort.write(serialCommands.quietModeCommand);
 
 
-    const parser = new ReadlineParser({
-      delimiter: '\n',
-      includeDelimiter: false
-    })
-    parser.on('data', function (data: String) {
-      if (data[0] == '{') {
-        console.log("echo: " + data);
-        // skip this line
-        return;
-      } else {
-        console.log(data);
-        process.exit();
-      }
+
+    sendCommandAndEchoResponse(payloadString);
+    // const parser = new ReadlineParser({
+    //   delimiter: '\n',
+    //   includeDelimiter: false
+    // })
+    // parser.on('data', function (data: String) {
+    //   if (data[0] == '{') {
+    //     console.log("echo: " + data);
+    //     // skip this line
+    //     return;
+    //   } else {
+    //     console.log(data);
+    //     process.exit();
+    //   }
   
-    });
-    serialPort.pipe(parser);
-    serialPort.write(payloadString);
+    // });
+    // serialPort.pipe(parser);
+    // serialPort.write(payloadString);
   })
 
 
