@@ -1,5 +1,5 @@
 import { authPrompt } from "../prompts/auth.prompt.ts";
-import { authUserApiCall } from "../api/auth.ts";
+import { login as loginUserApiCall } from "../api/auth.ts";
 import db from "../db/db.ts";
 
 export const authUser = async () => {
@@ -11,7 +11,7 @@ export const authUser = async () => {
 
   const loginDetails = await authPrompt();
   const { email, password } = loginDetails;
-  const { accessToken, expiresIn } = await authUserApiCall({
+  const { accessToken, expiresIn } = await loginUserApiCall({
     username: email,
     password,
   });

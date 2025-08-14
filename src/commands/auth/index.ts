@@ -1,10 +1,36 @@
 import { Command } from "commander";
-import { authAction } from "./action.ts";
+import {
+  loginAction,
+  logoutAction,
+  signupAction,
+  whoamiAction,
+} from "./action.ts";
 
 export const makeAuthCommand = (cli: Command) => {
-  cli
-    .command("auth")
+  const authCommand = cli.command("auth").description("auth related commands");
+
+  authCommand
+    .command("login")
     .description("authenticate a user")
     .requiredOption("-e, --email <email>", "email to sign in with")
-    .action(authAction);
+    .action(loginAction);
+
+  authCommand
+    .command("logout")
+    .description("exit current session")
+    .action(logoutAction);
+
+  authCommand
+    .command("signup")
+    .description("create a new user account")
+    .option("-e, --email <email>")
+    .option("-f, --firstName <firstName>")
+    .option("-l, --lastName <lastName>")
+    .option("-p, --phone <phone>")
+    .action(signupAction);
+
+  authCommand
+    .command("whoami")
+    .description("get logged in user")
+    .action(whoamiAction);
 };

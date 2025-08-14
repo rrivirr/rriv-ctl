@@ -5,7 +5,7 @@ import { authUser } from "./auth-user.ts";
 
 describe("authUser", () => {
   const authPromptSpy = jest.spyOn(authPromptModule, "authPrompt");
-  const authUserApiCallSpy = jest.spyOn(keycloak, "authUserApiCall");
+  const loginApiCallSpy = jest.spyOn(keycloak, "login");
 
   it("should get new accessToken; previous token expired", async () => {
     const now = new Date();
@@ -15,7 +15,7 @@ describe("authUser", () => {
     });
 
     authPromptSpy.mockResolvedValue({ email: "jack", password: "sparrow" });
-    authUserApiCallSpy.mockResolvedValue({
+    loginApiCallSpy.mockResolvedValue({
       accessToken: "newAccessToken",
       expiresIn: 4444,
     });
@@ -23,7 +23,7 @@ describe("authUser", () => {
     const result = await authUser();
     expect(result).toEqual("newAccessToken");
     expect(authPromptSpy).toHaveBeenCalled();
-    expect(authUserApiCallSpy).toHaveBeenCalledWith({
+    expect(loginApiCallSpy).toHaveBeenCalledWith({
       username: "jack",
       password: "sparrow",
     });
@@ -39,6 +39,6 @@ describe("authUser", () => {
     const result = await authUser();
     expect(result).toEqual("accessToken");
     expect(authPromptSpy).not.toHaveBeenCalled();
-    expect(authUserApiCallSpy).not.toHaveBeenCalled();
+    expect(loginApiCallSpy).not.toHaveBeenCalled();
   });
 });

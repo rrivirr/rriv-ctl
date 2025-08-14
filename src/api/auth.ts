@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AccessToken, SignupDto } from "./types.ts";
 
-export const authUserApiCall = async (loginDetails: {
+export const login = async (loginDetails: {
   username: string;
   password: string;
 }) => {
