@@ -1,0 +1,5 @@
+{
+   "type" : "generic_analog",
+   "sensor_port" : 2,
+   "adc_select" : "internal"
+}
