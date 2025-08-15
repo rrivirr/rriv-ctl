@@ -1,6 +1,8 @@
 import "lowdb";
 import { JSONFileSyncPreset } from "lowdb/node";
+import fs from "fs";
 import { toSyncConfig } from "../types.ts";
+import { getRrivCtlDir } from "../util/paths.ts";
 
 export interface Data {
   accessToken: string;
@@ -37,6 +39,11 @@ const defaultData: Data = {
   toSync: [],
   lastVersionCheckAt: new Date("1/1/1970"),
 };
-const db = JSONFileSyncPreset<Data>("./db.json", defaultData);
+
+const dirPath = getRrivCtlDir();
+if (!fs.existsSync(dirPath)) {
+  fs.mkdirSync(dirPath, { recursive: true });
+}
+const db = JSONFileSyncPreset<Data>(`${dirPath}/db.json`, defaultData);
 
 export default db;
