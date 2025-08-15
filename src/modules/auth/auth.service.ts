@@ -8,8 +8,7 @@ import { SignupDto } from "../../api/types.ts";
 import db from "../../db/db.ts";
 import { passwordPrompt, signupPrompt } from "../../prompts/auth.prompt.ts";
 
-export const login = async (body: { email: string }) => {
-  const { email } = body;
+export const login = async (email: string) => {
   const password = await passwordPrompt();
   const { accessToken, expiresIn } = await loginApiCall({
     username: email,

@@ -9,8 +9,8 @@ export const signupAction = async (options: any) => {
   await signup(options);
 };
 
-export const loginAction = async (options: any) => {
-  await login(options);
+export const loginAction = async (email: string) => {
+  await login(email);
 };
 
 export const whoamiAction = async () => {

@@ -12,7 +12,7 @@ export const makeAuthCommand = (cli: Command) => {
   authCommand
     .command("login")
     .description("authenticate a user")
-    .requiredOption("-e, --email <email>", "email to sign in with")
+    .argument("<email>", "email to sign in with")
     .action(loginAction);
 
   authCommand
