@@ -107,5 +107,5 @@ export const connectAction = async () => {
   }
 
   // set epoch
-  setDeviceEpoch(serialPortPath);
+  setDeviceEpoch();
 };

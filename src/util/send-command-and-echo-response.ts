@@ -4,6 +4,7 @@ import serialCommands from "./serial-commands.ts";
 import { getSerialPathFromCache } from "./get-serial-path-from-cache.ts";
 
 export const sendCommandAndEchoResponse = (command: string) => {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
   const serialPortPath = getSerialPathFromCache();
   const serialPort = connectSerial(serialPortPath);
 
@@ -17,7 +18,6 @@ export const sendCommandAndEchoResponse = (command: string) => {
       // skip this line, it's just the echo back
       return;
     } else {
-      // console.log(data);
       try {
         const response = JSON.stringify(JSON.parse(data), null, 2);
         console.log(response);
@@ -27,7 +27,12 @@ export const sendCommandAndEchoResponse = (command: string) => {
         console.log(data);
       }
       if (data.endsWith("}")) {
-        process.exit();
+        if (timeout != null) {
+          clearTimeout(timeout);
+        }
+        timeout = setTimeout(function () {
+          process.exit(); // @TODO a problem if other actions are to take place after this function runs
+        }, 2.0 * 1000);
       }
     }
   });

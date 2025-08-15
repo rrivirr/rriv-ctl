@@ -1,8 +1,7 @@
-import { ReadlineParser } from "serialport";
-import { connectSerial } from "./connect-serial.ts";
 import serialCommands from "./serial-commands.ts";
+import { sendCommandAndEchoResponse } from "./send-command-and-echo-response.ts";
 
-export const setDeviceEpoch = (serialPortPath: string) => {
+export const setDeviceEpoch = () => {
   const now = Date.now();
   const epoch = Math.floor(now / 1000);
   const payload = {
@@ -11,25 +10,6 @@ export const setDeviceEpoch = (serialPortPath: string) => {
     epoch,
   };
 
-  const payloadString = JSON.stringify(payload) + "\n";
-
-  const serialPort = connectSerial(serialPortPath);
-  serialPort.write(serialCommands.quietModeCommand);
-
-  const parser = new ReadlineParser({
-    delimiter: "\n",
-    includeDelimiter: false,
-  });
-  parser.on("data", function (data: string) {
-    // console.log(data);
-    if (data[0] == "{") {
-      // skip this line, it's just the echo back
-      return;
-    } else {
-      process.exit();
-    }
-  });
-
-  serialPort.pipe(parser);
-  serialPort.write(payloadString);
+  const command = JSON.stringify(payload) + "\n";
+  sendCommandAndEchoResponse(serialCommands.interactiveModeCommand + command);
 };
