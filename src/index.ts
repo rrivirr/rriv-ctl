@@ -92,6 +92,7 @@ function readSerialUntilQuit(serialPath: string, file: string, debug: boolean) {
 
 }
 
+let timeout: ReturnType<typeof setTimeout> | null = null;
 
 function sendCommandAndEchoResponse(command: string) {
 
@@ -118,7 +119,12 @@ function sendCommandAndEchoResponse(command: string) {
         console.log(data);
       }
       if(data.endsWith("}")){
-        process.exit();
+        if(timeout != null){
+          clearTimeout(timeout);
+        }
+        timeout = setTimeout(function () {
+          process.exit()
+        }, 2.0 * 1000)
       }
     }
 
@@ -489,27 +495,40 @@ function getSerialPathFromCache(){
 cli
   .command('connect')
   .option('-p, --path <serial_path>', 'serial path of the RRIV device')
-  .action((options) => {
+  .action( async (options) => {
     if (!options.path) {
-      SerialPort.list().then((list) => {
 
         // detect the serial port
+        let found = false;
+        let first = true;
         let serialPortPath = "";
-        for (const pathItem of list) {
-          if (pathItem.productId && pathItem.pnpId?.includes('rriv')) {
-            console.log(`Found a RRIV device ${pathItem.pnpId}`)
-            console.log(`Connecting to it at ${pathItem.path}`)
-            serialPortPath = pathItem.path
+        while (!found){
+          let list = await SerialPort.list();
+          for (const pathItem of list) {
+            if (pathItem.productId && pathItem.pnpId?.includes('rriv')) {
+              console.log(`Found a RRIV device ${pathItem.pnpId}`)
+              console.log(`Connecting to it at ${pathItem.path}`)
+              serialPortPath = pathItem.path
+              found = true;
+              break;
+            }
           }
-        }
-        if (serialPortPath === "") {
-          console.log("No RRIV device found")
-          console.log("Try using -p <path> to specify the path to the RRIV serial device")
-          return;
+          if (first) {
+            if (serialPortPath === "") {
+              console.log("No RRIV device found")
+              console.log("Try using -p <path> to specify the path to the RRIV serial device")
+              console.log("Waiting for a device");
+              first = false;
+            }
+          }
+          await new Promise(r => setTimeout(r, 500))
         }
 
         cacheSerialPath(serialPortPath);
-
+      } else {
+        cacheSerialPath(options.path);
+      }
+  
         // set epoch
         const now = Date.now();
         const epoch = Math.floor(now / 1000);
@@ -518,34 +537,28 @@ cli
         payload.set('action', 'set');
         payload.set('epoch', epoch);
 
-        let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
+        let command = JSON.stringify(Object.fromEntries(payload)) + '\n'
     
-        const serialPath = getSerialPathFromCache();
-        const serialPort = connectSerial(serialPath.toString());
-        serialPort.write(serialCommands.quietModeCommand);
-        
-        const parser = new ReadlineParser({
-          delimiter: '\n',
-          includeDelimiter: false
-        })
-        parser.on('data', function (data: String) {
-          // console.log(data);
-          if (data[0] == '{') {
-            // skip this line, it's just the echo back
-            return;
-          } else {
-            process.exit();
-          }
-        });
+        sendCommandAndEchoResponse(serialCommands.interactiveModeCommand + command);
+        // const parser = new ReadlineParser({
+        //   delimiter: '\n',
+        //   includeDelimiter: false
+        // })
+        // parser.on('data', function (data: String) {
+        //   console.log(data);
+        //   if (data[0] == '{') {
+        //     // skip this line, it's just the echo back
+        //     return;
+        //   } else {
+        //     process.exit();
+        //   }
+        // });
 
-        serialPort.pipe(parser);
-        serialPort.write(payloadString);
+        // serialPort.pipe(parser);
+        // serialPort.write(payloadString);
 
       })
-    } else {
-      cacheSerialPath(options.path);
-    }
-  })
+   
 
 cli.parse(process.argv)
 
