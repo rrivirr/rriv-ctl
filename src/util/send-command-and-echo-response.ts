@@ -31,7 +31,7 @@ export const sendCommandAndEchoResponse = (command: string) => {
           clearTimeout(timeout);
         }
         timeout = setTimeout(function () {
-          process.exit(); // @TODO a problem if other actions are to take place after this function runs; does return work?
+          return;
         }, 2.0 * 1000);
       }
     }
