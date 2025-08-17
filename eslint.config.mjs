@@ -17,7 +17,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/action.ts", "**/check-version.ts"],
+    files: ["**/action.ts", "**/check-version.ts", "**/repl.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },

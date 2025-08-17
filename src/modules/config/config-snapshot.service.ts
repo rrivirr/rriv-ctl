@@ -8,7 +8,6 @@ import {
 } from "../../api/config-snapshot.ts";
 import db from "../../db/db.ts";
 import { logDeviceContext } from "../../util/log-device-context.ts";
-import { logToConsole } from "../../util/console-log.ts";
 import { writeConfigToDevice } from "../../util/write-config-to-device.ts";
 import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
 import { errorHandler } from "../../util/error-handler.ts";
@@ -62,7 +61,7 @@ export const listConfigSnapshot = async (options: {
         []
       );
     }
-    console.log(table.toString());
+    console.log("\n" + table.toString());
     logDeviceContext();
   } else {
     const configSnapshots = await getConfigSnapshots({
@@ -71,7 +70,7 @@ export const listConfigSnapshot = async (options: {
       search,
     });
     if (!configSnapshots.length) {
-      logToConsole("no save config snapshots found");
+      console.log("no saved config snapshots found");
       return;
     }
     for (const {
@@ -118,7 +117,7 @@ export const listConfigSnapshot = async (options: {
           []
         );
       }
-      console.log(table.toString());
+      console.log("\n" + table.toString());
     }
   }
 };
@@ -129,7 +128,7 @@ export const saveCurrentSnapshot = async (body: { name: string }) => {
     accessToken,
   } = db.data;
   await saveConfigSnapshot({ ...body, deviceId, contextId, accessToken });
-  logToConsole("current config snapshot saved successfully");
+  console.log("current config snapshot saved successfully");
 };
 
 export const applySavedConfigSnapshot = async (body: { name: string }) => {
@@ -143,7 +142,7 @@ export const applySavedConfigSnapshot = async (body: { name: string }) => {
   });
 
   if (!configSnapshots.length) {
-    logToConsole(`no saved config snapshot found with name: ${name} found`);
+    console.log(`no saved config snapshot found with name: ${name} found`);
     return;
   }
 
@@ -214,7 +213,7 @@ export const applyConfigSnapshot = async (body: {
     } else {
       try {
         await overwriteConfigSnapshot({ ...dataToUpload, accessToken });
-        logToConsole("config uploaded to cloud successfully");
+        console.log("config uploaded to cloud successfully");
       } catch (error) {
         db.update((data) => {
           data.toSync = [
@@ -225,7 +224,7 @@ export const applyConfigSnapshot = async (body: {
             },
           ];
         });
-        logToConsole("cloud upload failed");
+        console.log("cloud upload failed");
         errorHandler({ error, exit: false });
       }
     }

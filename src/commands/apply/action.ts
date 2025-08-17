@@ -21,6 +21,4 @@ export const applyAction = async (resource: string, options: any) => {
   } else if (resource === "published-datalogger-config") {
     await applyPublishedDataloggerConfig({ name, version });
   }
-
-  process.exit();
 };

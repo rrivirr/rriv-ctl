@@ -1,38 +1,44 @@
 import * as fs from "fs";
 import { DefaultObject } from "../../types.ts";
-import { logToConsole } from "../../util/console-log.ts";
 import { writeConfigToDevice } from "../../util/write-config-to-device.ts";
 import { uploadConfig } from "../../modules/config/config.service.ts";
 
 export const setAction = async (
   object: string,
   id: string,
-  property: string,
-  property_value: string,
+  propertyArg: string,
+  propertyValueArg: string,
   options: any
 ) => {
   const payload: DefaultObject = { object, action: "set" };
-  let singlePropertyChange = false;
+  let singlePropertyChange = true;
+
+  let property = propertyArg;
+  let propertyValue = propertyValueArg;
 
   if (object === "board" || object === "datalogger") {
     // deal with absense of id in board command
-    payload[id] = +property || property;
+    property = id;
+    propertyValue = propertyArg;
   } else {
-    if (id && property && property_value) {
+    if (id) {
       payload["id"] = id;
-      payload[property] = +property_value || property_value;
-      singlePropertyChange = true;
-    } else {
-      const file = options.file;
-      if (!file) {
-        throw new Error("invalid set command received");
-      }
-      const fileBuffer = fs.readFileSync(options["file"]);
-      const rawFileContents = fileBuffer.toString();
-      logToConsole("rawFileContents", rawFileContents);
-      const fileObject = JSON.parse(rawFileContents.toString());
-      Object.assign(payload, fileObject);
     }
+  }
+
+  if (property && propertyValue) {
+    payload[property] = +propertyValue || propertyValue;
+  } else {
+    const file = options.file;
+    if (!file) {
+      throw new Error("invalid set command received");
+    }
+    const fileBuffer = fs.readFileSync(options["file"]);
+    const rawFileContents = fileBuffer.toString();
+    console.log("rawFileContents", rawFileContents);
+    const fileObject = JSON.parse(rawFileContents.toString());
+    Object.assign(payload, fileObject);
+    singlePropertyChange = false;
   }
 
   const {
@@ -41,7 +47,7 @@ export const setAction = async (
     ...devicePayload
   } = payload;
   writeConfigToDevice(devicePayload);
-  logToConsole("config applied to device successfully");
+  console.log("config applied to device successfully");
 
   if (object !== "board") {
     await uploadConfig({ ...payload, singlePropertyChange });

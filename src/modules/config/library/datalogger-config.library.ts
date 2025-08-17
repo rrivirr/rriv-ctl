@@ -6,7 +6,6 @@ import {
   publishNewDataloggerLibraryConfigVersion,
 } from "../../../api/datalogger.ts";
 import db from "../../../db/db.ts";
-import { logToConsole } from "../../../util/console-log.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { uploadDataloggerConfig } from "../datalogger-config.service.ts";
 import { writeConfigToDevice } from "../../../util/write-config-to-device.ts";
@@ -48,7 +47,7 @@ export const publishCurrentDataloggerConfig = async (body: {
     });
   }
 
-  logToConsole("successful");
+  console.log("successful");
 };
 
 export const listLibraryDataloggerConfig = async (body: {
@@ -84,7 +83,7 @@ export const listLibraryDataloggerConfig = async (body: {
 
       if (!DataloggerLibraryConfigVersion.length) {
         logConfigLibrary(dataloggerLibraryConfigs);
-        process.exit();
+        return;
       }
 
       const [firstVersion, ...remainingVersions] =
@@ -149,9 +148,9 @@ export const listLibraryDataloggerConfig = async (body: {
         );
       }
 
-      console.log(table.toString());
+      console.log("\n" + table.toString());
     } else {
-      logToConsole(`no library config found with specified name`);
+      console.log(`no library config found with specified name`);
     }
   } else {
     logConfigLibrary(dataloggerLibraryConfigs);

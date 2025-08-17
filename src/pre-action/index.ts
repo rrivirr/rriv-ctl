@@ -5,6 +5,7 @@ import { initializeDevice } from "./initialize-device.ts";
 import { authUser } from "../util/auth-user.ts";
 import { syncCommands } from "../modules/config/sync-commands.ts";
 import { checkVersion } from "../util/check-version.ts";
+import { startRepl } from "../util/repl.ts";
 
 export const preAction = async (
   thisCommand: Command,
@@ -39,6 +40,7 @@ export const preAction = async (
         await initializeContext(useDefault);
         if (commandName !== "connect") {
           await initializeDevice();
+          await startRepl(thisCommand, actionCommand);
         }
       }
     }

@@ -1,8 +1,6 @@
 import { createSensorConfig, getSensorDrivers } from "../../api/sensor.ts";
-import { selectDriverPrompt } from "../../prompts/driver.prompt.ts";
 import { DefaultObject } from "../../types.ts";
 import db from "../../db/db.ts";
-import { logToConsole } from "../../util/console-log.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { randomUUID } from "crypto";
 import { SyncDataType } from "../../constants.ts";
@@ -25,15 +23,16 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
     if (!sensorDrivers.length) {
       throw new Error("no drivers found; contact admin");
     }
-    const sensorDriversIdName: DefaultObject = {};
 
-    const { driverName: sensorDriverName } = await selectDriverPrompt(
-      sensorDrivers.map((d) => {
-        sensorDriversIdName[d.name] = d.id;
-        return d.name;
-      })
-    );
-    sensorDriverId = sensorDriversIdName[sensorDriverName];
+    // @TODO finalize functionality
+    // const sensorDriversIdName: DefaultObject = {};
+    // const { driverName: sensorDriverName } = await selectDriverPrompt(
+    //   sensorDrivers.map((d) => {
+    //     sensorDriversIdName[d.name] = d.id;
+    //     return d.name;
+    //   })
+    // );
+    sensorDriverId = sensorDrivers[0].id;
   }
 
   const dataToUpload = {
@@ -60,7 +59,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
   } else {
     try {
       await createSensorConfig({ ...dataToUpload, accessToken });
-      logToConsole("config uploaded to cloud successfully");
+      console.log("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {
         data.toSync = [
@@ -71,7 +70,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
           },
         ];
       });
-      logToConsole("cloud upload failed");
+      console.log("cloud upload failed");
       errorHandler({ error, exit: false });
     }
   }

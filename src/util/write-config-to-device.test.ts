@@ -1,6 +1,5 @@
 import { ReadlineParser } from "serialport";
 import * as ConnectSerialModule from "./connect-serial.ts";
-import * as LogModule from "./console-log.ts";
 import * as GetSerialPathModule from "./get-serial-path-from-cache.ts";
 import { writeConfigToDevice } from "./write-config-to-device.ts";
 
@@ -9,7 +8,6 @@ jest.mock("serialport");
 describe("writeConfigToDevice", () => {
   const serialPortMock = { write: jest.fn(), pipe: jest.fn() };
   const connectSerialSpy = jest.spyOn(ConnectSerialModule, "connectSerial");
-  const logConsoleSpy = jest.spyOn(LogModule, "logToConsole");
   const getSerialPortSpy = jest.spyOn(
     GetSerialPathModule,
     "getSerialPathFromCache"
@@ -71,7 +69,6 @@ describe("writeConfigToDevice", () => {
     const processExitSpy = jest.spyOn(process, "exit");
     getSerialPortSpy.mockReturnValue(serialPortPath);
     connectSerialSpy.mockReturnValue(serialPortMock as any);
-    logConsoleSpy.mockImplementation();
 
     writeConfigToDevice(payload);
 

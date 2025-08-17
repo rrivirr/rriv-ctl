@@ -2,10 +2,8 @@ import {
   createDataloggerConfig,
   getDataloggerDrivers,
 } from "../../api/datalogger.ts";
-import { selectDriverPrompt } from "../../prompts/driver.prompt.ts";
 import { DefaultObject } from "../../types.ts";
 import db from "../../db/db.ts";
-import { logToConsole } from "../../util/console-log.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { randomUUID } from "crypto";
 import { SyncDataType } from "../../constants.ts";
@@ -28,15 +26,16 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
     if (!dataloggerDrivers.length) {
       throw new Error("no drivers found; contact admin");
     }
-    const dataloggerDriversIdName: DefaultObject = {};
 
-    const { driverName: dataloggerDriverName } = await selectDriverPrompt(
-      dataloggerDrivers.map((d) => {
-        dataloggerDriversIdName[d.name] = d.id;
-        return d.name;
-      })
-    );
-    dataloggerDriverId = dataloggerDriversIdName[dataloggerDriverName];
+    // @TODO finalize functionality
+    // const dataloggerDriversIdName: DefaultObject = {};
+    // const { driverName: dataloggerDriverName } = await selectDriverPrompt(
+    //   dataloggerDrivers.map((d) => {
+    //     dataloggerDriversIdName[d.name] = d.id;
+    //     return d.name;
+    //   })
+    // );
+    dataloggerDriverId = dataloggerDrivers[0].id;
   }
 
   const dataToUpload = {
@@ -63,7 +62,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
   } else {
     try {
       await createDataloggerConfig({ ...dataToUpload, accessToken });
-      logToConsole("config uploaded to cloud successfully");
+      console.log("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {
         data.toSync = [
@@ -74,7 +73,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
           },
         ];
       });
-      logToConsole("cloud upload failed");
+      console.log("cloud upload failed");
       errorHandler({ error, exit: false });
     }
   }

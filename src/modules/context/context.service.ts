@@ -59,15 +59,14 @@ export const listContexts = async (options: {
           ]);
         }
       }
-      console.log(table.toString());
+      console.log("\n" + table.toString());
     } else {
       console.log("no contexts found with given parameters");
     }
   }
 };
 
-export const useContext = async (options: { name: string }) => {
-  const { name } = options;
+export const useContext = async (name: string) => {
   const { accessToken } = db.data;
 
   const context = await getContextByName({
@@ -82,12 +81,16 @@ export const useContext = async (options: { name: string }) => {
       id: context.id,
       name: context.name,
     };
+    data.deviceContext = {
+      contextId: "",
+      deviceId: "",
+      assignedDeviceName: "",
+    };
   });
   console.log(`context successfully set to ${pronounce(context.name)}`);
 };
 
-export const deleteContext = async (options: { name: string }) => {
-  const { name } = options;
+export const deleteContext = async (name: string) => {
   const {
     accessToken,
     context: { id: existingContextId },
@@ -107,6 +110,11 @@ export const deleteContext = async (options: { name: string }) => {
       data.context = {
         id: "",
         name: "",
+      };
+      data.deviceContext = {
+        contextId: "",
+        deviceId: "",
+        assignedDeviceName: "",
       };
     });
     console.log("no context currently set");

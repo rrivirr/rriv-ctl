@@ -16,7 +16,7 @@ export const calibrateAction = (
   if (subcommand === "point") {
     if (!point) {
       console.log("Point subcommand requires a point value");
-      process.exit(1);
+      return;
     } else {
       payload.set("point", parseFloat(point));
       // payload.set("tag", tag);

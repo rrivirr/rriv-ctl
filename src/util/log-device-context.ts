@@ -17,5 +17,5 @@ export const logDeviceContext = () => {
   });
 
   table.push([name, uniqueName, assignedDeviceName]);
-  console.log(table.toString());
+  console.log("\n" + table.toString());
 };

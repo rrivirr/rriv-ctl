@@ -18,5 +18,5 @@ export const logConfigLibrary = (configLibrary: ConfigLibrary[]) => {
     table.push([id, name, description, createdAt, `${firstName} ${lastName}`]);
   }
 
-  console.log(table.toString());
+  console.log("\n" + table.toString());
 };

@@ -5,6 +5,6 @@ export const makeUseCommand = (cli: Command) => {
   cli
     .command("use")
     .addArgument(new Argument("<object>", "resource").choices(["context"]))
-    .option("-n, --name <name>")
+    .argument("<name>", "name of resource to use")
     .action(useAction);
 };

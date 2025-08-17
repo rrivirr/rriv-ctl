@@ -46,7 +46,7 @@ export const listConfigHistory = async () => {
       );
     }
 
-    console.log(table.toString());
+    console.log("\n" + table.toString());
   }
 
   if (sensorConfigs.length) {
@@ -94,7 +94,7 @@ export const listConfigHistory = async () => {
         );
       }
 
-      console.log(table.toString());
+      console.log("\n" + table.toString());
     }
   }
 

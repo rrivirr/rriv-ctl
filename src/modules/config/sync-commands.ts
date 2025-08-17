@@ -12,7 +12,7 @@ export const syncCommands = async (source: Source) => {
   if (!toSync?.length) {
     if (source === "command") {
       console.log("no pending actions to sync");
-      process.exit();
+      return;
     } else {
       return;
     }

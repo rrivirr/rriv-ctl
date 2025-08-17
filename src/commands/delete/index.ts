@@ -5,6 +5,6 @@ export const makeDeleteCommand = (cli: Command) => {
   cli
     .command("delete")
     .addArgument(new Argument("<object>", "resource").choices(["context"]))
-    .option("-n, --name <name>")
+    .argument("<name>", "name of resource")
     .action(deleteAction);
 };

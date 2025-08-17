@@ -7,7 +7,6 @@ import {
   publishNewSensorLibraryConfigVersion,
 } from "../../../api/sensor.ts";
 import db from "../../../db/db.ts";
-import { logToConsole } from "../../../util/console-log.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { writeConfigToDevice } from "../../../util/write-config-to-device.ts";
 import { sendCommandAndEchoResponse } from "../../../util/send-command-and-echo-response.ts";
@@ -60,7 +59,7 @@ export const publishCurrentSensorConfig = async (body: {
     });
   }
 
-  logToConsole("successful");
+  console.log("successful");
 };
 
 export const listLibrarySensorConfig = async (body: {
@@ -95,7 +94,7 @@ export const listLibrarySensorConfig = async (body: {
 
       if (!SensorLibraryConfigVersion.length) {
         logConfigLibrary(sensorLibraryConfigs);
-        process.exit();
+        return;
       }
 
       const [firstVersion, ...remainingVersions] = SensorLibraryConfigVersion;
@@ -159,9 +158,9 @@ export const listLibrarySensorConfig = async (body: {
         );
       }
 
-      console.log(table.toString());
+      console.log("\n" + table.toString());
     } else {
-      logToConsole(`no library config found with specified name`);
+      console.log(`no library config found with specified name`);
     }
   } else {
     logConfigLibrary(sensorLibraryConfigs);

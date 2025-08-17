@@ -7,7 +7,6 @@ import {
   getConfigSnapshots,
 } from "../../../api/config-snapshot.ts";
 import db from "../../../db/db.ts";
-import { logToConsole } from "../../../util/console-log.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { applyConfigSnapshot } from "../config-snapshot.service.ts";
 
@@ -61,7 +60,7 @@ export const publishConfigSnapshot = async (body: {
     });
   }
 
-  logToConsole("successful");
+  console.log("successful");
 };
 
 export const publishCurrentConfigSnapshot = async (body: {
@@ -106,7 +105,7 @@ export const publishCurrentConfigSnapshot = async (body: {
     });
   }
 
-  logToConsole("successful");
+  console.log("successful");
 };
 
 export const listLibraryConfigSnapshot = async (body: {
@@ -142,7 +141,7 @@ export const listLibraryConfigSnapshot = async (body: {
 
       if (!SystemLibraryConfigVersion.length) {
         logConfigLibrary(existingConfigSnapshotLibraries);
-        process.exit();
+        return;
       }
 
       const [firstVersion, ...remainingVersions] = SystemLibraryConfigVersion;
@@ -232,9 +231,9 @@ export const listLibraryConfigSnapshot = async (body: {
         }
       }
 
-      console.log(table.toString());
+      console.log("\n" + table.toString());
     } else {
-      logToConsole(`no library config found with specified name`);
+      console.log(`no library config found with specified name`);
     }
   } else {
     logConfigLibrary(existingConfigSnapshotLibraries);
