@@ -3,7 +3,9 @@ import {
   loginAction,
   logoutAction,
   signupAction,
+  verifyAction,
   whoamiAction,
+  resetPasswordAction,
 } from "./action.ts";
 
 export const makeAuthCommand = (cli: Command) => {
@@ -28,6 +30,18 @@ export const makeAuthCommand = (cli: Command) => {
     .option("-l, --lastName <lastName>")
     .option("-p, --phone <phone>")
     .action(signupAction);
+
+  authCommand
+    .command("verify")
+    .description("initiate account verification")
+    .argument("<email>")
+    .action(verifyAction);
+
+  authCommand
+    .command("reset-password")
+    .description("account recovery")
+    .argument("<email>")
+    .action(resetPasswordAction);
 
   authCommand
     .command("whoami")

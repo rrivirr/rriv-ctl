@@ -3,6 +3,8 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 import {
   login as loginApiCall,
   signup as signupApiCall,
+  verify as verifyApiCall,
+  resetPassword as resetPasswordApiCall,
 } from "../../api/auth.ts";
 import { SignupDto } from "../../api/types.ts";
 import db from "../../db/db.ts";
@@ -37,6 +39,17 @@ export const signup = async (body: Partial<Omit<SignupDto, "password">>) => {
 
   await signupApiCall({ ...signupBody, accessToken });
   console.log("signup successful");
+};
+
+export const verify = async (email: string) => {
+  await verifyApiCall({ email });
+
+  console.log("A verification email should be received shortly");
+};
+
+export const resetPassword = async (email: string) => {
+  await resetPasswordApiCall({ email });
+  console.log("A password reset email will be sent if the email is valid");
 };
 
 export const whoami = async () => {

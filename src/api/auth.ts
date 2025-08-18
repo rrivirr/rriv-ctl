@@ -41,3 +41,17 @@ export const signup = async (body: SignupDto & AccessToken) => {
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 };
+
+export const verify = async (body: { email: string }) => {
+  const { email } = body;
+  await axios.post(`${process.env.RRIV_API_URL}/account/verifyEmail`, {
+    email,
+  });
+};
+
+export const resetPassword = async (body: { email: string }) => {
+  const { email } = body;
+  await axios.post(`${process.env.RRIV_API_URL}/account/resetPassword`, {
+    email,
+  });
+};

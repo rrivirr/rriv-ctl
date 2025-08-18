@@ -3,6 +3,8 @@ import {
   whoami,
   logout,
   signup,
+  verify,
+  resetPassword,
 } from "../../modules/auth/auth.service.ts";
 
 export const signupAction = async (options: any) => {
@@ -11,6 +13,14 @@ export const signupAction = async (options: any) => {
 
 export const loginAction = async (email: string) => {
   await login(email);
+};
+
+export const verifyAction = async (email: string) => {
+  await verify(email);
+};
+
+export const resetPasswordAction = async (email: string) => {
+  await resetPassword(email);
 };
 
 export const whoamiAction = async () => {
