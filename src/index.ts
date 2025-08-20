@@ -28,7 +28,7 @@ cli
 
 
 
-function connectSerial(serialPath: string){
+function connectSerial(serialPath: string) {
   return new SerialPort({
     path: serialPath,
     baudRate: 57600,
@@ -67,7 +67,7 @@ function readSerialUntilQuit(serialPath: string, file: string, debug: boolean) {
     setTimeout(() => {
       serialPort.flush();
       serialPort.pipe(parser)
-      if(debug){
+      if (debug) {
         serialPort.write("{\"object\":\"datalogger\", \"action\":\"set_mode\", \"mode\":\"watch-debug\"}\n");
       } else {
         serialPort.write("{\"object\":\"datalogger\", \"action\":\"set_mode\", \"mode\":\"watch\"}\n");
@@ -94,7 +94,8 @@ function readSerialUntilQuit(serialPath: string, file: string, debug: boolean) {
 
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
-function sendCommandAndEchoResponse(command: string) {
+function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  false) {
+    console.log(">>>");
 
   const serialPath = getSerialPathFromCache().toString()
   const serialPort = connectSerial(serialPath);
@@ -109,17 +110,27 @@ function sendCommandAndEchoResponse(command: string) {
       // skip this line, it's just the echo back
       // console.log(data);
       return;
+    } else if (wait_for_ready && data.includes("datalogger-ready")) {
+      console.log('ready');
+      serialPort.write(serialCommands.quietModeCommand);
+      // TODO: note sure if drain, timeout, and flush are all necessary
+      // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
+
+        setTimeout(() => {
+          serialPort.write(command);
+        }, 1000);
+
     } else {
       // console.log(data);
       try {
         const response = JSON.stringify(JSON.parse(data), null, 2);
         console.log(response);
-      } catch(e) {
+      } catch (e) {
         console.warn("response not json");
         console.log(data);
       }
-      if(data.endsWith("}")){
-        if(timeout != null){
+      if (data.endsWith("}")) {
+        if (timeout != null) {
           clearTimeout(timeout);
         }
         timeout = setTimeout(function () {
@@ -130,18 +141,24 @@ function sendCommandAndEchoResponse(command: string) {
 
   });
 
-  serialPort.write(serialCommands.quietModeCommand);
-  // TODO: note sure if drain, timeout, and flush are all necessary
-  // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
-  serialPort.drain(() => {
+  if (wait_for_ready == false) {
+    // TODO: note sure if drain, timeout, and flush are all necessary
+    // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
+    serialPort.drain(() => {
 
+      setTimeout(() => {
+        serialPort.flush();
+        serialPort.pipe(parser)
+        serialPort.write(command);
+      }, 1000);
+
+    });
+  } else {
+    serialPort.pipe(parser)
     setTimeout(() => {
-      serialPort.flush();
-      serialPort.pipe(parser)
-      serialPort.write(command);
-    }, 1000);
-
-  });
+        console.log('held open');
+      }, 8000);
+  }
 
 
 }
@@ -166,7 +183,7 @@ cli
 
   })
 
-  cli
+cli
   .command('list')
   .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter']))
   .description('get values on an object or create an object')
@@ -191,10 +208,10 @@ cli
   .description('get values on an object')
   .action(async (object, id, parameter, endDate) => {
 
-    if(object === 'data') {
+    if (object === 'data') {
       const startDate = parameter;
 
-      if(!id) {
+      if (!id) {
         console.log('eui required')
         return
       }
@@ -204,7 +221,7 @@ cli
         fs.mkdirSync(dirPath);
       }
 
-      try{
+      try {
         const response = await axios.get(`${process.env.DATA_API_URL}/readings/${id}`, {
           params: { rangeStart: startDate, rangeEnd: endDate, format: 'csv' },
           responseType: 'stream'
@@ -216,20 +233,20 @@ cli
         const finishedDownload = stream.finished;
         const file = `${dirPath}/${filename}`;
         const writer = fs.createWriteStream(file);
-        
+
 
         response.data.pipe(writer);
         await finishedDownload(writer);
         console.log(`saved to ${file}`);
 
-      } catch(error: any) {
-        if(error.response?.data) {
+      } catch (error: any) {
+        if (error.response?.data) {
           const errorStream = error.response.data
           let errorData = ''
           errorStream.on('data', (chunk: any) => {
             errorData += chunk.toString();
           });
-  
+
           errorStream.on('end', () => {
             console.error(errorData);
             console.error(JSON.parse(errorData));
@@ -238,9 +255,9 @@ cli
           console.log(error);
           console.log(error?.toJSON().code || error?.message)
         }
-        
+
       }
-      return 
+      return
     }
 
 
@@ -265,23 +282,23 @@ cli
     //   } else {
     //     // process.exit();
     //   }
-  
+
     // });
     // serialPort.pipe(parser);
 
     let payload = new Map();
     payload.set('object', object);
     payload.set('action', 'get');
-    if(object == 'board'){
-      if(id){
+    if (object == 'board') {
+      if (id) {
         payload.set('parameter', id);
       }
     } else {
-      if(id){
+      if (id) {
         console.log(id);
         payload.set('id', id)
       }
-      if(parameter){
+      if (parameter) {
         console.log(parameter);
         payload.set('parameter', parameter);
       }
@@ -330,30 +347,32 @@ cli
     console.log(object)
     console.log(id)
 
-  let payload = new Map();
+    let payload = new Map();
     payload.set('object', object);
     payload.set('action', 'set');
 
 
-    if(object === 'board' || object === 'datalogger'){
+    if (object === 'board' || object === 'datalogger') {
 
       // deal with absense of id in board command
       // TODO: help needs to refect this somehow
       property_value = property;
       property = id;
 
+      // if we only have 'id' then it's possibly a json string
+
     } else {
 
-      if(id){
+      if (id) {
         console.log(id);
         payload.set('id', id)
       }
 
     }
 
-    if(property && property_value){
+    if (property && property_value) {
       let number = Number(property_value);
-      if(Number.isNaN(number)){
+      if (Number.isNaN(number)) {
         payload.set(property, property_value);
       } else {
         payload.set(property, number);
@@ -390,14 +409,14 @@ cli
     //     console.log(data);
     //     process.exit();
     //   }
-  
+
     // });
     // serialPort.pipe(parser);
     // serialPort.write(payloadString);
   })
 
 
-  cli
+cli
   .command('calibrate')
   .addArgument(new Argument('<object>').choices(['sensor']))
   .argument('<id>', 'The id of the sensor to calibrate.')
@@ -413,8 +432,8 @@ cli
     payload.set('id', id);
     payload.set('subcommand', subcommand);
 
-    if(subcommand == 'point'){
-      if (point === null){
+    if (subcommand == 'point') {
+      if (point === null) {
         console.log('Point subcommand requires a point value');
         process.exit(1);
       } else {
@@ -431,7 +450,7 @@ cli
 
   });
 
-  cli
+cli
   .command('serial')
   .addArgument(new Argument('action').choices(['send']))
   .argument('<message>')
@@ -439,7 +458,7 @@ cli
   .action((action, message) => {
 
     let message_to_send = message;
-    if(message_to_send.startsWith('0x')){
+    if (message_to_send.startsWith('0x')) {
       console.log('Sending hex');
       const number = Number(message_to_send);
       message_to_send = message.substring(2);
@@ -461,24 +480,24 @@ cli
   });
 
 
-function cacheSerialPath(serialPath: string){
-  if(!fs.existsSync(serialPath)){
+function cacheSerialPath(serialPath: string) {
+  if (!fs.existsSync(serialPath)) {
     console.log(`The serial path ${serialPath} does not currently exist`);
     SerialPort.list().then((list) => {
-      if(list.length == 0){
+      if (list.length == 0) {
         console.log("No serial devices found");
         return;
       }
 
       console.log(`Try using one of these:`);
       for (const pathItem of list) {
-        if(pathItem.productId){
+        if (pathItem.productId) {
           console.log(pathItem.path);
         }
       }
     });
   }
-  fs.mkdirSync(paths.getRrivCtlDir(), { recursive: true})
+  fs.mkdirSync(paths.getRrivCtlDir(), { recursive: true })
   // if(!fs.existsSync(defaultSerialFile())){
   //   fs.
   // }
@@ -486,7 +505,7 @@ function cacheSerialPath(serialPath: string){
   console.log("Connected to RRIV device");
 }
 
-function getSerialPathFromCache(){
+function getSerialPathFromCache() {
   const defaultSerial = path.join(paths.getRrivCtlDir(), 'default_serial')
   const serialPath = fs.readFileSync(defaultSerial);
   return serialPath;
@@ -495,70 +514,58 @@ function getSerialPathFromCache(){
 cli
   .command('connect')
   .option('-p, --path <serial_path>', 'serial path of the RRIV device')
-  .action( async (options) => {
+  .action(async (options) => {
+
+    let wait = false;
     if (!options.path) {
 
-        // detect the serial port
-        let found = false;
-        let first = true;
-        let serialPortPath = "";
-        while (!found){
-          let list = await SerialPort.list();
-          for (const pathItem of list) {
-            if (pathItem.productId && pathItem.pnpId?.includes('rriv')) {
-              console.log(`Found a RRIV device ${pathItem.pnpId}`)
-              console.log(`Connecting to it at ${pathItem.path}`)
-              serialPortPath = pathItem.path
-              found = true;
-              break;
-            }
+      // detect the serial port
+      let found = false;
+      let first = true;
+      let serialPortPath = "";
+      while (!found) {
+        let list = await SerialPort.list();
+        for (const pathItem of list) {
+          if (pathItem.productId && pathItem.pnpId?.includes('rriv')) {
+            console.log(`Found a RRIV device ${pathItem.pnpId}`)
+            console.log(`Connecting to it at ${pathItem.path}`)
+            serialPortPath = pathItem.path
+            found = true;
+            break;
           }
-          if (first) {
-            if (serialPortPath === "") {
-              console.log("No RRIV device found")
-              console.log("Try using -p <path> to specify the path to the RRIV serial device")
-              console.log("Waiting for a device");
-              first = false;
-            }
-          }
-          await new Promise(r => setTimeout(r, 500))
         }
-
-        cacheSerialPath(serialPortPath);
-      } else {
-        cacheSerialPath(options.path);
+        if (first) {
+          if (serialPortPath === "") {
+            console.log("No RRIV device found")
+            console.log("Try using -p <path> to specify the path to the RRIV serial device")
+            console.log("Waiting for a device");
+            first = false;
+            wait = true;
+          }
+        }
+        await new Promise(r => setTimeout(r, 500))
       }
-  
-        // set epoch
-        const now = Date.now();
-        const epoch = Math.floor(now / 1000);
-        let payload = new Map();
-        payload.set('object', 'board');
-        payload.set('action', 'set');
-        payload.set('epoch', epoch);
 
-        let command = JSON.stringify(Object.fromEntries(payload)) + '\n'
-    
-        sendCommandAndEchoResponse(serialCommands.interactiveModeCommand + command);
-        // const parser = new ReadlineParser({
-        //   delimiter: '\n',
-        //   includeDelimiter: false
-        // })
-        // parser.on('data', function (data: String) {
-        //   console.log(data);
-        //   if (data[0] == '{') {
-        //     // skip this line, it's just the echo back
-        //     return;
-        //   } else {
-        //     process.exit();
-        //   }
-        // });
+      cacheSerialPath(serialPortPath);
+    } else {
+      cacheSerialPath(options.path);
+    }
 
-        // serialPort.pipe(parser);
-        // serialPort.write(payloadString);
+    // set epoch
+    const now = Date.now();
+    const epoch = Math.floor(now / 1000);
+    let payload = new Map();
+    payload.set('object', 'board');
+    payload.set('action', 'set');
+    payload.set('epoch', epoch);
 
-      })
-   
+    let command = JSON.stringify(Object.fromEntries(payload)) + '\n'
+
+    sendCommandAndEchoResponse(serialCommands.interactiveModeCommand + command, wait);
+
+
+  })
+
 
 cli.parse(process.argv)
 
@@ -584,4 +591,3 @@ cli
 
   })
 
-  
