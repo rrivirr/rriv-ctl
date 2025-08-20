@@ -106,6 +106,7 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
   })
   parser.on('data', function (data: string) {
     console.log("...");
+    console.log(data)
     if (data.includes("action")) {
       // skip this line, it's just the echo back
       // console.log(data);
@@ -162,6 +163,72 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
 
 
 }
+
+
+
+function echoReponse(wait_for_ready: boolean =  false) {
+    console.log(">>>");
+
+  const serialPath = getSerialPathFromCache().toString()
+  const serialPort = connectSerial(serialPath);
+
+  const parser = new ReadlineParser({
+    delimiter: '\n',
+    includeDelimiter: false
+  })
+  parser.on('data', function (data: string) {
+    console.log("...");
+    // console.log(data)
+    if (data.includes("action")) {
+      // skip this line, it's just the echo back
+      // console.log(data);
+      return;
+    } else if (wait_for_ready && data.includes("datalogger-ready")) {
+      console.log('ready');
+ 
+    } else {
+      // console.log(data);
+      try {
+        const response = JSON.stringify(JSON.parse(data), null, 2);
+        console.log(response);
+      } catch (e) {
+        console.warn("response not json");
+        console.log(data);
+      }
+      if (data.endsWith("}")) {
+        if (timeout != null) {
+          clearTimeout(timeout);
+        }
+        timeout = setTimeout(function () {
+          process.exit()
+        }, 2.0 * 1000)
+      }
+    }
+
+  });
+
+  if (wait_for_ready == false) {
+    // TODO: note sure if drain, timeout, and flush are all necessary
+    // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
+    serialPort.drain(() => {
+
+      setTimeout(() => {
+        serialPort.flush();
+        serialPort.pipe(parser)
+
+      }, 1000);
+
+    });
+  } else {
+    serialPort.pipe(parser)
+    setTimeout(() => {
+        console.log('held open');
+      }, 10000);
+  }
+
+
+}
+
 
 
 cli
@@ -514,6 +581,7 @@ function getSerialPathFromCache() {
 cli
   .command('connect')
   .option('-p, --path <serial_path>', 'serial path of the RRIV device')
+  .option('-w, --watch', 'just watch for startup logs')
   .action(async (options) => {
 
     let wait = false;
@@ -561,7 +629,11 @@ cli
 
     let command = JSON.stringify(Object.fromEntries(payload)) + '\n'
 
-    sendCommandAndEchoResponse(serialCommands.interactiveModeCommand + command, wait);
+    if(!options.watch){
+      sendCommandAndEchoResponse(serialCommands.interactiveModeCommand + command, wait);
+    } else {
+      echoReponse(wait);
+    }
 
 
   })
