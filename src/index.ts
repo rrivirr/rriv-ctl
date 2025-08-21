@@ -157,7 +157,7 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
   } else {
     serialPort.pipe(parser)
     setTimeout(() => {
-        console.log('held open');
+        // console.log('held open');
       }, 8000);
   }
 
