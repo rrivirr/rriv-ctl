@@ -111,6 +111,9 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
       // skip this line, it's just the echo back
       // console.log(data);
       return;
+    } else if (data.includes("debug")) {
+      // skip for the moment
+      return;
     } else if (wait_for_ready && data.includes("datalogger-ready")) {
       console.log('ready');
       serialPort.write(serialCommands.quietModeCommand);
