@@ -6,6 +6,9 @@ export const makeListCommand = (cli: Command) => {
     .command("list")
     .addArgument(
       new Argument("<object>", "resource").choices([
+        "sensor",
+        "actuator",
+        "telemeter",
         "config-snapshot",
         "config-history",
         "context",
