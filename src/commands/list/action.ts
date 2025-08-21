@@ -22,7 +22,7 @@ export const listAction = async (object: string, options: any) => {
     payload.set("action", "list");
     const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
 
-    sendCommandAndEchoResponse(payloadString);
+    await sendCommandAndEchoResponse(payloadString);
   } else if (object === "context") {
     await listContexts(options);
   } else if (object === "device") {

@@ -1,6 +1,6 @@
 import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
 
-export const calibrateAction = (
+export const calibrateAction = async (
   object: string,
   id?: string,
   subcommand?: string,
@@ -26,5 +26,5 @@ export const calibrateAction = (
   const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
   console.log(payloadString);
 
-  sendCommandAndEchoResponse(payloadString);
+  await sendCommandAndEchoResponse(payloadString);
 };

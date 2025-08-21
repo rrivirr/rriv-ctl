@@ -1,7 +1,7 @@
 import serialCommands from "./serial-commands.ts";
 import { sendCommandAndEchoResponse } from "./send-command-and-echo-response.ts";
 
-export const setDeviceEpoch = () => {
+export const setDeviceEpoch = async () => {
   const now = Date.now();
   const epoch = Math.floor(now / 1000);
   const payload = {
@@ -11,5 +11,7 @@ export const setDeviceEpoch = () => {
   };
 
   const command = JSON.stringify(payload) + "\n";
-  sendCommandAndEchoResponse(serialCommands.interactiveModeCommand + command);
+  await sendCommandAndEchoResponse(
+    serialCommands.interactiveModeCommand + command
+  );
 };

@@ -46,7 +46,7 @@ export const setAction = async (
     dataloggerDriverId: __,
     ...devicePayload
   } = payload;
-  writeConfigToDevice(devicePayload);
+  await writeConfigToDevice(devicePayload);
   console.log("config applied to device successfully");
 
   if (object !== "board") {

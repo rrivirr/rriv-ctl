@@ -128,5 +128,5 @@ export const connectAction = async (options: any) => {
   }
 
   // set epoch
-  setDeviceEpoch();
+  await setDeviceEpoch();
 };

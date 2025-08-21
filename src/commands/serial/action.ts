@@ -1,6 +1,6 @@
 import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
 
-export const serialAction = (action: string, message: string) => {
+export const serialAction = async (action: string, message: string) => {
   let message_to_send = message;
   if (message_to_send.startsWith("0x")) {
     console.log("Sending hex");
@@ -16,5 +16,5 @@ export const serialAction = (action: string, message: string) => {
   const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
   console.log(payloadString);
 
-  sendCommandAndEchoResponse(payloadString);
+  await sendCommandAndEchoResponse(payloadString);
 };

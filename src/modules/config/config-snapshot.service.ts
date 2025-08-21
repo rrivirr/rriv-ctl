@@ -173,22 +173,22 @@ export const applyConfigSnapshot = async (body: {
   } = db.data;
 
   // remove previous config
-  sendCommandAndEchoResponse(
+  await sendCommandAndEchoResponse(
     JSON.stringify({ action: "remove", object: "datalogger" })
   );
-  sendCommandAndEchoResponse(
+  await sendCommandAndEchoResponse(
     JSON.stringify({ action: "remove", object: "actuator" })
   );
-  sendCommandAndEchoResponse(
+  await sendCommandAndEchoResponse(
     JSON.stringify({ action: "remove", object: "sensor" })
   );
 
   // apply config to the device
   if (datalogger?.config) {
-    writeConfigToDevice(datalogger.config);
+    await writeConfigToDevice(datalogger.config);
   }
   for (const { config } of sensor) {
-    writeConfigToDevice(config);
+    await writeConfigToDevice(config);
   }
 
   if (datalogger?.config || sensor.length) {

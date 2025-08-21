@@ -49,5 +49,5 @@ export const getAction = async (
   console.log("sending command: ");
   console.log(payloadString);
 
-  sendCommandAndEchoResponse(payloadString);
+  await sendCommandAndEchoResponse(payloadString);
 };

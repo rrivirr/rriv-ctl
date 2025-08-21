@@ -202,11 +202,11 @@ export const applyPublishedDataloggerConfig = async (body: {
     DataloggerConfig: { config, dataloggerDriverId },
   } = dataloggerConfigToApply;
 
-  sendCommandAndEchoResponse(
+  await sendCommandAndEchoResponse(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     JSON.stringify({ action: "remove", object: (config as any).object })
   );
-  writeConfigToDevice(config);
+  await writeConfigToDevice(config);
 
   await uploadDataloggerConfig({
     ...config,
