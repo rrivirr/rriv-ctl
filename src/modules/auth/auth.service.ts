@@ -30,6 +30,21 @@ export const logout = () => {
   db.update((data) => {
     data.accessToken = "";
     data.expirationTime = 1970;
+    data.context = {
+      id: "",
+      name: "",
+    };
+    data.deviceContext = {
+      contextId: "",
+      deviceId: "",
+      assignedDeviceName: "",
+    };
+    data.device = {
+      id: "",
+      serialNumber: "",
+      serialPortPath: "",
+      uniqueName: "",
+    };
   });
 };
 

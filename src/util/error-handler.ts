@@ -6,7 +6,7 @@ export const errorHandler = (body: { error: any; exit: boolean }) => {
   const errorResponse = error?.response?.data;
   if (errorResponse) {
     console.log(
-      `\nApiError:`,
+      `ApiError:`,
       errorResponse?.error_description || errorResponse.message || errorResponse
     );
   } else if (error instanceof CommanderError) {

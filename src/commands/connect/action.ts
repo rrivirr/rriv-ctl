@@ -7,10 +7,16 @@ import { getDeviceContext } from "../../api/device-context.ts";
 import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
 
-export const connectAction = async () => {
+export const connectAction = async (options: any) => {
+  const { uniqueName: newUniqueName, assignedDeviceName } = options;
   // detect the serial port
   const connectedDevice = await getConnectedDevice();
   const { serialNumber, serialPortPath } = connectedDevice;
+  if (!serialNumber || !serialPortPath) {
+    console.log(`ensure your device is plugged in`);
+    return;
+  }
+
   const {
     device: { id, uniqueName, serialNumber: existingSerialNumber },
     context,
@@ -41,12 +47,20 @@ export const connectAction = async () => {
   }
 
   if (toBindDevice) {
+    if (!uniqueName) {
+      console.log("device not found in current context, -u flag required");
+      return;
+    }
     const devices = await getDevice({ serialNumber, accessToken });
     device = devices[0];
     if (!device) {
       console.log("no existing device information found for", serialNumber);
       console.log("binding device to your account...");
-      device = await bindDevice({ accessToken, serialNumber });
+      device = await bindDevice({
+        accessToken,
+        serialNumber,
+        uniqueName: newUniqueName,
+      });
     }
   }
 
@@ -86,11 +100,16 @@ export const connectAction = async () => {
       });
     } catch (error: any) {
       if (error?.response?.data?.code === 404) {
+        if (!assignedDeviceName) {
+          console.log("device not found in current context, -a flag required");
+          return;
+        }
         console.log("device not found in current context, adding device...");
-        const assignedDeviceName = await createDeviceContext({
+        await createDeviceContext({
           contextId: currentContextId,
           deviceId: device.id,
           accessToken,
+          assignedDeviceName,
         });
 
         db.update((data) => {

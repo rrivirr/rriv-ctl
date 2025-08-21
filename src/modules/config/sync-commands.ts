@@ -7,6 +7,7 @@ import { Source } from "../../types.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 
 export const syncCommands = async (source: Source) => {
+  // @TODO functionality not fully mapped out
   const { accessToken, toSync } = db.data;
 
   if (!toSync?.length) {
@@ -35,6 +36,6 @@ export const syncCommands = async (source: Source) => {
     console.log("cloud sync successful");
   } catch (error) {
     console.log("cloud sync failed");
-    errorHandler({ error, exit: source === "command" });
+    errorHandler({ error, exit: false });
   }
 };

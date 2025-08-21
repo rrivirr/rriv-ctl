@@ -29,6 +29,8 @@ export const checkVersion = async (source: Source = "preAction") => {
             console.log(npmResult.stdout);
           }
           await exec(`npm run build`);
+          console.log("updates applied. rerun previous command");
+          process.exit();
         }
       } else {
         if (source === "command") {

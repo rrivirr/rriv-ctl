@@ -1,15 +1,13 @@
 import * as DeviceApiCalls from "../api/device.ts";
-import { bindDevicePrompt } from "../prompts/device.prompt.ts";
 import { Device } from "../api/types.ts";
 
 export const bindDevice = async (body: {
   serialNumber: string;
   accessToken: string;
+  uniqueName: string;
 }): Promise<Device> => {
-  const { uniqueName } = await bindDevicePrompt();
-
   try {
-    const device = await DeviceApiCalls.bindDevice({ ...body, uniqueName });
+    const device = await DeviceApiCalls.bindDevice({ ...body });
     return device;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {

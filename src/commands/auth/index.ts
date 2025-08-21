@@ -9,7 +9,10 @@ import {
 } from "./action.ts";
 
 export const makeAuthCommand = (cli: Command) => {
-  const authCommand = cli.command("auth").description("auth related commands");
+  const authCommand = cli
+    .command("auth")
+    .description("auth related commands")
+    .helpOption(true);
 
   authCommand
     .command("login")

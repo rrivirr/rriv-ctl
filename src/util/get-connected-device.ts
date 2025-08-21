@@ -12,10 +12,6 @@ export const getConnectedDevice = async () => {
       break;
     }
   }
-  if (!serialPortPath) {
-    console.log("No RRIV device found");
-    process.exit(1);
-  }
 
   // @TODO get the details of the device; serialNumber; hardware version; software version; etc
   return {
