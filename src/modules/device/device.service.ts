@@ -35,16 +35,30 @@ export const listDevices = async () => {
 
   const devices = await getDevicesApiCall({ accessToken });
   if (devices.length) {
-    const table = new Table({ head: ["id", "uniqueName", "serialNumber"] });
-    for (const { id, uniqueName, serialNumber } of devices) {
+    const table = new Table({
+      head: [
+        "id",
+        "uniqueName",
+        "serialNumber",
+        "context",
+        "assignedDeviceName",
+      ],
+    });
+    for (const { id, uniqueName, serialNumber, DeviceContext } of devices) {
+      const {
+        assignedDeviceName,
+        Context: { name },
+      } = DeviceContext[0];
       if (id === deviceId) {
         table.push([
           pronounce(id),
           pronounce(uniqueName),
           pronounce(serialNumber),
+          pronounce(name),
+          pronounce(assignedDeviceName),
         ]);
       } else {
-        table.push([id, uniqueName, serialNumber]);
+        table.push([id, uniqueName, serialNumber, name, assignedDeviceName]);
       }
     }
     console.log("\n" + table.toString());

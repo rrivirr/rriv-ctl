@@ -34,6 +34,10 @@ export interface Device {
   serialNumber: string;
   uniqueName: string;
   createdAt: string;
+  DeviceContext: {
+    assignedDeviceName: string;
+    Context: { name: string };
+  }[];
 }
 
 export interface ConfigLibrary {
