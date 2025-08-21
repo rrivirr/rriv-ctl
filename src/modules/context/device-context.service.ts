@@ -1,5 +1,8 @@
+import Table from "cli-table3";
 import * as DeviceContextApiCalls from "../../api/device-context.ts";
+import { getDevices } from "../../api/device.ts";
 import db from "../../db/db.ts";
+import { pronounce } from "../../util/console-log.ts";
 
 export const endDeviceContext = async () => {
   const {
@@ -31,4 +34,31 @@ export const createDeviceContext = async (body: {
   await DeviceContextApiCalls.createDeviceContext({
     ...body,
   });
+};
+
+export const listContextDevices = async () => {
+  const {
+    context: { id },
+    deviceContext: { deviceId },
+    accessToken,
+  } = db.data;
+
+  const contextDevices = await getDevices({ accessToken, contextId: id });
+  if (contextDevices.length) {
+    const table = new Table({ head: ["id", "uniqueName", "serialNumber"] });
+    for (const { id, uniqueName, serialNumber } of contextDevices) {
+      if (id === deviceId) {
+        table.push([
+          pronounce(id),
+          pronounce(uniqueName),
+          pronounce(serialNumber),
+        ]);
+      } else {
+        table.push([id, uniqueName, serialNumber]);
+      }
+    }
+    console.log("\n" + table.toString());
+  } else {
+    console.log("no devices found in current context");
+  }
 };

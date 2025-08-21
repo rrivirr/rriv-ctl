@@ -8,7 +8,7 @@ import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
 
 export const connectAction = async (options: any) => {
-  const { uniqueName: newUniqueName, assignedDeviceName } = options;
+  const { uniqueName, assignedDeviceName } = options;
   // detect the serial port
   const connectedDevice = await getConnectedDevice();
   const { serialNumber, serialPortPath } = connectedDevice;
@@ -18,7 +18,11 @@ export const connectAction = async (options: any) => {
   }
 
   const {
-    device: { id, uniqueName, serialNumber: existingSerialNumber },
+    device: {
+      id,
+      uniqueName: existingUniqueName,
+      serialNumber: existingSerialNumber,
+    },
     context,
     deviceContext,
     accessToken,
@@ -26,7 +30,7 @@ export const connectAction = async (options: any) => {
 
   let toBindDevice = false;
   let device: Device | undefined;
-  if (!id || !uniqueName || !existingSerialNumber) {
+  if (!id || !existingUniqueName || !existingSerialNumber) {
     toBindDevice = true;
   }
 
@@ -36,8 +40,8 @@ export const connectAction = async (options: any) => {
 
     if (
       !existingDevice ||
-      existingDevice.uniqueName !== uniqueName ||
-      existingDevice.serialNumber !== serialNumber ||
+      existingDevice.uniqueName !== existingUniqueName ||
+      existingDevice.serialNumber !== existingSerialNumber ||
       connectedDevice.serialNumber !== existingDevice.serialNumber
     ) {
       toBindDevice = true;
@@ -47,10 +51,6 @@ export const connectAction = async (options: any) => {
   }
 
   if (toBindDevice) {
-    if (!uniqueName) {
-      console.log("device not found in current context, -u flag required");
-      return;
-    }
     const devices = await getDevice({ serialNumber, accessToken });
     device = devices[0];
     if (!device) {
@@ -59,7 +59,7 @@ export const connectAction = async (options: any) => {
       device = await bindDevice({
         accessToken,
         serialNumber,
-        uniqueName: newUniqueName,
+        uniqueName,
       });
     }
   }
@@ -101,7 +101,9 @@ export const connectAction = async (options: any) => {
     } catch (error: any) {
       if (error?.response?.data?.code === 404) {
         if (!assignedDeviceName) {
-          console.log("device not found in current context, -a flag required");
+          console.log(
+            "device not found in current context, assigned device name flag required"
+          );
           return;
         }
         console.log("device not found in current context, adding device...");

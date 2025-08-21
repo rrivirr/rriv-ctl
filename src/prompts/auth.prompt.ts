@@ -1,12 +1,18 @@
 import { input, password } from "@inquirer/prompts";
 import { SignupDto } from "../api/types.ts";
 
-export const passwordPrompt = async (confirmPassword = false) => {
+export const passwordPrompt = async (
+  confirmPassword = false,
+  validate = true
+) => {
   let recommendationLogged = false;
   const passwordValue = await password({
     message: confirmPassword ? "confirm password" : "password",
     mask: true,
     validate: (v) => {
+      if (!validate) {
+        return true;
+      }
       if (v.length < 10) {
         if (!recommendationLogged) {
           console.log(
@@ -53,7 +59,7 @@ const fieldPrompt = async (field: string) => {
 
 export const authPrompt = async () => {
   const email = await fieldPrompt("email");
-  const passwordValue = await passwordPrompt();
+  const passwordValue = await passwordPrompt(false, false);
 
   return { email, password: passwordValue };
 };

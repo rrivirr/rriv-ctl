@@ -36,9 +36,10 @@ export async function processReplCommand(
         (commandName === "use" && args[1] === "context") ||
         (commandName === "create" && args[1] === "context") ||
         (commandName === "list" && args[1] === "context") ||
+        (commandName === "list" && args[1] === "device") ||
         (commandName === "end" && args[1] === "context") ||
-        (commandName === "end" && args[1] === "device-context") ||
         (commandName === "delete" && args[1] === "context") ||
+        (commandName === "remove" && args[1] === "device") ||
         (commandName === "get" && args[1] === "data") ||
         (commandName === "auth" &&
           (args[1] === "logout" || args[1] === "whoami")) ||
@@ -54,7 +55,12 @@ export async function processReplCommand(
         }
 
         // check is device is connected and initialized
-        if (commandName !== "connect") {
+        if (
+          !(
+            commandName === "connect" ||
+            (commandName === "list" && args[1] === "context-devices")
+          )
+        ) {
           const { device, deviceContext } = db.data;
           const connectedDevice = await getConnectedDevice();
 
@@ -77,8 +83,22 @@ export async function processReplCommand(
             deviceContext.deviceId !== device.id ||
             deviceContext.contextId !== context.id
           ) {
+            db.update((data) => {
+              data.deviceContext = {
+                contextId: "",
+                deviceId: "",
+                assignedDeviceName: "",
+              };
+              data.device = {
+                id: "",
+                serialNumber: "",
+                uniqueName: "",
+                serialPortPath: "",
+              };
+            });
+            replServer.setPrompt(getPrompt());
             console.log(
-              `no device info found, run 'connect' to initialize your device`
+              `device needs to be initialized; run 'connect' to initialize device`
             );
             return;
           }

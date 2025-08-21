@@ -11,12 +11,13 @@ import db from "../../db/db.ts";
 import { passwordPrompt, signupPrompt } from "../../prompts/auth.prompt.ts";
 
 export const login = async (email: string) => {
-  const password = await passwordPrompt();
+  const password = await passwordPrompt(false, false);
   const { accessToken, expiresIn } = await loginApiCall({
     username: email,
     password,
   });
   const now = new Date();
+  logout();
 
   db.update((data) => {
     data.accessToken = accessToken;

@@ -5,10 +5,17 @@ export const errorHandler = (body: { error: any; exit: boolean }) => {
   const { error, exit } = body;
   const errorResponse = error?.response?.data;
   if (errorResponse) {
-    console.log(
-      `ApiError:`,
-      errorResponse?.error_description || errorResponse.message || errorResponse
-    );
+    const errorMessage =
+      `ApiError: ` +
+      (errorResponse?.error_description ||
+        errorResponse.message ||
+        errorResponse);
+
+    if (errorMessage === "ApiError: uniquename of device is required") {
+      console.log("unique name flag is required");
+    } else {
+      console.log(errorMessage);
+    }
   } else if (error instanceof CommanderError) {
     // do nothing
   } else if (error.message === "(outputHelp)") {

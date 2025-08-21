@@ -5,6 +5,8 @@ import { listLibraryConfigSnapshot } from "../../modules/config/library/config-s
 import { listLibrarySensorConfig } from "../../modules/config/library/sensor-config.library.ts";
 import { listLibraryDataloggerConfig } from "../../modules/config/library/datalogger-config.library.ts";
 import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
+import { listDevices } from "../../modules/device/device.service.ts";
+import { listContextDevices } from "../../modules/context/device-context.service.ts";
 
 export const listAction = async (object: string, options: any) => {
   let isPublic = undefined;
@@ -23,6 +25,10 @@ export const listAction = async (object: string, options: any) => {
     sendCommandAndEchoResponse(payloadString);
   } else if (object === "context") {
     await listContexts(options);
+  } else if (object === "device") {
+    await listDevices();
+  } else if (object === "context-devices") {
+    await listContextDevices();
   } else if (object === "config-history") {
     if (Object.keys(options).length) {
       throw new Error("option not supported by config history");

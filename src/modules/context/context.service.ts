@@ -76,6 +76,9 @@ export const useContext = async (name: string) => {
   if (!context) {
     throw new Error("context specified does not exist");
   }
+  if (context.endedAt) {
+    throw new Error("context specified has already ended");
+  }
   db.update((data) => {
     data.context = {
       id: context.id,
@@ -117,7 +120,6 @@ export const deleteContext = async (name: string) => {
         assignedDeviceName: "",
       };
     });
-    console.log("no context currently set");
   }
 };
 
