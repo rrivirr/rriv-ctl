@@ -106,7 +106,7 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
   })
   parser.on('data', function (data: string) {
     console.log("...");
-    console.log(data)
+    // console.log(data)
     if (data.includes("action")) {
       // skip this line, it's just the echo back
       // console.log(data);
@@ -127,7 +127,7 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
         const response = JSON.stringify(JSON.parse(data), null, 2);
         console.log(response);
       } catch (e) {
-        console.warn("response not json");
+        // console.warn("response not json");
         console.log(data);
       }
       if (data.endsWith("}")) {
@@ -411,8 +411,8 @@ cli
   .option('-f, --file <file>')
   .description('set values on an object or create an object')
   .action((object, id, property, property_value, options) => {
-    console.log(object)
-    console.log(id)
+    // console.log(object)
+    // console.log(id)
 
     let payload = new Map();
     payload.set('object', object);
@@ -431,7 +431,7 @@ cli
     } else {
 
       if (id) {
-        console.log(id);
+        // console.log(id);
         payload.set('id', id)
       }
 
@@ -446,9 +446,9 @@ cli
       }
     } else {
       const properties = fs.readFileSync(options['file'])
-      console.log(properties.toString())
+      // console.log(properties.toString())
       const propertiesObject = JSON.parse(properties.toString());
-      console.log(propertiesObject);
+      // console.log(propertiesObject);
       Object.keys(propertiesObject).forEach((key) => {
         payload.set(key, propertiesObject[key as keyof typeof properties])
       })
@@ -457,7 +457,7 @@ cli
 
 
     let payloadString = JSON.stringify(Object.fromEntries(payload)) + '\n'
-    console.log(payloadString);
+    // console.log(payloadString);
 
 
 
