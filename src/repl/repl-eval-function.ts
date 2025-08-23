@@ -23,6 +23,8 @@ export function getReplEvalFunction(command: Command) {
     const commandName = args[0];
     if (trimmedCode === "exit") {
       this.close();
+    } else if (trimmedCode === "") {
+      this.displayPrompt();
     } else if (trimmedCode === "show-conditions") {
       console.log(getLicense());
       this.displayPrompt();
