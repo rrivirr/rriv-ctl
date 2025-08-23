@@ -45,10 +45,9 @@ export const listDevices = async () => {
       ],
     });
     for (const { id, uniqueName, serialNumber, DeviceContext } of devices) {
-      const {
-        assignedDeviceName,
-        Context: { name },
-      } = DeviceContext[0];
+      const assignedDeviceName = DeviceContext[0]?.assignedDeviceName;
+      const name = DeviceContext[0]?.Context?.name;
+
       if (id === deviceId) {
         table.push([
           pronounce(id),
