@@ -14,7 +14,6 @@ export const sendCommandAndEchoResponse = (command: string) => {
       includeDelimiter: false,
     });
     parser.on("data", function (data: string) {
-      console.log("..");
       if (data.includes("action")) {
         // skip this line, it's just the echo back
         return;
@@ -32,6 +31,7 @@ export const sendCommandAndEchoResponse = (command: string) => {
             clearTimeout(timeout);
           }
           timeout = setTimeout(function () {
+            serialPort.close();
             resolve();
           }, 2.0 * 1000);
         }
