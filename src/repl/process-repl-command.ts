@@ -115,6 +115,7 @@ export async function processReplCommand(
       }
     }
 
+    replServer.setPrompt("");
     command
       .parseAsync(args, { from: "user" })
       .then(() => {
@@ -130,6 +131,7 @@ export async function processReplCommand(
       })
       .catch((error) => {
         errorHandler({ error, exit: false });
+        replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
       });
   }

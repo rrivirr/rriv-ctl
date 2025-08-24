@@ -2,7 +2,7 @@ import moment from "moment";
 import { getSerialPathFromCache } from "../../util/get-serial-path-from-cache.ts";
 import { readSerialUntilQuit } from "../../util/read-serial-until-quit.ts";
 
-export const watchAction = (options: any) => {
+export const watchAction = async (options: any) => {
   const project = options.project ?? "rriv";
   const file =
     options.file ??
@@ -11,5 +11,5 @@ export const watchAction = (options: any) => {
 
   const serialPortPath = options.path ?? getSerialPathFromCache();
 
-  readSerialUntilQuit(serialPortPath, file, debug);
+  await readSerialUntilQuit(serialPortPath, file, debug);
 };
