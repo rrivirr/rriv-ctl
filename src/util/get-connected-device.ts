@@ -1,14 +1,17 @@
 import { SerialPort } from "serialport";
 
-export const getConnectedDevice = async () => {
+export const getConnectedDevice = async (defaultSerialPortPath?: string) => {
   const list = await SerialPort.list();
   // detect the serial port
   let serialPortPath = "";
   for (const pathItem of list) {
     if (pathItem.productId && pathItem.pnpId?.includes("rriv")) {
+      serialPortPath = pathItem.path;
+      if (defaultSerialPortPath) {
+        break;
+      }
       console.log(`Found a RRIV device ${pathItem.pnpId}`);
       console.log(`Connecting to it at ${pathItem.path}`);
-      serialPortPath = pathItem.path;
       break;
     }
   }

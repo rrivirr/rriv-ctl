@@ -62,7 +62,9 @@ export async function processReplCommand(
           )
         ) {
           const { device, deviceContext } = db.data;
-          const connectedDevice = await getConnectedDevice();
+          const connectedDevice = await getConnectedDevice(
+            device.serialPortPath
+          );
 
           if (
             !connectedDevice.serialNumber ||
