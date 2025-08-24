@@ -24,6 +24,7 @@ export interface Data {
   expirationTime: number;
   toSync: toSyncConfig[];
   lastVersionCheckAt: Date;
+  replSigIntFunctions: Function[];
 }
 
 const defaultData: Data = {
@@ -38,6 +39,7 @@ const defaultData: Data = {
   expirationTime: 0,
   toSync: [],
   lastVersionCheckAt: new Date("1/1/1970"),
+  replSigIntFunctions: [],
 };
 
 const dirPath = getRrivCtlDir();

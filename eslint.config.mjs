@@ -29,5 +29,9 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-function-type": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
     },
+  },
+  {
+    files: ["src/db/db.ts"],
+    rules: { "@typescript-eslint/no-unsafe-function-type": "off" },
   }
 );

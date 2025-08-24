@@ -5,6 +5,7 @@ import path from "path";
 import serialCommands from "./serial-commands.ts";
 import paths from "./paths.ts";
 import { connectSerial } from "./connect-serial.ts";
+import db from "../db/db.ts";
 
 export const readSerialUntilQuit = (
   serialPortPath: string,
@@ -58,10 +59,9 @@ export const readSerialUntilQuit = (
       );
     });
 
-    const resolveCallback = () => {
-      process.removeListener("SIGINT", resolveCallback);
-      resolve();
-    };
-    process.on("SIGINT", resolveCallback);
+    const replSigIntFunctions = db.data.replSigIntFunctions || [];
+    db.update((data) => {
+      data.replSigIntFunctions = [...replSigIntFunctions, resolve];
+    });
   });
 };
