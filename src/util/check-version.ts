@@ -8,8 +8,9 @@ export const checkVersion = async (source: Source = "preAction") => {
   const { lastVersionCheckAt } = db.data;
 
   const diffTime = Date.now() - +new Date(lastVersionCheckAt);
+  const fromCommand = source === "command";
 
-  if (!diffTime || diffTime > 21600000 || source === "command") {
+  if (!diffTime || diffTime > 21600000 || fromCommand) {
     const exec = util.promisify(ChildProcess.exec);
     try {
       // @ TODO change workingBranch to main once fully merged
@@ -20,8 +21,12 @@ export const checkVersion = async (source: Source = "preAction") => {
       );
       if (result.stdout) {
         console.log("New rrivctl update found...");
-        const answer = await confirm({ message: `Update?` });
-        if (answer) {
+        let toUpdate = fromCommand;
+        if (!toUpdate) {
+          const answer = await confirm({ message: `Update?` });
+          toUpdate = answer;
+        }
+        if (toUpdate) {
           const mergeResult = await exec(`git merge origin/${workingBranch}`);
           console.log(mergeResult.stdout);
           if (mergeResult.stdout.includes("package.json")) {
@@ -39,7 +44,7 @@ export const checkVersion = async (source: Source = "preAction") => {
       }
     } catch (error: any) {
       if (!error?.stderr.includes("Could not resolve host")) {
-        console.log("auto update check failed, contact support");
+        console.log("auto update failed, contact support");
       }
     }
 

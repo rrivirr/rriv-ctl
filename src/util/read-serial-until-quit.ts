@@ -61,7 +61,13 @@ export const readSerialUntilQuit = (
 
     const replSigIntFunctions = db.data.replSigIntFunctions || [];
     db.update((data) => {
-      data.replSigIntFunctions = [...replSigIntFunctions, resolve];
+      data.replSigIntFunctions = [
+        ...replSigIntFunctions,
+        () => {
+          serialPort.close();
+          resolve();
+        },
+      ];
     });
   });
 };
