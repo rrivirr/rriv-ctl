@@ -19,9 +19,14 @@ export const startRepl = (command: Command) => {
     replServer.removeAllListeners("SIGINT");
     replServer.on("SIGINT", () => {
       const { replSigIntFunctions } = db.data;
+      const sigIntFunctions = [...replSigIntFunctions];
       if (replSigIntFunctions?.length) {
-        for (const func of replSigIntFunctions) {
+        for (const [index, func] of replSigIntFunctions.entries()) {
           func();
+          sigIntFunctions.splice(index, 1);
+          db.update((data) => {
+            data.replSigIntFunctions = sigIntFunctions;
+          });
         }
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
