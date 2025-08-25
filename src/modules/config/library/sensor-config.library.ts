@@ -9,8 +9,8 @@ import {
 import db from "../../../db/db.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { writeConfigToDevice } from "../../../util/write-config-to-device.ts";
-import { sendCommandAndEchoResponse } from "../../../util/send-command-and-echo-response.ts";
 import { uploadSensorConfig } from "../sensor-config.service.ts";
+import { sendCommands } from "../../../util/send-commands.ts";
 
 export const publishCurrentSensorConfig = async (body: {
   libraryConfigName: string;
@@ -212,9 +212,9 @@ export const applyPublishedSensorConfig = async (body: {
     SensorConfig: { config, sensorDriverId, name: sensorId },
   } = sensorConfigToApply;
 
-  await sendCommandAndEchoResponse(
+  await sendCommands(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    JSON.stringify({ action: "remove", object: (config as any).object })
+    [JSON.stringify({ action: "remove", object: (config as any).object })]
   );
   await writeConfigToDevice({ ...config, id: sensorId.toUpperCase() });
 

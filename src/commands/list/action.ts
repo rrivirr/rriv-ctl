@@ -4,9 +4,9 @@ import { listConfigSnapshot } from "..//../modules/config/config-snapshot.servic
 import { listLibraryConfigSnapshot } from "../../modules/config/library/config-snapshot.library.ts";
 import { listLibrarySensorConfig } from "../../modules/config/library/sensor-config.library.ts";
 import { listLibraryDataloggerConfig } from "../../modules/config/library/datalogger-config.library.ts";
-import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
 import { listDevices } from "../../modules/device/device.service.ts";
 import { listContextDevices } from "../../modules/context/device-context.service.ts";
+import { sendCommands } from "../../util/send-commands.ts";
 
 export const listAction = async (object: string, options: any) => {
   let isPublic = undefined;
@@ -22,7 +22,7 @@ export const listAction = async (object: string, options: any) => {
     payload.set("action", "list");
     const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
 
-    await sendCommandAndEchoResponse(payloadString);
+    await sendCommands([payloadString]);
   } else if (object === "context") {
     await listContexts(options);
   } else if (object === "device") {

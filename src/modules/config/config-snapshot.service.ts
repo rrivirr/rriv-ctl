@@ -9,7 +9,6 @@ import {
 import db from "../../db/db.ts";
 import { logDeviceContext } from "../../util/log-device-context.ts";
 import { writeConfigToDevice } from "../../util/write-config-to-device.ts";
-import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
 
@@ -173,16 +172,16 @@ export const applyConfigSnapshot = async (body: {
     toSync,
   } = db.data;
 
-  // remove previous config
-  await sendCommandAndEchoResponse(
-    JSON.stringify({ action: "remove", object: "datalogger" })
-  );
-  await sendCommandAndEchoResponse(
-    JSON.stringify({ action: "remove", object: "actuator" })
-  );
-  await sendCommandAndEchoResponse(
-    JSON.stringify({ action: "remove", object: "sensor" })
-  );
+  // @TODO how to remove all sensors
+  // await sendCommandAndEchoResponse(
+  //   JSON.stringify({ action: "remove", object: "datalogger" })
+  // );
+  // await sendCommandAndEchoResponse(
+  //   JSON.stringify({ action: "remove", object: "actuator" })
+  // );
+  // await sendCommandAndEchoResponse(
+  //   JSON.stringify({ action: "remove", object: "sensor" })
+  // );
 
   // apply config to the device
   if (datalogger?.config) {

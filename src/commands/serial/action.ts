@@ -1,4 +1,4 @@
-import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
+import { sendCommands } from "../../util/send-commands.ts";
 
 export const serialAction = async (action: string, message: string) => {
   let message_to_send = message;
@@ -16,5 +16,5 @@ export const serialAction = async (action: string, message: string) => {
   const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
   console.log(payloadString);
 
-  await sendCommandAndEchoResponse(payloadString);
+  await sendCommands([payloadString]);
 };

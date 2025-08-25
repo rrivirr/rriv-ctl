@@ -1,6 +1,6 @@
 import fs from "fs";
-import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
 import { getReadings } from "../../api/readings.ts";
+import { sendCommands } from "../../util/send-commands.ts";
 
 export const getAction = async (
   object: string,
@@ -49,5 +49,5 @@ export const getAction = async (
   console.log("sending command: ");
   console.log(payloadString);
 
-  await sendCommandAndEchoResponse(payloadString);
+  await sendCommands([payloadString]);
 };

@@ -1,4 +1,4 @@
-import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
+import { sendCommands } from "../../util/send-commands.ts";
 
 export const calibrateAction = async (
   object: string,
@@ -26,5 +26,5 @@ export const calibrateAction = async (
   const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
   console.log(payloadString);
 
-  await sendCommandAndEchoResponse(payloadString);
+  await sendCommands([payloadString]);
 };

@@ -9,7 +9,7 @@ import db from "../../../db/db.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { uploadDataloggerConfig } from "../datalogger-config.service.ts";
 import { writeConfigToDevice } from "../../../util/write-config-to-device.ts";
-import { sendCommandAndEchoResponse } from "../../../util/send-command-and-echo-response.ts";
+import { sendCommands } from "../../../util/send-commands.ts";
 
 export const publishCurrentDataloggerConfig = async (body: {
   libraryConfigName: string;
@@ -202,9 +202,9 @@ export const applyPublishedDataloggerConfig = async (body: {
     DataloggerConfig: { config, dataloggerDriverId },
   } = dataloggerConfigToApply;
 
-  await sendCommandAndEchoResponse(
+  await sendCommands(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    JSON.stringify({ action: "remove", object: (config as any).object })
+    [JSON.stringify({ action: "remove", object: (config as any).object })]
   );
   await writeConfigToDevice(config);
 

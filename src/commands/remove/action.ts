@@ -1,5 +1,5 @@
 import { unbindDevice } from "../../modules/device/device.service.ts";
-import { sendCommandAndEchoResponse } from "../../util/send-command-and-echo-response.ts";
+import { sendCommands } from "../../util/send-commands.ts";
 
 export const removeAction = async (object: string, id: string) => {
   if (object === "device") {
@@ -13,5 +13,5 @@ export const removeAction = async (object: string, id: string) => {
   const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
   console.log(payloadString);
 
-  await sendCommandAndEchoResponse(payloadString);
+  await sendCommands([payloadString]);
 };
