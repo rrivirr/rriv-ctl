@@ -209,14 +209,14 @@ export const applyPublishedSensorConfig = async (body: {
     }
   }
   const {
-    SensorConfig: { config, sensorDriverId },
+    SensorConfig: { config, sensorDriverId, name: sensorId },
   } = sensorConfigToApply;
 
   await sendCommandAndEchoResponse(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     JSON.stringify({ action: "remove", object: (config as any).object })
   );
-  await writeConfigToDevice(config);
+  await writeConfigToDevice({ ...config, id: sensorId.toUpperCase() });
 
   await uploadSensorConfig({
     ...config,

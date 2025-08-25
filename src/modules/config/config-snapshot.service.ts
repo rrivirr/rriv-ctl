@@ -157,13 +157,14 @@ export const applySavedConfigSnapshot = async (body: { name: string }) => {
     sensor: SensorConfig.map((s) => ({
       config: s.config,
       configId: s.id,
+      name: s.name,
     })),
   });
 };
 
 export const applyConfigSnapshot = async (body: {
   datalogger: { config: object; configId: string };
-  sensor: { config: object; configId: string }[];
+  sensor: { config: object; configId: string; name: string }[];
 }) => {
   const { datalogger, sensor } = body;
   const {
@@ -187,8 +188,8 @@ export const applyConfigSnapshot = async (body: {
   if (datalogger?.config) {
     await writeConfigToDevice(datalogger.config);
   }
-  for (const { config } of sensor) {
-    await writeConfigToDevice(config);
+  for (const { config, name } of sensor) {
+    await writeConfigToDevice({ ...config, id: name.toUpperCase() });
   }
 
   if (datalogger?.config || sensor.length) {

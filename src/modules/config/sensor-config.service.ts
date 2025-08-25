@@ -14,6 +14,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
   const {
     sensorDriverId: receivedSensorDriverId,
     singlePropertyChange,
+    id,
     ...config
   } = payload;
   let sensorDriverId = receivedSensorDriverId;
@@ -36,7 +37,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
   }
 
   const dataToUpload = {
-    name: payload.object,
+    name: id,
     sensorDriverId,
     deviceId,
     contextId,

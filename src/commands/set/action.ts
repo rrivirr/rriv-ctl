@@ -22,7 +22,7 @@ export const setAction = async (
     propertyValue = propertyArg;
   } else {
     if (id) {
-      payload["id"] = id;
+      payload["id"] = id.toUpperCase();
     }
   }
 
@@ -39,6 +39,10 @@ export const setAction = async (
     const fileObject = JSON.parse(rawFileContents.toString());
     Object.assign(payload, fileObject);
     singlePropertyChange = false;
+  }
+
+  if (object !== "board" && object !== "datalogger" && !payload.id) {
+    throw new Error("id is required");
   }
 
   const {

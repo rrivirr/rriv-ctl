@@ -294,6 +294,7 @@ export const applyPublishedConfigSnapshot = async (body: {
     sensor: SensorConfig.map((s) => ({
       config: s.config,
       configId: s.id,
+      name: s.name,
     })),
   });
 };
