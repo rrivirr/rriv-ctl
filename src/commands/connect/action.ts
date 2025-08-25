@@ -6,6 +6,7 @@ import { bindDevice } from "../../util/bind-device.ts";
 import { getDeviceContext } from "../../api/device-context.ts";
 import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
+import { uploadDataloggerConfig } from "../../modules/config/datalogger-config.service.ts";
 
 export const connectAction = async (options: any) => {
   const { uniqueName, assignedDeviceName } = options;
@@ -29,6 +30,7 @@ export const connectAction = async (options: any) => {
   } = db.data;
 
   let toBindDevice = false;
+  let pullConfig = false;
   let device: Device | undefined;
   if (!id || !existingUniqueName || !existingSerialNumber) {
     toBindDevice = true;
@@ -61,6 +63,7 @@ export const connectAction = async (options: any) => {
         serialNumber,
         uniqueName,
       });
+      pullConfig = true;
     }
   }
 
@@ -128,5 +131,8 @@ export const connectAction = async (options: any) => {
   }
 
   // set epoch
-  await setDeviceEpoch();
+  const dataloggerConfig = await setDeviceEpoch();
+  if (pullConfig) {
+    await uploadDataloggerConfig({ ...dataloggerConfig, object: "datalogger" });
+  }
 };

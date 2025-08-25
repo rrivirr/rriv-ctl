@@ -14,11 +14,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
     toSync,
     deviceContext: { deviceId, contextId },
   } = db.data;
-  const {
-    dataloggerDriverId: receivedDataloggerDriverId,
-    singlePropertyChange,
-    ...config
-  } = payload;
+  const { dataloggerDriverId: receivedDataloggerDriverId, ...config } = payload;
   let dataloggerDriverId = receivedDataloggerDriverId;
 
   if (!dataloggerDriverId) {
@@ -43,7 +39,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
     dataloggerDriverId,
     deviceId,
     contextId,
-    singlePropertyChange,
+    singlePropertyChange: false,
     createdAt: new Date().toISOString(),
     config,
   };

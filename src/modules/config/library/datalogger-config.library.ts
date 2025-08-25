@@ -210,7 +210,6 @@ export const applyPublishedDataloggerConfig = async (body: {
 
   await uploadDataloggerConfig({
     ...config,
-    singlePropertyChange: false,
     dataloggerDriverId,
   });
 };

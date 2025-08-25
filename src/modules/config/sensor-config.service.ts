@@ -11,12 +11,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
     toSync,
     deviceContext: { deviceId, contextId },
   } = db.data;
-  const {
-    sensorDriverId: receivedSensorDriverId,
-    singlePropertyChange,
-    id,
-    ...config
-  } = payload;
+  const { sensorDriverId: receivedSensorDriverId, id, ...config } = payload;
   let sensorDriverId = receivedSensorDriverId;
 
   if (!sensorDriverId) {
@@ -41,7 +36,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
     sensorDriverId,
     deviceId,
     contextId,
-    singlePropertyChange,
+    singlePropertyChange: false,
     createdAt: new Date().toISOString(),
     config,
   };

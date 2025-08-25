@@ -11,5 +11,10 @@ export const setDeviceEpoch = async () => {
   };
 
   const command = JSON.stringify(payload) + "\n";
-  await sendCommands([serialCommands.interactiveModeCommand, command]);
+  const result = await sendCommands([
+    serialCommands.interactiveModeCommand,
+    command,
+  ]);
+  const dataloggerConfig = result[0];
+  return dataloggerConfig;
 };

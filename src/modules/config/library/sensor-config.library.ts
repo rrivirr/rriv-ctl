@@ -220,7 +220,6 @@ export const applyPublishedSensorConfig = async (body: {
 
   await uploadSensorConfig({
     ...config,
-    singlePropertyChange: false,
     sensorDriverId,
   });
 };

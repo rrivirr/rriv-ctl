@@ -49,7 +49,6 @@ export const setAction = async (
   if (object !== "board") {
     await uploadConfig({
       ...appliedConfig,
-      singlePropertyChange: false,
       object,
     });
   }
