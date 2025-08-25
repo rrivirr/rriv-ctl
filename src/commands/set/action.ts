@@ -10,7 +10,7 @@ export const setAction = async (
   propertyValueArg: string,
   options: any
 ) => {
-  const payload: DefaultObject = { object, action: "set" };
+  const payload: DefaultObject = { object };
 
   let property = propertyArg;
   let propertyValue = propertyValueArg;
@@ -47,6 +47,10 @@ export const setAction = async (
   console.log("config applied to device successfully");
 
   if (object !== "board") {
-    await uploadConfig({ ...appliedConfig, singlePropertyChange: false });
+    await uploadConfig({
+      ...appliedConfig,
+      singlePropertyChange: false,
+      object,
+    });
   }
 };
