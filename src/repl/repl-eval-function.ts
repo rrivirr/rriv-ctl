@@ -31,15 +31,7 @@ export function getReplEvalFunction(command: Command) {
     } else if (trimmedCode === "show-warranty") {
       console.log(getWarranty());
       this.displayPrompt();
-    } else if (
-      commandNames.includes(commandName) ||
-      trimmedCode === "help" ||
-      commandName === "whoami" ||
-      commandName === "logout"
-    ) {
-      if (commandName === "whoami" || commandName === "logout") {
-        args.unshift("auth");
-      }
+    } else if (commandNames.includes(commandName) || trimmedCode === "help") {
       callback(null, await processReplCommand(this, args, command));
     } else {
       console.log(

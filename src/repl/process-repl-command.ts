@@ -119,15 +119,8 @@ export async function processReplCommand(
     command
       .parseAsync(args, { from: "user" })
       .then(() => {
-        if (commandName === "auth" && args[1] === "logout") {
-          console.log(
-            `closing session due to ${bold(`${args[1] === "logout" ? "logout" : `${commandName}`}`)} command`
-          );
-          replServer.close();
-        } else {
-          replServer.setPrompt(getPrompt());
-          replServer.displayPrompt();
-        }
+        replServer.setPrompt(getPrompt());
+        replServer.displayPrompt();
       })
       .catch((error) => {
         errorHandler({ error, exit: false });

@@ -2,7 +2,7 @@ import { Command } from "commander";
 import { bold } from "yoctocolors";
 import db from "../db/db.ts";
 
-export const extraSupportedCommands = ["exit", "whoami", "logout"];
+export const extraSupportedCommands = ["exit"];
 
 export const getCommandNames = (command: Command) => {
   const commandNamesToNotSupport = ["auth", "update"];
