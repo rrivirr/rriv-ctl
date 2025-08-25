@@ -12,7 +12,9 @@ export const sendCommands = async (commands: string[], echoResponse = true) => {
       command,
       echoResponse && command !== serialCommands.quietModeCommand
     );
-    results.push(result);
+    if (command !== serialCommands.quietModeCommand) {
+      results.push(result);
+    }
   }
 
   return results;

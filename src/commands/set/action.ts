@@ -11,7 +11,6 @@ export const setAction = async (
   options: any
 ) => {
   const payload: DefaultObject = { object, action: "set" };
-  let singlePropertyChange = true;
 
   let property = propertyArg;
   let propertyValue = propertyValueArg;
@@ -38,22 +37,16 @@ export const setAction = async (
     console.log("rawFileContents", rawFileContents);
     const fileObject = JSON.parse(rawFileContents.toString());
     Object.assign(payload, fileObject);
-    singlePropertyChange = false;
   }
 
   if (object !== "board" && object !== "datalogger" && !payload.id) {
     throw new Error("id is required");
   }
 
-  const {
-    sensorDriverId: _,
-    dataloggerDriverId: __,
-    ...devicePayload
-  } = payload;
-  await writeConfigToDevice(devicePayload);
+  const appliedConfig = await writeConfigToDevice(payload);
   console.log("config applied to device successfully");
 
   if (object !== "board") {
-    await uploadConfig({ ...payload, singlePropertyChange });
+    await uploadConfig({ ...appliedConfig, singlePropertyChange: false });
   }
 };

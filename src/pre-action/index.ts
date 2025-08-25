@@ -9,7 +9,9 @@ export const preAction = async (
 ) => {
   const commandName = actionCommand.name();
   try {
-    await checkVersion();
+    if (commandName !== "update") {
+      await checkVersion();
+    }
     if (commandName === "rrivctl") {
       await authUser();
       return;

@@ -5,5 +5,6 @@ export const writeConfigToDevice = async (payload: DefaultObject) => {
   const payloadString = JSON.stringify(payload) + "\n";
   console.log("payloadString", payloadString);
 
-  await sendCommands([payloadString]);
+  const appliedConfigs = await sendCommands([payloadString], false);
+  return appliedConfigs[0];
 };
