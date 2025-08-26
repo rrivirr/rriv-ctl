@@ -32,14 +32,6 @@ export const sendSingleCommand = (command: string, echoResponse: boolean) => {
       includeDelimiter: false,
     });
 
-    const closeSerialPort = () => {
-      serialPort.drain(() => {
-        serialPort.flush(() => {
-          serialPort.close();
-        });
-      });
-    };
-
     parser.on("data", function (data: string) {
       if (data.includes("action")) {
         // skip this line, it's just the echo back
@@ -53,7 +45,7 @@ export const sendSingleCommand = (command: string, echoResponse: boolean) => {
           if (echoResponse) {
             console.log(response);
           }
-          closeSerialPort();
+          serialPort.close();
 
           const errorMessage = response.error || response.status;
           if (errorMessage) {
@@ -67,7 +59,7 @@ export const sendSingleCommand = (command: string, echoResponse: boolean) => {
           console.log("response not json");
           console.log(data);
           timeout = setTimeout(function () {
-            closeSerialPort();
+            serialPort.close();
             reject(
               "Timed out talking to the datalogger. Ensure it is plugged in."
             );
@@ -76,7 +68,11 @@ export const sendSingleCommand = (command: string, echoResponse: boolean) => {
       }
     });
 
-    serialPort.pipe(parser);
-    serialPort.write(command);
+    serialPort.flush(() => {
+      setTimeout(() => {
+        serialPort.pipe(parser);
+        serialPort.write(command);
+      }, 1500);
+    });
   });
 };
