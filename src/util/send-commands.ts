@@ -68,10 +68,9 @@ export const sendSingleCommand = (command: string, echoResponse: boolean) => {
       }
     });
 
-    serialPort.pipe(parser);
-    serialPort.write(command);
-    serialPort.drain(() => {
-      serialPort.flush();
+    serialPort.flush(() => {
+      serialPort.pipe(parser);
+      serialPort.write(command);
     });
   });
 };
