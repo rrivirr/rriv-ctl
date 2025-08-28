@@ -168,9 +168,9 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
     });
   } else {
     serialPort.pipe(parser)
-    setTimeout(() => {
-        // console.log('held open');
-      }, 8000);
+    // setTimeout(() => {
+    //     // console.log('held open');
+    //   }, 8000);
   }
 
 
@@ -654,6 +654,11 @@ cli
     } else {
       echoReponse(wait);
     }
+
+    // hold the process so we don't exit because this is a connect call and we could be crash cycling
+    setTimeout(() => {
+        // console.log('held open');
+    }, 8000);
 
 
   })
