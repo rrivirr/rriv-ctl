@@ -128,6 +128,9 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
         // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
 
         setTimeout(() => {
+          if(process.env['DEBUGCLI']) {
+            console.log(command);
+          }
           serialPort.write(command);
         }, 1000);
 
@@ -162,6 +165,9 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
       setTimeout(() => {
         serialPort.flush();
         serialPort.pipe(parser)
+        if(process.env['DEBUGCLI']) {
+          console.log(command);
+        }
         serialPort.write(command);
       }, 1000);
 
@@ -288,7 +294,7 @@ cli
 
 cli
   .command('get')
-  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board', 'data', 'datalogger']))
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board', 'data', 'datalogger', 'device']))
   .argument('[id]')
   .argument('[parameterOrstartDate]')
   .argument('[endDate]')
@@ -418,7 +424,7 @@ cli
 
 cli
   .command('set')
-  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board', 'datalogger']))
+  .addArgument(new Argument('<object>').choices(['sensor', 'actuator', 'telemeter', 'board', 'datalogger', 'device']))
   .argument('[id]')
   .argument('[property]')
   .argument('[property_value]')
@@ -439,7 +445,7 @@ cli
     payload.set('action', 'set');
 
 
-    if (object === 'board' || object === 'datalogger') {
+    if (object === 'board' || object === 'datalogger' || object == 'device') {
 
       // deal with absense of id in board command
       // TODO: help needs to refect this somehow
