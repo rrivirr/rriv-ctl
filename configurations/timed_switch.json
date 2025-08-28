@@ -1,0 +1,5 @@
+{
+   "type" : "timed_switch",
+   "on_time_s" : 5,
+   "off_time_s" :5 
+}
