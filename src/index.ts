@@ -95,7 +95,9 @@ function readSerialUntilQuit(serialPath: string, file: string, debug: boolean) {
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
 function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  false) {
+  if(process.env['DEBUGCLI']) {
     console.log(">>>");
+  }
 
   const serialPath = getSerialPathFromCache().toString()
   const serialPort = connectSerial(serialPath);
@@ -105,7 +107,9 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
     includeDelimiter: false
   })
   parser.on('data', function (data: string) {
-    console.log("...");
+    if(process.env['DEBUGCLI']) {
+      console.log("...");
+    }
     // console.log(data)
     if (data.includes("action")) {
       // skip this line, it's just the echo back
@@ -114,15 +118,20 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
     } else if (data.includes("debug")) {
       // skip for the moment
       return;
-    } else if (wait_for_ready && data.includes("datalogger-ready")) {
-      console.log('ready');
-      serialPort.write(serialCommands.quietModeCommand);
-      // TODO: note sure if drain, timeout, and flush are all necessary
-      // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
+    } else if (data.includes("datalogger-ready")) {
+      if(process.env['DEBUGCLI']) {
+        console.log('ready');
+      }
+      if ( wait_for_ready) {
+        serialPort.write(serialCommands.quietModeCommand);
+        // TODO: note sure if drain, timeout, and flush are all necessary
+        // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
 
         setTimeout(() => {
           serialPort.write(command);
         }, 1000);
+
+      }
 
     } else {
       // console.log(data);
@@ -139,7 +148,7 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
         }
         timeout = setTimeout(function () {
           process.exit()
-        }, 2.0 * 1000)
+        }, 2.0 * 1000) // 2s is not enough to await the panic handler
       }
     }
 
@@ -170,7 +179,9 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
 
 
 function echoReponse(wait_for_ready: boolean =  false) {
-    console.log(">>>");
+    if(process.env['DEBUGCLI']) {
+      console.log(">>>");
+    }
 
   const serialPath = getSerialPathFromCache().toString()
   const serialPort = connectSerial(serialPath);
@@ -180,7 +191,9 @@ function echoReponse(wait_for_ready: boolean =  false) {
     includeDelimiter: false
   })
   parser.on('data', function (data: string) {
-    console.log("...");
+    if(process.env['DEBUGCLI']) {
+      console.log("...");
+    }
     // console.log(data)
     if (data.includes("action")) {
       // skip this line, it's just the echo back
@@ -195,7 +208,9 @@ function echoReponse(wait_for_ready: boolean =  false) {
         const response = JSON.stringify(JSON.parse(data), null, 2);
         console.log(response);
       } catch (e) {
-        console.warn("response not json");
+        if(process.env['DEBUGCLI']) {
+          console.warn("response not json");
+        }
         console.log(data);
       }
       if (data.endsWith("}")) {
@@ -225,7 +240,9 @@ function echoReponse(wait_for_ready: boolean =  false) {
   } else {
     serialPort.pipe(parser)
     setTimeout(() => {
-        console.log('held open');
+        if(process.env['DEBUGCLI']) {
+          console.log('held open');
+        }
       }, 10000);
   }
 
