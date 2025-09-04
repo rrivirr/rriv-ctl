@@ -464,8 +464,14 @@ cli
     }
 
     if (property && property_value) {
+ 
       let number = Number(property_value);
-      if (Number.isNaN(number)) {
+      
+      if (property_value == "true" || property_value == "false") {
+        let boolean = property_value == "true";
+        console.log("boolean");
+        payload.set(property, boolean);
+      } else if (Number.isNaN(number)) {
         payload.set(property, property_value);
       } else {
         payload.set(property, number);
