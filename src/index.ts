@@ -95,7 +95,9 @@ function readSerialUntilQuit(serialPath: string, file: string, debug: boolean) {
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
 function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  false) {
-    console.log(">>>");
+    if(process.env["DEBUGCLI"] == "true") {
+      console.log(">>d");
+    }
 
   const serialPath = getSerialPathFromCache().toString()
   const serialPort = connectSerial(serialPath);
@@ -105,8 +107,10 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
     includeDelimiter: false
   })
   parser.on('data', function (data: string) {
-    console.log("...");
-    // console.log(data)
+    if(process.env["DEBUGCLI"]) {
+      console.log("...");
+      console.log(data);
+    }
     if (data.includes("action")) {
       // skip this line, it's just the echo back
       // console.log(data);
@@ -116,13 +120,23 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
       return;
     } else if (wait_for_ready && data.includes("datalogger-ready")) {
       console.log('ready');
-      serialPort.write(serialCommands.quietModeCommand);
+      serialPort.write(serialCommands.quietModeCommand, function (err) {
+        console.log("er" + err);
+      });
       // TODO: note sure if drain, timeout, and flush are all necessary
       // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
 
-        setTimeout(() => {
-          serialPort.write(command);
-        }, 1000);
+      setTimeout(() => {
+        serialPort.write(command, function (err) {
+          console.log("er" + err);
+        });
+      }, 1000);
+
+      setTimeout(() => {
+        // hold it open in case we are panicing
+        // if we get the panic, we will process.exit
+        console.log("timed out");
+      }, 6000);
 
     } else {
       // console.log(data);
@@ -138,8 +152,9 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
           clearTimeout(timeout);
         }
         timeout = setTimeout(function () {
+          console.log('done');
           process.exit()
-        }, 2.0 * 1000)
+        }, 3.0 * 1000)
       }
     }
 
@@ -170,7 +185,9 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
 
 
 function echoReponse(wait_for_ready: boolean =  false) {
-    console.log(">>>");
+  if(process.env["DEBUGCLI"]) {
+    console.log(">d>>");
+  }
 
   const serialPath = getSerialPathFromCache().toString()
   const serialPort = connectSerial(serialPath);
