@@ -11,7 +11,6 @@ export const makeListCommand = (cli: Command) => {
         "telemeter",
         "context",
         "device",
-        "context-devices",
         "config-snapshot",
         "config-history",
         "library-config-snapshot",
@@ -19,7 +18,6 @@ export const makeListCommand = (cli: Command) => {
         "library-datalogger-config",
       ])
     )
-    .option("-c, --current", "get the current context/config-snapshot in use, ")
     .option("-n, --name <name>", "get resource with specified name")
     .option(
       "-s, --search <search>",
@@ -30,6 +28,7 @@ export const makeListCommand = (cli: Command) => {
       "true/false, get library configs that belong to you"
     )
     .option("-t, --asAt <asAt>", "get config snapshot as at specified time")
+    .option("-a, --all", "get all devices bound to you")
     .description("list resources")
     .action(listAction);
 };

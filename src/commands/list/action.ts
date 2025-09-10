@@ -5,7 +5,6 @@ import { listLibraryConfigSnapshot } from "../../modules/config/library/config-s
 import { listLibrarySensorConfig } from "../../modules/config/library/sensor-config.library.ts";
 import { listLibraryDataloggerConfig } from "../../modules/config/library/datalogger-config.library.ts";
 import { listDevices } from "../../modules/device/device.service.ts";
-import { listContextDevices } from "../../modules/context/device-context.service.ts";
 import { sendCommands } from "../../util/send-commands.ts";
 
 export const listAction = async (object: string, options: any) => {
@@ -26,9 +25,7 @@ export const listAction = async (object: string, options: any) => {
   } else if (object === "context") {
     await listContexts(options);
   } else if (object === "device") {
-    await listDevices();
-  } else if (object === "context-devices") {
-    await listContextDevices();
+    await listDevices(options?.all);
   } else if (object === "config-history") {
     const asAt = options?.asAt;
     const optionsKeys = Object.keys(options);

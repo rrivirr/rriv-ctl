@@ -13,36 +13,83 @@ import { writeConfigToDevice } from "../../util/write-config-to-device.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
 
-export const listConfigSnapshot = async (options: {
-  current?: boolean;
-  name?: string;
-  search?: string;
-}) => {
-  const { current, name, search } = options;
+export const getConfigSnapshot = async () => {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
   } = db.data;
 
-  if (current) {
-    const configSnapshot = await getActiveConfigSnapshot({
-      deviceId,
-      contextId,
-      accessToken,
-    });
-    const { dataloggerConfig, sensorConfig } = configSnapshot;
+  const configSnapshot = await getActiveConfigSnapshot({
+    deviceId,
+    contextId,
+    accessToken,
+  });
+  const { dataloggerConfig, sensorConfig } = configSnapshot;
+  const table = new Table({
+    head: ["name", "config"],
+    wordWrap: true,
+    wrapOnWordBoundary: false,
+    colWidths: [30, 70],
+  });
+  if (JSON.stringify(dataloggerConfig.config) !== "{}") {
+    table.push(
+      [
+        "datalogger",
+        {
+          content: JSON.stringify(dataloggerConfig.config),
+          rowSpan: 3,
+          vAlign: "center",
+        },
+      ],
+      [],
+      []
+    );
+  }
+  for (const { name, config } of sensorConfig) {
+    table.push(
+      [name, { content: JSON.stringify(config), rowSpan: 3, vAlign: "center" }],
+      [],
+      []
+    );
+  }
+  console.log("\n" + table.toString());
+  logDeviceContext();
+};
+
+export const listConfigSnapshot = async (options: {
+  name?: string;
+  search?: string;
+}) => {
+  const { name, search } = options;
+  const { accessToken } = db.data;
+
+  const configSnapshots = await getConfigSnapshots({
+    name,
+    accessToken,
+    search,
+  });
+  if (!configSnapshots.length) {
+    console.log("no saved config snapshots found");
+    return;
+  }
+  for (const {
+    name: configSnapshotName,
+    DataloggerConfig,
+    SensorConfig,
+  } of configSnapshots) {
     const table = new Table({
-      head: ["name", "config"],
+      head: ["configSnapshotName", "name", "config"],
       wordWrap: true,
       wrapOnWordBoundary: false,
-      colWidths: [30, 70],
+      colWidths: [25, 25, 80],
     });
-    if (JSON.stringify(dataloggerConfig.config) !== "{}") {
+    if (DataloggerConfig.length) {
       table.push(
         [
+          { content: configSnapshotName, rowSpan: 3 },
           "datalogger",
           {
-            content: JSON.stringify(dataloggerConfig.config),
+            content: JSON.stringify(DataloggerConfig[0].config),
             rowSpan: 3,
             vAlign: "center",
           },
@@ -51,9 +98,15 @@ export const listConfigSnapshot = async (options: {
         []
       );
     }
-    for (const { name, config } of sensorConfig) {
+
+    for (const [index, { name, config }] of SensorConfig.entries()) {
       table.push(
         [
+          {
+            content:
+              index === 0 && !DataloggerConfig.length ? configSnapshotName : "",
+            rowSpan: 3,
+          },
           name,
           { content: JSON.stringify(config), rowSpan: 3, vAlign: "center" },
         ],
@@ -62,63 +115,6 @@ export const listConfigSnapshot = async (options: {
       );
     }
     console.log("\n" + table.toString());
-    logDeviceContext();
-  } else {
-    const configSnapshots = await getConfigSnapshots({
-      name,
-      accessToken,
-      search,
-    });
-    if (!configSnapshots.length) {
-      console.log("no saved config snapshots found");
-      return;
-    }
-    for (const {
-      name: configSnapshotName,
-      DataloggerConfig,
-      SensorConfig,
-    } of configSnapshots) {
-      const table = new Table({
-        head: ["configSnapshotName", "name", "config"],
-        wordWrap: true,
-        wrapOnWordBoundary: false,
-        colWidths: [25, 25, 80],
-      });
-      if (DataloggerConfig.length) {
-        table.push(
-          [
-            { content: configSnapshotName, rowSpan: 3 },
-            "datalogger",
-            {
-              content: JSON.stringify(DataloggerConfig[0].config),
-              rowSpan: 3,
-              vAlign: "center",
-            },
-          ],
-          [],
-          []
-        );
-      }
-
-      for (const [index, { name, config }] of SensorConfig.entries()) {
-        table.push(
-          [
-            {
-              content:
-                index === 0 && !DataloggerConfig.length
-                  ? configSnapshotName
-                  : "",
-              rowSpan: 3,
-            },
-            name,
-            { content: JSON.stringify(config), rowSpan: 3, vAlign: "center" },
-          ],
-          [],
-          []
-        );
-      }
-      console.log("\n" + table.toString());
-    }
   }
 };
 

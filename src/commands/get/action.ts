@@ -1,6 +1,7 @@
 import fs from "fs";
 import { getReadings } from "../../api/readings.ts";
 import { sendCommands } from "../../util/send-commands.ts";
+import { getConfigSnapshot } from "../../modules/config/config-snapshot.service.ts";
 
 export const getAction = async (
   object: string,
@@ -25,6 +26,9 @@ export const getAction = async (
     if (file) {
       console.log(`saved to ${file}`);
     }
+    return;
+  } else if (object === "config-snapshot") {
+    await getConfigSnapshot();
     return;
   }
 
