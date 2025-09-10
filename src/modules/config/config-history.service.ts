@@ -3,8 +3,9 @@ import db from "../../db/db.ts";
 import { getConfigHistory } from "../../api/config-snapshot.ts";
 import { logDeviceContext } from "../../util/log-device-context.ts";
 import { SensorConfigHistory } from "../../api/types.ts";
+import { DefaultObject } from "../../types.ts";
 
-export const listConfigHistory = async () => {
+export const listConfigHistory = async (asAt?: string) => {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
@@ -13,8 +14,27 @@ export const listConfigHistory = async () => {
     accessToken,
     deviceId,
     contextId,
+    asAt,
   });
   const { dataloggerConfigs, sensorConfigs } = configHistory;
+
+  if (asAt) {
+    const snapshot: DefaultObject = {};
+    const dataloggerConfig = dataloggerConfigs[0];
+    snapshot["datalogger"] = dataloggerConfig
+      ? {
+          config: dataloggerConfig.config,
+          createdAt: dataloggerConfig.createdAt,
+        }
+      : {};
+    snapshot["sensors"] =
+      sensorConfigs?.map((s) => ({
+        [s.name]: { config: s.config, createdAt: s.createdAt },
+      })) || [];
+
+    console.log(JSON.stringify(snapshot, null, 2));
+    return;
+  }
 
   if (dataloggerConfigs.length) {
     const table = new Table({

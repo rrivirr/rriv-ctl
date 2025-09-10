@@ -85,7 +85,6 @@ export interface SensorConfigHistory {
   name: string;
   config: object;
   sensorDriverId: string;
-  sensorDriver: { name: string };
   active: boolean;
   createdAt: string;
   deactivatedAt: string;

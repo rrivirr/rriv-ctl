@@ -15,12 +15,13 @@ export const loginAction = async (email: string) => {
   await login(email);
 };
 
+// @TODO debug and fix this swap email bug
 export const verifyAction = async (email: string) => {
-  await verify(email);
+  await resetPassword(email);
 };
 
 export const resetPasswordAction = async (email: string) => {
-  await resetPassword(email);
+  await verify(email);
 };
 
 export const whoamiAction = async () => {

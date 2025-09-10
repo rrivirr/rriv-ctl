@@ -10,12 +10,12 @@ import {
 } from "./types.ts";
 
 export const getConfigHistory = async (
-  body: DeviceContextRequest
+  body: DeviceContextRequest & { asAt?: string }
 ): Promise<ConfigHistory> => {
-  const { accessToken, deviceId, contextId } = body;
+  const { accessToken, deviceId, contextId, asAt } = body;
   const response = await axios.get(
     `${process.env.RRIV_API_URL}/configSnapshot/history?deviceId=${deviceId}&contextId=${contextId}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    { headers: { Authorization: `Bearer ${accessToken}` }, params: { asAt } }
   );
 
   return response.data;

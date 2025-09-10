@@ -30,10 +30,15 @@ export const listAction = async (object: string, options: any) => {
   } else if (object === "context-devices") {
     await listContextDevices();
   } else if (object === "config-history") {
-    if (Object.keys(options).length) {
+    const asAt = options?.asAt;
+    const optionsKeys = Object.keys(options);
+    if (
+      optionsKeys.length > 1 ||
+      (optionsKeys.length && optionsKeys[0] !== "asAt")
+    ) {
       throw new Error("option not supported by config history");
     }
-    await listConfigHistory();
+    await listConfigHistory(asAt);
   } else if (object === "config-snapshot") {
     await listConfigSnapshot(options);
   } else if (object === "library-config-snapshot") {

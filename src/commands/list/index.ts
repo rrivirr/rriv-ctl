@@ -29,6 +29,7 @@ export const makeListCommand = (cli: Command) => {
       "-p, --private <private>",
       "true/false, get library configs that belong to you"
     )
+    .option("-t, --asAt <asAt>", "get config snapshot as at specified time")
     .description("list resources")
     .action(listAction);
 };
