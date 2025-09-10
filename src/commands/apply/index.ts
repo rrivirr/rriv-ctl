@@ -7,12 +7,16 @@ export const makeApplyCommand = (cli: Command) => {
     .addArgument(
       new Argument("<object>", "resource").choices([
         "saved-config-snapshot",
+        "config-history",
         "published-config-snapshot",
         "published-sensor-config",
         "published-datalogger-config",
       ])
     )
-    .requiredOption("-n, --name <name>", "resource name")
+    .argument(
+      "<name or timestamp>",
+      "resource name or timestamp for config-history"
+    )
     .option(
       "-t, --tag <tag>", // v, version is used by commander
       "library version, if not specified, the latest version is selected"

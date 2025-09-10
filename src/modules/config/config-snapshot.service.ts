@@ -2,6 +2,7 @@ import Table from "cli-table3";
 import { randomUUID } from "crypto";
 import {
   getActiveConfigSnapshot,
+  getConfigHistory,
   getConfigSnapshots,
   overwriteConfigSnapshot,
   saveConfigSnapshot,
@@ -161,8 +162,44 @@ export const applySavedConfigSnapshot = async (body: { name: string }) => {
   });
 };
 
+export const applyConfigHistory = async (body: { timestamp: string }) => {
+  const {
+    deviceContext: { deviceId, contextId },
+    accessToken,
+  } = db.data;
+  const configHistory = await getConfigHistory({
+    accessToken,
+    deviceId,
+    contextId,
+    asAt: body.timestamp,
+  });
+  const { dataloggerConfigs, sensorConfigs } = configHistory;
+
+  const snapshot = {} as Parameters<typeof applyConfigSnapshot>[0];
+  const dataloggerConfig = dataloggerConfigs[0];
+
+  if (!dataloggerConfig && !sensorConfigs.length) {
+    console.log("no snapshot found at specified timestamp");
+  }
+
+  snapshot["datalogger"] = dataloggerConfig
+    ? {
+        config: dataloggerConfig.config,
+        configId: dataloggerConfig.id,
+      }
+    : {};
+  snapshot["sensor"] =
+    sensorConfigs?.map((s) => ({
+      config: s.config,
+      configId: s.id,
+      name: s.name,
+    })) || [];
+
+  await applyConfigSnapshot(snapshot);
+};
+
 export const applyConfigSnapshot = async (body: {
-  datalogger: { config: object; configId: string };
+  datalogger: { config?: object; configId?: string };
   sensor: { config: object; configId: string; name: string }[];
 }) => {
   const { datalogger, sensor } = body;
