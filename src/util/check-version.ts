@@ -13,8 +13,7 @@ export const checkVersion = async (source: Source = "preAction") => {
   if (!diffTime || diffTime > 21600000 || fromCommand) {
     const exec = util.promisify(ChildProcess.exec);
     try {
-      // @ TODO change workingBranch to main once fully merged
-      const workingBranch = "feat/init_api_integration";
+      const workingBranch = "main";
       await exec(`git fetch origin ${workingBranch}`);
       const result = await exec(
         `git log ${workingBranch}..origin/${workingBranch}`
