@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: lts/*
 
-      - run: npm ci
-      - run: npx semantic-release
+      - run: npm i -g semantic-release @semantic-release/{git,changelog}
+      - run: semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
