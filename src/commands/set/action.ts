@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { DefaultObject } from "../../types.ts";
-import { writeConfigToDevice } from "../../util/write-config-to-device.ts";
+import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { uploadConfig } from "../../modules/config/config.service.ts";
 
 export const setAction = async (

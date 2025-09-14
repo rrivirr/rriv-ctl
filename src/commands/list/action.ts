@@ -5,7 +5,7 @@ import { listLibraryConfigSnapshot } from "../../modules/config/library/config-s
 import { listLibrarySensorConfig } from "../../modules/config/library/sensor-config.library.ts";
 import { listLibraryDataloggerConfig } from "../../modules/config/library/datalogger-config.library.ts";
 import { listDevices } from "../../modules/device/device.service.ts";
-import { sendCommands } from "../../util/send-commands.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
 
 export const listAction = async (object: string, options: any) => {
   let isPublic = undefined;

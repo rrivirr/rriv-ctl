@@ -1,4 +1,4 @@
-import { sendCommands } from "../../util/send-commands.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
 
 export const serialAction = async (action: string, message: string) => {
   let message_to_send = message;

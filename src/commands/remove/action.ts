@@ -1,5 +1,5 @@
 import { unbindDevice } from "../../modules/device/device.service.ts";
-import { sendCommands } from "../../util/send-commands.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
 
 export const removeAction = async (object: string, id: string) => {
   if (object === "device") {

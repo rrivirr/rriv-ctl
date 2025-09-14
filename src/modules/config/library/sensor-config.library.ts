@@ -8,9 +8,9 @@ import {
 } from "../../../api/sensor.ts";
 import db from "../../../db/db.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
-import { writeConfigToDevice } from "../../../util/write-config-to-device.ts";
+import { writeConfigToDevice } from "../../../infra/write-config-to-device.ts";
 import { uploadSensorConfig } from "../sensor-config.service.ts";
-import { sendCommands } from "../../../util/send-commands.ts";
+import { sendCommands } from "../../../infra/send-commands.ts";
 
 export const publishCurrentSensorConfig = async (body: {
   libraryConfigName: string;

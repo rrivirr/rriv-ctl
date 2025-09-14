@@ -1,5 +1,5 @@
 import { DefaultObject } from "../types.ts";
-import { sendCommands } from "./send-commands.ts";
+import { sendCommands } from "../infra/send-commands.ts";
 
 export const writeConfigToDevice = async (payload: DefaultObject) => {
   const payloadString = JSON.stringify({ ...payload, action: "set" }) + "\n";

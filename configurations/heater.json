@@ -1,5 +1,5 @@
 {
-   "type" : "heater",
+   "type" : "timed_switch",
    "on_time_s" : 60,
    "off_time_s" : 60
 }

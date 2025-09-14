@@ -1,4 +1,4 @@
-import { sendCommands } from "./send-commands.ts";
+import { sendCommands } from "../infra/send-commands.ts";
 import serialCommands from "./serial-commands.ts";
 
 export const setDeviceEpoch = async () => {

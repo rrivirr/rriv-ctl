@@ -1,5 +1,5 @@
 import { getConnectedDevice } from "../../util/get-connected-device.ts";
-import { setDeviceEpoch } from "../../util/set-device-epoch.ts";
+import { setDeviceEpoch } from "../../infra/set-device-epoch.ts";
 import db from "../../db/db.ts";
 import { getDevice } from "../../api/device.ts";
 import { bindDevice } from "../../util/bind-device.ts";
@@ -7,15 +7,23 @@ import { getDeviceContext } from "../../api/device-context.ts";
 import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
 import { uploadDataloggerConfig } from "../../modules/config/datalogger-config.service.ts";
+import { waitForReady } from "../../infra/wait-for-ready.ts";
 
 export const connectAction = async (options: any) => {
-  const { uniqueName, assignedDeviceName } = options;
+  const { uniqueName, assignedDeviceName, path } = options;
   // detect the serial port
-  const connectedDevice = await getConnectedDevice();
-  const { serialNumber, serialPortPath } = connectedDevice;
-  if (!serialNumber || !serialPortPath) {
-    console.log(`ensure your device is plugged in`);
-    return;
+  let serialNumber,
+    serialPortPath,
+    wait = false;
+
+  if (path) {
+    serialNumber = "default";
+    serialPortPath = path;
+  } else {
+    const connectedDevice = await getConnectedDevice();
+    serialNumber = connectedDevice.serialNumber;
+    serialPortPath = connectedDevice.serialPortPath;
+    wait = connectedDevice.wait;
   }
 
   const {
@@ -44,7 +52,7 @@ export const connectAction = async (options: any) => {
       !existingDevice ||
       existingDevice.uniqueName !== existingUniqueName ||
       existingDevice.serialNumber !== existingSerialNumber ||
-      connectedDevice.serialNumber !== existingDevice.serialNumber
+      serialNumber !== existingDevice.serialNumber
     ) {
       toBindDevice = true;
     } else {
@@ -131,6 +139,9 @@ export const connectAction = async (options: any) => {
   }
 
   // set epoch
+  if (wait) {
+    await waitForReady();
+  }
   const dataloggerConfig = await setDeviceEpoch();
   if (pullConfig) {
     await uploadDataloggerConfig({ ...dataloggerConfig, object: "datalogger" });

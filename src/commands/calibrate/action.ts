@@ -1,4 +1,4 @@
-import { sendCommands } from "../../util/send-commands.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
 
 export const calibrateAction = async (
   object: string,

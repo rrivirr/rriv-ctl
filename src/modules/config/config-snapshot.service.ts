@@ -9,7 +9,7 @@ import {
 } from "../../api/config-snapshot.ts";
 import db from "../../db/db.ts";
 import { logDeviceContext } from "../../util/log-device-context.ts";
-import { writeConfigToDevice } from "../../util/write-config-to-device.ts";
+import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
 

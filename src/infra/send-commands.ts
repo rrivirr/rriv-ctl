@@ -1,8 +1,9 @@
 import { ReadlineParser } from "serialport";
 import { connectSerial } from "./connect-serial.ts";
 import serialCommands from "./serial-commands.ts";
-import { getSerialPathFromCache } from "./get-serial-path-from-cache.ts";
+import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 import { DefaultObject } from "../types.ts";
+import { waitForReady } from "./wait-for-ready.ts";
 
 export const sendCommands = async (commands: string[], echoResponse = true) => {
   const results = [];
@@ -12,6 +13,18 @@ export const sendCommands = async (commands: string[], echoResponse = true) => {
       command,
       echoResponse && command !== serialCommands.quietModeCommand
     );
+    if (result.error) {
+      const errorMessage = result.error;
+      if (errorMessage.includes("panick")) {
+        console.log("The board crashed and is restarting ");
+        console.log("Waiting.......");
+        await waitForReady();
+        console.log("Reconnected to datalogger");
+        throw new Error("exit repl flow");
+      } else {
+        throw new Error("Command failed: ", errorMessage);
+      }
+    }
     if (command !== serialCommands.quietModeCommand) {
       results.push(result);
     }
@@ -50,7 +63,7 @@ export const sendSingleCommand = (command: string, echoResponse: boolean) => {
           const errorMessage = response.error || response.status;
           if (errorMessage) {
             console.log("command sent", command);
-            return reject(` command failed with ${errorMessage}`);
+            return resolve({ error: errorMessage });
           }
           resolve(response);
 

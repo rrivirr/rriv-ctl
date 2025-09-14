@@ -41,8 +41,6 @@ export async function processReplCommand(
         (commandName === "delete" && args[1] === "context") ||
         (commandName === "remove" && args[1] === "device") ||
         (commandName === "get" && args[1] === "data") ||
-        (commandName === "auth" &&
-          (args[1] === "logout" || args[1] === "whoami")) ||
         commandName === "sync"
       )
     ) {
@@ -58,21 +56,13 @@ export async function processReplCommand(
         if (
           !(
             commandName === "connect" ||
-            (commandName === "list" && args[1] === "context-devices")
+            (commandName === "list" && args[1] === "device")
           )
         ) {
           const { device, deviceContext } = db.data;
           const connectedDevice = await getConnectedDevice(
             device.serialPortPath
           );
-
-          if (
-            !connectedDevice.serialNumber ||
-            !connectedDevice.serialPortPath
-          ) {
-            console.log(`ensure your device is plugged in`);
-            return;
-          }
 
           if (
             !device.id ||

@@ -3,7 +3,7 @@ import * as fs from "fs";
 import moment from "moment";
 import path from "path";
 import serialCommands from "./serial-commands.ts";
-import paths from "./paths.ts";
+import paths from "../util/paths.ts";
 import { connectSerial } from "./connect-serial.ts";
 import db from "../db/db.ts";
 

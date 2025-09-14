@@ -1,6 +1,6 @@
 import moment from "moment";
 import { getSerialPathFromCache } from "../../util/get-serial-path-from-cache.ts";
-import { readSerialUntilQuit } from "../../util/read-serial-until-quit.ts";
+import { readSerialUntilQuit } from "../../infra/read-serial-until-quit.ts";
 
 export const watchAction = async (options: any) => {
   const project = options.project ?? "rriv";

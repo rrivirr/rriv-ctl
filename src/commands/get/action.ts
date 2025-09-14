@@ -1,6 +1,6 @@
 import fs from "fs";
 import { getReadings } from "../../api/readings.ts";
-import { sendCommands } from "../../util/send-commands.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
 import { getConfigSnapshot } from "../../modules/config/config-snapshot.service.ts";
 
 export const getAction = async (

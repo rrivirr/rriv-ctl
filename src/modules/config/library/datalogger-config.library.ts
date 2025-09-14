@@ -8,8 +8,8 @@ import {
 import db from "../../../db/db.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { uploadDataloggerConfig } from "../datalogger-config.service.ts";
-import { writeConfigToDevice } from "../../../util/write-config-to-device.ts";
-import { sendCommands } from "../../../util/send-commands.ts";
+import { writeConfigToDevice } from "../../../infra/write-config-to-device.ts";
+import { sendCommands } from "../../../infra/send-commands.ts";
 
 export const publishCurrentDataloggerConfig = async (body: {
   libraryConfigName: string;
