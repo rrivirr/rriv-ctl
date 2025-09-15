@@ -1,3 +1,10 @@
+# [1.0.0-alpha.3](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2025-09-15)
+
+
+### Bug Fixes
+
+* remove dynamic imports and switch back to pkgroll ([d5ad37c](https://github.com/rrivirr/rriv-ctl/commit/d5ad37c48ccfb0b467669a06897c25ce8e874c1c))
+
 # [1.0.0-alpha.2](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2025-09-15)
 
 
