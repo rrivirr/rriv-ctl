@@ -1,3 +1,10 @@
+# [1.0.0-alpha.2](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2025-09-15)
+
+
+### Bug Fixes
+
+* fix getConnectedDevice minor error ([505080d](https://github.com/rrivirr/rriv-ctl/commit/505080d6d9e7023ecd2cde5435e31f89268ecead))
+
 # 1.0.0-alpha.1 (2025-09-15)
 
 
