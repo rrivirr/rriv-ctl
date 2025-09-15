@@ -1,6 +1,6 @@
 
 WD=`pwd`
-LINE_TO_ADD="alias rrivctl='node $WD/dist/index.js'"
+LINE_TO_ADD="alias rrivctl='node $WD/dist/index.cjs'"
 
 check_if_line_exists()
 {
