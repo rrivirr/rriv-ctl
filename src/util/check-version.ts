@@ -13,7 +13,8 @@ export const checkVersion = async (source: Source = "preAction") => {
   if (!diffTime || diffTime > 21600000 || fromCommand) {
     const exec = util.promisify(ChildProcess.exec);
     try {
-      const workingBranch = "main";
+      const workingBranchResult = await exec(`git rev-parse --abbrev-ref HEAD`);
+      const workingBranch = workingBranchResult.stdout.replace("\n", "");
       await exec(`git fetch origin ${workingBranch}`);
       const result = await exec(
         `git log ${workingBranch}..origin/${workingBranch}`
@@ -44,6 +45,7 @@ export const checkVersion = async (source: Source = "preAction") => {
         }
       }
     } catch (error: any) {
+      console.log(error);
       if (!error?.stderr.includes("Could not resolve host")) {
         console.log("auto update failed, contact support");
       }
