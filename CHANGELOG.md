@@ -1,3 +1,24 @@
+# [1.1.0-alpha.1](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0...v1.1.0-alpha.1) (2025-09-16)
+
+
+### Bug Fixes
+
+* binary release overwrite ([2db6bbf](https://github.com/rrivirr/rriv-ctl/commit/2db6bbf542f918efe76bb8cd8031eb4a75b46c2e))
+* binary workflow ([b676bcc](https://github.com/rrivirr/rriv-ctl/commit/b676bcc56c9fc6d00bc449ffc27b9bd24650e6b8))
+* binary workflow ([eb231b1](https://github.com/rrivirr/rriv-ctl/commit/eb231b1cfc1003e5635bd038a0d0e657c5c4062f))
+* fix getConnectedDevice minor error ([505080d](https://github.com/rrivirr/rriv-ctl/commit/505080d6d9e7023ecd2cde5435e31f89268ecead))
+* merge conflicts ([363d580](https://github.com/rrivirr/rriv-ctl/commit/363d5801300728f48e43d92d5a2897cc0017b6b9))
+* remove dynamic imports and switch back to pkgroll ([d5ad37c](https://github.com/rrivirr/rriv-ctl/commit/d5ad37c48ccfb0b467669a06897c25ce8e874c1c))
+* revert changelog.md ([b62a3fb](https://github.com/rrivirr/rriv-ctl/commit/b62a3fbaa9dd4478babf9f74a756fc521bce8821))
+* switch bundler to rollup ([8ad9a81](https://github.com/rrivirr/rriv-ctl/commit/8ad9a81157aa03b4af995330b583c0df443657cf))
+* trigger release ([80110fb](https://github.com/rrivirr/rriv-ctl/commit/80110fb9aa2bde7cbcc4b793488f046eddaa0e06))
+* update binary upload workflow ([cd27e07](https://github.com/rrivirr/rriv-ctl/commit/cd27e07c690f7efa2e727872c4b8beaef7595534))
+
+
+### Features
+
+* support binaries ([29132b3](https://github.com/rrivirr/rriv-ctl/commit/29132b34a73c2440c7dd0950743e00fe9e9b677e))
+
 # [1.0.0-alpha.6](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2025-09-16)
 
 
