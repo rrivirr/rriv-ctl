@@ -1,3 +1,10 @@
+# [1.0.0-alpha.4](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2025-09-16)
+
+
+### Features
+
+* support binaries ([29132b3](https://github.com/rrivirr/rriv-ctl/commit/29132b34a73c2440c7dd0950743e00fe9e9b677e))
+
 # [1.0.0-alpha.3](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2025-09-15)
 
 
