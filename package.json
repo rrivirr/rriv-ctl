@@ -1,6 +1,6 @@
 {
   "name": "rriv-cli",
-  "version": "1.1.0-alpha.1",
+  "version": "1.1.0-alpha.2",
   "description": "rriv cross-platform cli client",
   "bin": "./dist/index.cjs",
   "engines": {
@@ -25,6 +25,7 @@
     "husky": "^9.1.7",
     "jest": "^30.0.4",
     "rollup": "^4.50.2",
+    "semantic-release-export-data": "^1.1.1",
     "ts-jest": "^29.4.0",
     "tslib": "^2.8.1",
     "tsx": "^4.19.2",

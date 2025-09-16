@@ -1,3 +1,10 @@
+# [1.1.0-alpha.2](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.1...v1.1.0-alpha.2) (2025-09-16)
+
+
+### Bug Fixes
+
+* workflow release outputs ([6846ebb](https://github.com/rrivirr/rriv-ctl/commit/6846ebbe128a3eda9b79eaf9a92a1706511849af))
+
 # [1.1.0-alpha.1](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0...v1.1.0-alpha.1) (2025-09-16)
 
 
