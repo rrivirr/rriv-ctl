@@ -1,3 +1,10 @@
+# [1.1.0-alpha.4](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.3...v1.1.0-alpha.4) (2025-09-16)
+
+
+### Bug Fixes
+
+* semantic release workflow ([d2018fc](https://github.com/rrivirr/rriv-ctl/commit/d2018fc7a4af3c20f0595243706ed6e233ca2475))
+
 # [1.1.0-alpha.3](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.2...v1.1.0-alpha.3) (2025-09-16)
 
 
