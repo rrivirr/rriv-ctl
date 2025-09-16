@@ -14,7 +14,11 @@ jobs:
   release:
     name: Release and Build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    outputs:
+      new-release-published: ${{ steps.next-version.outputs.new-release-published }}
+      new-release-version: ${{ steps.next-version.outputs.new-release-version }}
+      new-release-git-tag: ${{ steps.next-version.outputs.new-release-git-tag }}
+
     steps:
       - uses: actions/checkout@v5
 
@@ -22,8 +26,12 @@ jobs:
         with:
           node-version: lts/*
 
+      - name: Install Semantic-Release-Export Plugin
+        run: npm install --save-dev semantic-release-export-data
+
       - run: npm i -g semantic-release @semantic-release/{git,changelog}
       - run: semantic-release
+        id: next-version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
