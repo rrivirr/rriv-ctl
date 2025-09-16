@@ -1,3 +1,11 @@
+# [1.1.0-alpha.5](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.4...v1.1.0-alpha.5) (2025-09-16)
+
+
+### Bug Fixes
+
+* add dependency installation step ([00ca964](https://github.com/rrivirr/rriv-ctl/commit/00ca9643a2d3d5d78031ecf498ac94b1d33ad163))
+* semantic release export data ([a83a297](https://github.com/rrivirr/rriv-ctl/commit/a83a297b9e83e4054b2a4b9b0755f768b2af93c0))
+
 # [1.1.0-alpha.4](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.3...v1.1.0-alpha.4) (2025-09-16)
 
 
