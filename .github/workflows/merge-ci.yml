@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: lts/*
 
-      - run: npm i -g semantic-release @semantic-release/{git,changelog} semantic-release-export-data
+      - run: npm i -g semantic-release @semantic-release/{git,changelog}
       - run: semantic-release
         id: next-version
         env:
