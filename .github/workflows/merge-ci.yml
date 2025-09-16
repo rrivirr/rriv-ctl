@@ -62,5 +62,5 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: apps/*
+          file_glob: apps/*
           tag: ${{ needs.release.outputs.new-release-git-tag }}
