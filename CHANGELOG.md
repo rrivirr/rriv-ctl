@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # [1.0.0-alpha.5](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2025-09-16)
 
 
@@ -27,6 +28,9 @@
 * fix getConnectedDevice minor error ([505080d](https://github.com/rrivirr/rriv-ctl/commit/505080d6d9e7023ecd2cde5435e31f89268ecead))
 
 # 1.0.0-alpha.1 (2025-09-15)
+=======
+# 1.0.0 (2025-09-14)
+>>>>>>> a9206a5c449a1584abae48cfdb2dd09c09adc9ef
 
 
 ### Bug Fixes
@@ -79,7 +83,10 @@
 * sigint functions ([2242741](https://github.com/rrivirr/rriv-ctl/commit/224274136bc4259dab3a86b16630f5c1588f3382))
 * small tweaks to get data ([ca4db51](https://github.com/rrivirr/rriv-ctl/commit/ca4db51d2b20d257c75c949354139d5349e9aee7))
 * some cleanup of whats logged to console ([71dabb5](https://github.com/rrivirr/rriv-ctl/commit/71dabb5c67fa6dc73b21dffbf577dfbc94dd513e))
+<<<<<<< HEAD
 * switch bundler to rollup ([8ad9a81](https://github.com/rrivirr/rriv-ctl/commit/8ad9a81157aa03b4af995330b583c0df443657cf))
+=======
+>>>>>>> a9206a5c449a1584abae48cfdb2dd09c09adc9ef
 * trigger semantic release ([cbba9bd](https://github.com/rrivirr/rriv-ctl/commit/cbba9bd10a4b6d8c6d64cdd3c556073f2a1b15ad))
 * update auto update functionality ([847db6b](https://github.com/rrivirr/rriv-ctl/commit/847db6be9c738fe761e8ff88205e15aff9128d28))
 * update create config sync functionality ([75ac9af](https://github.com/rrivirr/rriv-ctl/commit/75ac9af91e7645b68b12e4c2f6637da2867fc86b))

@@ -58,7 +58,7 @@ jobs:
           asset_name: rrivcli-macos
           tag: ${{ github.ref }}
           overwrite: true
-          body: "macos"
+          body: "rriv cli apps"
 
       - name: Upload linux binary to release
         uses: svenstaro/upload-release-action@v2
@@ -68,7 +68,7 @@ jobs:
           asset_name: rrivcli-linux
           tag: ${{ github.ref }}
           overwrite: true
-          body: "linux"
+          body: "rriv cli apps"
 
       - name: Upload win binary to release
         uses: svenstaro/upload-release-action@v2
@@ -78,4 +78,4 @@ jobs:
           asset_name: rrivcli-windows.exe
           tag: ${{ github.ref }}
           overwrite: true
-          body: "windows"
+          body: "rriv cli apps"
