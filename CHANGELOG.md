@@ -1,3 +1,10 @@
+# [1.0.0-alpha.5](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2025-09-16)
+
+
+### Bug Fixes
+
+* binary workflow ([eb231b1](https://github.com/rrivirr/rriv-ctl/commit/eb231b1cfc1003e5635bd038a0d0e657c5c4062f))
+
 # [1.0.0-alpha.4](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2025-09-16)
 
 
