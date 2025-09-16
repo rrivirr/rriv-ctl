@@ -58,9 +58,11 @@ jobs:
           KEYCLOAK_CLIENT_ID: rrivctl
           DATA_API_URL: https://api-dev.rriv.org/data/readings
 
-      - name: Upload mac binary to release
+      - name: Upload binaries
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file_glob: apps/*
+          file_glob: true
+          file: apps/*
           tag: ${{ needs.release.outputs.new-release-git-tag }}
+          overwrite: true
