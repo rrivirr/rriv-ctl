@@ -1,3 +1,10 @@
+# [1.1.0-alpha.6](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.5...v1.1.0-alpha.6) (2025-09-16)
+
+
+### Bug Fixes
+
+* binary upload ([f9fad29](https://github.com/rrivirr/rriv-ctl/commit/f9fad2926cc709ce2ea5b1e728dfdc7eb4758bb5))
+
 # [1.1.0-alpha.5](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.4...v1.1.0-alpha.5) (2025-09-16)
 
 
