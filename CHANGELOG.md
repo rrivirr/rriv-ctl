@@ -1,3 +1,10 @@
+# [1.1.0-alpha.7](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.6...v1.1.0-alpha.7) (2025-09-16)
+
+
+### Features
+
+* support x64 binary builds ([e9ac061](https://github.com/rrivirr/rriv-ctl/commit/e9ac061038b312edf7b05b06fedae32a6a53a6e2))
+
 # [1.1.0-alpha.6](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.5...v1.1.0-alpha.6) (2025-09-16)
 
 
