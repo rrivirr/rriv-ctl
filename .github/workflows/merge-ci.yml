@@ -54,28 +54,5 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: apps/rriv-cli-macos
-          asset_name: rrivcli-macos
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: "rriv cli apps"
-
-      - name: Upload linux binary to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: apps/rriv-cli-linux
-          asset_name: rrivcli-linux
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: "rriv cli apps"
-
-      - name: Upload win binary to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: apps/rriv-cli-win.exe
-          asset_name: rrivcli-windows.exe
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: "rriv cli apps"
+          file: apps/*
+          tag: ${{ needs.release.outputs.new-release-git-tag }}
