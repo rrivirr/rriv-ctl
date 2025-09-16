@@ -1,3 +1,10 @@
+# [1.1.0-alpha.3](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.2...v1.1.0-alpha.3) (2025-09-16)
+
+
+### Bug Fixes
+
+* change file to file_globb ([4bef51d](https://github.com/rrivirr/rriv-ctl/commit/4bef51d591ff632101679ca453ebc8baa340d978))
+
 # [1.1.0-alpha.2](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.1...v1.1.0-alpha.2) (2025-09-16)
 
 
