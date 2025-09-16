@@ -1,3 +1,10 @@
+# [1.1.0-alpha.8](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.7...v1.1.0-alpha.8) (2025-09-16)
+
+
+### Features
+
+* armv7 to builds ([732592e](https://github.com/rrivirr/rriv-ctl/commit/732592e187e9f1f001f9e19005f52470a78d6140))
+
 # [1.1.0-alpha.7](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.6...v1.1.0-alpha.7) (2025-09-16)
 
 
