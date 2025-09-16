@@ -3,7 +3,7 @@ import * as authPromptModule from "../prompts/auth.prompt.ts";
 import * as keycloak from "../api/auth.ts";
 import { authUser } from "./auth-user.ts";
 
-describe("authUser", () => {
+describe("authUser ", () => {
   const authPromptSpy = jest.spyOn(authPromptModule, "authPrompt");
   const loginApiCallSpy = jest.spyOn(keycloak, "login");
 
