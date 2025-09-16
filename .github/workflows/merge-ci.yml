@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: lts/*
 
+      - name: Install dependencies
+        run: npm ci
+
       - run: npm i -g semantic-release @semantic-release/{git,changelog}
       - run: semantic-release
         id: next-version
