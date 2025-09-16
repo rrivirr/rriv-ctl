@@ -26,10 +26,7 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Install Semantic-Release-Export Plugin
-        run: npm install --save-dev semantic-release-export-data
-
-      - run: npm i -g semantic-release @semantic-release/{git,changelog}
+      - run: npm i -g semantic-release @semantic-release/{git,changelog} semantic-release-export-data
       - run: semantic-release
         id: next-version
         env:
