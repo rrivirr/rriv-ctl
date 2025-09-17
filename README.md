@@ -2,6 +2,9 @@
 
 The client app for RRIV hardware.
 
+# regular use
+For regular use, switch to the ```v1``` branch. The main branch is for active development and may be unstable.
+
 # build & run
 
  npm install
