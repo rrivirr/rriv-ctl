@@ -1,3 +1,10 @@
+# [1.1.0-alpha.9](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.8...v1.1.0-alpha.9) (2025-09-17)
+
+
+### Bug Fixes
+
+* remove linuxstatic build ([505e49d](https://github.com/rrivirr/rriv-ctl/commit/505e49d19ae5d758cb994a0843a5e02f8b96835d))
+
 # [1.1.0-alpha.8](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.7...v1.1.0-alpha.8) (2025-09-16)
 
 
