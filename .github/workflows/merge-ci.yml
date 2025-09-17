@@ -50,6 +50,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - uses: MOZGIII/install-ldid-action@v1
+        with:
+          tag: v2.1.5-procursus7
+
       - name: Build binaries
         run: npm run binary
         env:
