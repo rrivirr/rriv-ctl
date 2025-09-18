@@ -16,7 +16,11 @@ export const preAction = async (
       await authUser();
       return;
     } else {
-      if (commandName !== "update" && actionCommand.parent?.name() !== "auth") {
+      if (
+        commandName !== "update" &&
+        commandName !== "whoami" &&
+        actionCommand.parent?.name() !== "auth"
+      ) {
         console.log("run 'rrivctl' to access the interactive shell");
         process.exit();
       }
