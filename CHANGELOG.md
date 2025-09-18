@@ -1,3 +1,16 @@
+# [1.1.0-alpha.10](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.9...v1.1.0-alpha.10) (2025-09-18)
+
+
+### Bug Fixes
+
+* move auth whoami to whoami [#32](https://github.com/rrivirr/rriv-ctl/issues/32) ([eaf3246](https://github.com/rrivirr/rriv-ctl/commit/eaf32468800e3ceae71f7085213cefdbd261904a))
+* retain information if user's token expires and same user logs back in [#36](https://github.com/rrivirr/rriv-ctl/issues/36) ([4ca0cde](https://github.com/rrivirr/rriv-ctl/commit/4ca0cde60d6fbba19815fe6b65cdc69a6c7ceb36))
+
+
+### Features
+
+* output auth message if user not logged in [#37](https://github.com/rrivirr/rriv-ctl/issues/37) ([341eeb1](https://github.com/rrivirr/rriv-ctl/commit/341eeb166e3634f182be054d5cb29ae10890abb1))
+
 # [1.1.0-alpha.9](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.8...v1.1.0-alpha.9) (2025-09-17)
 
 
