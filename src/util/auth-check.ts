@@ -5,7 +5,6 @@ export const authCheck = async () => {
   const { expirationTime, accessToken } = db.data;
 
   if (Date.now() < expirationTime && accessToken) {
-    console.log("are we getting here");
     return;
   }
 
