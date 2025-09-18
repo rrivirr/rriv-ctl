@@ -1,7 +1,9 @@
+import { jwtDecode } from "jwt-decode";
 import { authPrompt } from "../prompts/auth.prompt.ts";
 import { login as loginUserApiCall } from "../api/auth.ts";
 import db from "../db/db.ts";
 import { logout } from "../modules/auth/auth.service.ts";
+import { JwtPayload } from "../types.ts";
 
 export const authUser = async () => {
   const { expirationTime, accessToken: existingAccessToken } = db.data;
@@ -10,8 +12,6 @@ export const authUser = async () => {
     return existingAccessToken;
   }
 
-  logout();
-
   const loginDetails = await authPrompt();
   const { email, password } = loginDetails;
   const { accessToken, expiresIn } = await loginUserApiCall({
@@ -19,6 +19,13 @@ export const authUser = async () => {
     password,
   });
   const now = new Date();
+
+  const oldDecodedToken: JwtPayload = jwtDecode(existingAccessToken);
+  const newDecodedToken: JwtPayload = jwtDecode(accessToken);
+
+  if (oldDecodedToken.email !== newDecodedToken.email) {
+    logout();
+  }
 
   db.update((data) => {
     data.accessToken = accessToken;

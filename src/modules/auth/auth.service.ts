@@ -1,5 +1,5 @@
 import Table from "cli-table3";
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import {
   login as loginApiCall,
   signup as signupApiCall,
@@ -9,6 +9,7 @@ import {
 import { SignupDto } from "../../api/types.ts";
 import db from "../../db/db.ts";
 import { passwordPrompt, signupPrompt } from "../../prompts/auth.prompt.ts";
+import { JwtPayload } from "../../types.ts";
 
 export const login = async (email: string) => {
   const password = await passwordPrompt(false, false);
@@ -74,8 +75,7 @@ export const whoami = async () => {
   if (!expirationTime || !accessToken || Date.now() > expirationTime) {
     console.log("no user logged in at the moment");
   } else {
-    const decodedToken: JwtPayload & { name: string; email: string } =
-      jwtDecode(accessToken);
+    const decodedToken: JwtPayload = jwtDecode(accessToken);
     const table = new Table({
       head: ["name", "email"],
       wordWrap: true,
