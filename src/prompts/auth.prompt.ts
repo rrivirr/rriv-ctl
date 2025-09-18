@@ -57,13 +57,6 @@ const fieldPrompt = async (field: string) => {
   return value;
 };
 
-export const authPrompt = async () => {
-  const email = await fieldPrompt("email");
-  const passwordValue = await passwordPrompt(false, false);
-
-  return { email, password: passwordValue };
-};
-
 export const signupPrompt = async (
   body: Partial<Omit<SignupDto, "password">>
 ) => {

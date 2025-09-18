@@ -1,3 +1,4 @@
+import { JwtPayload as DefaultJwtPayload } from "jwt-decode";
 import {
   CreateDataloggerConfigDto,
   CreateSensorConfigDto,
@@ -24,3 +25,5 @@ export type toSyncConfig = { requestId: string } & (
 );
 
 export type Source = "command" | "preAction";
+
+export type JwtPayload = DefaultJwtPayload & { name: string; email: string };
