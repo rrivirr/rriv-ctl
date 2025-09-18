@@ -12,14 +12,23 @@ import { passwordPrompt, signupPrompt } from "../../prompts/auth.prompt.ts";
 import { JwtPayload } from "../../types.ts";
 
 export const login = async (email: string) => {
+  const { accessToken: existingAccessToken } = db.data;
   const password = await passwordPrompt(false, false);
   const { accessToken, expiresIn } = await loginApiCall({
     username: email,
     password,
   });
-  const now = new Date();
-  logout();
 
+  if (existingAccessToken) {
+    const oldDecodedToken: JwtPayload = jwtDecode(existingAccessToken);
+    const newDecodedToken: JwtPayload = jwtDecode(accessToken);
+
+    if (oldDecodedToken.email !== newDecodedToken.email) {
+      // clear cached information
+      logout();
+    }
+  }
+  const now = new Date();
   db.update((data) => {
     data.accessToken = accessToken;
     data.expirationTime = +now.setSeconds(now.getSeconds() + expiresIn);

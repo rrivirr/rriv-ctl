@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { errorHandler } from "../util/error-handler.ts";
-import { authUser } from "../util/auth-user.ts";
+import { authCheck } from "../util/auth-check.ts";
 import { checkVersion } from "../util/check-version.ts";
 
 export const preAction = async (
@@ -13,7 +13,7 @@ export const preAction = async (
       await checkVersion();
     }
     if (commandName === "rrivctl") {
-      await authUser();
+      await authCheck();
       return;
     } else {
       if (
