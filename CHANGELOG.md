@@ -1,3 +1,15 @@
+# [1.1.0-alpha.12](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.11...v1.1.0-alpha.12) (2025-09-19)
+
+
+### Bug Fixes
+
+* auth error messages ([75c5856](https://github.com/rrivirr/rriv-ctl/commit/75c58562d46d501673c5615bedf0c13ff9706358))
+
+
+### Features
+
+* support default contexts ([d3edfb1](https://github.com/rrivirr/rriv-ctl/commit/d3edfb1095b084cb43b2e50976ba2c1a06158fff))
+
 # [1.1.0-alpha.11](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.10...v1.1.0-alpha.11) (2025-09-19)
 
 
