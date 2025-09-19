@@ -39,7 +39,6 @@ export async function processReplCommand(
     // reset hack
     (commandToExecute.parent as any)._lifeCycleHooks = {};
     (commandToExecute as any)._optionValues = {};
-    (commandToExecute as any)._hasHelpOption = true;
 
     if (
       !(

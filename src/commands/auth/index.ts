@@ -16,8 +16,7 @@ export const makeAuthCommand = (cli: Command) => {
 
   const authCommand = cli
     .command("auth")
-    .description("auth related commands, unsupported in the interactive shell")
-    .helpOption(true);
+    .description("auth related commands, unsupported in the interactive shell");
 
   authCommand
     .command("login")
