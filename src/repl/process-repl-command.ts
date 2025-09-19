@@ -11,9 +11,9 @@ export async function processReplCommand(
   command: Command
 ) {
   const commandName = args[0];
-  if (commandName === "help" || (args.length === 2 && args[1] === "-h")) {
+  if (commandName === "help") {
     command
-      .parseAsync(commandName === "help" ? ["rrivctl", "-h"] : args, {
+      .parseAsync(["rrivctl", "-h"], {
         from: "user",
       })
       .then(() => {
