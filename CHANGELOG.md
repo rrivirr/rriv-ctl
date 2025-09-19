@@ -1,3 +1,10 @@
+# [1.1.0-alpha.13](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.12...v1.1.0-alpha.13) (2025-09-19)
+
+
+### Features
+
+* firmware commands ([887faee](https://github.com/rrivirr/rriv-ctl/commit/887faeebf7dd2c50627cc828316ae6b0906dd84d))
+
 # [1.1.0-alpha.12](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.11...v1.1.0-alpha.12) (2025-09-19)
 
 
