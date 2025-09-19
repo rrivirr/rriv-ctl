@@ -13,6 +13,8 @@ export const probeRsCheck = async () => {
       await exec(
         `curl --proto '=https' --tlsv1.2 -LsSf https://github.com/probe-rs/probe-rs/releases/latest/download/probe-rs-tools-installer.sh | sh`
       );
+      await exec(`source ~/.bashrc`); // linux
+      await exec(`source ~/.zshrc`); // macos
       console.log("probe-rs successfully installed");
       return;
     } else {
