@@ -1,3 +1,10 @@
+# [1.1.0-alpha.14](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.13...v1.1.0-alpha.14) (2025-09-19)
+
+
+### Bug Fixes
+
+* minor firmware fixes ([e6ee20c](https://github.com/rrivirr/rriv-ctl/commit/e6ee20ccccd8f6ad05a494342ce93b9a88d893ab))
+
 # [1.1.0-alpha.13](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.12...v1.1.0-alpha.13) (2025-09-19)
 
 
