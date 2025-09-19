@@ -4,6 +4,7 @@ import { getPrompt } from "./utils.ts";
 import { errorHandler } from "../util/error-handler.ts";
 import db from "../db/db.ts";
 import { getConnectedDevice } from "../util/get-connected-device.ts";
+import { createContext, getContexts } from "../api/context.ts";
 
 export async function processReplCommand(
   replServer: REPLServer,
@@ -54,11 +55,35 @@ export async function processReplCommand(
       )
     ) {
       if (!(args.length === 2 && args[1] === "-h")) {
-        const { context } = db.data;
+        const { context, accessToken } = db.data;
         // check if context exists
         if (!context.id || !context.name) {
-          console.log("no context found, context needed to proceed");
-          return;
+          const contexts = await getContexts({ accessToken });
+          if (!contexts.length) {
+            const context = await createContext({
+              contextName: "rrivctl",
+              accessToken,
+            });
+            db.update((data) => {
+              data.context = {
+                id: context.id,
+                name: context.name,
+              };
+            });
+          } else {
+            const defaultContext = contexts.find((c) => c.name === "rrivctl");
+            if (!defaultContext) {
+              console.log("no context found, select context to proceed");
+              return;
+            } else {
+              db.update((data) => {
+                data.context = {
+                  id: defaultContext.id,
+                  name: defaultContext.name,
+                };
+              });
+            }
+          }
         }
 
         // check is device is connected and initialized
