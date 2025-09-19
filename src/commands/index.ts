@@ -18,6 +18,7 @@ import { makeUpdateCommand } from "./update/index.ts";
 import { makeSaveCommand } from "./save/index.ts";
 import { makePublishCommand } from "./publish/index.ts";
 import { makeEndCommand } from "./end/index.ts";
+import { makeFirmwareCommands } from "./firmware/index.ts";
 
 export const initializeCommands = async (cli: Command) => {
   makeWatchCommand(cli);
@@ -39,4 +40,5 @@ export const initializeCommands = async (cli: Command) => {
   makeSaveCommand(cli);
   makePublishCommand(cli);
   makeEndCommand(cli);
+  makeFirmwareCommands(cli);
 };

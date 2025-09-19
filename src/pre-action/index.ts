@@ -1,7 +1,6 @@
 import { Command } from "commander";
 import { errorHandler } from "../util/error-handler.ts";
 import { authCheck } from "../util/auth-check.ts";
-import { checkVersion } from "../util/check-version.ts";
 
 export const preAction = async (
   thisCommand: Command,
@@ -10,7 +9,7 @@ export const preAction = async (
   const commandName = actionCommand.name();
   try {
     if (commandName !== "update") {
-      await checkVersion();
+      // await checkVersion();
     }
     if (commandName === "rrivctl") {
       await authCheck();
@@ -19,7 +18,9 @@ export const preAction = async (
       if (
         commandName !== "update" &&
         commandName !== "whoami" &&
-        actionCommand.parent?.name() !== "auth"
+        commandName !== "flash" &&
+        actionCommand.parent?.name() !== "auth" &&
+        actionCommand.parent?.name() !== "probe"
       ) {
         console.log("run 'rrivctl' to access the interactive shell");
         process.exit();
