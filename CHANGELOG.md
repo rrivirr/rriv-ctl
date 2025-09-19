@@ -1,3 +1,11 @@
+# [1.1.0-alpha.11](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.10...v1.1.0-alpha.11) (2025-09-19)
+
+
+### Bug Fixes
+
+* refactor ([b882cf4](https://github.com/rrivirr/rriv-ctl/commit/b882cf4f711da53b8bfeb01a7aa96ff793348381))
+* show automated help in interactive shell ([de41c89](https://github.com/rrivirr/rriv-ctl/commit/de41c893c3034a826592af19b1b0cb5c374cb2fb))
+
 # [1.1.0-alpha.10](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.9...v1.1.0-alpha.10) (2025-09-18)
 
 
