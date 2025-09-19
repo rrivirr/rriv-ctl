@@ -1,7 +1,6 @@
 import Table from "cli-table3";
 import db from "../../db/db.ts";
 import { getConfigHistory } from "../../api/config-snapshot.ts";
-import { logDeviceContext } from "../../util/log-device-context.ts";
 import { SensorConfigHistory } from "../../api/types.ts";
 import { DefaultObject } from "../../types.ts";
 
@@ -117,6 +116,4 @@ export const listConfigHistory = async (asAt?: string) => {
       console.log("\n" + table.toString());
     }
   }
-
-  logDeviceContext();
 };

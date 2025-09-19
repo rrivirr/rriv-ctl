@@ -8,7 +8,6 @@ import {
   saveConfigSnapshot,
 } from "../../api/config-snapshot.ts";
 import db from "../../db/db.ts";
-import { logDeviceContext } from "../../util/log-device-context.ts";
 import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
@@ -53,7 +52,6 @@ export const getConfigSnapshot = async () => {
     );
   }
   console.log("\n" + table.toString());
-  logDeviceContext();
 };
 
 export const listConfigSnapshot = async (options: {
