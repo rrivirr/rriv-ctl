@@ -1,7 +1,6 @@
 import { Command } from "commander";
 import { REPLServer } from "repl";
-import { extraSupportedCommands, getCommandNames, getPrompt } from "./utils.ts";
-import { bold } from "yoctocolors";
+import { getPrompt } from "./utils.ts";
 import { errorHandler } from "../util/error-handler.ts";
 import db from "../db/db.ts";
 import { getConnectedDevice } from "../util/get-connected-device.ts";
@@ -11,11 +10,21 @@ export async function processReplCommand(
   args: string[],
   command: Command
 ) {
-  const commandNames = getCommandNames(command);
   const commandName = args[0];
-  if (commandName === "help") {
-    console.log([...commandNames, ...extraSupportedCommands].join(" | "), "\n");
-    console.log(`to view details of each command enter ${bold("command -h")}`);
+  if (commandName === "help" || (args.length === 2 && args[1] === "-h")) {
+    command
+      .parseAsync(commandName === "help" ? ["rrivctl", "-h"] : args, {
+        from: "user",
+      })
+      .then(() => {
+        replServer.setPrompt(getPrompt());
+        replServer.displayPrompt();
+      })
+      .catch((error) => {
+        errorHandler({ error, exit: false });
+        replServer.setPrompt(getPrompt());
+        replServer.displayPrompt();
+      });
   } else {
     const commandToExecute = command.commands.find(
       (c) => c.name() === commandName
