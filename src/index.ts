@@ -12,7 +12,6 @@ cli
   .name("rrivctl")
   .description(packageJson.description)
   .version(packageJson.version, "-v, --version")
-  .helpOption(false)
   .action(async () => {
     await startRepl(cli);
   });
