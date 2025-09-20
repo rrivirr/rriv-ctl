@@ -31,7 +31,7 @@ cli
 function connectSerial(serialPath: string) {
   return new SerialPort({
     path: serialPath,
-    baudRate: 57600,
+    baudRate: 115200,
   });
 
 
@@ -141,9 +141,14 @@ function sendCommandAndEchoResponse(command: string, wait_for_ready: boolean =  
       try {
         const response = JSON.stringify(JSON.parse(data), null, 2);
         console.log(response);
+        let payload = JSON.parse(data);
+        if(payload["mode"] == "field"){
+          console.log("Datalogger is in field mode");
+        }
       } catch (e) {
         // console.warn("response not json");
         console.log(data);
+      
       }
       if (data.endsWith("}")) {
         if (timeout != null) {
