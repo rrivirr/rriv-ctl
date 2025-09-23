@@ -80,9 +80,15 @@ export const signup = async (body: Partial<Omit<SignupDto, "password">>) => {
   const signupBody = await signupPrompt(body);
 
   await signupApiCall({ ...signupBody, accessToken });
-  console.log(
-    "\nSignup complete. You must verify your email address to log in.\nPlease check your email and follow the verification link."
-  );
+  if (signupBody.email.includes("rriv.org")) {
+    console.log(
+      "\nSignup complete. You must verify your email address to log in.\nPlease check your email and follow the verification link."
+    );
+  } else {
+    console.log(
+      `\nYour email is not a @rriv.org address, and therefore requires manual verification.\nPlease contact the platform administrators to verify your account.`
+    );
+  }
 };
 
 export const verify = async (email: string) => {

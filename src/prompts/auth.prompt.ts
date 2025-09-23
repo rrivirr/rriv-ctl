@@ -60,8 +60,7 @@ const fieldPrompt = async (field: string) => {
 export const signupPrompt = async (
   body: Partial<Omit<SignupDto, "password">>
 ) => {
-  const { phone, firstName, lastName, email } = body;
-  let phoneValue = phone;
+  const { firstName, lastName, email } = body;
   let firstNameValue = firstName;
   let lastNameValue = lastName;
   let emailValue = email;
@@ -75,9 +74,6 @@ export const signupPrompt = async (
   if (!emailValue) {
     emailValue = await fieldPrompt("email");
   }
-  if (!phoneValue) {
-    phoneValue = await fieldPrompt("phone");
-  }
 
   const password = await getPassword();
 
@@ -85,7 +81,6 @@ export const signupPrompt = async (
     email: emailValue,
     lastName: lastNameValue,
     firstName: firstNameValue,
-    phone: phoneValue,
     password,
   };
 };
