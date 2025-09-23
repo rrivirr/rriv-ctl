@@ -1,3 +1,11 @@
+# [1.1.0-alpha.16](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.15...v1.1.0-alpha.16) (2025-09-23)
+
+
+### Bug Fixes
+
+* notify non-rriv.org about verification ([e6f6e6a](https://github.com/rrivirr/rriv-ctl/commit/e6f6e6a831059fef47432f92924060486b6f4e04))
+* remove phone property ([4161ce9](https://github.com/rrivirr/rriv-ctl/commit/4161ce964cb8e26bf6da272e8cf377a08fc559c2))
+
 # [1.1.0-alpha.15](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.14...v1.1.0-alpha.15) (2025-09-23)
 
 
