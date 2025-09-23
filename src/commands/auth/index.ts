@@ -35,7 +35,6 @@ export const makeAuthCommand = (cli: Command) => {
     .option("-e, --email <email>")
     .option("-f, --firstName <firstName>")
     .option("-l, --lastName <lastName>")
-    .option("-p, --phone <phone>")
     .action(signupAction);
 
   authCommand

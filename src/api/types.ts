@@ -215,5 +215,4 @@ export interface SignupDto {
   firstName: string;
   lastName: string;
   password: string;
-  phone: string;
 }
