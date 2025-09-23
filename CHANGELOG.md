@@ -1,3 +1,10 @@
+# [1.1.0-alpha.15](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.14...v1.1.0-alpha.15) (2025-09-23)
+
+
+### Bug Fixes
+
+* pipe flash command output ([eadaee1](https://github.com/rrivirr/rriv-ctl/commit/eadaee1a77c27468e9abe27a879e8146c906c592))
+
 # [1.1.0-alpha.14](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.13...v1.1.0-alpha.14) (2025-09-19)
 
 
