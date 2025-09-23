@@ -9,12 +9,16 @@ export const getConnectedDevice = async (defaultSerialPortPath?: string) => {
     // detect the serial port
     const list = await SerialPort.list();
     for (const pathItem of list) {
-      if (pathItem.productId && pathItem.pnpId?.includes("rriv")) {
+      if (
+        pathItem.productId &&
+        (pathItem.pnpId?.includes("rriv") || pathItem.path?.includes("rriv"))
+      ) {
         serialPortPath = pathItem.path;
         if (defaultSerialPortPath) {
           break w;
         }
-        console.log(`Found a RRIV device ${pathItem.pnpId}`);
+        // pnpId not populated for macos
+        console.log(`Found a RRIV device ${pathItem.pnpId || pathItem.path}`);
         console.log(`Connecting to it at ${pathItem.path}`);
         break w;
       }
