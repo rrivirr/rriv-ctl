@@ -1,3 +1,10 @@
+# [1.1.0-alpha.17](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.16...v1.1.0-alpha.17) (2025-09-27)
+
+
+### Features
+
+* support commands outside of the interactive shell ([f0b760f](https://github.com/rrivirr/rriv-ctl/commit/f0b760ff1398ea731fa9d3f2add80c69f6afc74a))
+
 # [1.1.0-alpha.16](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.15...v1.1.0-alpha.16) (2025-09-23)
 
 
