@@ -2,9 +2,7 @@ import { Command } from "commander";
 import { REPLServer } from "repl";
 import { getPrompt } from "./utils.ts";
 import { errorHandler } from "../util/error-handler.ts";
-import db from "../db/db.ts";
-import { getConnectedDevice } from "../util/get-connected-device.ts";
-import { createContext, getContexts } from "../api/context.ts";
+import { runChecks } from "../pre-action/run-checks.ts";
 
 export async function processReplCommand(
   replServer: REPLServer,
@@ -40,103 +38,7 @@ export async function processReplCommand(
     (commandToExecute.parent as any)._lifeCycleHooks = {};
     (commandToExecute as any)._optionValues = {};
 
-    if (
-      !(
-        (commandName === "use" && args[1] === "context") ||
-        (commandName === "create" && args[1] === "context") ||
-        (commandName === "list" && args[1] === "context") ||
-        (commandName === "list" && args[1] === "device") ||
-        (commandName === "end" && args[1] === "context") ||
-        (commandName === "delete" && args[1] === "context") ||
-        (commandName === "remove" && args[1] === "device") ||
-        (commandName === "get" && args[1] === "data") ||
-        commandName === "sync"
-      )
-    ) {
-      if (!(args.length === 2 && args[1] === "-h")) {
-        const { context, accessToken } = db.data;
-        // check if context exists
-        if (!context.id || !context.name) {
-          const contexts = await getContexts({ accessToken });
-          if (!contexts.length) {
-            const context = await createContext({
-              contextName: "rrivctl",
-              accessToken,
-            });
-            db.update((data) => {
-              data.context = {
-                id: context.id,
-                name: context.name,
-              };
-            });
-          } else {
-            const defaultContext = contexts.find((c) => c.name === "rrivctl");
-            if (!defaultContext) {
-              console.log("no context found, select context to proceed");
-              return;
-            } else {
-              db.update((data) => {
-                data.context = {
-                  id: defaultContext.id,
-                  name: defaultContext.name,
-                };
-              });
-            }
-          }
-        }
-
-        // check is device is connected and initialized
-        if (
-          !(
-            commandName === "connect" ||
-            (commandName === "list" && args[1] === "device")
-          )
-        ) {
-          const { device, deviceContext } = db.data;
-          const connectedDevice = await getConnectedDevice(
-            device.serialPortPath
-          );
-
-          if (
-            !device.id ||
-            !device.uniqueName ||
-            !device.serialNumber ||
-            device.serialNumber !== connectedDevice.serialNumber ||
-            !deviceContext.deviceId ||
-            !deviceContext.contextId ||
-            !deviceContext.assignedDeviceName ||
-            deviceContext.deviceId !== device.id ||
-            deviceContext.contextId !== context.id
-          ) {
-            db.update((data) => {
-              data.deviceContext = {
-                contextId: "",
-                deviceId: "",
-                assignedDeviceName: "",
-              };
-              data.device = {
-                id: "",
-                serialNumber: "",
-                uniqueName: "",
-                serialPortPath: "",
-              };
-            });
-            replServer.setPrompt(getPrompt());
-            console.log(
-              `device needs to be initialized; run 'connect' to initialize device`
-            );
-            return;
-          }
-
-          // incase the port path changed
-          if (connectedDevice.serialPortPath !== device.serialPortPath) {
-            db.update((data) => {
-              data.device.serialPortPath = connectedDevice.serialPortPath;
-            });
-          }
-        }
-      }
-    }
+    await runChecks({ commandName, commandArgument: args[1], replServer });
 
     replServer.setPrompt("");
     command
