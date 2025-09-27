@@ -34,7 +34,7 @@ export const passwordPrompt = async (
 
 const getPassword = async () => {
   const password = await passwordPrompt();
-  const confirmPassword = await passwordPrompt(true);
+  const confirmPassword = await passwordPrompt(true, false);
 
   if (password === confirmPassword) {
     return password;
