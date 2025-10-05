@@ -1,3 +1,10 @@
+# [1.1.0-alpha.18](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.17...v1.1.0-alpha.18) (2025-10-05)
+
+
+### Features
+
+* installation script ([9eeae55](https://github.com/rrivirr/rriv-ctl/commit/9eeae554fef597c2a68a7132186e3e02cd350001))
+
 # [1.1.0-alpha.17](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.16...v1.1.0-alpha.17) (2025-09-27)
 
 
