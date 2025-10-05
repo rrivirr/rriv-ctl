@@ -7,7 +7,7 @@ export const flashFirmware = async (firmwareVersion: string) => {
 
   const dirPath = getRrivCtlDir();
 
-  const downloadFirmwareCommand = `curl --proto '=https' --tlsv1.2 -Lo ${dirPath}/rriv-firmware.bin https://github.com/rrivirr/rriv-firmware/releases/download/${firmwareVersion}/rriv-firmware.bin`;
+  const downloadFirmwareCommand = `curl --proto '=https' --tlsv1.2 -LsSfo ${dirPath}/rriv-firmware.bin https://github.com/rrivirr/rriv-firmware/releases/download/${firmwareVersion}/rriv-firmware.bin`;
   const flashCommand = `probe-rs download ${dirPath}/rriv-firmware.bin \
       --chip STM32F103RE  \
       --protocol swd \
