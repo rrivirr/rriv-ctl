@@ -42,6 +42,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v5
         with:
@@ -57,10 +59,13 @@ jobs:
       - name: Build binaries
         run: npm run binary
         env:
-          RRIV_API_URL: https://api-dev.rriv.org/rriv
-          KEYCLOAK_URL: https://auth-dev.rriv.org/realms/rriv-beta-dev/protocol/openid-connect/token
+          RRIV_API_URL: https://api.dev.rriv.org/rriv
+          KEYCLOAK_URL: https://auth.dev.rriv.org/realms/rriv-beta-dev/protocol/openid-connect/token
           KEYCLOAK_CLIENT_ID: rrivctl
-          DATA_API_URL: https://api-dev.rriv.org/data/readings
+          DATA_API_URL: https://api.dev.rriv.org/data/readings
+
+      - name: move install.sh
+        run: cp install.sh apps/
 
       - name: Upload binaries
         uses: svenstaro/upload-release-action@v2

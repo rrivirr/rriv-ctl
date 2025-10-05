@@ -1,5 +1,4 @@
-import { createContext } from "vm";
-import { getContexts } from "../api/context.ts";
+import { getContexts, createContext } from "../api/context.ts";
 import db from "../db/db.ts";
 import { getConnectedDevice } from "../util/get-connected-device.ts";
 import { getPrompt } from "../repl/utils.ts";

@@ -38,7 +38,20 @@ export async function processReplCommand(
     (commandToExecute.parent as any)._lifeCycleHooks = {};
     (commandToExecute as any)._optionValues = {};
 
-    await runChecks({ commandName, commandArgument: args[1], replServer });
+    try {
+      const valid = await runChecks({
+        commandName,
+        commandArgument: args[1],
+        replServer,
+      });
+      if (!valid) {
+        return;
+      }
+    } catch (error) {
+      errorHandler({ error, exit: false });
+      replServer.setPrompt(getPrompt());
+      replServer.displayPrompt();
+    }
 
     replServer.setPrompt("");
     command
