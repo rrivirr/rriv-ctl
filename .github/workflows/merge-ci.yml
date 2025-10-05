@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          ref: ${{ needs.release.outputs.new-release-git-tag }}
 
       - uses: actions/setup-node@v5
         with:
@@ -64,8 +64,8 @@ jobs:
           KEYCLOAK_CLIENT_ID: rrivctl
           DATA_API_URL: https://api.dev.rriv.org/data/readings
 
-      - name: move install.sh
-        run: cp install.sh apps/
+      - name: move installer
+        run: cp rrivcli-installer.sh apps/
 
       - name: Upload binaries
         uses: svenstaro/upload-release-action@v2
