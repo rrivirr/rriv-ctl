@@ -1,3 +1,10 @@
+# [1.1.0-alpha.19](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.18...v1.1.0-alpha.19) (2025-10-05)
+
+
+### Features
+
+* binary realease tag version ([764ff48](https://github.com/rrivirr/rriv-ctl/commit/764ff4891824c056157dea89a637e7f52636e3a1))
+
 # [1.1.0-alpha.18](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.17...v1.1.0-alpha.18) (2025-10-05)
 
 
