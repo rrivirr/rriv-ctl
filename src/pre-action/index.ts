@@ -2,6 +2,7 @@ import { Command } from "commander";
 import { errorHandler } from "../util/error-handler.ts";
 import { authCheck } from "../util/auth-check.ts";
 import { runChecks } from "./run-checks.ts";
+import { checkVersionAndUpdate } from "../modules/update/update.service.ts";
 
 export const preAction = async (
   thisCommand: Command,
@@ -11,13 +12,16 @@ export const preAction = async (
   const args = actionCommand.args;
 
   try {
-    // @TODO update functionality of update command as well as checkVersion function
-    // if (commandName !== "update") {
-    // await checkVersion();
-    // }
+    if (commandName !== "update") {
+      await checkVersionAndUpdate();
+    }
 
     if (
-      !(actionCommand.parent?.name() === "auth" || commandName === "whoami")
+      !(
+        actionCommand.parent?.name() === "auth" ||
+        commandName === "whoami" ||
+        commandName === "update"
+      )
     ) {
       await authCheck();
       if (commandName !== "rrivctl") {

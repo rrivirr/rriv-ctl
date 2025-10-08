@@ -14,7 +14,7 @@ import { makeApplyCommand } from "./apply/index.ts";
 import { makeDeleteCommand } from "./delete/index.ts";
 import { makeSyncCommand } from "./sync/index.ts";
 import { makeUseCommand } from "./use/index.ts";
-// import { makeUpdateCommand } from "./update/index.ts";
+import { makeUpdateCommand } from "./update/index.ts";
 import { makeSaveCommand } from "./save/index.ts";
 import { makePublishCommand } from "./publish/index.ts";
 import { makeEndCommand } from "./end/index.ts";
@@ -36,7 +36,7 @@ export const initializeCommands = async (cli: Command) => {
   makeDeleteCommand(cli);
   makeSyncCommand(cli);
   makeUseCommand(cli);
-  // makeUpdateCommand(cli); @TODO
+  makeUpdateCommand(cli);
   makeSaveCommand(cli);
   makePublishCommand(cli);
   makeEndCommand(cli);
