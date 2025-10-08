@@ -1,3 +1,11 @@
+# [1.1.0-alpha.20](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.19...v1.1.0-alpha.20) (2025-10-08)
+
+
+### Features
+
+* change firmware download to use mod spawn ([767aaaa](https://github.com/rrivirr/rriv-ctl/commit/767aaaaed471a18db35fffa261737fa9912e63ae))
+* support auto update ([1a68406](https://github.com/rrivirr/rriv-ctl/commit/1a684069378060c27314299675d3b639cb818e01))
+
 # [1.1.0-alpha.19](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.18...v1.1.0-alpha.19) (2025-10-05)
 
 
