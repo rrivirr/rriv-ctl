@@ -3,6 +3,7 @@ import { JSONFileSyncPreset } from "lowdb/node";
 import fs from "fs";
 import { toSyncConfig } from "../types.ts";
 import { getRrivCtlDir } from "../util/paths.ts";
+import { UpdateChannel } from "../constants.ts";
 
 export interface Data {
   accessToken: string;
@@ -24,6 +25,7 @@ export interface Data {
   expirationTime: number;
   toSync: toSyncConfig[];
   lastVersionCheckAt: Date;
+  updateChannel: UpdateChannel;
   replSigIntFunctions: Function[];
 }
 
@@ -39,6 +41,7 @@ const defaultData: Data = {
   expirationTime: 0,
   toSync: [],
   lastVersionCheckAt: new Date("1/1/1970"),
+  updateChannel: "stable",
   replSigIntFunctions: [],
 };
 
