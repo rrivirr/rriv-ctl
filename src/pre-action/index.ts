@@ -10,6 +10,7 @@ export const preAction = async (
 ) => {
   const commandName = actionCommand.name();
   const args = actionCommand.args;
+  const options = actionCommand.opts();
 
   try {
     if (commandName !== "update") {
@@ -24,7 +25,12 @@ export const preAction = async (
       )
     ) {
       await authCheck();
-      if (commandName !== "rrivctl") {
+      if (
+        !(
+          commandName === "rrivctl" ||
+          (commandName === "list" && args[0] === "device" && options.all)
+        )
+      ) {
         const valid = await runChecks({
           commandName,
           commandArgument: args[0],
