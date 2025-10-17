@@ -16,10 +16,7 @@ export const errorHandler = (body: { error: any; exit: boolean }) => {
     } else {
       console.log(errorMessage);
     }
-  } else if (
-    error instanceof CommanderError ||
-    error?.message === "exit repl flow"
-  ) {
+  } else if (error instanceof CommanderError || error?.message === "exit") {
     // do nothing
   } else if (error.message === "(outputHelp)") {
     if (exit) {

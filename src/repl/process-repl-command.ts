@@ -38,22 +38,32 @@ export async function processReplCommand(
     (commandToExecute.parent as any)._lifeCycleHooks = {};
     (commandToExecute as any)._optionValues = {};
 
-    try {
-      const valid = await runChecks({
-        commandName,
-        commandArgument: args[1],
-        replServer,
-      });
-      if (!valid) {
+    if (
+      !(
+        (commandName === "list" &&
+          args[1] === "device" &&
+          (args[2] === "--all" || args[2] === "-a")) ||
+        (commandName === "provision" && args[1] === "device")
+      )
+    ) {
+      try {
+        const valid = await runChecks({
+          commandName,
+          commandArgument: args[1],
+          replServer,
+        });
+        if (!valid) {
+          return;
+        }
+      } catch (error) {
+        errorHandler({ error, exit: false });
+        replServer.setPrompt(getPrompt());
+        replServer.displayPrompt();
         return;
       }
-    } catch (error) {
-      errorHandler({ error, exit: false });
-      replServer.setPrompt(getPrompt());
-      replServer.displayPrompt();
     }
 
-    replServer.setPrompt("");
+    replServer.setPrompt(""); // so prompt doesn't show if command logs numerous lines
     command
       .parseAsync(args, { from: "user" })
       .then(() => {

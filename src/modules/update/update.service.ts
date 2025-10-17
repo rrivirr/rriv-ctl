@@ -73,7 +73,6 @@ export const checkVersionAndUpdate = async () => {
   if (!diffTime || diffTime > 86400000) {
     try {
       const latestTag = await getLatestTag(updateChannel || "stable");
-      console.log(currentTag, latestTag);
       if (latestTag !== currentTag) {
         console.log("New rrivctl update found...");
 

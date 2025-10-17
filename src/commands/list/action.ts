@@ -19,7 +19,7 @@ export const listAction = async (object: string, options: any) => {
     const payload = new Map();
     payload.set("object", object);
     payload.set("action", "list");
-    const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
+    const payloadString = JSON.stringify(Object.fromEntries(payload));
 
     await sendCommands([payloadString]);
   } else if (object === "context") {

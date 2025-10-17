@@ -1,6 +1,11 @@
 import { SerialPort } from "serialport";
+import { italic } from "yoctocolors";
+import { getDeviceDetails } from "./get-device-details.ts";
 
-export const getConnectedDevice = async (defaultSerialPortPath?: string) => {
+export const getConnectedDevice = async (
+  defaultSerialPortPath?: string,
+  provisionCommand?: boolean
+) => {
   let serialPortPath = "";
   let count = 0;
   let wait = false;
@@ -23,6 +28,12 @@ export const getConnectedDevice = async (defaultSerialPortPath?: string) => {
         break w;
       }
     }
+
+    if (defaultSerialPortPath) {
+      // port was specified; not found automatically
+      break;
+    }
+
     if (count === 0) {
       console.log("No RRIV device found");
       console.log("Waiting for a device");
@@ -32,7 +43,7 @@ export const getConnectedDevice = async (defaultSerialPortPath?: string) => {
     await new Promise((r) => setTimeout(r, 500));
   }
 
-  if (!serialPortPath) {
+  if (!serialPortPath && !defaultSerialPortPath) {
     console.log(
       "Try using -p <path> to specify the path to the RRIV serial device"
     );
@@ -41,10 +52,24 @@ export const getConnectedDevice = async (defaultSerialPortPath?: string) => {
     );
   }
 
-  // @TODO get the details of the device; serialNumber; hardware version; software version; etc
+  const { serialNumber, uid } = await getDeviceDetails(
+    defaultSerialPortPath || serialPortPath
+  );
+
+  if (serialNumber.includes("*")) {
+    if (!provisionCommand) {
+      throw new Error(
+        `device not yet provisioned.\nrun ${italic("rrivctl provision device")} to set up the device`
+      );
+    }
+  } else if (provisionCommand) {
+    throw new Error(`device already provisioned`);
+  }
+
   return {
     serialPortPath,
-    serialNumber: "default",
+    serialNumber,
+    uid,
     wait,
   };
 };

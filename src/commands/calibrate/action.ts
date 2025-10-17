@@ -23,7 +23,7 @@ export const calibrateAction = async (
     }
   }
 
-  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
+  const payloadString = JSON.stringify(Object.fromEntries(payload));
   console.log(payloadString);
 
   await sendCommands([payloadString]);

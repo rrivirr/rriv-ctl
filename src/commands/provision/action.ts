@@ -1,0 +1,33 @@
+import { getConnectedDevice } from "../../util/get-connected-device.ts";
+import db from "../../db/db.ts";
+import { flashInitialFirmware } from "../../modules/firmware/flash.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
+import { italic } from "yoctocolors";
+import { provisionDevice } from "../../api/device.ts";
+
+export const provisionAction = async (options: any) => {
+  const { path } = options;
+  const { serialPortPath, uid } = await getConnectedDevice(path, true);
+  const { accessToken } = db.data;
+
+  await flashInitialFirmware(serialPortPath);
+  console.log("device successfully flashed...");
+  const device = await provisionDevice({ uid, accessToken });
+  console.log("setting serial number on device...");
+  await sendCommands(
+    [
+      JSON.stringify({
+        action: "set",
+        object: "device",
+        serial_number: device.serialNumber,
+      }),
+    ],
+    false,
+    serialPortPath
+  );
+  console.log(
+    `device successfully provisioned
+  run ${italic("rrivcli connect -a <name to assign device in current context>")}
+  to connect the device to your account`
+  );
+};
