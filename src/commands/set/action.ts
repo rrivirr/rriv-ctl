@@ -15,7 +15,7 @@ export const setAction = async (
   let property = propertyArg;
   let propertyValue = propertyValueArg;
 
-  if (object === "board" || object === "datalogger") {
+  if (object === "board" || object === "datalogger" || object == "device") {
     // deal with absense of id in board command
     property = id;
     propertyValue = propertyArg;
@@ -26,7 +26,10 @@ export const setAction = async (
   }
 
   if (property && propertyValue) {
-    payload[property] = +propertyValue || propertyValue;
+    payload[property] =
+      propertyValue === "true" || propertyValue === "false"
+        ? propertyValue === "true"
+        : +propertyValue || propertyValue;
   } else {
     const file = options.file;
     if (!file) {
