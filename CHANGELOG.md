@@ -1,3 +1,10 @@
+# [1.1.0-alpha.22](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.21...v1.1.0-alpha.22) (2025-10-17)
+
+
+### Features
+
+* merge lastest from v1 ([ffbca96](https://github.com/rrivirr/rriv-ctl/commit/ffbca963b88d5bd33a4c4e7573ebc8ffd1ff4241))
+
 # [1.1.0-alpha.21](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.20...v1.1.0-alpha.21) (2025-10-17)
 
 
