@@ -36,15 +36,28 @@ export const getDevices = async (body: {
   return response.data;
 };
 
+export const provisionDevice = async (body: {
+  uid: string;
+  accessToken: string;
+}): Promise<Device> => {
+  const { uid, accessToken } = body;
+  const response = await axios.post(
+    `${process.env.RRIV_API_URL}/device`,
+    { uid, type: "rriv_0_4_2" },
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+  return response.data;
+};
+
 export const bindDevice = async (body: {
-  uniqueName: string;
   serialNumber: string;
   accessToken: string;
 }): Promise<Device> => {
-  const { uniqueName, serialNumber, accessToken } = body;
+  const { serialNumber, accessToken } = body;
   const response = await axios.post(
     `${process.env.RRIV_API_URL}/device/${serialNumber}/bind`,
-    { uniqueName },
+    {},
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 

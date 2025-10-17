@@ -10,21 +10,12 @@ import { uploadDataloggerConfig } from "../../modules/config/datalogger-config.s
 import { waitForReady } from "../../infra/wait-for-ready.ts";
 
 export const connectAction = async (options: any) => {
-  const { uniqueName, assignedDeviceName, path } = options;
-  // detect the serial port
-  let serialNumber,
-    serialPortPath,
-    wait = false;
+  const { assignedDeviceName, path } = options;
 
-  if (path) {
-    serialNumber = "default";
-    serialPortPath = path;
-  } else {
-    const connectedDevice = await getConnectedDevice();
-    serialNumber = connectedDevice.serialNumber;
-    serialPortPath = connectedDevice.serialPortPath;
-    wait = connectedDevice.wait;
-  }
+  const connectedDevice = await getConnectedDevice(path);
+  const serialNumber = connectedDevice.serialNumber;
+  const serialPortPath = connectedDevice.serialPortPath;
+  const wait = connectedDevice.wait;
 
   const {
     device: {
@@ -69,7 +60,6 @@ export const connectAction = async (options: any) => {
       device = await bindDevice({
         accessToken,
         serialNumber,
-        uniqueName,
       });
       pullConfig = true;
     }

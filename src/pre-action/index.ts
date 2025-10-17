@@ -28,7 +28,9 @@ export const preAction = async (
       if (
         !(
           commandName === "rrivctl" ||
-          (commandName === "list" && args[0] === "device" && options.all)
+          (commandName === "list" && args[0] === "device" && options.all) ||
+          (commandName === "device" &&
+            actionCommand.parent?.name() === "provision")
         )
       ) {
         const valid = await runChecks({

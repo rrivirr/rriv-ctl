@@ -40,9 +40,10 @@ export async function processReplCommand(
 
     if (
       !(
-        commandName === "list" &&
-        args[1] === "device" &&
-        (args[2] === "--all" || args[2] === "-a")
+        (commandName === "list" &&
+          args[1] === "device" &&
+          (args[2] === "--all" || args[2] === "-a")) ||
+        (commandName === "provision" && args[1] === "device")
       )
     ) {
       try {
@@ -58,10 +59,11 @@ export async function processReplCommand(
         errorHandler({ error, exit: false });
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
+        return;
       }
     }
 
-    replServer.setPrompt("");
+    replServer.setPrompt(""); // so prompt doesn't show if command logs numerous lines
     command
       .parseAsync(args, { from: "user" })
       .then(() => {

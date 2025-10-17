@@ -2,12 +2,15 @@ import { ReadlineParser } from "serialport";
 import { connectSerial } from "./connect-serial.ts";
 import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 
-export const waitForReady = () => {
+export const waitForReady = (specifiedPath?: string) => {
   const serialPortPath = getSerialPathFromCache();
-  const serialPort = connectSerial(serialPortPath);
+  const serialPort = connectSerial(specifiedPath || serialPortPath);
 
   return new Promise<void>((resolve, reject) => {
-    let timeout: ReturnType<typeof setTimeout> | null = null;
+    let timeout: ReturnType<typeof setTimeout> | null = setTimeout(function () {
+      serialPort.close();
+      reject("Timed out waiting for datalogger-ready status");
+    }, 10000);
 
     const parser = new ReadlineParser({
       delimiter: "\n",
@@ -25,10 +28,8 @@ export const waitForReady = () => {
       } else {
         timeout = setTimeout(function () {
           serialPort.close();
-          reject(
-            "Timed out talking to the datalogger. Ensure it is plugged in."
-          );
-        }, 3000);
+          reject("Timed out waiting for datalogger-ready");
+        }, 5000);
       }
     });
 

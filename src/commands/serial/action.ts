@@ -13,7 +13,7 @@ export const serialAction = async (action: string, message: string) => {
   payload.set("action", action);
   payload.set("message", message_to_send);
 
-  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
+  const payloadString = JSON.stringify(Object.fromEntries(payload));
   console.log(payloadString);
 
   await sendCommands([payloadString]);

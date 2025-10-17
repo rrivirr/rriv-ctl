@@ -49,7 +49,7 @@ export const getAction = async (
       payload.set("parameter", parameter);
     }
   }
-  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
+  const payloadString = JSON.stringify(Object.fromEntries(payload));
   console.log("sending command: ");
   console.log(payloadString);
 

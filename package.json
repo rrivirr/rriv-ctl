@@ -74,6 +74,7 @@
     "moment": "^2.30.1",
     "serialport": "^13.0.0",
     "to-hex": "^0.0.18",
+    "unique-names-generator": "^4.7.1",
     "yoctocolors": "^2.1.1"
   }
 }
