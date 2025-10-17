@@ -1,17 +1,14 @@
-import ChildProcess from "child_process";
-import util from "util";
 import { probeRsCheck } from "./util/probe-rs-check.ts";
+import { getRrivCtlDir } from "../../util/paths.ts";
+import { spawn } from "../../util/spawn.ts";
 
-export const probeDebug = async () => {
+export const probeDebug = async (firmwareVersion: string) => {
   await probeRsCheck();
 
-  const exec = util.promisify(ChildProcess.exec);
-  const { stdout } =
-    await exec(`probe-rs attach board/target/thumbv7m-none-eabi/debug/app \
-        --chip STM32F103RE  \
-        --protocol swd \
-        --allow-erase-all \
-        --chip-erase`);
-
-  console.log(stdout);
+  const dirPath = getRrivCtlDir();
+  await spawn("sh", [
+    `${process.cwd()}/src/modules/firmware/scripts/probe-debug.sh`,
+    dirPath,
+    firmwareVersion,
+  ]);
 };

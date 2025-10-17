@@ -5,6 +5,6 @@ export const flashAction = async (firmwareVersion: string) => {
   await flashFirmware(firmwareVersion);
 };
 
-export const debugAction = async () => {
-  await probeDebug();
+export const debugAction = async (firmwareVersion: string) => {
+  await probeDebug(firmwareVersion);
 };

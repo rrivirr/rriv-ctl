@@ -7,6 +7,7 @@ export const makeFirmwareCommands = (cli: Command) => {
   probeCommand
     .command("debug")
     .description("attach to debug logs")
+    .argument("<firmwareVersion>")
     .action(debugAction);
 
   cli
