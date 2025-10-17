@@ -1,3 +1,10 @@
+# [1.1.0-alpha.23](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.22...v1.1.0-alpha.23) (2025-10-17)
+
+
+### Bug Fixes
+
+* rebuild package-lock.json ([324be12](https://github.com/rrivirr/rriv-ctl/commit/324be125bcfbbc4689cb0f766e411934279a041d))
+
 # [1.1.0-alpha.22](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.21...v1.1.0-alpha.22) (2025-10-17)
 
 
