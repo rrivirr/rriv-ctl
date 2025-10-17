@@ -5,6 +5,7 @@ export const CONFIGS = [
   "telemeter",
   "datalogger",
   "board",
+  "device",
 ] as const;
 
 export const UPDATE_CHANNEL = ["stable", "alpha"] as const;

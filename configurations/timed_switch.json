@@ -1,0 +1,6 @@
+{
+  "type": "timed_switch_2",
+  "on_time_s": 5,
+  "off_time_s": 5,
+  "gpio_pin": 5
+}

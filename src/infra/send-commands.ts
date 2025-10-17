@@ -76,6 +76,9 @@ export const sendSingleCommand = (
       } else {
         try {
           const response = JSON.parse(data);
+          if (response["mode"] === "field") {
+            console.log("Datalogger is in field mode");
+          }
           if (echoResponse) {
             console.log(response);
           }
