@@ -1,3 +1,18 @@
+# [1.1.0-alpha.21](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.20...v1.1.0-alpha.21) (2025-10-17)
+
+
+### Bug Fixes
+
+* add extra timeout check ([bf36952](https://github.com/rrivirr/rriv-ctl/commit/bf36952ac28da75fe0c745b0934c62177c4be0ec))
+* minor fixes ([727566d](https://github.com/rrivirr/rriv-ctl/commit/727566dd9fe138690b94bc9d599b4570ace6f5b3))
+* probe debug ([29be1ba](https://github.com/rrivirr/rriv-ctl/commit/29be1ba978d03edb3f68356c36551490ec3c0565))
+* remove unused packages ([787e6ef](https://github.com/rrivirr/rriv-ctl/commit/787e6ef17f7416e0589e5f0c5177fc87d47e18d5))
+
+
+### Features
+
+* device provisioning ([e8aee14](https://github.com/rrivirr/rriv-ctl/commit/e8aee14d9df373eb593ddf199e7038b37cf145cb))
+
 # [1.1.0-alpha.20](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.19...v1.1.0-alpha.20) (2025-10-08)
 
 
