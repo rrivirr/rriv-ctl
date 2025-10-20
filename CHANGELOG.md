@@ -1,3 +1,15 @@
+# [1.1.0-alpha.24](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.23...v1.1.0-alpha.24) (2025-10-20)
+
+
+### Bug Fixes
+
+* probe debug update file ([987bbf6](https://github.com/rrivirr/rriv-ctl/commit/987bbf66f2cfbdd8129491c2b6ee6088acb2a5c9))
+
+
+### Features
+
+* log flash firmware events ([312c905](https://github.com/rrivirr/rriv-ctl/commit/312c90581072895e60bb2fbaeb4061ef6b83f5ca))
+
 # [1.1.0-alpha.23](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.22...v1.1.0-alpha.23) (2025-10-17)
 
 
