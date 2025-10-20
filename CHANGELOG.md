@@ -1,3 +1,10 @@
+# [1.1.0-alpha.25](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.24...v1.1.0-alpha.25) (2025-10-20)
+
+
+### Bug Fixes
+
+* change installer alias ([d8024cf](https://github.com/rrivirr/rriv-ctl/commit/d8024cf88a9e8c14a4959065b831a8bea222b6a0))
+
 # [1.1.0-alpha.24](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.23...v1.1.0-alpha.24) (2025-10-20)
 
 
