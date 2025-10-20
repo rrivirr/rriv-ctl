@@ -33,7 +33,7 @@
     if [[ ! -d $INSTALL_DIR ]]; then
         mkdir -p $INSTALL_DIR
     fi
-    app_location="$INSTALL_DIR/rrivcli"
+    app_location="$INSTALL_DIR/rrivctl"
 
     if [[ -z "$1" ]]; then
         download_url=https://github.com/rrivirr/rriv-ctl/latest/download/rriv-cli-$os-$arch
@@ -44,7 +44,7 @@
     curl --proto '=https' --tlsv1.2 --progress-bar -fSLo $app_location $download_url
     chmod +x $app_location
 
-    line_to_add="alias rrivcli=$app_location"
+    line_to_add="alias rrivctl=$app_location"
     shell=".bashrc"
     
 
@@ -53,6 +53,15 @@
     fi
 
     shell_rc="$HOME/$shell"
+
+    # remove previous aliases
+    sed -i "/alias rrivctl='node/d" $shell_rc
+    sed -i "/alias rrivcli=/d" $shell_rc
+
+    # remove previous comments
+    sed -i "/Alias for rrivctl/d" $shell_rc
+    sed -i "/Alias for rrivcli/d" $shell_rc
+
     check_if_line_exists()
     {
         grep -qsFx "$line_to_add" $shell_rc
@@ -62,9 +71,8 @@
     add_line_to_shrc()
     {
         printf "\n" >> "$shell_rc"
-        printf "# Alias for rrivcli binary app\n" >> "$shell_rc"
         printf "%s\n" "$line_to_add" >> "$shell_rc"
-        echo "Please restart your shell or source ~/$shell run to make rrivcli available"
+        echo "Please restart your shell or source ~/$shell run to make rrivctl available"
     }
 
     check_if_line_exists || add_line_to_shrc

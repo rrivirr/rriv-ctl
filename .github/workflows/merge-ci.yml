@@ -65,7 +65,7 @@ jobs:
           DATA_API_URL: https://api.dev.rriv.org/data/readings
 
       - name: move installer
-        run: cp rrivcli-installer.sh apps/
+        run: cp rrivctl-installer.sh apps/
 
       - name: Upload binaries
         uses: svenstaro/upload-release-action@v2

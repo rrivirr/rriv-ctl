@@ -6,7 +6,7 @@ import { getLatestTag } from "./util/get-latest-tag.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { spawn } from "../../util/spawn.ts";
 
-export const updateRrivcli = async (tag?: string, channel?: UpdateChannel) => {
+export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
   if (channel) {
     db.update((data) => {
       data.updateChannel = channel;
@@ -25,7 +25,7 @@ export const updateRrivcli = async (tag?: string, channel?: UpdateChannel) => {
   }
 
   const currentTag = `v${packageJson.version}`;
-  const args = ["rrivcli-installer.sh"];
+  const args = ["rrivctl-installer.sh"];
 
   if (tag) {
     if (
@@ -38,7 +38,7 @@ export const updateRrivcli = async (tag?: string, channel?: UpdateChannel) => {
       return;
     }
     if (tag === currentTag) {
-      console.log("rrivcli is on the specified version");
+      console.log("rrivctl is on the specified version");
       return;
     }
     args.push(tag);
@@ -47,7 +47,7 @@ export const updateRrivcli = async (tag?: string, channel?: UpdateChannel) => {
     console.log("updating to", latestTag);
 
     if (currentTag === latestTag) {
-      console.log("rrivcli is already on the latest version");
+      console.log("rrivctl is already on the latest version");
       return;
     }
     args.push(latestTag);
@@ -56,7 +56,7 @@ export const updateRrivcli = async (tag?: string, channel?: UpdateChannel) => {
     console.log("updating to", latestTag);
 
     if (latestTag === currentTag) {
-      console.log("rrivcli is already on the latest version");
+      console.log("rrivctl is already on the latest version");
       return;
     }
   }
@@ -78,7 +78,7 @@ export const checkVersionAndUpdate = async () => {
 
         const answer = await confirm({ message: `Update?` });
         if (answer) {
-          await updateRrivcli(latestTag);
+          await updateRrivctl(latestTag);
         }
       }
     } catch (error) {

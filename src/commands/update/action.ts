@@ -1,4 +1,4 @@
-import { updateRrivcli } from "../../modules/update/update.service.ts";
+import { updateRrivctl } from "../../modules/update/update.service.ts";
 
 export const updateAction = async (tag: string, options: any) => {
   if (tag) {
@@ -11,5 +11,5 @@ export const updateAction = async (tag: string, options: any) => {
 
   const { channel } = options;
 
-  await updateRrivcli(tag, channel);
+  await updateRrivctl(tag, channel);
 };
