@@ -27,7 +27,7 @@ export const provisionAction = async (options: any) => {
   );
   console.log(
     `device successfully provisioned
-  run ${italic("rrivcli connect -a <name to assign device in current context>")}
+  run ${italic("rrivctl connect -a <name to assign device in current context>")}
   to connect the device to your account`
   );
 };
