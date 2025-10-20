@@ -15,4 +15,5 @@ export enum SyncDataType {
   DataloggerConfig = "DataloggerConfig",
   SensorConfig = "SensorConfig",
   ConfigSnapshot = "ConfigSnapshot",
+  FirmwareHistory = "FirmwareHistory",
 }

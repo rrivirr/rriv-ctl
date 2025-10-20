@@ -1,5 +1,6 @@
 import { overwriteConfigSnapshot } from "../../api/config-snapshot.ts";
 import { createDataloggerConfig } from "../../api/datalogger.ts";
+import { createFirmwareHistoryEntry } from "../../api/device.ts";
 import { createSensorConfig } from "../../api/sensor.ts";
 import { SyncDataType } from "../../constants.ts";
 import db from "../../db/db.ts";
@@ -27,6 +28,8 @@ export const syncCommands = async (source: Source) => {
         await createDataloggerConfig({ ...data, accessToken });
       } else if (type === SyncDataType.SensorConfig) {
         await createSensorConfig({ ...data, accessToken });
+      } else if (type === SyncDataType.FirmwareHistory) {
+        await createFirmwareHistoryEntry({ ...data, accessToken });
       }
       db.update((data) => {
         const toSyncData = data.toSync;

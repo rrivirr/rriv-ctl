@@ -76,3 +76,38 @@ export const unbindDevice = async (
 
   return response.data;
 };
+
+export const createFirmwareHistoryEntry = async (body: {
+  version: string;
+  installedAt: string;
+  deviceId: string;
+  contextId: string;
+  accessToken: string;
+}) => {
+  const { version, installedAt, deviceId, contextId, accessToken } = body;
+  await axios.post(
+    `${process.env.RRIV_API_URL}/device/firmware/history`,
+    { version, installedAt, deviceId, contextId },
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+};
+
+export const getFirmwareHistory = async (
+  body: { accessToken: string } & (
+    | {
+        deviceId: string;
+      }
+    | { serialNumber: string }
+  )
+): Promise<{ version: string; installedAt: string; createdAt: string }[]> => {
+  const { accessToken, ...params } = body;
+  const response = await axios.get(
+    `${process.env.RRIV_API_URL}/device/firmware/history`,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      params,
+    }
+  );
+
+  return response.data;
+};

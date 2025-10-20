@@ -62,7 +62,7 @@ export const runChecks = async (body: {
         )
       ) {
         const { device, deviceContext } = db.data;
-        const connectedDevice = await getConnectedDevice(device.serialPortPath);
+        const connectedDevice = await getConnectedDevice();
 
         if (
           !device.id ||

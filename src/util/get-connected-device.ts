@@ -1,14 +1,17 @@
 import { SerialPort } from "serialport";
 import { italic } from "yoctocolors";
 import { getDeviceDetails } from "./get-device-details.ts";
+import db from "../db/db.ts";
 
 export const getConnectedDevice = async (
-  defaultSerialPortPath?: string,
+  specifiedSerialPortPath?: string,
   provisionCommand?: boolean
 ) => {
   let serialPortPath = "";
   let count = 0;
   let wait = false;
+
+  const { device } = db.data;
 
   w: while (count < 50) {
     // detect the serial port
@@ -19,7 +22,8 @@ export const getConnectedDevice = async (
         (pathItem.pnpId?.includes("rriv") || pathItem.path?.includes("rriv"))
       ) {
         serialPortPath = pathItem.path;
-        if (defaultSerialPortPath) {
+        if (device.serialPortPath) {
+          // to avoid logging each time
           break w;
         }
         // pnpId not populated for macos
@@ -29,7 +33,7 @@ export const getConnectedDevice = async (
       }
     }
 
-    if (defaultSerialPortPath) {
+    if (specifiedSerialPortPath) {
       // port was specified; not found automatically
       break;
     }
@@ -43,7 +47,7 @@ export const getConnectedDevice = async (
     await new Promise((r) => setTimeout(r, 500));
   }
 
-  if (!serialPortPath && !defaultSerialPortPath) {
+  if (!serialPortPath && !specifiedSerialPortPath) {
     console.log(
       "Try using -p <path> to specify the path to the RRIV serial device"
     );
@@ -53,7 +57,7 @@ export const getConnectedDevice = async (
   }
 
   const { serialNumber, uid } = await getDeviceDetails(
-    defaultSerialPortPath || serialPortPath
+    specifiedSerialPortPath || serialPortPath
   );
 
   if (serialNumber.includes("*")) {

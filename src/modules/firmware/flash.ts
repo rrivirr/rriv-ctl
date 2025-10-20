@@ -1,31 +1,69 @@
+import { Octokit } from "@octokit/rest";
+import { randomUUID } from "crypto";
 import { probeRsCheck } from "./util/probe-rs-check.ts";
 import { getRrivCtlDir } from "../../util/paths.ts";
 import { spawn } from "../../util/spawn.ts";
 import { waitForReady } from "../../infra/wait-for-ready.ts";
+import { createFirmwareHistoryEntry } from "../../api/device.ts";
+import db from "../../db/db.ts";
+import { errorHandler } from "../../util/error-handler.ts";
+import { SyncDataType } from "../../constants.ts";
 
-export const flashFirmware = async (firmwareVersion: string) => {
+const flash = async (
+  firmwareVersion: string,
+  fileName: string,
+  serialPortPath?: string
+) => {
   await probeRsCheck();
-
   const dirPath = getRrivCtlDir();
+
   await spawn("sh", [
-    `${process.cwd()}/src/modules/firmware/scripts/flash-firmware.sh`,
+    `${process.cwd()}/src/modules/firmware/scripts/${fileName}.sh`,
     dirPath,
     firmwareVersion,
   ]);
 
   await new Promise((resolve) => setTimeout(resolve, 3000));
-  await waitForReady();
+  await waitForReady(serialPortPath);
+};
+
+export const flashFirmware = async (firmwareVersion: string) => {
+  const {
+    deviceContext: { deviceId, contextId },
+    accessToken,
+  } = db.data;
+
+  await flash(firmwareVersion, "flash-firmware");
+
+  const dataToUpload = {
+    version: firmwareVersion,
+    installedAt: new Date().toISOString(),
+    deviceId,
+    contextId,
+  };
+  try {
+    await createFirmwareHistoryEntry({ ...dataToUpload, accessToken });
+  } catch (error) {
+    db.update((data) => {
+      data.toSync = [
+        {
+          requestId: randomUUID(),
+          data: dataToUpload,
+          type: SyncDataType.FirmwareHistory,
+        },
+      ];
+    });
+    console.log("firmware cloud upload failed");
+    errorHandler({ error, exit: true });
+  }
 };
 
 export const flashInitialFirmware = async (serialPortPath?: string) => {
-  await probeRsCheck();
-
-  const dirPath = getRrivCtlDir();
-  await spawn("sh", [
-    `${process.cwd()}/src/modules/firmware/scripts/flash-initial-firmware.sh`,
-    dirPath,
-  ]);
-
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  await waitForReady(serialPortPath);
+  const octokit = new Octokit();
+  const release = await octokit.repos.getLatestRelease({
+    owner: "rrivirr",
+    repo: "rriv-firmware",
+  });
+  const firmwareVersion = release.data.tag_name;
+  await flash(firmwareVersion, "flash-initial-firmware", serialPortPath);
 };
