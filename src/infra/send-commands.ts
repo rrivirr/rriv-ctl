@@ -29,7 +29,7 @@ export const sendCommands = async (
         throw new Error("exit"); // exit flow without throwing error
       } else if (errorMessage === "datalogger-ready") {
         console.log("datalogger-ready received from device");
-        console.log("kindly run your command again");
+        console.log("run previous command again");
         throw new Error("exit");
       } else {
         throw new Error(`Command failed: ${errorMessage}`);
