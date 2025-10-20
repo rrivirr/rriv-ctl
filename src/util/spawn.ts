@@ -1,4 +1,5 @@
 import ChildProcess from "child_process";
+import { errorHandler } from "./error-handler.ts";
 
 export const spawn = (cmd: string, args: string[]) =>
   new Promise<void>((resolve, reject) => {
@@ -10,7 +11,10 @@ export const spawn = (cmd: string, args: string[]) =>
       reject(error);
     });
 
-    stdout.on("close", () => {
+    stdout.on("close", (exitCode) => {
+      if (exitCode !== 0) {
+        errorHandler({ error: { message: "exit" }, exit: true });
+      }
       resolve();
     });
   });

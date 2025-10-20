@@ -24,6 +24,9 @@ export const getConnectedDevice = async (
         serialPortPath = pathItem.path;
         if (device.serialPortPath) {
           // to avoid logging each time
+          console.log(
+            `Connecting to device at ${device.serialPortPath === pathItem.path ? device.serialPortPath : pathItem.path}`
+          );
           break w;
         }
         // pnpId not populated for macos
