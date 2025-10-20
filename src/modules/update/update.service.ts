@@ -25,7 +25,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
   }
 
   const currentTag = `v${packageJson.version}`;
-  const args = ["rrivctl-installer.sh"];
+  const args = [`${process.cwd()}/rrivctl-installer.sh`];
 
   if (tag) {
     if (
@@ -33,7 +33,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
       (!tag.includes("alpha") && updateChannel?.includes("alpha"))
     ) {
       console.log(
-        "Tag not in update channel. Use --channel to change your update channel"
+        "Tag specified not in update channel. Use --channel to change your update channel"
       );
       return;
     }
@@ -61,7 +61,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
     }
   }
 
-  await spawn(`sh`, args);
+  await spawn(`bash`, args);
 };
 
 export const checkVersionAndUpdate = async () => {
@@ -74,7 +74,7 @@ export const checkVersionAndUpdate = async () => {
     try {
       const latestTag = await getLatestTag(updateChannel || "stable");
       if (latestTag !== currentTag) {
-        console.log("New rrivctl update found...");
+        console.log("New rrivctl update found...", latestTag);
 
         const answer = await confirm({ message: `Update?` });
         if (answer) {

@@ -17,7 +17,7 @@ const flash = async (
   await probeRsCheck();
   const dirPath = getRrivCtlDir();
 
-  await spawn("sh", [
+  await spawn("bash", [
     `${process.cwd()}/src/modules/firmware/scripts/${fileName}.sh`,
     dirPath,
     firmwareVersion,

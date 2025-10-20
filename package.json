@@ -38,7 +38,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "postinstall": "./scripts/create-alias.sh",
     "lint": "eslint ./src",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky",

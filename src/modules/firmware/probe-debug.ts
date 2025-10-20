@@ -6,7 +6,7 @@ export const probeDebug = async (firmwareVersion: string) => {
   await probeRsCheck();
 
   const dirPath = getRrivCtlDir();
-  await spawn("sh", [
+  await spawn("bash", [
     `${process.cwd()}/src/modules/firmware/scripts/probe-debug.sh`,
     dirPath,
     firmwareVersion,
