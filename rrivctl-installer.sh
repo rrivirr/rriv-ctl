@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 {
     set -e
     os=$(uname -s)
@@ -50,17 +50,20 @@
 
     if [[ ${SHELL#*zsh} != $SHELL ]]; then
         shell=".zshrc"
+        # remove previous aliases for old version
+        sed -i '' "/alias rrivctl='node/d" ~/.zshrc
+        sed -i '' "/alias rrivcli=/d" ~/.zshrc
+        sed -i '' "/Alias for rrivctl/d" ~/.zshrc
+        sed -i '' "/Alias for rrivcli/d" ~/.zshrc
+    else
+        # remove previous aliases for old version
+        sed -i "/alias rrivctl='node/d" ~/.bashrc
+        sed -i "/alias rrivcli=/d" ~/.bashrc
+        sed -i "/Alias for rrivctl/d" ~/.bashrc
+        sed -i "/Alias for rrivcli/d" ~/.bashrc
     fi
 
     shell_rc="$HOME/$shell"
-
-    # remove previous aliases
-    sed -i "/alias rrivctl='node/d" $shell_rc
-    sed -i "/alias rrivcli=/d" $shell_rc
-
-    # remove previous comments
-    sed -i "/Alias for rrivctl/d" $shell_rc
-    sed -i "/Alias for rrivcli/d" $shell_rc
 
     check_if_line_exists()
     {

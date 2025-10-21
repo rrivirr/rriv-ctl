@@ -38,7 +38,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "postinstall": "./scripts/create-alias.sh",
     "lint": "eslint ./src",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky",
@@ -46,7 +45,9 @@
   },
   "pkg": {
     "assets": [
-      "node_modules/@serialport/bindings-cpp/prebuilds/**/*"
+      "node_modules/@serialport/bindings-cpp/prebuilds/**/*",
+      "rrivctl-installer.sh",
+      "src/modules/firmware/scripts/*"
     ],
     "outputPath": "./apps",
     "targets": [

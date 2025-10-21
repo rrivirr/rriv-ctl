@@ -8,6 +8,7 @@ import { createFirmwareHistoryEntry } from "../../api/device.ts";
 import db from "../../db/db.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
+import { loadScript } from "../../util/load-script.ts";
 
 const flash = async (
   firmwareVersion: string,
@@ -17,11 +18,11 @@ const flash = async (
   await probeRsCheck();
   const dirPath = getRrivCtlDir();
 
-  await spawn("sh", [
-    `${process.cwd()}/src/modules/firmware/scripts/${fileName}.sh`,
-    dirPath,
-    firmwareVersion,
-  ]);
+  const script = `../src/modules/firmware/scripts/${fileName}.sh`;
+
+  await loadScript(script, `${fileName}.sh`);
+  await spawn("bash", [`${fileName}.sh`, dirPath, firmwareVersion]);
+  await spawn("rm", [`${fileName}.sh`]);
 
   await new Promise((resolve) => setTimeout(resolve, 3000));
   await waitForReady(serialPortPath);
