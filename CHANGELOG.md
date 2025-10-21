@@ -1,3 +1,13 @@
+# [1.1.0-alpha.26](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.25...v1.1.0-alpha.26) (2025-10-21)
+
+
+### Bug Fixes
+
+* add scripts as pkg assets ([edceb3c](https://github.com/rrivirr/rriv-ctl/commit/edceb3c62f4eaf6090136d6fe0426242a5d0f4e6))
+* change installer path ([60fafbb](https://github.com/rrivirr/rriv-ctl/commit/60fafbbd0297f42d46ad966188a8198622f06bd9))
+* new line ([967267d](https://github.com/rrivirr/rriv-ctl/commit/967267d0fe182ba3ab54add46e8634d08e4782ee))
+* spawn error handling ([3170755](https://github.com/rrivirr/rriv-ctl/commit/3170755233d3255cd0c1c48443055d33220d750e))
+
 # [1.1.0-alpha.25](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.24...v1.1.0-alpha.25) (2025-10-20)
 
 
