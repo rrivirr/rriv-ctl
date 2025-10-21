@@ -25,13 +25,13 @@ export const getConnectedDevice = async (
         if (device.serialPortPath) {
           // to avoid logging each time
           console.log(
-            `Connecting to device at ${device.serialPortPath === pathItem.path ? device.serialPortPath : pathItem.path}`
+            `Connecting to device at ${device.serialPortPath === pathItem.path ? device.serialPortPath : pathItem.path}\n`
           );
           break w;
         }
         // pnpId not populated for macos
         console.log(`Found a RRIV device ${pathItem.pnpId || pathItem.path}`);
-        console.log(`Connecting to it at ${pathItem.path}`);
+        console.log(`Connecting to it at ${pathItem.path}\n`);
         break w;
       }
     }
