@@ -5,6 +5,7 @@ import packageJson from "../../../package.json" with { type: "json" };
 import { getLatestTag } from "./util/get-latest-tag.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { spawn } from "../../util/spawn.ts";
+import { loadScript } from "../../util/load-script.ts";
 
 export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
   if (channel) {
@@ -25,7 +26,9 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
   }
 
   const currentTag = `v${packageJson.version}`;
-  const args = [`${process.cwd()}/rrivctl-installer.sh`];
+
+  await loadScript("../rrivctl-installer.sh", "rrivctl-installer.sh");
+  const args = ["rrivctl-installer.sh"];
 
   if (tag) {
     if (
@@ -62,6 +65,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
   }
 
   await spawn(`bash`, args);
+  await spawn("rm", [args[0]]);
 };
 
 export const checkVersionAndUpdate = async () => {

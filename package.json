@@ -45,7 +45,9 @@
   },
   "pkg": {
     "assets": [
-      "node_modules/@serialport/bindings-cpp/prebuilds/**/*"
+      "node_modules/@serialport/bindings-cpp/prebuilds/**/*",
+      "rrivctl-installer.sh",
+      "src/modules/firmware/scripts/*"
     ],
     "outputPath": "./apps",
     "targets": [
