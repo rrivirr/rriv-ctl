@@ -27,7 +27,7 @@ export const makeListCommand = (cli: Command) => {
       "-p, --private <private>",
       "true/false, get library configs that belong to you"
     )
-    .option("-t, --asAt <asAt>", "get config snapshot as at specified time")
+    .option("-t, --as-at <asAt>", "get config snapshot as at specified time")
     .option("-a, --all", "get all devices bound to you")
     .description("list resources")
     .action(listAction);

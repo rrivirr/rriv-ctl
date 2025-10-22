@@ -33,8 +33,8 @@ export const makeAuthCommand = (cli: Command) => {
     .command("signup")
     .description("create a new user account")
     .option("-e, --email <email>")
-    .option("-f, --firstName <firstName>")
-    .option("-l, --lastName <lastName>")
+    .option("-f, --first-name <firstName>")
+    .option("-l, --last-name <lastName>")
     .action(signupAction);
 
   authCommand

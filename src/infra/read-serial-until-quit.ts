@@ -26,7 +26,7 @@ export const readSerialUntilQuit = (
       includeDelimiter: false,
     });
     const serialPort = connectSerial(serialPortPath);
-    serialPort.write(serialCommands.quietModeCommand);
+    serialPort.write(serialCommands.quietModeCommand + "\n");
     // TODO: note sure if drain, timeout, and flush are all necessary
     // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
     serialPort.drain(() => {

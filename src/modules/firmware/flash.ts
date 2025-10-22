@@ -24,8 +24,7 @@ const flash = async (
   await spawn("bash", [`${fileName}.sh`, dirPath, firmwareVersion]);
   await spawn("rm", [`${fileName}.sh`]);
 
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  await waitForReady(serialPortPath);
+  await waitForReady(serialPortPath, 3000);
 };
 
 export const flashFirmware = async (firmwareVersion: string) => {
