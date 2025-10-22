@@ -1,3 +1,12 @@
+# [1.1.0-alpha.27](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.26...v1.1.0-alpha.27) (2025-10-22)
+
+
+### Bug Fixes
+
+* add delay before waiting for ready ([1672b35](https://github.com/rrivirr/rriv-ctl/commit/1672b352570488899beddc82c7a54566072b1c36))
+* switch camelcase options to dashes ([b519514](https://github.com/rrivirr/rriv-ctl/commit/b51951405b30bef715c5d4a9871cfcfbffaf6bd5))
+* watch command ([8184f49](https://github.com/rrivirr/rriv-ctl/commit/8184f495f00ec2a415319630a0796bac04dae60b))
+
 # [1.1.0-alpha.26](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.25...v1.1.0-alpha.26) (2025-10-21)
 
 
