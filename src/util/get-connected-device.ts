@@ -3,10 +3,12 @@ import { italic } from "yoctocolors";
 import { getDeviceDetails } from "./get-device-details.ts";
 import db from "../db/db.ts";
 
-export const getConnectedDevice = async (
-  specifiedSerialPortPath?: string,
-  provisionCommand?: boolean
-) => {
+export const getConnectedDevice = async (body: {
+  specifiedSerialPortPath?: string;
+  provisionCommand?: boolean;
+  fromRunCheck?: boolean;
+}) => {
+  const { specifiedSerialPortPath, provisionCommand, fromRunCheck } = body;
   let serialPortPath = "";
   let count = 0;
   let wait = false;
@@ -22,11 +24,8 @@ export const getConnectedDevice = async (
         (pathItem.pnpId?.includes("rriv") || pathItem.path?.includes("rriv"))
       ) {
         serialPortPath = pathItem.path;
-        if (device.serialPortPath) {
+        if (device.serialPortPath || fromRunCheck) {
           // to avoid logging each time
-          console.log(
-            `Connecting to device at ${device.serialPortPath === pathItem.path ? device.serialPortPath : pathItem.path}\n`
-          );
           break w;
         }
         // pnpId not populated for macos
@@ -52,7 +51,7 @@ export const getConnectedDevice = async (
 
   if (!serialPortPath && !specifiedSerialPortPath) {
     console.log(
-      "Try using -p <path> to specify the path to the RRIV serial device"
+      "Try using rrivctl connect -p <path> to specify the path to the RRIV serial device"
     );
     throw new Error(
       "No RRIV device found connected, ensure your device is plugged in"

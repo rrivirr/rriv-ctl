@@ -7,7 +7,10 @@ import { provisionDevice } from "../../api/device.ts";
 
 export const provisionAction = async (options: any) => {
   const { path } = options;
-  const { serialPortPath, uid } = await getConnectedDevice(path, true);
+  const { serialPortPath, uid } = await getConnectedDevice({
+    specifiedSerialPortPath: path,
+    provisionCommand: true,
+  });
   const { accessToken } = db.data;
 
   await flashInitialFirmware(serialPortPath);
