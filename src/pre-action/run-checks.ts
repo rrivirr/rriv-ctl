@@ -42,8 +42,7 @@ export const runChecks = async (body: {
         } else {
           const defaultContext = contexts.find((c) => c.name === "rrivctl");
           if (!defaultContext) {
-            console.log("no context found, select context to proceed");
-            return false;
+            throw new Error("no context found, select context to proceed");
           } else {
             db.update((data) => {
               data.context = {
@@ -95,7 +94,6 @@ export const runChecks = async (body: {
           if (replServer) {
             replServer.setPrompt(getPrompt());
           }
-          return false;
         }
 
         // incase the port path changed
@@ -107,5 +105,4 @@ export const runChecks = async (body: {
       }
     }
   }
-  return true;
 };

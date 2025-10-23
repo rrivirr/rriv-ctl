@@ -33,13 +33,10 @@ export const preAction = async (
             actionCommand.parent?.name() === "provision")
         )
       ) {
-        const valid = await runChecks({
+        await runChecks({
           commandName,
           commandArgument: args[0],
         });
-        if (!valid) {
-          process.exit();
-        }
       }
     }
   } catch (error) {
