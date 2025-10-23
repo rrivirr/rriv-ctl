@@ -21,13 +21,16 @@ export const startRepl = (command: Command) => {
       const { replSigIntFunctions } = db.data;
       if (replSigIntFunctions?.length) {
         const sigIntFunctions = [...replSigIntFunctions];
-        for (const [index, func] of replSigIntFunctions.entries()) {
-          func();
-          sigIntFunctions.splice(index, 1);
-          db.update((data) => {
-            data.replSigIntFunctions = sigIntFunctions;
-          });
+        for (const func of replSigIntFunctions) {
+          // func is null if called outside of repl
+          if (func) {
+            func();
+          }
+          sigIntFunctions.shift();
         }
+        db.update((data) => {
+          data.replSigIntFunctions = sigIntFunctions;
+        });
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
       } else {
