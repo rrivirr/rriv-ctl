@@ -99,7 +99,14 @@ export const getFirmwareHistory = async (
       }
     | { serialNumber: string }
   )
-): Promise<{ version: string; installedAt: string; createdAt: string }[]> => {
+): Promise<
+  {
+    version: string;
+    installedAt: string;
+    createdAt: string;
+    contextName: string;
+  }[]
+> => {
   const { accessToken, ...params } = body;
   const response = await axios.get(
     `${process.env.RRIV_API_URL}/device/firmware/history`,
