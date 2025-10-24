@@ -12,14 +12,29 @@ export const listFirmwareHistory = async (serialNumber?: string) => {
     accessToken,
     ...(serialNumber ? { serialNumber } : { deviceId: id }),
   });
+
   if (firmwareHistory.length) {
+    const tableHead = ["version", "installedAt", "createdAt"];
+    if (serialNumber) {
+      tableHead.push("context");
+    }
+
     const table = new Table({
-      head: ["version", "installedAt", "createdAt"],
+      head: tableHead,
       wordWrap: true,
       wrapOnWordBoundary: false,
     });
-    for (const { version, installedAt, createdAt } of firmwareHistory) {
-      table.push([version, installedAt, createdAt]);
+    for (const {
+      version,
+      installedAt,
+      createdAt,
+      contextName,
+    } of firmwareHistory) {
+      const row = [version, installedAt, createdAt];
+      if (serialNumber) {
+        row.push(contextName);
+      }
+      table.push(row);
     }
     console.log(table.toString());
   } else {

@@ -36,7 +36,7 @@ export interface Device {
   createdAt: string;
   DeviceContext: {
     assignedDeviceName: string;
-    Context: { name: string };
+    Context: { name: string; id: string };
   }[];
 }
 

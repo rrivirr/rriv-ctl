@@ -47,14 +47,11 @@ export async function processReplCommand(
       )
     ) {
       try {
-        const valid = await runChecks({
+        await runChecks({
           commandName,
           commandArgument: args[1],
           replServer,
         });
-        if (!valid) {
-          return;
-        }
       } catch (error) {
         errorHandler({ error, exit: false });
         replServer.setPrompt(getPrompt());

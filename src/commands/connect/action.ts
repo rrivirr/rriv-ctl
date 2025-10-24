@@ -3,16 +3,19 @@ import { setDeviceEpoch } from "../../infra/set-device-epoch.ts";
 import db from "../../db/db.ts";
 import { getDevice } from "../../api/device.ts";
 import { bindDevice } from "../../util/bind-device.ts";
-import { getDeviceContext } from "../../api/device-context.ts";
 import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
 import { uploadDataloggerConfig } from "../../modules/config/datalogger-config.service.ts";
 import { waitForReady } from "../../infra/wait-for-ready.ts";
+import { bold, italic } from "yoctocolors";
 
 export const connectAction = async (options: any) => {
-  const { assignedDeviceName, path } = options;
+  const { assignedDeviceName, path, fromRunCheck } = options;
 
-  const connectedDevice = await getConnectedDevice(path);
+  const connectedDevice = await getConnectedDevice({
+    specifiedSerialPortPath: path,
+    fromRunCheck,
+  });
   const serialNumber = connectedDevice.serialNumber;
   const serialPortPath = connectedDevice.serialPortPath;
   const wait = connectedDevice.wait;
@@ -24,7 +27,6 @@ export const connectAction = async (options: any) => {
       serialNumber: existingSerialNumber,
     },
     context,
-    deviceContext,
     accessToken,
   } = db.data;
 
@@ -55,8 +57,6 @@ export const connectAction = async (options: any) => {
     const devices = await getDevice({ serialNumber, accessToken });
     device = devices[0];
     if (!device) {
-      console.log("no existing device information found for", serialNumber);
-      console.log("binding device to your account...");
       device = await bindDevice({
         accessToken,
         serialNumber,
@@ -80,53 +80,37 @@ export const connectAction = async (options: any) => {
   });
 
   const { id: currentContextId } = context;
-  if (
-    !deviceContext ||
-    deviceContext.contextId !== currentContextId ||
-    deviceContext.deviceId !== device.id
-  ) {
-    try {
-      const currentDeviceContext = await getDeviceContext({
-        contextId: currentContextId,
-        deviceId: device.id,
-        accessToken,
-      });
+  let deviceNameToAssign = assignedDeviceName;
 
-      db.update((data) => {
-        data.deviceContext = {
-          contextId: currentDeviceContext.contextId,
-          deviceId: currentDeviceContext.deviceId,
-          assignedDeviceName: currentDeviceContext.assignedDeviceName,
-        };
-      });
-    } catch (error: any) {
-      if (error?.response?.data?.code === 404) {
-        if (!assignedDeviceName) {
-          console.log(
-            "device not found in current context, assigned device name flag required"
-          );
-          return;
-        }
-        console.log("device not found in current context, adding device...");
-        await createDeviceContext({
-          contextId: currentContextId,
-          deviceId: device.id,
-          accessToken,
-          assignedDeviceName,
-        });
-
-        db.update((data) => {
-          data.deviceContext = {
-            contextId: currentContextId,
-            deviceId: device.id,
-            assignedDeviceName,
-          };
-        });
-      } else {
-        throw error;
-      }
+  if (device.DeviceContext?.length) {
+    const deviceContext = device.DeviceContext[0];
+    if (deviceContext.Context.id === currentContextId) {
+      deviceNameToAssign = deviceContext.assignedDeviceName;
+    } else {
+      throw new Error(
+        `device already in another context: ${bold(deviceContext.Context.name)}`
+      );
     }
+  } else if (!assignedDeviceName) {
+    throw new Error(
+      `device yet to be added to current context\nrun ${italic("rrivctl connect --assigned-device-name <name to assign device in current context>")}`
+    );
+  } else {
+    await createDeviceContext({
+      contextId: currentContextId,
+      deviceId: device.id,
+      accessToken,
+      assignedDeviceName,
+    });
   }
+
+  db.update((data) => {
+    data.deviceContext = {
+      contextId: currentContextId,
+      deviceId: device.id,
+      assignedDeviceName: deviceNameToAssign,
+    };
+  });
 
   // set epoch
   if (wait) {
@@ -136,4 +120,5 @@ export const connectAction = async (options: any) => {
   if (pullConfig) {
     await uploadDataloggerConfig({ ...dataloggerConfig, object: "datalogger" });
   }
+  console.log("success");
 };

@@ -3,6 +3,7 @@ import db from "../db/db.ts";
 import { getConnectedDevice } from "../util/get-connected-device.ts";
 import { getPrompt } from "../repl/utils.ts";
 import { REPLServer } from "repl";
+import { connectAction } from "../commands/connect/action.ts";
 
 export const runChecks = async (body: {
   commandName: string;
@@ -41,8 +42,7 @@ export const runChecks = async (body: {
         } else {
           const defaultContext = contexts.find((c) => c.name === "rrivctl");
           if (!defaultContext) {
-            console.log("no context found, select context to proceed");
-            return false;
+            throw new Error("no context found, select context to proceed");
           } else {
             db.update((data) => {
               data.context = {
@@ -62,7 +62,9 @@ export const runChecks = async (body: {
         )
       ) {
         const { device, deviceContext } = db.data;
-        const connectedDevice = await getConnectedDevice();
+        const connectedDevice = await getConnectedDevice({
+          fromRunCheck: true,
+        });
 
         if (
           !device.id ||
@@ -88,13 +90,10 @@ export const runChecks = async (body: {
               serialPortPath: "",
             };
           });
+          await connectAction({ fromRunCheck: true });
           if (replServer) {
             replServer.setPrompt(getPrompt());
           }
-          console.log(
-            `device needs to be initialized; run 'connect' to initialize device`
-          );
-          return false;
         }
 
         // incase the port path changed
@@ -106,5 +105,4 @@ export const runChecks = async (body: {
       }
     }
   }
-  return true;
 };
