@@ -1,3 +1,14 @@
+# [1.1.0-alpha.28](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.27...v1.1.0-alpha.28) (2025-10-24)
+
+
+### Bug Fixes
+
+* fix watch command cleanup ([29b5df4](https://github.com/rrivirr/rriv-ctl/commit/29b5df42e2b9815983fb3da9448d61bb9b4e7ff7))
+* minor changes ([48332de](https://github.com/rrivirr/rriv-ctl/commit/48332de94e90eefc463c525456573f8a8bf75ccf))
+* output context with firmware history ([1864929](https://github.com/rrivirr/rriv-ctl/commit/186492959203fb73deb8787c1418284538c5a091))
+* refactor connect action ([339f54a](https://github.com/rrivirr/rriv-ctl/commit/339f54abaca749e1cbc5c9bb3fe9110576f674aa))
+* removing connecting log with each command ([c6677a5](https://github.com/rrivirr/rriv-ctl/commit/c6677a5b996605a70b386cd82af0834090034d38))
+
 # [1.1.0-alpha.27](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.26...v1.1.0-alpha.27) (2025-10-22)
 
 
