@@ -82,7 +82,7 @@ export const connectAction = async (options: any) => {
   const { id: currentContextId } = context;
   let deviceNameToAssign = assignedDeviceName;
 
-  if (device.DeviceContext.length) {
+  if (device.DeviceContext?.length) {
     const deviceContext = device.DeviceContext[0];
     if (deviceContext.Context.id === currentContextId) {
       deviceNameToAssign = deviceContext.assignedDeviceName;
