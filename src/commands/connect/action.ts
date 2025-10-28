@@ -120,5 +120,4 @@ export const connectAction = async (options: any) => {
   if (pullConfig) {
     await uploadDataloggerConfig({ ...dataloggerConfig, object: "datalogger" });
   }
-  console.log("success");
 };

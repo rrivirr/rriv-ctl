@@ -173,7 +173,7 @@ export const applyConfigHistory = async (body: { timestamp: string }) => {
   const dataloggerConfig = dataloggerConfigs[0];
 
   if (!dataloggerConfig && !sensorConfigs.length) {
-    console.log("no snapshot found at specified timestamp");
+    throw new Error("no snapshot found at specified timestamp");
   }
 
   snapshot["datalogger"] = dataloggerConfig

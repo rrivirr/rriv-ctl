@@ -4,6 +4,7 @@ import serialCommands from "./serial-commands.ts";
 import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 import { DefaultObject } from "../types.ts";
 import { waitForReady } from "./wait-for-ready.ts";
+import { logAsDebug } from "../util/debug-logger.ts";
 
 export const sendCommands = async (
   commands: string[],
@@ -14,6 +15,7 @@ export const sendCommands = async (
   const results = [];
 
   for (const command of [serialCommands.quietModeCommand, ...commands]) {
+    logAsDebug("command to be sent", command);
     const result = await sendSingleCommand(
       command + "\n",
       echoResponse && command !== serialCommands.quietModeCommand,
@@ -54,6 +56,7 @@ export const sendSingleCommand = (
   return new Promise<DefaultObject>((resolve, reject) => {
     let timeout: ReturnType<typeof setTimeout> | null = setTimeout(function () {
       serialPort.close();
+      logAsDebug("no data received from the device");
       reject("Timed out talking to the datalogger. Ensure it is plugged in.");
     }, 5000);
 
@@ -63,6 +66,8 @@ export const sendSingleCommand = (
     });
 
     parser.on("data", function (data: string) {
+      logAsDebug("data received", data);
+      logAsDebug(".....");
       if (timeout) {
         clearTimeout(timeout);
       }

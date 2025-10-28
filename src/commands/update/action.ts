@@ -4,8 +4,7 @@ export const updateAction = async (tag: string, options: any) => {
   if (tag) {
     const firstLetter = tag[0];
     if (firstLetter !== "v") {
-      console.log("tags start with a v");
-      return;
+      throw new Error("tags start with a v");
     }
   }
 

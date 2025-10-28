@@ -13,8 +13,7 @@ export const getAction = async (
     const startDate = parameter;
 
     if (!id) {
-      console.log("eui required");
-      return;
+      throw new Error("eui required");
     }
 
     const dirPath = "./data";
@@ -41,17 +40,12 @@ export const getAction = async (
     }
   } else {
     if (id) {
-      console.log(id);
       payload.set("id", id);
     }
     if (parameter) {
-      console.log(parameter);
       payload.set("parameter", parameter);
     }
   }
   const payloadString = JSON.stringify(Object.fromEntries(payload));
-  console.log("sending command: ");
-  console.log(payloadString);
-
   await sendCommands([payloadString]);
 };

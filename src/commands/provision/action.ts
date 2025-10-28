@@ -4,6 +4,7 @@ import { flashInitialFirmware } from "../../modules/firmware/flash.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 import { italic } from "yoctocolors";
 import { provisionDevice } from "../../api/device.ts";
+import { logAsDebug } from "../../util/debug-logger.ts";
 
 export const provisionAction = async (options: any) => {
   const { path } = options;
@@ -14,9 +15,9 @@ export const provisionAction = async (options: any) => {
   const { accessToken } = db.data;
 
   await flashInitialFirmware(serialPortPath);
-  console.log("device successfully flashed...");
+  logAsDebug("device successfully flashed...");
   const device = await provisionDevice({ uid, accessToken });
-  console.log("setting serial number on device...");
+  logAsDebug("setting serial number on device...");
   await sendCommands(
     [
       JSON.stringify({

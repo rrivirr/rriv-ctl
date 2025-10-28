@@ -73,6 +73,7 @@ export const logout = () => {
       uniqueName: "",
     };
   });
+  console.log("successful");
 };
 
 export const signup = async (body: Partial<Omit<SignupDto, "password">>) => {
