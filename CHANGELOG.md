@@ -1,3 +1,10 @@
+# [1.1.0-alpha.29](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.28...v1.1.0-alpha.29) (2025-10-29)
+
+
+### Features
+
+* debug mode ([fdd9045](https://github.com/rrivirr/rriv-ctl/commit/fdd9045bb1995c4c4d377beacb7762b9ed44d4e8))
+
 # [1.1.0-alpha.28](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.27...v1.1.0-alpha.28) (2025-10-24)
 
 
