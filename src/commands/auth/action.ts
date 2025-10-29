@@ -30,5 +30,4 @@ export const whoamiAction = async () => {
 
 export const logoutAction = async () => {
   logout();
-  console.log("successful");
 };

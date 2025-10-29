@@ -35,10 +35,9 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
       (tag.includes("alpha") && !updateChannel?.includes("alpha")) ||
       (!tag.includes("alpha") && updateChannel?.includes("alpha"))
     ) {
-      console.log(
+      throw new Error(
         "Tag specified not in update channel. Use --channel to change your update channel"
       );
-      return;
     }
     if (tag === currentTag) {
       console.log("rrivctl is on the specified version");

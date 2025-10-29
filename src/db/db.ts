@@ -26,6 +26,7 @@ export interface Data {
   toSync: toSyncConfig[];
   lastVersionCheckAt: Date;
   updateChannel: UpdateChannel;
+  debugMode: boolean;
   replSigIntFunctions: Function[];
 }
 
@@ -42,6 +43,7 @@ const defaultData: Data = {
   toSync: [],
   lastVersionCheckAt: new Date("1/1/1970"),
   updateChannel: "stable",
+  debugMode: false,
   replSigIntFunctions: [],
 };
 
