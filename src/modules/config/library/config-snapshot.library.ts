@@ -6,9 +6,9 @@ import {
   getLibraryConfigSnapshotById,
   getConfigSnapshots,
 } from "../../../api/config-snapshot.ts";
-import db from "../../../db/db.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { applyConfigSnapshot } from "../config-snapshot.service.ts";
+import { getActiveUser } from "../../../util/get-logged-in-user.ts";
 
 export const publishConfigSnapshot = async (body: {
   configSnapshotName: string;
@@ -16,7 +16,7 @@ export const publishConfigSnapshot = async (body: {
   description?: string;
 }) => {
   const { configSnapshotName, libraryConfigName, description } = body;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const configSnapshots = await getConfigSnapshots({
     name: configSnapshotName,
@@ -71,7 +71,7 @@ export const publishCurrentConfigSnapshot = async (body: {
   const {
     accessToken,
     deviceContext: { deviceId, contextId },
-  } = db.data;
+  } = getActiveUser();
 
   const existingConfigSnapshotLibraries = await getLibraryConfigSnapshots({
     accessToken,
@@ -114,7 +114,7 @@ export const listLibraryConfigSnapshot = async (body: {
   search?: string;
 }) => {
   const { isPublic, name, search } = body;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const existingConfigSnapshotLibraries = await getLibraryConfigSnapshots({
     name,
@@ -245,7 +245,7 @@ export const applyPublishedConfigSnapshot = async (body: {
   version?: number;
 }) => {
   const { name, version } = body;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const existingConfigSnapshotLibraries = await getLibraryConfigSnapshots({
     name,

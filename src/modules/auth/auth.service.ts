@@ -11,30 +11,47 @@ import db from "../../db/db.ts";
 import { passwordPrompt, signupPrompt } from "../../prompts/auth.prompt.ts";
 import { JwtPayload } from "../../types.ts";
 import { italic } from "yoctocolors";
+import { getLoggedInUser } from "../../util/get-logged-in-user.ts";
 
 export const login = async (email: string) => {
   try {
-    const { accessToken: existingAccessToken } = db.data;
-    const password = await passwordPrompt(false, false);
-    const { accessToken, expiresIn } = await loginApiCall({
-      username: email,
-      password,
-    });
+    const user = getLoggedInUser(email);
+    if (user) {
+      db.update((data) => {
+        data.activeEmail = email;
+      });
+    } else {
+      const password = await passwordPrompt(false, false);
+      const { accessToken, expiresIn } = await loginApiCall({
+        username: email,
+        password,
+      });
+      const now = new Date();
+      const decodedToken: JwtPayload = jwtDecode(accessToken);
 
-    if (existingAccessToken) {
-      const oldDecodedToken: JwtPayload = jwtDecode(existingAccessToken);
-      const newDecodedToken: JwtPayload = jwtDecode(accessToken);
-
-      if (oldDecodedToken.email !== newDecodedToken.email) {
-        // clear cached information
-        logout();
-      }
+      db.update((data) => {
+        data.activeEmail = email;
+        data[email] = {
+          accessToken,
+          name: decodedToken.name,
+          expirationTime: +now.setSeconds(now.getSeconds() + expiresIn),
+          lastLoginAt: new Date(),
+          toSync: [],
+          context: { id: "", name: "" },
+          device: {
+            id: "",
+            uniqueName: "",
+            serialNumber: "",
+            serialPortPath: "",
+          },
+          deviceContext: {
+            contextId: "",
+            deviceId: "",
+            assignedDeviceName: "",
+          },
+        };
+      });
     }
-    const now = new Date();
-    db.update((data) => {
-      data.accessToken = accessToken;
-      data.expirationTime = +now.setSeconds(now.getSeconds() + expiresIn);
-    });
 
     console.log("authentication successful");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,32 +72,16 @@ To resend the verification email run the command ${italic(`rrivctl auth verify $
 
 export const logout = () => {
   db.update((data) => {
-    data.accessToken = "";
-    data.expirationTime = 1970;
-    data.context = {
-      id: "",
-      name: "",
-    };
-    data.deviceContext = {
-      contextId: "",
-      deviceId: "",
-      assignedDeviceName: "",
-    };
-    data.device = {
-      id: "",
-      serialNumber: "",
-      serialPortPath: "",
-      uniqueName: "",
-    };
+    delete data[data.activeEmail];
+    data.activeEmail = "";
   });
   console.log("successful");
 };
 
 export const signup = async (body: Partial<Omit<SignupDto, "password">>) => {
-  const { accessToken } = db.data;
   const signupBody = await signupPrompt(body);
 
-  await signupApiCall({ ...signupBody, accessToken });
+  await signupApiCall({ ...signupBody });
   if (signupBody.email.includes("rriv.org")) {
     console.log(
       "\nSignup complete. You must verify your email address to log in.\nPlease check your email and follow the verification link."
@@ -94,7 +95,6 @@ export const signup = async (body: Partial<Omit<SignupDto, "password">>) => {
 
 export const verify = async (email: string) => {
   await verifyApiCall({ email });
-
   console.log("A verification email should be received shortly");
 };
 
@@ -104,18 +104,17 @@ export const resetPassword = async (email: string) => {
 };
 
 export const whoami = async () => {
-  const { accessToken, expirationTime } = db.data;
+  const user = getLoggedInUser();
 
-  if (!expirationTime || !accessToken || Date.now() > expirationTime) {
+  if (!user) {
     console.log("no user logged in at the moment");
   } else {
-    const decodedToken: JwtPayload = jwtDecode(accessToken);
     const table = new Table({
       head: ["name", "email"],
       wordWrap: true,
       wrapOnWordBoundary: false,
     });
-    table.push([decodedToken.name, decodedToken.email]);
+    table.push([user.name, user.email]);
     console.log(table.toString());
   }
 };

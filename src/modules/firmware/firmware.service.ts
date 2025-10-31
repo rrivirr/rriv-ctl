@@ -1,12 +1,12 @@
 import Table from "cli-table3";
 import { getFirmwareHistory } from "../../api/device.ts";
-import db from "../../db/db.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const listFirmwareHistory = async (serialNumber?: string) => {
   const {
     accessToken,
     device: { id },
-  } = db.data;
+  } = getActiveUser();
 
   const firmwareHistory = await getFirmwareHistory({
     accessToken,

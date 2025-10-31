@@ -6,11 +6,11 @@ import {
   publishNewSensorLibraryConfig,
   publishNewSensorLibraryConfigVersion,
 } from "../../../api/sensor.ts";
-import db from "../../../db/db.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { writeConfigToDevice } from "../../../infra/write-config-to-device.ts";
 import { uploadSensorConfig } from "../sensor-config.service.ts";
 import { sendCommands } from "../../../infra/send-commands.ts";
+import { getActiveUser } from "../../../util/get-logged-in-user.ts";
 
 export const publishCurrentSensorConfig = async (body: {
   libraryConfigName: string;
@@ -21,7 +21,7 @@ export const publishCurrentSensorConfig = async (body: {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
-  } = db.data;
+  } = getActiveUser();
 
   const configSnapshot = await getActiveConfigSnapshot({
     contextId,
@@ -68,7 +68,7 @@ export const listLibrarySensorConfig = async (body: {
   search?: string;
 }) => {
   const { isPublic, name, search } = body;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const sensorLibraryConfigs = await getSensorLibraryConfig({
     name,
@@ -172,7 +172,7 @@ export const applyPublishedSensorConfig = async (body: {
   version?: number;
 }) => {
   const { name, version } = body;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const sensorLibraryConfigs = await getSensorLibraryConfig({
     name,

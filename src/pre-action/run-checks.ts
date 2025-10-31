@@ -4,12 +4,16 @@ import { getConnectedDevice } from "../util/get-connected-device.ts";
 import { getPrompt } from "../repl/utils.ts";
 import { REPLServer } from "repl";
 import { connectAction } from "../commands/connect/action.ts";
+import { getActiveUser } from "../util/get-logged-in-user.ts";
 
 export const runChecks = async (body: {
   commandName: string;
   commandArgument: string;
   replServer?: REPLServer;
 }) => {
+  const { email, accessToken, context, device, deviceContext } =
+    getActiveUser();
+
   const { commandName, commandArgument, replServer } = body;
   if (
     !(
@@ -24,7 +28,6 @@ export const runChecks = async (body: {
     )
   ) {
     if (commandArgument !== "-h") {
-      const { context, accessToken } = db.data;
       // check if context exists
       if (!context.id || !context.name) {
         const contexts = await getContexts({ accessToken });
@@ -34,7 +37,7 @@ export const runChecks = async (body: {
             accessToken,
           });
           db.update((data) => {
-            data.context = {
+            data[email].context = {
               id: context.id,
               name: context.name,
             };
@@ -45,7 +48,7 @@ export const runChecks = async (body: {
             throw new Error("no context found, select context to proceed");
           } else {
             db.update((data) => {
-              data.context = {
+              data[email].context = {
                 id: defaultContext.id,
                 name: defaultContext.name,
               };
@@ -61,7 +64,6 @@ export const runChecks = async (body: {
           (commandName === "list" && commandArgument === "device")
         )
       ) {
-        const { device, deviceContext } = db.data;
         const connectedDevice = await getConnectedDevice({
           fromRunCheck: true,
         });
@@ -78,12 +80,12 @@ export const runChecks = async (body: {
           deviceContext.contextId !== context.id
         ) {
           db.update((data) => {
-            data.deviceContext = {
+            data[email].deviceContext = {
               contextId: "",
               deviceId: "",
               assignedDeviceName: "",
             };
-            data.device = {
+            data[email].device = {
               id: "",
               serialNumber: "",
               uniqueName: "",
@@ -99,7 +101,7 @@ export const runChecks = async (body: {
         // incase the port path changed
         if (connectedDevice.serialPortPath !== device.serialPortPath) {
           db.update((data) => {
-            data.device.serialPortPath = connectedDevice.serialPortPath;
+            data[email].device.serialPortPath = connectedDevice.serialPortPath;
           });
         }
       }

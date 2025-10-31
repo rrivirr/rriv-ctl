@@ -8,17 +8,19 @@ import {
 } from "../../api/context.ts";
 import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const endContext = async () => {
   const {
     context: { id },
     accessToken,
-  } = db.data;
+    email,
+  } = getActiveUser();
 
   await updateContext({ id, accessToken, end: true });
   db.update((data) => {
-    data.context = { id: "", name: "" };
-    data.deviceContext = {
+    data[email].context = { id: "", name: "" };
+    data[email].deviceContext = {
       contextId: "",
       deviceId: "",
       assignedDeviceName: "",
@@ -34,7 +36,7 @@ export const listContexts = async (options: {
   const {
     context: { id: existingContextId },
     accessToken,
-  } = db.data;
+  } = getActiveUser();
 
   const userContexts = await getContexts({ accessToken, name, search });
   if (userContexts.length) {
@@ -63,7 +65,7 @@ export const listContexts = async (options: {
 };
 
 export const useContext = async (name: string) => {
-  const { accessToken } = db.data;
+  const { accessToken, email } = getActiveUser();
 
   const context = await getContextByName({
     contextName: name,
@@ -76,11 +78,11 @@ export const useContext = async (name: string) => {
     throw new Error("context specified has already ended");
   }
   db.update((data) => {
-    data.context = {
+    data[email].context = {
       id: context.id,
       name: context.name,
     };
-    data.deviceContext = {
+    data[email].deviceContext = {
       contextId: "",
       deviceId: "",
       assignedDeviceName: "",
@@ -93,7 +95,8 @@ export const deleteContext = async (name: string) => {
   const {
     accessToken,
     context: { id: existingContextId },
-  } = db.data;
+    email,
+  } = getActiveUser();
 
   const context = await getContextByName({
     contextName: name,
@@ -106,11 +109,11 @@ export const deleteContext = async (name: string) => {
   console.log("context deleted successfully");
   if (existingContextId === context.id) {
     db.update((data) => {
-      data.context = {
+      data[email].context = {
         id: "",
         name: "",
       };
-      data.deviceContext = {
+      data[email].deviceContext = {
         contextId: "",
         deviceId: "",
         assignedDeviceName: "",
@@ -121,7 +124,7 @@ export const deleteContext = async (name: string) => {
 
 export const createContext = async (options: { name: string }) => {
   const { name } = options;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
   await createContextApiCall({ accessToken, contextName: name });
   console.log("context created successfully");
 };

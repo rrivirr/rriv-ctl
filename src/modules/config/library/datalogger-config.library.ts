@@ -5,11 +5,11 @@ import {
   publishNewDataloggerLibraryConfig,
   publishNewDataloggerLibraryConfigVersion,
 } from "../../../api/datalogger.ts";
-import db from "../../../db/db.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { uploadDataloggerConfig } from "../datalogger-config.service.ts";
 import { writeConfigToDevice } from "../../../infra/write-config-to-device.ts";
 import { sendCommands } from "../../../infra/send-commands.ts";
+import { getActiveUser } from "../../../util/get-logged-in-user.ts";
 
 export const publishCurrentDataloggerConfig = async (body: {
   libraryConfigName: string;
@@ -19,7 +19,7 @@ export const publishCurrentDataloggerConfig = async (body: {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
-  } = db.data;
+  } = getActiveUser();
 
   const existingDataloggerLibraryConfigs = await getDataloggerLibraryConfig({
     accessToken,
@@ -56,7 +56,7 @@ export const listLibraryDataloggerConfig = async (body: {
   search?: string;
 }) => {
   const { isPublic, name, search } = body;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
     name,
@@ -162,7 +162,7 @@ export const applyPublishedDataloggerConfig = async (body: {
   version?: number;
 }) => {
   const { name, version } = body;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
     name,
