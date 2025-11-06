@@ -8,6 +8,7 @@ import { createDeviceContext } from "../../modules/context/device-context.servic
 import { uploadDataloggerConfig } from "../../modules/config/datalogger-config.service.ts";
 import { waitForReady } from "../../infra/wait-for-ready.ts";
 import { bold, italic } from "yoctocolors";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const connectAction = async (options: any) => {
   const { assignedDeviceName, path, fromRunCheck } = options;
@@ -20,6 +21,7 @@ export const connectAction = async (options: any) => {
   const serialPortPath = connectedDevice.serialPortPath;
   const wait = connectedDevice.wait;
 
+  const user = getActiveUser();
   const {
     device: {
       id,
@@ -28,7 +30,7 @@ export const connectAction = async (options: any) => {
     },
     context,
     accessToken,
-  } = db.data;
+  } = user;
 
   let toBindDevice = false;
   let pullConfig = false;
@@ -71,7 +73,7 @@ export const connectAction = async (options: any) => {
   }
 
   db.update((data) => {
-    data.device = {
+    data[user.email].device = {
       id: device.id,
       uniqueName: device.uniqueName,
       serialNumber: device.serialNumber,
@@ -105,7 +107,7 @@ export const connectAction = async (options: any) => {
   }
 
   db.update((data) => {
-    data.deviceContext = {
+    data[user.email].deviceContext = {
       contextId: currentContextId,
       deviceId: device.id,
       assignedDeviceName: deviceNameToAssign,

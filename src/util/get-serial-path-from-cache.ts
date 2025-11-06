@@ -1,5 +1,6 @@
-import db from "../db/db.ts";
+import { getActiveUser } from "./get-logged-in-user.ts";
 
 export const getSerialPathFromCache = () => {
-  return db.data.device.serialPortPath;
+  const user = getActiveUser();
+  return user.device.serialPortPath;
 };

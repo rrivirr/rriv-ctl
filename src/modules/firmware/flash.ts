@@ -9,6 +9,7 @@ import db from "../../db/db.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
 import { loadScript } from "../../util/load-script.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 const flash = async (
   firmwareVersion: string,
@@ -31,7 +32,8 @@ export const flashFirmware = async (firmwareVersion: string) => {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
-  } = db.data;
+    email,
+  } = getActiveUser();
 
   await flash(firmwareVersion, "flash-firmware");
 
@@ -45,7 +47,7 @@ export const flashFirmware = async (firmwareVersion: string) => {
     await createFirmwareHistoryEntry({ ...dataToUpload, accessToken });
   } catch (error) {
     db.update((data) => {
-      data.toSync = [
+      data[email].toSync = [
         {
           requestId: randomUUID(),
           data: dataToUpload,
@@ -65,5 +67,6 @@ export const flashInitialFirmware = async (serialPortPath?: string) => {
     repo: "rriv-firmware",
   });
   const firmwareVersion = release.data.tag_name;
+  console.log("flashing ", firmwareVersion, "to device");
   await flash(firmwareVersion, "flash-initial-firmware", serialPortPath);
 };

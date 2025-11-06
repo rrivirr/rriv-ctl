@@ -1,7 +1,7 @@
 import { SerialPort } from "serialport";
 import { italic } from "yoctocolors";
 import { getDeviceDetails } from "./get-device-details.ts";
-import db from "../db/db.ts";
+import { getActiveUser } from "./get-logged-in-user.ts";
 
 export const getConnectedDevice = async (body: {
   specifiedSerialPortPath?: string;
@@ -13,7 +13,7 @@ export const getConnectedDevice = async (body: {
   let count = 0;
   let wait = false;
 
-  const { device } = db.data;
+  const { device } = getActiveUser();
 
   w: while (count < 50) {
     // detect the serial port

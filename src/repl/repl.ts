@@ -1,12 +1,16 @@
 import { Command } from "commander";
 import repl from "repl";
-import { getStartUpInformation } from "./get-startup-Information.ts";
+import {
+  getInitialText,
+  getUserInformation,
+} from "./get-startup-Information.ts";
 import { getReplEvalFunction } from "./repl-eval-function.ts";
 import { getCompleter, getPrompt } from "./utils.ts";
 import db from "../db/db.ts";
 
 export const startRepl = (command: Command) => {
-  console.log(getStartUpInformation());
+  console.log(getInitialText());
+  console.log(getUserInformation());
 
   return new Promise((_resolve) => {
     const replServer = repl.start({

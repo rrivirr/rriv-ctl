@@ -1,14 +1,14 @@
 import Table from "cli-table3";
-import db from "../../db/db.ts";
 import { getConfigHistory } from "../../api/config-snapshot.ts";
 import { SensorConfigHistory } from "../../api/types.ts";
 import { DefaultObject } from "../../types.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const listConfigHistory = async (asAt?: string) => {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
-  } = db.data;
+  } = getActiveUser();
   const configHistory = await getConfigHistory({
     accessToken,
     deviceId,

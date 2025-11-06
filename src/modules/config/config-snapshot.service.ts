@@ -11,12 +11,13 @@ import db from "../../db/db.ts";
 import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const getConfigSnapshot = async () => {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
-  } = db.data;
+  } = getActiveUser();
 
   const configSnapshot = await getActiveConfigSnapshot({
     deviceId,
@@ -59,7 +60,7 @@ export const listConfigSnapshot = async (options: {
   search?: string;
 }) => {
   const { name, search } = options;
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const configSnapshots = await getConfigSnapshots({
     name,
@@ -120,7 +121,7 @@ export const saveCurrentSnapshot = async (body: { name: string }) => {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
-  } = db.data;
+  } = getActiveUser();
   await saveConfigSnapshot({ ...body, deviceId, contextId, accessToken });
   console.log("current config snapshot saved successfully");
 };
@@ -128,7 +129,7 @@ export const saveCurrentSnapshot = async (body: { name: string }) => {
 export const applySavedConfigSnapshot = async (body: { name: string }) => {
   const { name } = body;
 
-  const { accessToken } = db.data;
+  const { accessToken } = getActiveUser();
 
   const configSnapshots = await getConfigSnapshots({
     name,
@@ -160,7 +161,7 @@ export const applyConfigHistory = async (body: { timestamp: string }) => {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
-  } = db.data;
+  } = getActiveUser();
   const configHistory = await getConfigHistory({
     accessToken,
     deviceId,
@@ -201,7 +202,8 @@ export const applyConfigSnapshot = async (body: {
     deviceContext: { deviceId, contextId },
     accessToken,
     toSync,
-  } = db.data;
+    email,
+  } = getActiveUser();
 
   // @TODO how to remove all sensors
   // await sendCommandAndEchoResponse(
@@ -232,7 +234,7 @@ export const applyConfigSnapshot = async (body: {
     };
     if (toSync?.length) {
       db.update((data) => {
-        data.toSync = [
+        data[email].toSync = [
           ...toSync,
           {
             requestId: randomUUID(),
@@ -247,7 +249,7 @@ export const applyConfigSnapshot = async (body: {
         console.log("config uploaded to cloud successfully");
       } catch (error) {
         db.update((data) => {
-          data.toSync = [
+          data[email].toSync = [
             {
               requestId: randomUUID(),
               data: dataToUpload,
