@@ -67,5 +67,6 @@ export const flashInitialFirmware = async (serialPortPath?: string) => {
     repo: "rriv-firmware",
   });
   const firmwareVersion = release.data.tag_name;
+  console.log("flashing ", firmwareVersion, "to device");
   await flash(firmwareVersion, "flash-initial-firmware", serialPortPath);
 };
