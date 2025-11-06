@@ -6,6 +6,7 @@ import serialCommands from "./serial-commands.ts";
 import paths from "../util/paths.ts";
 import { connectSerial } from "./connect-serial.ts";
 import db from "../db/db.ts";
+import { logAsDebug } from "../util/debug-logger.ts";
 
 export const readSerialUntilQuit = (
   serialPortPath: string,
@@ -46,10 +47,12 @@ export const readSerialUntilQuit = (
     });
 
     parser.on("data", function (data: string) {
-      console.log(data);
       if (data[0] == "{") {
+        logAsDebug(data);
         // skip this line
         return;
+      } else {
+        console.log(data);
       }
 
       fs.writeFileSync(

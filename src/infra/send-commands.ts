@@ -100,6 +100,18 @@ export const sendSingleCommand = (
 
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
+          const split = data.split(",");
+          if (+split[0]) {
+            logAsDebug(
+              "overflow from watch command",
+              "command:",
+              command,
+              "data:",
+              data
+            );
+            return;
+          }
+          console.log(command);
           console.log("response not json");
           console.log(data);
           timeout = setTimeout(function () {
