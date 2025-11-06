@@ -1,3 +1,16 @@
+# [1.1.0-alpha.30](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.29...v1.1.0-alpha.30) (2025-11-06)
+
+
+### Bug Fixes
+
+* clean watch log output ([8ada9eb](https://github.com/rrivirr/rriv-ctl/commit/8ada9ebf965fad7cb8d8f1d71101f5b1aba2a966))
+* output firmware being flashed for provision step ([90d4c1d](https://github.com/rrivirr/rriv-ctl/commit/90d4c1d3aee101e84905bbb90ed002c3c88b9501))
+
+
+### Features
+
+* support multiple users login ([357cd56](https://github.com/rrivirr/rriv-ctl/commit/357cd56abdaa7243567359e6da2c37284f2f291e))
+
 # [1.1.0-alpha.29](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.28...v1.1.0-alpha.29) (2025-10-29)
 
 
