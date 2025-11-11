@@ -1,3 +1,10 @@
+# [1.1.0-alpha.31](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.30...v1.1.0-alpha.31) (2025-11-11)
+
+
+### Bug Fixes
+
+* remove the configurations folder, moved to rriv-configurations ([b250086](https://github.com/rrivirr/rriv-ctl/commit/b250086f32dc63c7b03357170851ea2731845340))
+
 # [1.1.0-alpha.30](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.29...v1.1.0-alpha.30) (2025-11-06)
 
 
