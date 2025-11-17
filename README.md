@@ -2,6 +2,10 @@
 
 The client app for RRIV hardware.
 
+# regular use
+
+For regular use, switch to the `v1` branch. The main branch is for active development and may be unstable.
+
 # Installation
 
 To **install** rrivctl, run the following command in the terminal
@@ -18,4 +22,4 @@ curl --proto '=https' --tlsv1.2 -LsSf https://github.com/rrivirr/rriv-ctl/releas
 
 ## Configure the ring temperature sensor
 
-rrivctl set sensor RING01 -f configurations/ring_temperature.json
+rrivctlv2 set sensor RING01 -f configurations/ring_temperature.json
