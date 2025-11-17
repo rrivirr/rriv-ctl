@@ -4,27 +4,40 @@ import serialCommands from "./serial-commands.ts";
 import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 import { DefaultObject } from "../types.ts";
 import { waitForReady } from "./wait-for-ready.ts";
+import { logAsDebug } from "../util/debug-logger.ts";
 
-export const sendCommands = async (commands: string[], echoResponse = true) => {
+export const sendCommands = async (
+  commands: string[],
+  echoResponse = true,
+  customPath?: string
+) => {
+  const serialPortPath = getSerialPathFromCache();
   const results = [];
 
   for (const command of [serialCommands.quietModeCommand, ...commands]) {
+    logAsDebug("command to be sent", command);
     const result = await sendSingleCommand(
-      command,
-      echoResponse && command !== serialCommands.quietModeCommand
+      command + "\n",
+      echoResponse && command !== serialCommands.quietModeCommand,
+      customPath || serialPortPath
     );
     if (result.error) {
       const errorMessage = result.error;
-      if (errorMessage.includes("panick")) {
+      if (errorMessage.includes("panic")) {
         console.log("The board crashed and is restarting ");
         console.log("Waiting.......");
         await waitForReady();
         console.log("Reconnected to datalogger");
-        throw new Error("exit repl flow");
+        throw new Error("exit"); // exit flow without throwing error
+      } else if (errorMessage === "datalogger-ready") {
+        console.log("datalogger-ready received from device");
+        console.log("run previous command again");
+        throw new Error("exit");
       } else {
-        throw new Error("Command failed: ", errorMessage);
+        throw new Error(`Command failed: ${errorMessage}`);
       }
     }
+
     if (command !== serialCommands.quietModeCommand) {
       results.push(result);
     }
@@ -33,12 +46,19 @@ export const sendCommands = async (commands: string[], echoResponse = true) => {
   return results;
 };
 
-export const sendSingleCommand = (command: string, echoResponse: boolean) => {
-  const serialPortPath = getSerialPathFromCache();
+export const sendSingleCommand = (
+  command: string,
+  echoResponse: boolean,
+  serialPortPath: string
+) => {
   const serialPort = connectSerial(serialPortPath);
 
   return new Promise<DefaultObject>((resolve, reject) => {
-    let timeout: ReturnType<typeof setTimeout> | null = null;
+    let timeout: ReturnType<typeof setTimeout> | null = setTimeout(function () {
+      serialPort.close();
+      logAsDebug("no data received from the device");
+      reject("Timed out talking to the datalogger. Ensure it is plugged in.");
+    }, 5000);
 
     const parser = new ReadlineParser({
       delimiter: "\n",
@@ -46,21 +66,32 @@ export const sendSingleCommand = (command: string, echoResponse: boolean) => {
     });
 
     parser.on("data", function (data: string) {
+      logAsDebug("data received", data);
+      logAsDebug(".....");
+      if (timeout) {
+        clearTimeout(timeout);
+      }
       if (data.includes("action")) {
         // skip this line, it's just the echo back
+        timeout = setTimeout(function () {
+          serialPort.close();
+          reject("Timeout following action response");
+        }, 5000);
         return;
       } else {
-        if (timeout) {
-          clearTimeout(timeout);
-        }
         try {
           const response = JSON.parse(data);
+          if (response["mode"] === "field") {
+            console.log("Datalogger is in field mode");
+          }
           if (echoResponse) {
             console.log(response);
           }
           serialPort.close();
-
           const errorMessage = response.error || response.status;
+          if (errorMessage === "datalogger-ready") {
+            return resolve({ error: "datalogger-ready" });
+          }
           if (errorMessage) {
             console.log("command sent", command);
             return resolve({ error: errorMessage });
@@ -69,14 +100,24 @@ export const sendSingleCommand = (command: string, echoResponse: boolean) => {
 
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
+          const split = data.split(",");
+          if (+split[0]) {
+            logAsDebug(
+              "overflow from watch command",
+              "command:",
+              command,
+              "data:",
+              data
+            );
+            return;
+          }
+          console.log(command);
           console.log("response not json");
           console.log(data);
           timeout = setTimeout(function () {
             serialPort.close();
-            reject(
-              "Timed out talking to the datalogger. Ensure it is plugged in."
-            );
-          }, 3000);
+            reject("Timeout following invalid response");
+          }, 5000);
         }
       }
     });

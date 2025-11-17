@@ -2,6 +2,7 @@ import * as fs from "fs";
 import { DefaultObject } from "../../types.ts";
 import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { uploadConfig } from "../../modules/config/config.service.ts";
+import { logAsDebug } from "../../util/debug-logger.ts";
 
 export const setAction = async (
   object: string,
@@ -15,7 +16,7 @@ export const setAction = async (
   let property = propertyArg;
   let propertyValue = propertyValueArg;
 
-  if (object === "board" || object === "datalogger") {
+  if (object === "board" || object === "datalogger" || object == "device") {
     // deal with absense of id in board command
     property = id;
     propertyValue = propertyArg;
@@ -26,7 +27,10 @@ export const setAction = async (
   }
 
   if (property && propertyValue) {
-    payload[property] = +propertyValue || propertyValue;
+    payload[property] =
+      propertyValue === "true" || propertyValue === "false"
+        ? propertyValue === "true"
+        : +propertyValue || propertyValue;
   } else {
     const file = options.file;
     if (!file) {
@@ -34,7 +38,7 @@ export const setAction = async (
     }
     const fileBuffer = fs.readFileSync(options["file"]);
     const rawFileContents = fileBuffer.toString();
-    console.log("rawFileContents", rawFileContents);
+    logAsDebug("rawFileContents", rawFileContents);
     const fileObject = JSON.parse(rawFileContents.toString());
     Object.assign(payload, fileObject);
   }

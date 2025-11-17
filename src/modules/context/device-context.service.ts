@@ -3,12 +3,14 @@ import * as DeviceContextApiCalls from "../../api/device-context.ts";
 import { getDevices } from "../../api/device.ts";
 import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const endDeviceContext = async () => {
   const {
     deviceContext: { deviceId, contextId },
     accessToken,
-  } = db.data;
+    email,
+  } = getActiveUser();
 
   await DeviceContextApiCalls.updateDeviceContext({
     deviceId,
@@ -17,7 +19,7 @@ export const endDeviceContext = async () => {
     end: true,
   });
   db.update((data) => {
-    data.deviceContext = {
+    data[email].deviceContext = {
       contextId: "",
       deviceId: "",
       assignedDeviceName: "",
@@ -41,7 +43,7 @@ export const listContextDevices = async () => {
     context: { id },
     deviceContext: { deviceId },
     accessToken,
-  } = db.data;
+  } = getActiveUser();
 
   const contextDevices = await getDevices({ accessToken, contextId: id });
   if (contextDevices.length) {

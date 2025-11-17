@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AccessToken, SignupDto } from "./types.ts";
+import { SignupDto } from "./types.ts";
 
 export const login = async (loginDetails: {
   username: string;
@@ -33,13 +33,8 @@ export const login = async (loginDetails: {
   };
 };
 
-export const signup = async (body: SignupDto & AccessToken) => {
-  const { accessToken, ...signupBody } = body;
-  await axios.post(
-    `${process.env.RRIV_API_URL}/account`,
-    { ...signupBody },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+export const signup = async (body: SignupDto) => {
+  await axios.post(`${process.env.RRIV_API_URL}/account`, body);
 };
 
 export const verify = async (body: { email: string }) => {

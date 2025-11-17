@@ -34,7 +34,7 @@ export const passwordPrompt = async (
 
 const getPassword = async () => {
   const password = await passwordPrompt();
-  const confirmPassword = await passwordPrompt(true);
+  const confirmPassword = await passwordPrompt(true, false);
 
   if (password === confirmPassword) {
     return password;
@@ -57,18 +57,10 @@ const fieldPrompt = async (field: string) => {
   return value;
 };
 
-export const authPrompt = async () => {
-  const email = await fieldPrompt("email");
-  const passwordValue = await passwordPrompt(false, false);
-
-  return { email, password: passwordValue };
-};
-
 export const signupPrompt = async (
   body: Partial<Omit<SignupDto, "password">>
 ) => {
-  const { phone, firstName, lastName, email } = body;
-  let phoneValue = phone;
+  const { firstName, lastName, email } = body;
   let firstNameValue = firstName;
   let lastNameValue = lastName;
   let emailValue = email;
@@ -82,9 +74,6 @@ export const signupPrompt = async (
   if (!emailValue) {
     emailValue = await fieldPrompt("email");
   }
-  if (!phoneValue) {
-    phoneValue = await fieldPrompt("phone");
-  }
 
   const password = await getPassword();
 
@@ -92,7 +81,6 @@ export const signupPrompt = async (
     email: emailValue,
     lastName: lastNameValue,
     firstName: firstNameValue,
-    phone: phoneValue,
     password,
   };
 };

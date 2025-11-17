@@ -1,12 +1,16 @@
 import { Command } from "commander";
 import repl from "repl";
-import { getStartUpInformation } from "./get-startup-Information.ts";
+import {
+  getInitialText,
+  getUserInformation,
+} from "./get-startup-Information.ts";
 import { getReplEvalFunction } from "./repl-eval-function.ts";
 import { getCompleter, getPrompt } from "./utils.ts";
 import db from "../db/db.ts";
 
 export const startRepl = (command: Command) => {
-  console.log(getStartUpInformation());
+  console.log(getInitialText());
+  console.log(getUserInformation());
 
   return new Promise((_resolve) => {
     const replServer = repl.start({
@@ -21,13 +25,16 @@ export const startRepl = (command: Command) => {
       const { replSigIntFunctions } = db.data;
       if (replSigIntFunctions?.length) {
         const sigIntFunctions = [...replSigIntFunctions];
-        for (const [index, func] of replSigIntFunctions.entries()) {
-          func();
-          sigIntFunctions.splice(index, 1);
-          db.update((data) => {
-            data.replSigIntFunctions = sigIntFunctions;
-          });
+        for (const func of replSigIntFunctions) {
+          // func is null if called outside of repl
+          if (func) {
+            func();
+          }
+          sigIntFunctions.shift();
         }
+        db.update((data) => {
+          data.replSigIntFunctions = sigIntFunctions;
+        });
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
       } else {

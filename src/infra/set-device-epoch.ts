@@ -10,7 +10,7 @@ export const setDeviceEpoch = async () => {
     epoch,
   };
 
-  const command = JSON.stringify(payload) + "\n";
+  const command = JSON.stringify(payload);
   const result = await sendCommands(
     [serialCommands.interactiveModeCommand, command],
     false

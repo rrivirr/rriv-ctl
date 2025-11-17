@@ -15,16 +15,14 @@ export const calibrateAction = async (
 
   if (subcommand === "point") {
     if (!point) {
-      console.log("Point subcommand requires a point value");
-      return;
+      throw new Error("Point subcommand requires a point value");
     } else {
       payload.set("point", parseFloat(point));
       // payload.set("tag", tag);
     }
   }
 
-  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
-  console.log(payloadString);
+  const payloadString = JSON.stringify(Object.fromEntries(payload));
 
   await sendCommands([payloadString]);
 };

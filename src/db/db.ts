@@ -3,8 +3,10 @@ import { JSONFileSyncPreset } from "lowdb/node";
 import fs from "fs";
 import { toSyncConfig } from "../types.ts";
 import { getRrivCtlDir } from "../util/paths.ts";
+import { UpdateChannel } from "../constants.ts";
 
 export interface Data {
+  name: string;
   accessToken: string;
   context: {
     id: string;
@@ -22,30 +24,24 @@ export interface Data {
     assignedDeviceName: string;
   };
   expirationTime: number;
+  lastLoginAt: Date;
   toSync: toSyncConfig[];
-  lastVersionCheckAt: Date;
-  replSigIntFunctions: Function[];
 }
 
-const defaultData: Data = {
-  accessToken: "",
-  context: { id: "", name: "" },
-  device: { id: "", uniqueName: "", serialNumber: "", serialPortPath: "" },
-  deviceContext: {
-    contextId: "",
-    deviceId: "",
-    assignedDeviceName: "",
-  },
-  expirationTime: 0,
-  toSync: [],
-  lastVersionCheckAt: new Date("1/1/1970"),
-  replSigIntFunctions: [],
+export type DB = {
+  [key: string]: Data;
+} & {
+  activeEmail: string;
+  lastVersionCheckAt: Date;
+  updateChannel: UpdateChannel;
+  debugMode: boolean;
+  replSigIntFunctions: Function[];
 };
 
 const dirPath = getRrivCtlDir();
 if (!fs.existsSync(dirPath)) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
-const db = JSONFileSyncPreset<Data>(`${dirPath}/db.json`, defaultData);
+const db = JSONFileSyncPreset<DB>(`${dirPath}/db.json`, {} as DB);
 
 export default db;

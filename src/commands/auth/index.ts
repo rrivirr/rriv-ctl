@@ -9,10 +9,14 @@ import {
 } from "./action.ts";
 
 export const makeAuthCommand = (cli: Command) => {
+  cli
+    .command("whoami")
+    .description("get logged in user, unsupported in the interactive shell")
+    .action(whoamiAction);
+
   const authCommand = cli
     .command("auth")
-    .description("auth related commands")
-    .helpOption(true);
+    .description("auth related commands, unsupported in the interactive shell");
 
   authCommand
     .command("login")
@@ -29,9 +33,8 @@ export const makeAuthCommand = (cli: Command) => {
     .command("signup")
     .description("create a new user account")
     .option("-e, --email <email>")
-    .option("-f, --firstName <firstName>")
-    .option("-l, --lastName <lastName>")
-    .option("-p, --phone <phone>")
+    .option("-f, --first-name <firstName>")
+    .option("-l, --last-name <lastName>")
     .action(signupAction);
 
   authCommand
@@ -45,9 +48,4 @@ export const makeAuthCommand = (cli: Command) => {
     .description("account recovery")
     .argument("<email>")
     .action(resetPasswordAction);
-
-  authCommand
-    .command("whoami")
-    .description("get logged in user")
-    .action(whoamiAction);
 };

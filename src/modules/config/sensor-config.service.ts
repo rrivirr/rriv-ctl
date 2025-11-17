@@ -4,13 +4,15 @@ import db from "../../db/db.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { randomUUID } from "crypto";
 import { SyncDataType } from "../../constants.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const uploadSensorConfig = async (payload: DefaultObject) => {
   const {
     accessToken,
     toSync,
     deviceContext: { deviceId, contextId },
-  } = db.data;
+    email,
+  } = getActiveUser();
   const { sensorDriverId: receivedSensorDriverId, id, ...config } = payload;
   let sensorDriverId = receivedSensorDriverId;
 
@@ -43,7 +45,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
 
   if (toSync?.length) {
     db.update((data) => {
-      data.toSync = [
+      data[email].toSync = [
         ...toSync,
         {
           requestId: randomUUID(),
@@ -58,7 +60,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
       console.log("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {
-        data.toSync = [
+        data[email].toSync = [
           {
             requestId: randomUUID(),
             data: dataToUpload,

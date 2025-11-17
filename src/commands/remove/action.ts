@@ -10,8 +10,6 @@ export const removeAction = async (object: string, id: string) => {
   payload.set("object", object);
   payload.set("action", "remove");
   payload.set("id", id);
-  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
-  console.log(payloadString);
-
+  const payloadString = JSON.stringify(Object.fromEntries(payload));
   await sendCommands([payloadString]);
 };

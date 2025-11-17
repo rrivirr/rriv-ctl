@@ -1,11 +1,12 @@
 import { sendCommands } from "../../infra/send-commands.ts";
+import { logAsDebug } from "../../util/debug-logger.ts";
 
 export const serialAction = async (action: string, message: string) => {
   let message_to_send = message;
   if (message_to_send.startsWith("0x")) {
-    console.log("Sending hex");
+    logAsDebug("Sending hex");
     message_to_send = message.substring(2);
-    console.log(message_to_send);
+    logAsDebug(message_to_send);
   }
 
   const payload = new Map();
@@ -13,8 +14,6 @@ export const serialAction = async (action: string, message: string) => {
   payload.set("action", action);
   payload.set("message", message_to_send);
 
-  const payloadString = JSON.stringify(Object.fromEntries(payload)) + "\n";
-  console.log(payloadString);
-
+  const payloadString = JSON.stringify(Object.fromEntries(payload));
   await sendCommands([payloadString]);
 };

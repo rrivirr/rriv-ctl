@@ -6,19 +6,20 @@ import {
 import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
 import { listContextDevices } from "../context/device-context.service.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const unbindDevice = async (serialNumber: string) => {
-  const { accessToken } = db.data;
+  const { accessToken, email } = getActiveUser();
 
   await unbindDeviceApiCall({ serialNumber, accessToken });
 
   db.update((data) => {
-    data.deviceContext = {
+    data[email].deviceContext = {
       contextId: "",
       deviceId: "",
       assignedDeviceName: "",
     };
-    data.device = {
+    data[email].device = {
       id: "",
       serialNumber: "",
       uniqueName: "",
@@ -32,7 +33,7 @@ export const listDevices = async (all?: boolean) => {
   const {
     accessToken,
     device: { id: deviceId },
-  } = db.data;
+  } = getActiveUser();
 
   if (all) {
     const devices = await getDevicesApiCall({ accessToken });

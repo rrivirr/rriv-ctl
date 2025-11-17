@@ -23,8 +23,7 @@ export const applyAction = async (
     await applySavedConfigSnapshot({ name: nameOrTimestamp });
   } else if (resource === "config-history") {
     if (!+new Date(nameOrTimestamp)) {
-      console.log(nameOrTimestamp, "must be a valid date");
-      return;
+      throw new Error(`${nameOrTimestamp} must be a valid date`);
     }
     await applyConfigHistory({ timestamp: nameOrTimestamp });
   } else if (resource === "published-config-snapshot") {

@@ -32,6 +32,15 @@ export default tseslint.config(
   },
   {
     files: ["src/db/db.ts"],
-    rules: { "@typescript-eslint/no-unsafe-function-type": "off" },
+    rules: {
+      "@typescript-eslint/no-unsafe-function-type": "off",
+      "@typescript-eslint/consistent-indexed-object-style": "off",
+    },
+  },
+  {
+    files: ["src/modules/auth/auth.service.ts"],
+    rules: {
+      "@typescript-eslint/no-dynamic-delete": "off",
+    },
   }
 );

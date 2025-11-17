@@ -6,6 +6,7 @@ import serialCommands from "./serial-commands.ts";
 import paths from "../util/paths.ts";
 import { connectSerial } from "./connect-serial.ts";
 import db from "../db/db.ts";
+import { logAsDebug } from "../util/debug-logger.ts";
 
 export const readSerialUntilQuit = (
   serialPortPath: string,
@@ -26,7 +27,7 @@ export const readSerialUntilQuit = (
       includeDelimiter: false,
     });
     const serialPort = connectSerial(serialPortPath);
-    serialPort.write(serialCommands.quietModeCommand);
+    serialPort.write(serialCommands.quietModeCommand + "\n");
     // TODO: note sure if drain, timeout, and flush are all necessary
     // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
     serialPort.drain(() => {
@@ -46,10 +47,12 @@ export const readSerialUntilQuit = (
     });
 
     parser.on("data", function (data: string) {
-      console.log(data);
       if (data[0] == "{") {
+        logAsDebug(data);
         // skip this line
         return;
+      } else {
+        console.log(data);
       }
 
       fs.writeFileSync(

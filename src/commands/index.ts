@@ -1,12 +1,46 @@
 import { Command } from "commander";
-import { readdirSync } from "fs";
+import { makeWatchCommand } from "./watch/index.ts";
+import { makeListCommand } from "./list/index.ts";
+import { makeGetCommand } from "./get/index.ts";
+import { makeRemoveCommand } from "./remove/index.ts";
+import { makeSetCommand } from "./set/index.ts";
+import { makeCalibrateCommand } from "./calibrate/index.ts";
+import { makeSerialCommand } from "./serial/index.ts";
+import { makeConnectCommand } from "./connect/index.ts";
+import { makeCreateCommand } from "./create/index.ts";
+import { makeTestCommand } from "./test/index.ts";
+import { makeAuthCommand } from "./auth/index.ts";
+import { makeApplyCommand } from "./apply/index.ts";
+import { makeDeleteCommand } from "./delete/index.ts";
+import { makeSyncCommand } from "./sync/index.ts";
+import { makeUseCommand } from "./use/index.ts";
+import { makeUpdateCommand } from "./update/index.ts";
+import { makeSaveCommand } from "./save/index.ts";
+import { makePublishCommand } from "./publish/index.ts";
+import { makeEndCommand } from "./end/index.ts";
+import { makeFirmwareCommands } from "./firmware/index.ts";
+import { makeProvisionCommand } from "./provision/index.ts";
 
 export const initializeCommands = async (cli: Command) => {
-  const directoryPath = "./src/commands";
-  const files = readdirSync(directoryPath);
-  for (const file of files) {
-    if (file === "index.ts") continue;
-    const command = await import(`./${file}/index.ts`);
-    command[Object.keys(command)[0]](cli);
-  }
+  makeWatchCommand(cli);
+  makeListCommand(cli);
+  makeGetCommand(cli);
+  makeRemoveCommand(cli);
+  makeSetCommand(cli);
+  makeCalibrateCommand(cli);
+  makeSerialCommand(cli);
+  makeConnectCommand(cli);
+  makeCreateCommand(cli);
+  makeTestCommand(cli);
+  makeAuthCommand(cli);
+  makeApplyCommand(cli);
+  makeDeleteCommand(cli);
+  makeSyncCommand(cli);
+  makeUseCommand(cli);
+  makeUpdateCommand(cli);
+  makeSaveCommand(cli);
+  makePublishCommand(cli);
+  makeEndCommand(cli);
+  makeFirmwareCommands(cli);
+  makeProvisionCommand(cli);
 };

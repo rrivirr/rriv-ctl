@@ -1,6 +1,8 @@
 import fs from "fs";
+import { getActiveUser } from "../util/get-logged-in-user.ts";
+import { red } from "yoctocolors";
 
-export const getStartUpInformation = () => {
+export const getInitialText = () => {
   return String.raw`
 ____/\\\\\\\\\________/\\\\\\\\\______/\\\\\\\\\\\__/\\\________/\\\_        
   __/\\\///////\\\____/\\\///////\\\___\/////\\\///__\/\\\_______\/\\\_       
@@ -17,8 +19,23 @@ Copyright (C) 2020  Zaven Arra  zaven.arra@gmail.com
 This program comes with ABSOLUTELY NO WARRANTY; for details type 'show-warranty'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type 'show-conditions' for details.
-    
     `;
+};
+
+export const getUserInformation = () => {
+  const user = getActiveUser();
+  if (!user) {
+    throw new Error("Unexpected Error; Shell startup");
+  }
+  const { lastLoginAt, name, toSync } = user;
+  let text = `Welcome ${name}\nLast login at: ${new Date(lastLoginAt).toLocaleString()}`;
+  const numberOfChanges = toSync.length;
+  if (numberOfChanges) {
+    text = `${text}\n${red(`You have ${numberOfChanges} unsynced changes`)}\n`;
+  } else {
+    text = `${text}\n`;
+  }
+  return text;
 };
 
 export const getLicense = () => {

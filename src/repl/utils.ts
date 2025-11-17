@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { bold } from "yoctocolors";
-import db from "../db/db.ts";
+import { getLoggedInUser } from "../util/get-logged-in-user.ts";
 
 export const extraSupportedCommands = ["exit"];
 
@@ -22,20 +22,22 @@ export const getCompleter = (command: Command) => (line: string) => {
 };
 
 export const getPrompt = () => {
-  const {
-    context: { name },
-    deviceContext: { assignedDeviceName },
-  } = db.data;
-  let prompt;
+  const user = getLoggedInUser();
+  let prompt = `rrivctl > `;
 
-  if (name) {
-    if (assignedDeviceName) {
-      prompt = `${name}:${assignedDeviceName} > `;
-    } else {
-      prompt = `${name} > `;
+  if (user) {
+    const {
+      context: { name },
+      deviceContext: { assignedDeviceName },
+    } = user;
+    if (name) {
+      if (assignedDeviceName) {
+        prompt = `${name}:${assignedDeviceName} > `;
+      } else {
+        prompt = `${name} > `;
+      }
     }
-  } else {
-    prompt = `rrivctl > `;
   }
+
   return bold(prompt);
 };
