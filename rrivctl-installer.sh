@@ -36,7 +36,7 @@
     app_location="$INSTALL_DIR/rrivctl"
 
     if [[ -z "$1" ]]; then
-        download_url=https://github.com/rrivirr/rriv-ctl/latest/download/rriv-cli-$os-$arch
+        download_url=https://github.com/rrivirr/rriv-ctl/releases/latest/download/rriv-cli-$os-$arch
     else
         download_url=https://github.com/rrivirr/rriv-ctl/releases/download/$1/rriv-cli-$os-$arch
     fi
