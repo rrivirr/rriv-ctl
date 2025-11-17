@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/rrivirr/rriv-ctl/compare/v2.0.0...v2.0.1) (2025-11-17)
+
+
+### Bug Fixes
+
+* rrivctl installer ([3e3dea3](https://github.com/rrivirr/rriv-ctl/commit/3e3dea39d764b0335fdb4cd19bb370688d9482ea))
+
 # [2.0.0](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0...v2.0.0) (2025-11-17)
 
 
