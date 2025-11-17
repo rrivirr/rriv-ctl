@@ -51,7 +51,7 @@ export const getConnectedDevice = async (body: {
 
   if (!serialPortPath && !specifiedSerialPortPath) {
     console.log(
-      "Try using rrivctl connect -p <path> to specify the path to the RRIV serial device"
+      "Try using rrivctlv2 connect -p <path> to specify the path to the RRIV serial device"
     );
     throw new Error(
       "No RRIV device found connected, ensure your device is plugged in"
@@ -65,7 +65,7 @@ export const getConnectedDevice = async (body: {
   if (serialNumber.includes("*")) {
     if (!provisionCommand) {
       throw new Error(
-        `device not yet provisioned.\nrun ${italic("rrivctl provision device")} to set up the device`
+        `device not yet provisioned.\nrun ${italic("rrivctlv2 provision device")} to set up the device`
       );
     }
   } else if (provisionCommand) {

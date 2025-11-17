@@ -40,7 +40,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
       );
     }
     if (tag === currentTag) {
-      console.log("rrivctl is on the specified version");
+      console.log("rrivctlv2 is on the specified version");
       return;
     }
     args.push(tag);
@@ -49,7 +49,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
     console.log("updating to", latestTag);
 
     if (currentTag === latestTag) {
-      console.log("rrivctl is already on the latest version");
+      console.log("rrivctlv2 is already on the latest version");
       return;
     }
     args.push(latestTag);
@@ -58,7 +58,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
     console.log("updating to", latestTag);
 
     if (latestTag === currentTag) {
-      console.log("rrivctl is already on the latest version");
+      console.log("rrivctlv2 is already on the latest version");
       return;
     }
   }
@@ -77,7 +77,7 @@ export const checkVersionAndUpdate = async () => {
     try {
       const latestTag = await getLatestTag(updateChannel || "stable");
       if (latestTag !== currentTag) {
-        console.log("New rrivctl update found...", latestTag);
+        console.log("New rrivctlv2 update found...", latestTag);
 
         const answer = await confirm({ message: `Update?` });
         if (answer) {

@@ -62,7 +62,7 @@ export const login = async (email: string) => {
       console.log(
         `\nYou must verify your email address to log in.
 Please check your email and follow the verification link.
-To resend the verification email run the command ${italic(`rrivctl auth verify ${email}`)}`
+To resend the verification email run the command ${italic(`rrivctlv2 auth verify ${email}`)}`
       );
       return;
     }

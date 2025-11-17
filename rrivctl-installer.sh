@@ -44,23 +44,12 @@
     curl --proto '=https' --tlsv1.2 --progress-bar -fSLo $app_location $download_url
     chmod +x $app_location
 
-    line_to_add="alias rrivctl=$app_location"
+    line_to_add="alias rrivctlv2=$app_location"
     shell=".bashrc"
     
 
     if [[ ${SHELL#*zsh} != $SHELL ]]; then
         shell=".zshrc"
-        # remove previous aliases for old version
-        sed -i '' "/alias rrivctl='node/d" ~/.zshrc
-        sed -i '' "/alias rrivcli=/d" ~/.zshrc
-        sed -i '' "/Alias for rrivctl/d" ~/.zshrc
-        sed -i '' "/Alias for rrivcli/d" ~/.zshrc
-    else
-        # remove previous aliases for old version
-        sed -i "/alias rrivctl='node/d" ~/.bashrc
-        sed -i "/alias rrivcli=/d" ~/.bashrc
-        sed -i "/Alias for rrivctl/d" ~/.bashrc
-        sed -i "/Alias for rrivcli/d" ~/.bashrc
     fi
 
     shell_rc="$HOME/$shell"
@@ -75,7 +64,7 @@
     {
         printf "\n" >> "$shell_rc"
         printf "%s\n" "$line_to_add" >> "$shell_rc"
-        echo "Please restart your shell or source ~/$shell run to make rrivctl available"
+        echo "Please restart your shell or source ~/$shell run to make rrivctlv2 available"
     }
 
     check_if_line_exists || add_line_to_shrc
