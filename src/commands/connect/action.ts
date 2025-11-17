@@ -95,7 +95,7 @@ export const connectAction = async (options: any) => {
     }
   } else if (!assignedDeviceName) {
     throw new Error(
-      `device yet to be added to current context\nrun ${italic("rrivctl connect --assigned-device-name <name to assign device in current context>")}`
+      `device yet to be added to current context\nrun ${italic("rrivctlv2 connect --assigned-device-name <name to assign device in current context>")}`
     );
   } else {
     await createDeviceContext({
