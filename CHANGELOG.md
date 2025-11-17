@@ -1,3 +1,10 @@
+# [2.0.0-alpha.2](https://github.com/rrivirr/rriv-ctl/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2025-11-17)
+
+
+### Bug Fixes
+
+* readme ([ab8af61](https://github.com/rrivirr/rriv-ctl/commit/ab8af61758e754ac94db184ce525cdd1fdb0cb56))
+
 # [2.0.0-alpha.1](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.31...v2.0.0-alpha.1) (2025-11-17)
 
 
