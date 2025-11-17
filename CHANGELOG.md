@@ -1,3 +1,15 @@
+# [2.0.0-alpha.1](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.31...v2.0.0-alpha.1) (2025-11-17)
+
+
+### Features
+
+* v2 ([dcff0da](https://github.com/rrivirr/rriv-ctl/commit/dcff0dafc70e879e14c78fd5606af0b9d0b5af0c))
+
+
+### BREAKING CHANGES
+
+* v2
+
 # [1.1.0-alpha.31](https://github.com/rrivirr/rriv-ctl/compare/v1.1.0-alpha.30...v1.1.0-alpha.31) (2025-11-11)
 
 
