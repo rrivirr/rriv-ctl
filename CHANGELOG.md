@@ -1,3 +1,84 @@
+# [2.0.0](https://github.com/rrivirr/rriv-ctl/compare/v1.0.0...v2.0.0) (2025-11-17)
+
+
+### Bug Fixes
+
+* add delay before waiting for ready ([1672b35](https://github.com/rrivirr/rriv-ctl/commit/1672b352570488899beddc82c7a54566072b1c36))
+* add dependency installation step ([00ca964](https://github.com/rrivirr/rriv-ctl/commit/00ca9643a2d3d5d78031ecf498ac94b1d33ad163))
+* add extra timeout check ([bf36952](https://github.com/rrivirr/rriv-ctl/commit/bf36952ac28da75fe0c745b0934c62177c4be0ec))
+* add scripts as pkg assets ([edceb3c](https://github.com/rrivirr/rriv-ctl/commit/edceb3c62f4eaf6090136d6fe0426242a5d0f4e6))
+* auth error messages ([75c5856](https://github.com/rrivirr/rriv-ctl/commit/75c58562d46d501673c5615bedf0c13ff9706358))
+* binary release overwrite ([2db6bbf](https://github.com/rrivirr/rriv-ctl/commit/2db6bbf542f918efe76bb8cd8031eb4a75b46c2e))
+* binary upload ([f9fad29](https://github.com/rrivirr/rriv-ctl/commit/f9fad2926cc709ce2ea5b1e728dfdc7eb4758bb5))
+* binary workflow ([b676bcc](https://github.com/rrivirr/rriv-ctl/commit/b676bcc56c9fc6d00bc449ffc27b9bd24650e6b8))
+* binary workflow ([eb231b1](https://github.com/rrivirr/rriv-ctl/commit/eb231b1cfc1003e5635bd038a0d0e657c5c4062f))
+* change file to file_globb ([4bef51d](https://github.com/rrivirr/rriv-ctl/commit/4bef51d591ff632101679ca453ebc8baa340d978))
+* change installer alias ([d8024cf](https://github.com/rrivirr/rriv-ctl/commit/d8024cf88a9e8c14a4959065b831a8bea222b6a0))
+* change installer path ([60fafbb](https://github.com/rrivirr/rriv-ctl/commit/60fafbbd0297f42d46ad966188a8198622f06bd9))
+* clean watch log output ([8ada9eb](https://github.com/rrivirr/rriv-ctl/commit/8ada9ebf965fad7cb8d8f1d71101f5b1aba2a966))
+* fix getConnectedDevice minor error ([505080d](https://github.com/rrivirr/rriv-ctl/commit/505080d6d9e7023ecd2cde5435e31f89268ecead))
+* fix watch command cleanup ([29b5df4](https://github.com/rrivirr/rriv-ctl/commit/29b5df42e2b9815983fb3da9448d61bb9b4e7ff7))
+* merge conflicts ([363d580](https://github.com/rrivirr/rriv-ctl/commit/363d5801300728f48e43d92d5a2897cc0017b6b9))
+* minor changes ([48332de](https://github.com/rrivirr/rriv-ctl/commit/48332de94e90eefc463c525456573f8a8bf75ccf))
+* minor firmware fixes ([e6ee20c](https://github.com/rrivirr/rriv-ctl/commit/e6ee20ccccd8f6ad05a494342ce93b9a88d893ab))
+* minor fixes ([727566d](https://github.com/rrivirr/rriv-ctl/commit/727566dd9fe138690b94bc9d599b4570ace6f5b3))
+* move auth whoami to whoami [#32](https://github.com/rrivirr/rriv-ctl/issues/32) ([eaf3246](https://github.com/rrivirr/rriv-ctl/commit/eaf32468800e3ceae71f7085213cefdbd261904a))
+* new line ([967267d](https://github.com/rrivirr/rriv-ctl/commit/967267d0fe182ba3ab54add46e8634d08e4782ee))
+* notify non-rriv.org about verification ([e6f6e6a](https://github.com/rrivirr/rriv-ctl/commit/e6f6e6a831059fef47432f92924060486b6f4e04))
+* output context with firmware history ([1864929](https://github.com/rrivirr/rriv-ctl/commit/186492959203fb73deb8787c1418284538c5a091))
+* output firmware being flashed for provision step ([90d4c1d](https://github.com/rrivirr/rriv-ctl/commit/90d4c1d3aee101e84905bbb90ed002c3c88b9501))
+* pipe flash command output ([eadaee1](https://github.com/rrivirr/rriv-ctl/commit/eadaee1a77c27468e9abe27a879e8146c906c592))
+* probe debug ([29be1ba](https://github.com/rrivirr/rriv-ctl/commit/29be1ba978d03edb3f68356c36551490ec3c0565))
+* probe debug update file ([987bbf6](https://github.com/rrivirr/rriv-ctl/commit/987bbf66f2cfbdd8129491c2b6ee6088acb2a5c9))
+* readme ([ab8af61](https://github.com/rrivirr/rriv-ctl/commit/ab8af61758e754ac94db184ce525cdd1fdb0cb56))
+* rebuild package-lock.json ([324be12](https://github.com/rrivirr/rriv-ctl/commit/324be125bcfbbc4689cb0f766e411934279a041d))
+* refactor ([b882cf4](https://github.com/rrivirr/rriv-ctl/commit/b882cf4f711da53b8bfeb01a7aa96ff793348381))
+* refactor connect action ([339f54a](https://github.com/rrivirr/rriv-ctl/commit/339f54abaca749e1cbc5c9bb3fe9110576f674aa))
+* remove dynamic imports and switch back to pkgroll ([d5ad37c](https://github.com/rrivirr/rriv-ctl/commit/d5ad37c48ccfb0b467669a06897c25ce8e874c1c))
+* remove linuxstatic build ([505e49d](https://github.com/rrivirr/rriv-ctl/commit/505e49d19ae5d758cb994a0843a5e02f8b96835d))
+* remove phone property ([4161ce9](https://github.com/rrivirr/rriv-ctl/commit/4161ce964cb8e26bf6da272e8cf377a08fc559c2))
+* remove the configurations folder, moved to rriv-configurations ([b250086](https://github.com/rrivirr/rriv-ctl/commit/b250086f32dc63c7b03357170851ea2731845340))
+* remove unused packages ([787e6ef](https://github.com/rrivirr/rriv-ctl/commit/787e6ef17f7416e0589e5f0c5177fc87d47e18d5))
+* removing connecting log with each command ([c6677a5](https://github.com/rrivirr/rriv-ctl/commit/c6677a5b996605a70b386cd82af0834090034d38))
+* retain information if user's token expires and same user logs back in [#36](https://github.com/rrivirr/rriv-ctl/issues/36) ([4ca0cde](https://github.com/rrivirr/rriv-ctl/commit/4ca0cde60d6fbba19815fe6b65cdc69a6c7ceb36))
+* revert changelog.md ([b62a3fb](https://github.com/rrivirr/rriv-ctl/commit/b62a3fbaa9dd4478babf9f74a756fc521bce8821))
+* semantic release export data ([a83a297](https://github.com/rrivirr/rriv-ctl/commit/a83a297b9e83e4054b2a4b9b0755f768b2af93c0))
+* semantic release workflow ([d2018fc](https://github.com/rrivirr/rriv-ctl/commit/d2018fc7a4af3c20f0595243706ed6e233ca2475))
+* show automated help in interactive shell ([de41c89](https://github.com/rrivirr/rriv-ctl/commit/de41c893c3034a826592af19b1b0cb5c374cb2fb))
+* spawn error handling ([3170755](https://github.com/rrivirr/rriv-ctl/commit/3170755233d3255cd0c1c48443055d33220d750e))
+* switch bundler to rollup ([8ad9a81](https://github.com/rrivirr/rriv-ctl/commit/8ad9a81157aa03b4af995330b583c0df443657cf))
+* switch camelcase options to dashes ([b519514](https://github.com/rrivirr/rriv-ctl/commit/b51951405b30bef715c5d4a9871cfcfbffaf6bd5))
+* trigger release ([80110fb](https://github.com/rrivirr/rriv-ctl/commit/80110fb9aa2bde7cbcc4b793488f046eddaa0e06))
+* update binary upload workflow ([cd27e07](https://github.com/rrivirr/rriv-ctl/commit/cd27e07c690f7efa2e727872c4b8beaef7595534))
+* watch command ([8184f49](https://github.com/rrivirr/rriv-ctl/commit/8184f495f00ec2a415319630a0796bac04dae60b))
+* workflow release outputs ([6846ebb](https://github.com/rrivirr/rriv-ctl/commit/6846ebbe128a3eda9b79eaf9a92a1706511849af))
+
+
+### Features
+
+* armv7 to builds ([732592e](https://github.com/rrivirr/rriv-ctl/commit/732592e187e9f1f001f9e19005f52470a78d6140))
+* binary realease tag version ([764ff48](https://github.com/rrivirr/rriv-ctl/commit/764ff4891824c056157dea89a637e7f52636e3a1))
+* change firmware download to use mod spawn ([767aaaa](https://github.com/rrivirr/rriv-ctl/commit/767aaaaed471a18db35fffa261737fa9912e63ae))
+* debug mode ([fdd9045](https://github.com/rrivirr/rriv-ctl/commit/fdd9045bb1995c4c4d377beacb7762b9ed44d4e8))
+* device provisioning ([e8aee14](https://github.com/rrivirr/rriv-ctl/commit/e8aee14d9df373eb593ddf199e7038b37cf145cb))
+* firmware commands ([887faee](https://github.com/rrivirr/rriv-ctl/commit/887faeebf7dd2c50627cc828316ae6b0906dd84d))
+* installation script ([9eeae55](https://github.com/rrivirr/rriv-ctl/commit/9eeae554fef597c2a68a7132186e3e02cd350001))
+* log flash firmware events ([312c905](https://github.com/rrivirr/rriv-ctl/commit/312c90581072895e60bb2fbaeb4061ef6b83f5ca))
+* merge lastest from v1 ([ffbca96](https://github.com/rrivirr/rriv-ctl/commit/ffbca963b88d5bd33a4c4e7573ebc8ffd1ff4241))
+* output auth message if user not logged in [#37](https://github.com/rrivirr/rriv-ctl/issues/37) ([341eeb1](https://github.com/rrivirr/rriv-ctl/commit/341eeb166e3634f182be054d5cb29ae10890abb1))
+* support auto update ([1a68406](https://github.com/rrivirr/rriv-ctl/commit/1a684069378060c27314299675d3b639cb818e01))
+* support binaries ([29132b3](https://github.com/rrivirr/rriv-ctl/commit/29132b34a73c2440c7dd0950743e00fe9e9b677e))
+* support commands outside of the interactive shell ([f0b760f](https://github.com/rrivirr/rriv-ctl/commit/f0b760ff1398ea731fa9d3f2add80c69f6afc74a))
+* support default contexts ([d3edfb1](https://github.com/rrivirr/rriv-ctl/commit/d3edfb1095b084cb43b2e50976ba2c1a06158fff))
+* support multiple users login ([357cd56](https://github.com/rrivirr/rriv-ctl/commit/357cd56abdaa7243567359e6da2c37284f2f291e))
+* support x64 binary builds ([e9ac061](https://github.com/rrivirr/rriv-ctl/commit/e9ac061038b312edf7b05b06fedae32a6a53a6e2))
+* v2 ([dcff0da](https://github.com/rrivirr/rriv-ctl/commit/dcff0dafc70e879e14c78fd5606af0b9d0b5af0c))
+
+
+### BREAKING CHANGES
+
+* v2
+
 # [2.0.0-alpha.2](https://github.com/rrivirr/rriv-ctl/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2025-11-17)
 
 
