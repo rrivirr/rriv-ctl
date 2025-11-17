@@ -12,6 +12,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
     db.update((data) => {
       data.updateChannel = channel;
     });
+
     if (!tag) {
       console.log("update channel changed successfully to", channel);
       return;
