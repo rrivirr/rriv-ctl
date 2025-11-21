@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/rrivirr/rriv-ctl/compare/v2.0.1...v2.0.2) (2025-11-21)
+
+
+### Bug Fixes
+
+* api url ([d15f967](https://github.com/rrivirr/rriv-ctl/commit/d15f967545547d072ffedcc1066f1a0aefabedc8))
+
 ## [2.0.1](https://github.com/rrivirr/rriv-ctl/compare/v2.0.0...v2.0.1) (2025-11-17)
 
 
