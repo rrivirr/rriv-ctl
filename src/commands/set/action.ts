@@ -3,6 +3,19 @@ import { DefaultObject } from "../../types.ts";
 import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { uploadConfig } from "../../modules/config/config.service.ts";
 import { logAsDebug } from "../../util/debug-logger.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
+
+export const sendAction = async (
+  object: string,
+  id: string,
+  command: string
+) => {
+  const payload = { object, action: "send", id, command };
+  logAsDebug("payload to be sent", payload);
+  const result = await sendCommands([JSON.stringify(payload)]);
+  console.log(result[0]);
+  console.log("successful");
+};
 
 export const setAction = async (
   object: string,
