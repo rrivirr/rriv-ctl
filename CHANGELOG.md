@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/rrivirr/rriv-ctl/compare/v2.1.1...v2.1.2) (2025-11-25)
+
+
+### Bug Fixes
+
+* trigger release ([cb14026](https://github.com/rrivirr/rriv-ctl/commit/cb1402687038c71996f571ef0f3b7f956f67ffa8))
+
 ## [2.1.1](https://github.com/rrivirr/rriv-ctl/compare/v2.1.0...v2.1.1) (2025-11-25)
 
 
