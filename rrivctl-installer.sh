@@ -30,9 +30,11 @@
     fi
 
     INSTALL_DIR="$HOME/.rriv/.rrivctl"
+
     if [[ ! -d $INSTALL_DIR ]]; then
         mkdir -p $INSTALL_DIR
     fi
+    
     app_location="$INSTALL_DIR/rrivctl"
     temp_app_location="$INSTALL_DIR/rrivctl.new"
     old_app_location="$INSTALL_DIR/rrivctl.old"
