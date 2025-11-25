@@ -2,13 +2,10 @@ import { ReadlineParser } from "serialport";
 import { connectSerial } from "./connect-serial.ts";
 import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 
-export const waitForReady = async (
-  specifiedPath?: string,
-  milliseconds?: number
-) => {
+export const waitForReady = async (milliseconds?: number) => {
   await new Promise((resolve) => setTimeout(resolve, milliseconds || 7000));
   const serialPortPath = getSerialPathFromCache();
-  const serialPort = connectSerial(specifiedPath || serialPortPath);
+  const serialPort = connectSerial(serialPortPath);
 
   return new Promise<void>((resolve, reject) => {
     let timeout: ReturnType<typeof setTimeout> | null = setTimeout(function () {
