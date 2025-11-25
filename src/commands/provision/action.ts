@@ -6,16 +6,28 @@ import { provisionDevice } from "../../api/device.ts";
 import { logAsDebug } from "../../util/debug-logger.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
-export const provisionAction = async (options: any) => {
-  const { path } = options;
-  const { serialPortPath, uid } = await getConnectedDevice({
-    specifiedSerialPortPath: path,
+export const provisionAction = async () => {
+  const result = await getConnectedDevice({
     provisionCommand: true,
   });
   const { accessToken } = getActiveUser();
 
-  await flashInitialFirmware(serialPortPath);
+  await flashInitialFirmware();
   logAsDebug("device successfully flashed...");
+  let uid = result?.uid;
+  let serialPortPath = result?.serialPortPath;
+  if (!uid) {
+    const connectedDevice = await getConnectedDevice({
+      provisionCommand: true,
+    });
+    uid = connectedDevice?.uid;
+    serialPortPath = connectedDevice?.serialPortPath;
+  }
+  if (!uid) {
+    throw new Error(
+      "unplug and plug back in the device or press the reset button on the device\nthen run provision command again"
+    );
+  }
   const device = await provisionDevice({ uid, accessToken });
   logAsDebug("setting serial number on device...");
   await sendCommands(

@@ -14,7 +14,7 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 const flash = async (
   firmwareVersion: string,
   fileName: string,
-  serialPortPath?: string
+  initialFirmware?: boolean
 ) => {
   await probeRsCheck();
   const dirPath = getRrivCtlDir();
@@ -25,7 +25,11 @@ const flash = async (
   await spawn("bash", [`${fileName}.sh`, dirPath, firmwareVersion]);
   await spawn("rm", [`${fileName}.sh`]);
 
-  await waitForReady(serialPortPath, 3000);
+  if (initialFirmware) {
+    await new Promise((resolve) => setTimeout(resolve, 7000));
+  } else {
+    await waitForReady(3000);
+  }
 };
 
 export const flashFirmware = async (firmwareVersion: string) => {
@@ -60,7 +64,7 @@ export const flashFirmware = async (firmwareVersion: string) => {
   }
 };
 
-export const flashInitialFirmware = async (serialPortPath?: string) => {
+export const flashInitialFirmware = async () => {
   const octokit = new Octokit();
   const release = await octokit.repos.getLatestRelease({
     owner: "rrivirr",
@@ -68,5 +72,5 @@ export const flashInitialFirmware = async (serialPortPath?: string) => {
   });
   const firmwareVersion = release.data.tag_name;
   console.log("flashing ", firmwareVersion, "to device");
-  await flash(firmwareVersion, "flash-initial-firmware", serialPortPath);
+  await flash(firmwareVersion, "flash-initial-firmware", true);
 };
