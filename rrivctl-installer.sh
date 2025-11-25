@@ -34,6 +34,8 @@
         mkdir -p $INSTALL_DIR
     fi
     app_location="$INSTALL_DIR/rrivctl"
+    temp_app_location="$INSTALL_DIR/rrivctl.new"
+    old_app_location="$INSTALL_DIR/rrivctl.old"
 
     if [[ -z "$1" ]]; then
         download_url=https://github.com/rrivirr/rriv-ctl/releases/latest/download/rriv-cli-$os-$arch
@@ -41,7 +43,14 @@
         download_url=https://github.com/rrivirr/rriv-ctl/releases/download/$1/rriv-cli-$os-$arch
     fi
 
-    curl --proto '=https' --tlsv1.2 --progress-bar -fSLo $app_location $download_url
+    curl --proto '=https' --tlsv1.2 --progress-bar -fSLo $temp_app_location $download_url
+    if [[ -f $app_location ]] ; then 
+        mv $app_location $old_app_location 
+    else 
+        true
+    fi
+
+    mv $temp_app_location $app_location
     chmod +x $app_location
 
     line_to_add="alias rrivctlv2=$app_location"
