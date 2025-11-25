@@ -1,3 +1,11 @@
+## [2.0.3](https://github.com/rrivirr/rriv-ctl/compare/v2.0.2...v2.0.3) (2025-11-25)
+
+
+### Bug Fixes
+
+* flash device first before provisioning ([6b2d3e0](https://github.com/rrivirr/rriv-ctl/commit/6b2d3e092bf3ef6674fcfc987f907dc87c0d0e9a))
+* merge commit ([9bd9f5d](https://github.com/rrivirr/rriv-ctl/commit/9bd9f5d2a0648f430cd55a1c7e2e2fbb3a02550d))
+
 ## [2.0.2](https://github.com/rrivirr/rriv-ctl/compare/v2.0.1...v2.0.2) (2025-11-21)
 
 
