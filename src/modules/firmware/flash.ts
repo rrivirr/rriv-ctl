@@ -64,13 +64,15 @@ export const flashFirmware = async (firmwareVersion: string) => {
   }
 };
 
-export const flashInitialFirmware = async () => {
+export const flashInitialFirmware = async (boardVersion: string) => {
   const octokit = new Octokit();
   const release = await octokit.repos.getLatestRelease({
     owner: "rrivirr",
     repo: "rriv-firmware",
   });
   const firmwareVersion = release.data.tag_name;
-  console.log("flashing ", firmwareVersion, "to device");
-  await flash(firmwareVersion, "flash-initial-firmware", true);
+  if (boardVersion !== firmwareVersion) {
+    console.log("flashing", firmwareVersion, "to device");
+    await flash(firmwareVersion, "flash-initial-firmware", true);
+  }
 };

@@ -5,6 +5,7 @@ import { italic } from "yoctocolors";
 import { provisionDevice } from "../../api/device.ts";
 import { logAsDebug } from "../../util/debug-logger.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
+import { getBoardVersion } from "../../util/get-device-details.ts";
 
 export const provisionAction = async () => {
   const result = await getConnectedDevice({
@@ -12,10 +13,17 @@ export const provisionAction = async () => {
   });
   const { accessToken } = getActiveUser();
 
-  await flashInitialFirmware();
-  logAsDebug("device successfully flashed...");
   let uid = result?.uid;
   let serialPortPath = result?.serialPortPath;
+  let boardVersion = "";
+
+  if (uid && serialPortPath) {
+    boardVersion = await getBoardVersion(serialPortPath);
+  }
+
+  await flashInitialFirmware(boardVersion);
+  logAsDebug("device successfully flashed...");
+
   if (!uid) {
     const connectedDevice = await getConnectedDevice({
       provisionCommand: true,

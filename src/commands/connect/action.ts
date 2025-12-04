@@ -17,9 +17,9 @@ export const connectAction = async (options: any) => {
     specifiedSerialPortPath: path,
     fromRunCheck,
   });
-  const serialNumber = connectedDevice.serialNumber;
-  const serialPortPath = connectedDevice.serialPortPath;
-  const wait = connectedDevice.wait;
+  const serialNumber = connectedDevice!.serialNumber;
+  const serialPortPath = connectedDevice!.serialPortPath;
+  const wait = connectedDevice!.wait;
 
   const user = getActiveUser();
   const {
