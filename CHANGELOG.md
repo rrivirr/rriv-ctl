@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/rrivirr/rriv-ctl/compare/v2.2.1...v2.2.2) (2025-12-04)
+
+
+### Bug Fixes
+
+* aws workflow ([42c7747](https://github.com/rrivirr/rriv-ctl/commit/42c7747c71c5fa0839f30412b0c7069f64626983))
+
 ## [2.2.1](https://github.com/rrivirr/rriv-ctl/compare/v2.2.0...v2.2.1) (2025-12-04)
 
 
