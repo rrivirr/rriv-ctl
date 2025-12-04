@@ -1,3 +1,10 @@
+## [2.1.4](https://github.com/rrivirr/rriv-ctl/compare/v2.1.3...v2.1.4) (2025-12-04)
+
+
+### Bug Fixes
+
+* fo not flash if device is on latest version with provision step ([eaba847](https://github.com/rrivirr/rriv-ctl/commit/eaba84798536c63eb3d03d12d8d91a20e0544c27))
+
 ## [2.1.3](https://github.com/rrivirr/rriv-ctl/compare/v2.1.2...v2.1.3) (2025-11-25)
 
 
