@@ -72,7 +72,7 @@ export const runChecks = async (body: {
           !device.id ||
           !device.uniqueName ||
           !device.serialNumber ||
-          device.serialNumber !== connectedDevice.serialNumber ||
+          device.serialNumber !== connectedDevice?.serialNumber ||
           !deviceContext.deviceId ||
           !deviceContext.contextId ||
           !deviceContext.assignedDeviceName ||
@@ -99,9 +99,9 @@ export const runChecks = async (body: {
         }
 
         // incase the port path changed
-        if (connectedDevice.serialPortPath !== device.serialPortPath) {
+        if (connectedDevice?.serialPortPath !== device.serialPortPath) {
           db.update((data) => {
-            data[email].device.serialPortPath = connectedDevice.serialPortPath;
+            data[email].device.serialPortPath = connectedDevice!.serialPortPath;
           });
         }
       }

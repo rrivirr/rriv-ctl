@@ -42,5 +42,11 @@ export default tseslint.config(
     rules: {
       "@typescript-eslint/no-dynamic-delete": "off",
     },
+  },
+  {
+    files: ["src/commands/connect/action.ts", "src/pre-action/run-checks.ts"],
+    rules: {
+      "@typescript-eslint/no-non-null-assertion": "off",
+    },
   }
 );
