@@ -8,7 +8,6 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const uploadSensorConfig = async (payload: DefaultObject) => {
   const {
-    accessToken,
     toSync,
     deviceContext: { deviceId, contextId },
     email,
@@ -17,7 +16,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
   let sensorDriverId = receivedSensorDriverId;
 
   if (!sensorDriverId) {
-    const sensorDrivers = await getSensorDrivers({ accessToken });
+    const sensorDrivers = await getSensorDrivers();
     if (!sensorDrivers.length) {
       throw new Error("no drivers found; contact admin");
     }
@@ -56,7 +55,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
     });
   } else {
     try {
-      await createSensorConfig({ ...dataToUpload, accessToken });
+      await createSensorConfig({ ...dataToUpload });
       console.log("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {

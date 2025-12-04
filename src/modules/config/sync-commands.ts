@@ -8,8 +8,7 @@ import { errorHandler } from "../../util/error-handler.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const syncCommands = async () => {
-  // @TODO functionality not fully mapped out
-  const { accessToken, toSync, email } = getActiveUser();
+  const { toSync, email } = getActiveUser();
 
   if (!toSync?.length) {
     console.log("no pending actions to sync");
@@ -19,13 +18,13 @@ export const syncCommands = async () => {
   try {
     for (const { requestId, data, type } of toSync) {
       if (type === SyncDataType.ConfigSnapshot) {
-        await overwriteConfigSnapshot({ ...data, accessToken });
+        await overwriteConfigSnapshot({ ...data });
       } else if (type === SyncDataType.DataloggerConfig) {
-        await createDataloggerConfig({ ...data, accessToken });
+        await createDataloggerConfig({ ...data });
       } else if (type === SyncDataType.SensorConfig) {
-        await createSensorConfig({ ...data, accessToken });
+        await createSensorConfig({ ...data });
       } else if (type === SyncDataType.FirmwareHistory) {
-        await createFirmwareHistoryEntry({ ...data, accessToken });
+        await createFirmwareHistoryEntry({ ...data });
       }
       db.update((data) => {
         const toSyncData = data[email].toSync;

@@ -7,10 +7,8 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 export const listConfigHistory = async (asAt?: string) => {
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
   } = getActiveUser();
   const configHistory = await getConfigHistory({
-    accessToken,
     deviceId,
     contextId,
     asAt,

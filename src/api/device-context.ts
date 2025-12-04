@@ -1,14 +1,13 @@
-import axios from "axios";
 import { DeviceContext, DeviceContextRequest } from "./types.ts";
+import { rrivApiAxios } from "./axios.ts";
 
 export const getDeviceContext = async (
   body: DeviceContextRequest
 ): Promise<DeviceContext> => {
-  const { deviceId, contextId, accessToken } = body;
+  const { deviceId, contextId } = body;
 
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/context/${contextId}/device/${deviceId}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+  const response = await rrivApiAxios.get(
+    `/context/${contextId}/device/${deviceId}`
   );
 
   return response.data;
@@ -17,23 +16,17 @@ export const getDeviceContext = async (
 export const createDeviceContext = async (
   body: DeviceContextRequest & { assignedDeviceName: string }
 ): Promise<void> => {
-  const { deviceId, contextId, accessToken, assignedDeviceName } = body;
+  const { deviceId, contextId, assignedDeviceName } = body;
 
-  await axios.post(
-    `${process.env.RRIV_API_URL}/context/${contextId}/device/${deviceId}`,
-    { assignedDeviceName },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  await rrivApiAxios.post(`/context/${contextId}/device/${deviceId}`, {
+    assignedDeviceName,
+  });
 };
 
 export const updateDeviceContext = async (
   body: DeviceContextRequest & { end: true }
 ): Promise<void> => {
-  const { accessToken, contextId, deviceId, end } = body;
+  const { contextId, deviceId, end } = body;
 
-  await axios.patch(
-    `${process.env.RRIV_API_URL}/context/${contextId}/device/${deviceId}`,
-    { end },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  await rrivApiAxios.patch(`/context/${contextId}/device/${deviceId}`, { end });
 };

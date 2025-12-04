@@ -4,12 +4,10 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const listFirmwareHistory = async (serialNumber?: string) => {
   const {
-    accessToken,
     device: { id },
   } = getActiveUser();
 
   const firmwareHistory = await getFirmwareHistory({
-    accessToken,
     ...(serialNumber ? { serialNumber } : { deviceId: id }),
   });
 

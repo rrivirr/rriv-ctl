@@ -16,13 +16,11 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 export const getConfigSnapshot = async () => {
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
   } = getActiveUser();
 
   const configSnapshot = await getActiveConfigSnapshot({
     deviceId,
     contextId,
-    accessToken,
   });
   const { dataloggerConfig, sensorConfig } = configSnapshot;
   const table = new Table({
@@ -60,11 +58,9 @@ export const listConfigSnapshot = async (options: {
   search?: string;
 }) => {
   const { name, search } = options;
-  const { accessToken } = getActiveUser();
 
   const configSnapshots = await getConfigSnapshots({
     name,
-    accessToken,
     search,
   });
   if (!configSnapshots.length) {
@@ -120,20 +116,16 @@ export const listConfigSnapshot = async (options: {
 export const saveCurrentSnapshot = async (body: { name: string }) => {
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
   } = getActiveUser();
-  await saveConfigSnapshot({ ...body, deviceId, contextId, accessToken });
+  await saveConfigSnapshot({ ...body, deviceId, contextId });
   console.log("current config snapshot saved successfully");
 };
 
 export const applySavedConfigSnapshot = async (body: { name: string }) => {
   const { name } = body;
 
-  const { accessToken } = getActiveUser();
-
   const configSnapshots = await getConfigSnapshots({
     name,
-    accessToken,
   });
 
   if (!configSnapshots.length) {
@@ -160,10 +152,8 @@ export const applySavedConfigSnapshot = async (body: { name: string }) => {
 export const applyConfigHistory = async (body: { timestamp: string }) => {
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
   } = getActiveUser();
   const configHistory = await getConfigHistory({
-    accessToken,
     deviceId,
     contextId,
     asAt: body.timestamp,
@@ -200,7 +190,6 @@ export const applyConfigSnapshot = async (body: {
   const { datalogger, sensor } = body;
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
     toSync,
     email,
   } = getActiveUser();
@@ -245,7 +234,7 @@ export const applyConfigSnapshot = async (body: {
       });
     } else {
       try {
-        await overwriteConfigSnapshot({ ...dataToUpload, accessToken });
+        await overwriteConfigSnapshot({ ...dataToUpload });
         console.log("config uploaded to cloud successfully");
       } catch (error) {
         db.update((data) => {

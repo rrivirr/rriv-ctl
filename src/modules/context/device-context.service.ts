@@ -8,14 +8,12 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 export const endDeviceContext = async () => {
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
     email,
   } = getActiveUser();
 
   await DeviceContextApiCalls.updateDeviceContext({
     deviceId,
     contextId,
-    accessToken,
     end: true,
   });
   db.update((data) => {
@@ -30,7 +28,6 @@ export const endDeviceContext = async () => {
 export const createDeviceContext = async (body: {
   contextId: string;
   deviceId: string;
-  accessToken: string;
   assignedDeviceName: string;
 }) => {
   await DeviceContextApiCalls.createDeviceContext({
@@ -42,10 +39,9 @@ export const listContextDevices = async () => {
   const {
     context: { id },
     deviceContext: { deviceId },
-    accessToken,
   } = getActiveUser();
 
-  const contextDevices = await getDevices({ accessToken, contextId: id });
+  const contextDevices = await getDevices({ contextId: id });
   if (contextDevices.length) {
     const table = new Table({
       head: ["id", "uniqueName", "serialNumber", "assignedDeviceName"],

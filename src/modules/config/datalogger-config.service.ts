@@ -12,7 +12,6 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 export const uploadDataloggerConfig = async (payload: DefaultObject) => {
   const {
     email,
-    accessToken,
     toSync,
     deviceContext: { deviceId, contextId },
   } = getActiveUser();
@@ -20,7 +19,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
   let dataloggerDriverId = receivedDataloggerDriverId;
 
   if (!dataloggerDriverId) {
-    const dataloggerDrivers = await getDataloggerDrivers({ accessToken });
+    const dataloggerDrivers = await getDataloggerDrivers();
     if (!dataloggerDrivers.length) {
       throw new Error("no drivers found; contact admin");
     }
@@ -59,7 +58,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
     });
   } else {
     try {
-      await createDataloggerConfig({ ...dataToUpload, accessToken });
+      await createDataloggerConfig({ ...dataToUpload });
       console.log("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {

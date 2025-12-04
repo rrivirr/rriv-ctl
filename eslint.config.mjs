@@ -44,7 +44,12 @@ export default tseslint.config(
     },
   },
   {
-    files: ["src/commands/connect/action.ts", "src/pre-action/run-checks.ts"],
+    files: [
+      "src/commands/connect/action.ts",
+      "src/pre-action/run-checks.ts",
+      "src/infra/s3.ts",
+      "src/util/config.ts",
+    ],
     rules: {
       "@typescript-eslint/no-non-null-assertion": "off",
     },

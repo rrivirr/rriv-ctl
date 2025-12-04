@@ -29,7 +29,6 @@ export const connectAction = async (options: any) => {
       serialNumber: existingSerialNumber,
     },
     context,
-    accessToken,
   } = user;
 
   let toBindDevice = false;
@@ -40,7 +39,7 @@ export const connectAction = async (options: any) => {
   }
 
   if (!toBindDevice) {
-    const devices = await getDevice({ id, accessToken });
+    const devices = await getDevice({ id });
     const existingDevice = devices[0];
 
     if (
@@ -56,11 +55,10 @@ export const connectAction = async (options: any) => {
   }
 
   if (toBindDevice) {
-    const devices = await getDevice({ serialNumber, accessToken });
+    const devices = await getDevice({ serialNumber });
     device = devices[0];
     if (!device) {
       device = await bindDevice({
-        accessToken,
         serialNumber,
       });
       pullConfig = true;
@@ -101,7 +99,6 @@ export const connectAction = async (options: any) => {
     await createDeviceContext({
       contextId: currentContextId,
       deviceId: device.id,
-      accessToken,
       assignedDeviceName,
     });
   }

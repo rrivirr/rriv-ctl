@@ -16,11 +16,9 @@ export const publishConfigSnapshot = async (body: {
   description?: string;
 }) => {
   const { configSnapshotName, libraryConfigName, description } = body;
-  const { accessToken } = getActiveUser();
 
   const configSnapshots = await getConfigSnapshots({
     name: configSnapshotName,
-    accessToken,
   });
   const configSnapshot = configSnapshots[0];
 
@@ -31,7 +29,6 @@ export const publishConfigSnapshot = async (body: {
   }
 
   const existingConfigSnapshotLibraries = await getLibraryConfigSnapshots({
-    accessToken,
     isPublic: false,
     name: libraryConfigName,
   });
@@ -46,7 +43,6 @@ export const publishConfigSnapshot = async (body: {
         configSnapshotId: configSnapshot.id,
       },
       description,
-      accessToken,
     });
   } else {
     // doesn't exist create a new record
@@ -56,7 +52,6 @@ export const publishConfigSnapshot = async (body: {
       configSnapshot: {
         configSnapshotId: configSnapshot.id,
       },
-      accessToken,
     });
   }
 
@@ -69,12 +64,10 @@ export const publishCurrentConfigSnapshot = async (body: {
 }) => {
   const { libraryConfigName, description } = body;
   const {
-    accessToken,
     deviceContext: { deviceId, contextId },
   } = getActiveUser();
 
   const existingConfigSnapshotLibraries = await getLibraryConfigSnapshots({
-    accessToken,
     isPublic: false,
     name: libraryConfigName,
   });
@@ -90,7 +83,6 @@ export const publishCurrentConfigSnapshot = async (body: {
         contextId,
       },
       description,
-      accessToken,
     });
   } else {
     // doesn't exist create a new record
@@ -101,7 +93,6 @@ export const publishCurrentConfigSnapshot = async (body: {
         deviceId,
         contextId,
       },
-      accessToken,
     });
   }
 
@@ -114,13 +105,11 @@ export const listLibraryConfigSnapshot = async (body: {
   search?: string;
 }) => {
   const { isPublic, name, search } = body;
-  const { accessToken } = getActiveUser();
 
   const existingConfigSnapshotLibraries = await getLibraryConfigSnapshots({
     name,
     search,
     isPublic,
-    accessToken,
   });
 
   if (name) {
@@ -129,7 +118,6 @@ export const listLibraryConfigSnapshot = async (body: {
 
       const libraryConfigSnapshotDetails = await getLibraryConfigSnapshotById({
         libraryConfigSnapshotId: libraryConfigSnapshot.id,
-        accessToken,
       });
 
       const {
@@ -245,11 +233,9 @@ export const applyPublishedConfigSnapshot = async (body: {
   version?: number;
 }) => {
   const { name, version } = body;
-  const { accessToken } = getActiveUser();
 
   const existingConfigSnapshotLibraries = await getLibraryConfigSnapshots({
     name,
-    accessToken,
   });
 
   if (!existingConfigSnapshotLibraries.length) {
@@ -260,7 +246,6 @@ export const applyPublishedConfigSnapshot = async (body: {
 
   const libraryConfigSnapshotDetails = await getLibraryConfigSnapshotById({
     libraryConfigSnapshotId: libraryConfigSnapshot.id,
-    accessToken,
   });
 
   const { SystemLibraryConfigVersion } = libraryConfigSnapshotDetails;
