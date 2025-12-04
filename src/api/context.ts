@@ -1,15 +1,13 @@
-import axios from "axios";
 import { IdRequest, Context, ContextNameRequest } from "./types.ts";
+import { rrivApiAxios } from "./axios.ts";
 
 export const getContexts = async (body: {
-  accessToken: string;
   ended?: boolean;
   name?: string;
   search?: string;
 }): Promise<Context[]> => {
-  const { accessToken, ended, name, search } = body;
-  const response = await axios.get(`${process.env.RRIV_API_URL}/context`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
+  const { ended, name, search } = body;
+  const response = await rrivApiAxios.get(`/context`, {
     params: { ended, name, search },
   });
 
@@ -19,11 +17,8 @@ export const getContexts = async (body: {
 export const getContextByName = async (
   body: ContextNameRequest
 ): Promise<Context> => {
-  const { contextName, accessToken } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/context?name=${contextName}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  const { contextName } = body;
+  const response = await rrivApiAxios.get(`/context?name=${contextName}`, {});
 
   return response.data[0];
 };
@@ -31,30 +26,20 @@ export const getContextByName = async (
 export const createContext = async (
   body: ContextNameRequest
 ): Promise<Context> => {
-  const { contextName, accessToken } = body;
-  const response = await axios.post(
-    `${process.env.RRIV_API_URL}/context`,
-    { name: contextName },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  const { contextName } = body;
+  const response = await rrivApiAxios.post(`/context`, { name: contextName });
 
   return response.data;
 };
 
 export const deleteContext = async (body: IdRequest): Promise<void> => {
-  const { id, accessToken } = body;
-  await axios.delete(`${process.env.RRIV_API_URL}/context/${id}`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
+  const { id } = body;
+  await rrivApiAxios.delete(`/context/${id}`);
 };
 
 export const updateContext = async (
   body: IdRequest & { end?: boolean }
 ): Promise<void> => {
-  const { id, accessToken, end } = body;
-  await axios.patch(
-    `${process.env.RRIV_API_URL}/context/${id}`,
-    { end },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  const { id, end } = body;
+  await rrivApiAxios.patch(`/context/${id}`, { end });
 };

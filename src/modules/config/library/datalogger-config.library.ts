@@ -18,11 +18,9 @@ export const publishCurrentDataloggerConfig = async (body: {
   const { libraryConfigName, description } = body;
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
   } = getActiveUser();
 
   const existingDataloggerLibraryConfigs = await getDataloggerLibraryConfig({
-    accessToken,
     isPublic: false,
     name: libraryConfigName,
   });
@@ -34,7 +32,6 @@ export const publishCurrentDataloggerConfig = async (body: {
       deviceId,
       description,
       contextId,
-      accessToken,
       dataloggerLibraryId: existingDataloggerLibraryConfig.id,
     });
   } else {
@@ -42,7 +39,6 @@ export const publishCurrentDataloggerConfig = async (body: {
       name: libraryConfigName,
       deviceId,
       contextId,
-      accessToken,
       description,
     });
   }
@@ -56,13 +52,11 @@ export const listLibraryDataloggerConfig = async (body: {
   search?: string;
 }) => {
   const { isPublic, name, search } = body;
-  const { accessToken } = getActiveUser();
 
   const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
     name,
     search,
     isPublic,
-    accessToken,
   });
 
   if (name) {
@@ -71,7 +65,6 @@ export const listLibraryDataloggerConfig = async (body: {
       const dataloggerLibraryConfigDetails =
         await getDataloggerLibraryConfigById({
           dataloggerLibraryId: dataloggerLibraryConfig.id,
-          accessToken,
         });
 
       const {
@@ -162,11 +155,9 @@ export const applyPublishedDataloggerConfig = async (body: {
   version?: number;
 }) => {
   const { name, version } = body;
-  const { accessToken } = getActiveUser();
 
   const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
     name,
-    accessToken,
   });
 
   if (!dataloggerLibraryConfigs.length) {
@@ -176,7 +167,6 @@ export const applyPublishedDataloggerConfig = async (body: {
   const dataloggerLibraryConfig = dataloggerLibraryConfigs[0];
   const dataloggerLibraryConfigDetails = await getDataloggerLibraryConfigById({
     dataloggerLibraryId: dataloggerLibraryConfig.id,
-    accessToken,
   });
 
   const { DataloggerLibraryConfigVersion } = dataloggerLibraryConfigDetails;

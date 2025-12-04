@@ -9,9 +9,9 @@ import { listContextDevices } from "../context/device-context.service.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const unbindDevice = async (serialNumber: string) => {
-  const { accessToken, email } = getActiveUser();
+  const { email } = getActiveUser();
 
-  await unbindDeviceApiCall({ serialNumber, accessToken });
+  await unbindDeviceApiCall({ serialNumber });
 
   db.update((data) => {
     data[email].deviceContext = {
@@ -31,12 +31,11 @@ export const unbindDevice = async (serialNumber: string) => {
 
 export const listDevices = async (all?: boolean) => {
   const {
-    accessToken,
     device: { id: deviceId },
   } = getActiveUser();
 
   if (all) {
-    const devices = await getDevicesApiCall({ accessToken });
+    const devices = await getDevicesApiCall({});
     if (devices.length) {
       const table = new Table({
         head: [

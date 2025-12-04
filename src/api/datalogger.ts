@@ -1,20 +1,13 @@
-import axios from "axios";
 import {
-  AccessToken,
   ConfigLibrary,
   DataloggerConfigLibraryById,
   Driver,
   CreateDataloggerConfigDto,
 } from "./types.ts";
+import { rrivApiAxios } from "./axios.ts";
 
-export const getDataloggerDrivers = async (
-  body: AccessToken
-): Promise<Driver[]> => {
-  const { accessToken } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/datalogger/driver`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+export const getDataloggerDrivers = async (): Promise<Driver[]> => {
+  const response = await rrivApiAxios.get(`/datalogger/driver`, {});
 
   return response.data;
 };
@@ -22,77 +15,61 @@ export const getDataloggerDrivers = async (
 export const createDataloggerConfig = async (
   body: CreateDataloggerConfigDto
 ): Promise<void> => {
-  const { accessToken, ...data } = body;
-  await axios.post(`${process.env.RRIV_API_URL}/datalogger/config`, data, {
-    headers: { Authorization: `Bearer ${accessToken}` },
+  await rrivApiAxios.post(`/datalogger/config`, body);
+};
+
+export const getDataloggerLibraryConfig = async (body: {
+  name?: string;
+  search?: string;
+  isPublic?: boolean;
+}): Promise<ConfigLibrary[]> => {
+  const { name, search, isPublic } = body;
+  const response = await rrivApiAxios.get(`/datalogger/libraryConfig`, {
+    params: { name, search, isPublic },
+  });
+
+  return response.data;
+};
+
+export const getDataloggerLibraryConfigById = async (body: {
+  dataloggerLibraryId: string;
+}): Promise<DataloggerConfigLibraryById> => {
+  const { dataloggerLibraryId } = body;
+  const response = await rrivApiAxios.get(
+    `/datalogger/libraryConfig/${dataloggerLibraryId}`
+  );
+
+  return response.data;
+};
+
+export const publishNewDataloggerLibraryConfig = async (body: {
+  name: string;
+  description?: string;
+  deviceId: string;
+  contextId: string;
+}): Promise<void> => {
+  const { name, description, deviceId, contextId } = body;
+  await rrivApiAxios.post(`/datalogger/libraryConfig`, {
+    name,
+    description,
+    deviceId,
+    contextId,
   });
 };
 
-export const getDataloggerLibraryConfig = async (
-  body: { name?: string; search?: string; isPublic?: boolean } & AccessToken
-): Promise<ConfigLibrary[]> => {
-  const { accessToken, name, search, isPublic } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/datalogger/libraryConfig`,
+export const publishNewDataloggerLibraryConfigVersion = async (body: {
+  description?: string;
+  dataloggerLibraryId: string;
+  deviceId: string;
+  contextId: string;
+}): Promise<void> => {
+  const { description, deviceId, contextId, dataloggerLibraryId } = body;
+  await rrivApiAxios.post(
+    `/datalogger/libraryConfig/${dataloggerLibraryId}/version`,
     {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      params: { name, search, isPublic },
+      description,
+      deviceId,
+      contextId,
     }
-  );
-
-  return response.data;
-};
-
-export const getDataloggerLibraryConfigById = async (
-  body: { dataloggerLibraryId: string } & AccessToken
-): Promise<DataloggerConfigLibraryById> => {
-  const { accessToken, dataloggerLibraryId } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/datalogger/libraryConfig/${dataloggerLibraryId}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-
-  return response.data;
-};
-
-export const publishNewDataloggerLibraryConfig = async (
-  body: {
-    name: string;
-    description?: string;
-    deviceId: string;
-    contextId: string;
-  } & AccessToken
-): Promise<void> => {
-  const { accessToken, name, description, deviceId, contextId } = body;
-  await axios.post(
-    `${process.env.RRIV_API_URL}/datalogger/libraryConfig`,
-    {
-      name,
-      description,
-      deviceId,
-      contextId,
-    },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-};
-
-export const publishNewDataloggerLibraryConfigVersion = async (
-  body: {
-    description?: string;
-    dataloggerLibraryId: string;
-    deviceId: string;
-    contextId: string;
-  } & AccessToken
-): Promise<void> => {
-  const { accessToken, description, deviceId, contextId, dataloggerLibraryId } =
-    body;
-  await axios.post(
-    `${process.env.RRIV_API_URL}/datalogger/libraryConfig/${dataloggerLibraryId}/version`,
-    {
-      description,
-      deviceId,
-      contextId,
-    },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
   );
 };

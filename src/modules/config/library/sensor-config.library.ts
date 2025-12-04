@@ -20,13 +20,11 @@ export const publishCurrentSensorConfig = async (body: {
   const { libraryConfigName, sensor, description } = body;
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
   } = getActiveUser();
 
   const configSnapshot = await getActiveConfigSnapshot({
     contextId,
     deviceId,
-    accessToken,
   });
 
   const { sensorConfig } = configSnapshot;
@@ -36,7 +34,6 @@ export const publishCurrentSensorConfig = async (body: {
   }
 
   const existingSensorLibraryConfigs = await getSensorLibraryConfig({
-    accessToken,
     isPublic: false,
     name: libraryConfigName,
   });
@@ -47,14 +44,12 @@ export const publishCurrentSensorConfig = async (body: {
     await publishNewSensorLibraryConfigVersion({
       sensorConfigId: selectedSensorConfig.id,
       sensorLibraryId: existingSensorLibraryConfig.id,
-      accessToken,
       description,
     });
   } else {
     await publishNewSensorLibraryConfig({
       name: libraryConfigName,
       description,
-      accessToken,
       sensorConfigId: selectedSensorConfig.id,
     });
   }
@@ -68,13 +63,11 @@ export const listLibrarySensorConfig = async (body: {
   search?: string;
 }) => {
   const { isPublic, name, search } = body;
-  const { accessToken } = getActiveUser();
 
   const sensorLibraryConfigs = await getSensorLibraryConfig({
     name,
     search,
     isPublic,
-    accessToken,
   });
 
   if (name) {
@@ -82,7 +75,6 @@ export const listLibrarySensorConfig = async (body: {
       const sensorLibraryConfig = sensorLibraryConfigs[0];
       const sensorLibraryConfigDetails = await getSensorLibraryConfigById({
         sensorLibraryId: sensorLibraryConfig.id,
-        accessToken,
       });
 
       const {
@@ -172,11 +164,9 @@ export const applyPublishedSensorConfig = async (body: {
   version?: number;
 }) => {
   const { name, version } = body;
-  const { accessToken } = getActiveUser();
 
   const sensorLibraryConfigs = await getSensorLibraryConfig({
     name,
-    accessToken,
   });
 
   if (!sensorLibraryConfigs.length) {
@@ -186,7 +176,6 @@ export const applyPublishedSensorConfig = async (body: {
   const sensorLibraryConfig = sensorLibraryConfigs[0];
   const sensorLibraryConfigDetails = await getSensorLibraryConfigById({
     sensorLibraryId: sensorLibraryConfig.id,
-    accessToken,
   });
 
   const { SensorLibraryConfigVersion } = sensorLibraryConfigDetails;

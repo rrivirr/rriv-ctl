@@ -13,11 +13,10 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 export const endContext = async () => {
   const {
     context: { id },
-    accessToken,
     email,
   } = getActiveUser();
 
-  await updateContext({ id, accessToken, end: true });
+  await updateContext({ id, end: true });
   db.update((data) => {
     data[email].context = { id: "", name: "" };
     data[email].deviceContext = {
@@ -35,10 +34,9 @@ export const listContexts = async (options: {
   const { name, search } = options;
   const {
     context: { id: existingContextId },
-    accessToken,
   } = getActiveUser();
 
-  const userContexts = await getContexts({ accessToken, name, search });
+  const userContexts = await getContexts({ name, search });
   if (userContexts.length) {
     const table = new Table({ head: ["id", "name", "startedAt", "endedAt"] });
     for (const { id, name, startedAt, endedAt } of userContexts) {
@@ -65,11 +63,10 @@ export const listContexts = async (options: {
 };
 
 export const useContext = async (name: string) => {
-  const { accessToken, email } = getActiveUser();
+  const { email } = getActiveUser();
 
   const context = await getContextByName({
     contextName: name,
-    accessToken,
   });
   if (!context) {
     throw new Error("context specified does not exist");
@@ -93,19 +90,17 @@ export const useContext = async (name: string) => {
 
 export const deleteContext = async (name: string) => {
   const {
-    accessToken,
     context: { id: existingContextId },
     email,
   } = getActiveUser();
 
   const context = await getContextByName({
     contextName: name,
-    accessToken,
   });
   if (!context) {
     throw new Error("context specified does not exist");
   }
-  await deleteContextApiCall({ id: context.id, accessToken });
+  await deleteContextApiCall({ id: context.id });
   console.log("context deleted successfully");
   if (existingContextId === context.id) {
     db.update((data) => {
@@ -124,7 +119,6 @@ export const deleteContext = async (name: string) => {
 
 export const createContext = async (options: { name: string }) => {
   const { name } = options;
-  const { accessToken } = getActiveUser();
-  await createContextApiCall({ accessToken, contextName: name });
+  await createContextApiCall({ contextName: name });
   console.log("context created successfully");
 };

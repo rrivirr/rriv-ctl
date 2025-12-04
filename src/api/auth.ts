@@ -1,12 +1,15 @@
 import axios from "axios";
+import { rrivApiAxios } from "./axios.ts";
 import { SignupDto } from "./types.ts";
+import { getConfig } from "../util/config.ts";
 
 export const login = async (loginDetails: {
   username: string;
   password: string;
 }) => {
   const { username, password } = loginDetails;
-  const keycloakUrl = process.env.KEYCLOAK_URL;
+  const config = getConfig();
+  const keycloakUrl = config.KEYCLOAK_URL;
 
   if (!keycloakUrl) {
     throw new Error("keycloak not configured");
@@ -15,7 +18,7 @@ export const login = async (loginDetails: {
   const response = await axios.post(
     keycloakUrl,
     {
-      client_id: process.env.KEYCLOAK_CLIENT_ID,
+      client_id: config.KEYCLOAK_CLIENT_ID,
       username,
       password,
       grant_type: "password",
@@ -34,19 +37,19 @@ export const login = async (loginDetails: {
 };
 
 export const signup = async (body: SignupDto) => {
-  await axios.post(`${process.env.RRIV_API_URL}/account`, body);
+  await rrivApiAxios.post(`/account`, body);
 };
 
 export const verify = async (body: { email: string }) => {
   const { email } = body;
-  await axios.post(`${process.env.RRIV_API_URL}/account/verifyEmail`, {
+  await rrivApiAxios.post(`/account/verifyEmail`, {
     email,
   });
 };
 
 export const resetPassword = async (body: { email: string }) => {
   const { email } = body;
-  await axios.post(`${process.env.RRIV_API_URL}/account/resetPassword`, {
+  await rrivApiAxios.post(`/account/resetPassword`, {
     email,
   });
 };

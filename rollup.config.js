@@ -15,11 +15,18 @@ const env = {
   "process.env.KEYCLOAK_CLIENT_ID": JSON.stringify(
     process.env.KEYCLOAK_CLIENT_ID
   ),
+  "process.env.SPACES_ACCESS_KEY": JSON.stringify(
+    process.env.SPACES_ACCESS_KEY
+  ),
+  "process.env.SPACES_SECRET_KEY": JSON.stringify(
+    process.env.SPACES_SECRET_KEY
+  ),
+  "process.env.SPACES_ENDPOINT": JSON.stringify(process.env.SPACES_ENDPOINT),
 };
 
 export default {
   input: "./src/index.ts",
-  external: ["serialport"],
+  external: ["serialport", "@aws-sdk/client-s3"],
   output: {
     file: "./dist/index.cjs",
     format: "cjs",

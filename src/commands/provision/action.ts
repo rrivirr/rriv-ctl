@@ -4,14 +4,12 @@ import { sendCommands } from "../../infra/send-commands.ts";
 import { italic } from "yoctocolors";
 import { provisionDevice } from "../../api/device.ts";
 import { logAsDebug } from "../../util/debug-logger.ts";
-import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { getBoardVersion } from "../../util/get-device-details.ts";
 
 export const provisionAction = async () => {
   const result = await getConnectedDevice({
     provisionCommand: true,
   });
-  const { accessToken } = getActiveUser();
 
   let uid = result?.uid;
   let serialPortPath = result?.serialPortPath;
@@ -36,7 +34,7 @@ export const provisionAction = async () => {
       "unplug and plug back in the device or press the reset button on the device\nthen run provision command again"
     );
   }
-  const device = await provisionDevice({ uid, accessToken });
+  const device = await provisionDevice({ uid });
   logAsDebug("setting serial number on device...");
   await sendCommands(
     [

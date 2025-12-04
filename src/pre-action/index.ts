@@ -21,7 +21,9 @@ export const preAction = async (
       !(
         actionCommand.parent?.name() === "auth" ||
         commandName === "whoami" ||
-        commandName === "update"
+        commandName === "update" ||
+        options.env ||
+        options.debugMode
       )
     ) {
       await authCheck();

@@ -11,8 +11,7 @@ export const runChecks = async (body: {
   commandArgument: string;
   replServer?: REPLServer;
 }) => {
-  const { email, accessToken, context, device, deviceContext } =
-    getActiveUser();
+  const { email, context, device, deviceContext } = getActiveUser();
 
   const { commandName, commandArgument, replServer } = body;
   if (
@@ -30,11 +29,10 @@ export const runChecks = async (body: {
     if (commandArgument !== "-h") {
       // check if context exists
       if (!context.id || !context.name) {
-        const contexts = await getContexts({ accessToken });
+        const contexts = await getContexts({});
         if (!contexts.length) {
           const context = await createContext({
             contextName: "rrivctl",
-            accessToken,
           });
           db.update((data) => {
             data[email].context = {

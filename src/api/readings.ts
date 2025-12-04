@@ -1,6 +1,7 @@
 import axios from "axios";
 import stream from "stream/promises";
 import fs from "fs";
+import { getConfig } from "../util/config.ts";
 
 export const getReadings = async (query: {
   id: string;
@@ -10,13 +11,11 @@ export const getReadings = async (query: {
 }): Promise<string> => {
   const { id, dirPath, startDate, endDate } = query;
   try {
-    const response = await axios.get(
-      `${process.env.DATA_API_URL}/readings/${id}`,
-      {
-        params: { rangeStart: startDate, rangeEnd: endDate, format: "csv" },
-        responseType: "stream",
-      }
-    );
+    const config = getConfig();
+    const response = await axios.get(`${config.DATA_API_URL}/readings/${id}`, {
+      params: { rangeStart: startDate, rangeEnd: endDate, format: "csv" },
+      responseType: "stream",
+    });
 
     const contentDisposition = response.headers["content-disposition"];
     const filename = contentDisposition.split("=")[1];
