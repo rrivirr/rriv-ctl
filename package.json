@@ -41,7 +41,7 @@
     "lint": "eslint ./src",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky",
-    "binary": "npm run build && rm -rf ./apps && pkg . --public"
+    "binary": "npm run build && rm -rf ./apps && pkg ."
   },
   "pkg": {
     "assets": [
