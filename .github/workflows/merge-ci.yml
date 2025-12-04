@@ -72,10 +72,10 @@ jobs:
       - name: Build binaries
         run: npm run binary
         env:
-          RRIV_API_URL: ${{ env.RRIV_API_URL }}
-          KEYCLOAK_URL: ${{ env.KEYCLOAK_URL }}
-          KEYCLOAK_CLIENT_ID: ${{ env.KEYCLOAK_CLIENT_ID }}
-          DATA_API_URL: ${{ env.DATA_API_URL }}
+          RRIV_API_URL: ${{ env.json_RRIV_API_URL }}
+          KEYCLOAK_URL: ${{ env.json_KEYCLOAK_URL }}
+          KEYCLOAK_CLIENT_ID: ${{ env.json_KEYCLOAK_CLIENT_ID }}
+          DATA_API_URL: ${{ env.json_DATA_API_URL }}
 
       - name: move installer
         run: cp rrivctl-installer.sh apps/
