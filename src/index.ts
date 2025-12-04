@@ -8,7 +8,7 @@ import { initializeCommands } from "./commands/index.ts";
 import { startRepl } from "./repl/repl.ts";
 import db from "./db/db.ts";
 import { logAsDebug } from "./util/debug-logger.ts";
-import { setConfig } from "./util/config.ts";
+// import { setConfig } from "./util/config.ts";
 
 const cli = new Command();
 cli
@@ -29,7 +29,7 @@ cli
         "invalid value received for debugMode, only true or false allowed"
       );
     } else if (env) {
-      await setConfig(env);
+      // await setConfig(env);
     } else {
       await startRepl(cli);
     }

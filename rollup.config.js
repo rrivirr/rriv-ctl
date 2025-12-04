@@ -26,7 +26,7 @@ const env = {
 
 export default {
   input: "./src/index.ts",
-  external: ["serialport", "@aws-sdk/client-s3"],
+  external: ["serialport"],
   output: {
     file: "./dist/index.cjs",
     format: "cjs",

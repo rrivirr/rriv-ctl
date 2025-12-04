@@ -60,7 +60,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.943.0",
     "@inquirer/prompts": "^7.3.1",
     "@octokit/rest": "^22.0.0",
     "@yao-pkg/pkg": "^6.6.0",
