@@ -1,3 +1,10 @@
+## [2.2.5](https://github.com/rrivirr/rriv-ctl/compare/v2.2.4...v2.2.5) (2025-12-04)
+
+
+### Bug Fixes
+
+* workflow ([2a0bc67](https://github.com/rrivirr/rriv-ctl/commit/2a0bc67ad5cc5a23e4f0605d10d81590dc07dab6))
+
 ## [2.2.4](https://github.com/rrivirr/rriv-ctl/compare/v2.2.3...v2.2.4) (2025-12-04)
 
 
