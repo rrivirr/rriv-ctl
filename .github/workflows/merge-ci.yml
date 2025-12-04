@@ -64,7 +64,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Download JSON from S3
-        run: aws s3api get-object --bucket rriv-envs --output json --key prod.json --endpoint-url ${{ secrets.SPACES_SECRET_KEY }} ./config.json
+        run: aws s3api get-object --bucket rriv-envs --output json --key prod.json --endpoint-url ${{ secrets.SPACES_ENDPOINT }} ./config.json
 
       - name: JSON to variables
         uses: laingcc/json-to-variables@v1.0.0
