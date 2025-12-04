@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/rrivirr/rriv-ctl/compare/v2.2.0...v2.2.1) (2025-12-04)
+
+
+### Bug Fixes
+
+* update package ([e179038](https://github.com/rrivirr/rriv-ctl/commit/e1790389681ed4f78252ba7a082ef70eef187476))
+
 # [2.2.0](https://github.com/rrivirr/rriv-ctl/compare/v2.1.4...v2.2.0) (2025-12-04)
 
 
