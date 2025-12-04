@@ -19,7 +19,7 @@ export const getConfig = () => {
 
 export const setConfig = async (env: Environment) => {
   const data = db.data;
-  if (data.environment.name === env) {
+  if (data.environment?.name === env) {
     console.log(`already in the ${env} environment`);
     return;
   }
