@@ -1,3 +1,10 @@
+## [2.2.3](https://github.com/rrivirr/rriv-ctl/compare/v2.2.2...v2.2.3) (2025-12-04)
+
+
+### Bug Fixes
+
+* recover installer ([4e40505](https://github.com/rrivirr/rriv-ctl/commit/4e40505f7bf11cbf3ff27b29f6208c6ddfa4750f))
+
 ## [2.2.2](https://github.com/rrivirr/rriv-ctl/compare/v2.2.1...v2.2.2) (2025-12-04)
 
 
