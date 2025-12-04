@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/rrivirr/rriv-ctl/compare/v2.1.4...v2.2.0) (2025-12-04)
+
+
+### Features
+
+* support multiple environments ([6cc74da](https://github.com/rrivirr/rriv-ctl/commit/6cc74da2ee82664debff322c11074cc957fa1794))
+
 ## [2.1.4](https://github.com/rrivirr/rriv-ctl/compare/v2.1.3...v2.1.4) (2025-12-04)
 
 
