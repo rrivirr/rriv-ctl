@@ -46,6 +46,9 @@
   "pkg": {
     "assets": [
       "node_modules/@serialport/bindings-cpp/prebuilds/**/*",
+      "node_modules/@aws/**/*",
+      "node_modules/@aws-crypto/**/*",
+      "node_modules/@aws-sdk/**/*",
       "rrivctl-installer.sh",
       "src/modules/firmware/scripts/*"
     ],
@@ -60,6 +63,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.946.0",
     "@inquirer/prompts": "^7.3.1",
     "@octokit/rest": "^22.0.0",
     "@yao-pkg/pkg": "^6.6.0",
