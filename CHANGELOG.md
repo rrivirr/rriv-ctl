@@ -1,3 +1,10 @@
+## [2.2.8](https://github.com/rrivirr/rriv-ctl/compare/v2.2.7...v2.2.8) (2025-12-05)
+
+
+### Bug Fixes
+
+* add aws packages as pkg assets ([a5133ec](https://github.com/rrivirr/rriv-ctl/commit/a5133ec662f054c5feef615bc2bc2557a17a2c3f))
+
 ## [2.2.7](https://github.com/rrivirr/rriv-ctl/compare/v2.2.6...v2.2.7) (2025-12-04)
 
 
