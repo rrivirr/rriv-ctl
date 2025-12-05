@@ -1,3 +1,10 @@
+## [2.2.9](https://github.com/rrivirr/rriv-ctl/compare/v2.2.8...v2.2.9) (2025-12-05)
+
+
+### Bug Fixes
+
+* binary output attempt fix ([6a986fb](https://github.com/rrivirr/rriv-ctl/commit/6a986fbf9167b1b7d4a90fb193cac103fb396597))
+
 ## [2.2.8](https://github.com/rrivirr/rriv-ctl/compare/v2.2.7...v2.2.8) (2025-12-05)
 
 
