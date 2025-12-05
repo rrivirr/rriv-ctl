@@ -1,6 +1,6 @@
-import { S3 } from "@aws-sdk/client-s3";
+import * as AWS from "@aws-sdk/client-s3";
 
-const s3Client = new S3({
+export const s3Client = new AWS.S3({
   forcePathStyle: false,
   endpoint: process.env.SPACES_ENDPOINT!,
   region: "us-east-1",
@@ -10,4 +10,4 @@ const s3Client = new S3({
   },
 });
 
-export { s3Client };
+export const GetObjectCommand = AWS.GetObjectCommand;

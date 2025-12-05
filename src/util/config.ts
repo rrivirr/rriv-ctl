@@ -1,5 +1,4 @@
-import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { s3Client } from "../infra/s3.ts";
+import { s3Client, GetObjectCommand } from "../infra/s3.ts";
 import { Environment } from "../types.ts";
 import db from "../db/db.ts";
 
