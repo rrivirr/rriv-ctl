@@ -12,6 +12,11 @@ export const preAction = async (
   const args = actionCommand.args;
   const options = actionCommand.opts();
 
+  if (args.length && commandName === "rrivctl") {
+    console.log("invalid command received");
+    process.exit();
+  }
+
   try {
     if (commandName !== "update") {
       await checkVersionAndUpdate();
