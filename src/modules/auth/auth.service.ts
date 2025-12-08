@@ -1,5 +1,6 @@
 import Table from "cli-table3";
 import { jwtDecode } from "jwt-decode";
+import { blue, bold, italic } from "yoctocolors";
 import {
   login as loginApiCall,
   signup as signupApiCall,
@@ -10,32 +11,43 @@ import { SignupDto } from "../../api/types.ts";
 import db from "../../db/db.ts";
 import { passwordPrompt, signupPrompt } from "../../prompts/auth.prompt.ts";
 import { JwtPayload } from "../../types.ts";
-import { italic } from "yoctocolors";
 import { getLoggedInUser } from "../../util/get-logged-in-user.ts";
 
 export const login = async (email: string) => {
   try {
-    const user = getLoggedInUser(email);
+    const { activeEmail } = db.data;
+    const emailToLogin = email || activeEmail;
+    if (!emailToLogin) {
+      console.log(
+        `Specify an email with ${italic("rrivctlv2 auth login <email>")}`
+      );
+      process.exit();
+    }
+    const user = getLoggedInUser(emailToLogin);
     if (user) {
       db.update((data) => {
-        data.activeEmail = email;
+        data.activeEmail = emailToLogin;
       });
     } else {
+      if (activeEmail && (!email || email === activeEmail)) {
+        console.log(`logging in as ${bold(blue(`${activeEmail}`))}`);
+      }
       const password = await passwordPrompt(false, false);
       const { accessToken, expiresIn } = await loginApiCall({
-        username: email,
+        username: emailToLogin,
         password,
       });
       const now = new Date();
       const decodedToken: JwtPayload = jwtDecode(accessToken);
 
       db.update((data) => {
-        data.activeEmail = email;
-        data[email] = {
+        data.activeEmail = emailToLogin;
+        data[emailToLogin] = {
           accessToken,
           name: decodedToken.name,
           expirationTime: +now.setSeconds(now.getSeconds() + expiresIn),
-          lastLoginAt: new Date(),
+          lastLoginAt: data[emailToLogin]?.currentLoginAt,
+          currentLoginAt: new Date(),
           toSync: [],
           context: { id: "", name: "" },
           device: {
@@ -72,8 +84,24 @@ To resend the verification email run the command ${italic(`rrivctlv2 auth verify
 
 export const logout = () => {
   db.update((data) => {
-    delete data[data.activeEmail];
-    data.activeEmail = "";
+    data[data.activeEmail] = {
+      ...data[data.activeEmail],
+      accessToken: "",
+      name: "",
+      expirationTime: 0,
+      context: { id: "", name: "" },
+      device: {
+        id: "",
+        uniqueName: "",
+        serialNumber: "",
+        serialPortPath: "",
+      },
+      deviceContext: {
+        contextId: "",
+        deviceId: "",
+        assignedDeviceName: "",
+      },
+    };
   });
   console.log("successful");
 };

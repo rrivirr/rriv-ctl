@@ -94,6 +94,7 @@ export const sendSingleCommand = (
           }
           if (errorMessage) {
             console.log("command sent", command);
+            console.log("respone received", response);
             return resolve({ error: errorMessage });
           }
           resolve(response);

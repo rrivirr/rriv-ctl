@@ -25,6 +25,7 @@ export interface Data {
   };
   expirationTime: number;
   lastLoginAt: Date;
+  currentLoginAt: Date;
   toSync: toSyncConfig[];
 }
 

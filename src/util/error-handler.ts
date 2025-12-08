@@ -11,7 +11,7 @@ export const errorHandler = (body: { error: any; exit: boolean }) => {
       `ApiError: ` +
       (errorResponse?.error_description ||
         errorResponse.message ||
-        errorResponse);
+        JSON.stringify(errorResponse));
 
     if (errorMessage === "ApiError: uniquename of device is required") {
       console.log("unique name flag is required");

@@ -29,6 +29,7 @@ export default {
   external: ["serialport"],
   output: {
     dir: "./dist",
+    entryFileNames: "index.cjs",
     format: "cjs",
     sourcemap: false,
   },
