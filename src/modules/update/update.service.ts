@@ -87,6 +87,7 @@ export const checkVersionAndUpdate = async () => {
       }
     } catch (error) {
       errorHandler({ error, exit: false });
+      console.log("auto update failed");
     }
 
     db.update((data) => {
