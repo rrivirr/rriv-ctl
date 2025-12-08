@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/rrivirr/rriv-ctl/compare/v2.3.1...v2.3.2) (2025-12-08)
+
+
+### Bug Fixes
+
+* alert invalid commands ([9e33365](https://github.com/rrivirr/rriv-ctl/commit/9e333652c55ab1fb7ce6fc248e10674604a73a9e))
+
 ## [2.3.1](https://github.com/rrivirr/rriv-ctl/compare/v2.3.0...v2.3.1) (2025-12-08)
 
 
