@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/rrivirr/rriv-ctl/compare/v2.3.0...v2.3.1) (2025-12-08)
+
+
+### Bug Fixes
+
+* alert explicitly if auto update fails ([b2416fe](https://github.com/rrivirr/rriv-ctl/commit/b2416fee259d340ddaa506bb775e9797aaea5432))
+
 # [2.3.0](https://github.com/rrivirr/rriv-ctl/compare/v2.2.10...v2.3.0) (2025-12-08)
 
 
