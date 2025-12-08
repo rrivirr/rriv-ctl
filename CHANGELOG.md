@@ -1,3 +1,15 @@
+# [2.3.0](https://github.com/rrivirr/rriv-ctl/compare/v2.2.10...v2.3.0) (2025-12-08)
+
+
+### Bug Fixes
+
+* additional log on error command ([5feb167](https://github.com/rrivirr/rriv-ctl/commit/5feb167fbb185c03be163a2e3cbfe20c45fdfdc6))
+
+
+### Features
+
+* retain email for login ([112b565](https://github.com/rrivirr/rriv-ctl/commit/112b565c6a438d46579bae1a604628b0238e569c))
+
 ## [2.2.10](https://github.com/rrivirr/rriv-ctl/compare/v2.2.9...v2.2.10) (2025-12-05)
 
 
