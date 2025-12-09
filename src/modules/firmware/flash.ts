@@ -22,8 +22,11 @@ const flash = async (
   const script = `../src/modules/firmware/scripts/${fileName}.sh`;
 
   await loadScript(script, `${fileName}.sh`);
-  await spawn("bash", [`${fileName}.sh`, dirPath, firmwareVersion]);
-  await spawn("rm", [`${fileName}.sh`]);
+  const cleanup = async () => {
+    await spawn("rm", [`${fileName}.sh`]);
+  };
+  await spawn("bash", [`${fileName}.sh`, dirPath, firmwareVersion], cleanup);
+  await cleanup();
 
   if (initialFirmware) {
     await new Promise((resolve) => setTimeout(resolve, 7000));
