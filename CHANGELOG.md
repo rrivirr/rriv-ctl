@@ -1,3 +1,12 @@
+## [2.3.3](https://github.com/rrivirr/rriv-ctl/compare/v2.3.2...v2.3.3) (2025-12-09)
+
+
+### Bug Fixes
+
+* minor fix ([20a25e2](https://github.com/rrivirr/rriv-ctl/commit/20a25e2365aa29589be0c273539a70bd8442866f))
+* probe debug works without provisioning requirement ([90c53d8](https://github.com/rrivirr/rriv-ctl/commit/90c53d8b69a84ff1e17d3af0252ea267ad11390f))
+* script file error cleanup ([123b4fa](https://github.com/rrivirr/rriv-ctl/commit/123b4fa2f1bf3d319ecf4aa0a9f97fced95f936c))
+
 ## [2.3.2](https://github.com/rrivirr/rriv-ctl/compare/v2.3.1...v2.3.2) (2025-12-08)
 
 
