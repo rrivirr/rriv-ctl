@@ -1,3 +1,10 @@
+## [2.3.4](https://github.com/rrivirr/rriv-ctl/compare/v2.3.3...v2.3.4) (2025-12-10)
+
+
+### Bug Fixes
+
+* allow account api calls without token check ([6bdaca2](https://github.com/rrivirr/rriv-ctl/commit/6bdaca28c28c838363550ab1e3c6b5bf888e694a))
+
 ## [2.3.3](https://github.com/rrivirr/rriv-ctl/compare/v2.3.2...v2.3.3) (2025-12-09)
 
 
