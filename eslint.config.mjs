@@ -17,7 +17,12 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/action.ts", "**/check-version.ts", "**/repl/*.ts"],
+    files: [
+      "**/action.ts",
+      "**/check-version.ts",
+      "**/repl/*.ts",
+      "**/auto-complete-tree.ts",
+    ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },

@@ -7,11 +7,11 @@ import { runChecks } from "../pre-action/run-checks.ts";
 export async function processReplCommand(
   replServer: REPLServer,
   args: string[],
-  command: Command
+  cli: Command
 ) {
   const commandName = args[0];
   if (commandName === "help") {
-    command
+    cli
       .parseAsync(["rrivctl", "-h"], {
         from: "user",
       })
@@ -25,9 +25,7 @@ export async function processReplCommand(
         replServer.displayPrompt();
       });
   } else {
-    const commandToExecute = command.commands.find(
-      (c) => c.name() === commandName
-    );
+    const commandToExecute = cli.commands.find((c) => c.name() === commandName);
     if (!commandToExecute) {
       // should not happen
       console.log("Unexpected error occurred");
@@ -62,7 +60,7 @@ export async function processReplCommand(
     }
 
     replServer.setPrompt(""); // so prompt doesn't show if command logs numerous lines
-    command
+    cli
       .parseAsync(args, { from: "user" })
       .then(() => {
         replServer.setPrompt(getPrompt());

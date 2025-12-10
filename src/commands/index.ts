@@ -21,7 +21,7 @@ import { makeEndCommand } from "./end/index.ts";
 import { makeFirmwareCommands } from "./firmware/index.ts";
 import { makeProvisionCommand } from "./provision/index.ts";
 
-export const initializeCommands = async (cli: Command) => {
+export const initializeCommands = (cli: Command) => {
   makeWatchCommand(cli);
   makeListCommand(cli);
   makeGetCommand(cli);
