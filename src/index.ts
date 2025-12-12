@@ -41,7 +41,7 @@ cli.hook("preAction", preAction);
 cli.exitOverride();
 initializeCommands(cli);
 const tree = getAutoCompleteTree(cli);
-initAutoComplete(tree);
+const completion = initAutoComplete(tree);
 
 if (!process.argv.includes("--completion")) {
   cli
@@ -50,4 +50,6 @@ if (!process.argv.includes("--completion")) {
     .catch((error) => {
       errorHandler({ error, exit: true });
     });
+} else if (process.argv.includes("--setup-completion")) {
+  completion.setupShellInitFile();
 }
