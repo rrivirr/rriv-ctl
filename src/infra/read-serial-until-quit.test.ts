@@ -75,11 +75,11 @@ describe("readSerialUntilQuit", () => {
     expect(serialPortMock.write).toHaveBeenCalledTimes(2);
     expect(serialPortMock.write).toHaveBeenNthCalledWith(
       1,
-      '{"object":"datalogger", "action":"set_mode", "mode":"quiet"}\n'
+      '{"object":"datalogger", "action":"set", "mode":"quiet"}\n'
     );
     expect(serialPortMock.write).toHaveBeenNthCalledWith(
       2,
-      '{"object":"datalogger", "action":"set_mode", "mode":"watch-debug"}\n'
+      '{"object":"datalogger", "action":"set", "mode":"watch-debug"}\n'
     );
     expect(serialPortMock.flush).toHaveBeenCalledTimes(1);
     expect(serialPortMock.flush).toHaveBeenCalledWith();
@@ -126,11 +126,11 @@ describe("readSerialUntilQuit", () => {
     expect(serialPortMock.write).toHaveBeenCalledTimes(2);
     expect(serialPortMock.write).toHaveBeenNthCalledWith(
       1,
-      '{"object":"datalogger", "action":"set_mode", "mode":"quiet"}\n'
+      '{"object":"datalogger", "action":"set", "mode":"quiet"}\n'
     );
     expect(serialPortMock.write).toHaveBeenNthCalledWith(
       2,
-      '{"object":"datalogger", "action":"set_mode", "mode":"watch"}\n'
+      '{"object":"datalogger", "action":"set", "mode":"watch"}\n'
     );
     expect(serialPortMock.flush).toHaveBeenCalledTimes(1);
     expect(serialPortMock.flush).toHaveBeenCalledWith();

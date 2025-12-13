@@ -41,7 +41,7 @@ describe("writeConfigToDevice", () => {
     expect(serialPortMock.write).toHaveBeenCalledTimes(2);
     expect(serialPortMock.write).toHaveBeenNthCalledWith(
       1,
-      '{"object":"datalogger", "action":"set_mode", "mode":"quiet"}\n'
+      '{"object":"datalogger", "action":"set", "mode":"quiet"}\n'
     );
     expect(serialPortMock.write).toHaveBeenNthCalledWith(
       2,
