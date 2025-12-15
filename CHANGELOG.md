@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/rrivirr/rriv-ctl/compare/v2.4.0...v2.4.1) (2025-12-15)
+
+
+### Bug Fixes
+
+* auto completion setup ([307f30d](https://github.com/rrivirr/rriv-ctl/commit/307f30d0959893d16a90554f9f60a65679dadb82))
+
 # [2.4.0](https://github.com/rrivirr/rriv-ctl/compare/v2.3.5...v2.4.0) (2025-12-15)
 
 
