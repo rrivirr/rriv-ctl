@@ -6,7 +6,7 @@ import { getCommandNames } from "./utils.ts";
 import { Command } from "commander";
 import { processReplCommand } from "./process-repl-command.ts";
 
-export function getReplEvalFunction(command: Command) {
+export function getReplEvalFunction(cli: Command) {
   return async function (
     this: REPLServer,
     code: string,
@@ -14,7 +14,7 @@ export function getReplEvalFunction(command: Command) {
     replResourceName: string,
     callback: (err: Error | null, result: any) => void
   ) {
-    const commandNames = getCommandNames(command);
+    const commandNames = getCommandNames(cli);
     const trimmedCode = code.trim();
     const args = trimmedCode.split(" ");
     if (args[0] === "rr" || args[0] === "rrivctl") {
@@ -32,7 +32,7 @@ export function getReplEvalFunction(command: Command) {
       console.log(getWarranty());
       this.displayPrompt();
     } else if (commandNames.includes(commandName) || trimmedCode === "help") {
-      callback(null, await processReplCommand(this, args, command));
+      callback(null, await processReplCommand(this, args, cli));
     } else {
       console.log(
         `${trimmedCode} is not a valid command\ntype ${bold("help")} to view list of commands`

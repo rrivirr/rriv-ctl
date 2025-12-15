@@ -9,6 +9,8 @@ import { startRepl } from "./repl/repl.ts";
 import db from "./db/db.ts";
 import { logAsDebug } from "./util/debug-logger.ts";
 import { setConfig } from "./util/config.ts";
+import initAutoComplete from "./auto-complete.ts";
+import { getAutoCompleteTree } from "./auto-complete-tree.ts";
 
 const cli = new Command();
 cli
@@ -37,12 +39,17 @@ cli
 
 cli.hook("preAction", preAction);
 cli.exitOverride();
+initializeCommands(cli);
+const tree = getAutoCompleteTree(cli);
+const completion = initAutoComplete(tree);
 
-initializeCommands(cli).then(() => {
+if (!process.argv.includes("--completion")) {
   cli
     .parseAsync()
     .then()
     .catch((error) => {
       errorHandler({ error, exit: true });
     });
-});
+} else if (process.argv.includes("--setup-completion")) {
+  completion.setupShellInitFile();
+}

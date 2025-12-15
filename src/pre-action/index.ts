@@ -26,6 +26,7 @@ export const preAction = async (
     if (
       !(
         commandParentName === "auth" ||
+        commandName === "test" ||
         commandName === "whoami" ||
         commandName === "update" ||
         options.env ||

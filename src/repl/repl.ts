@@ -8,15 +8,15 @@ import { getReplEvalFunction } from "./repl-eval-function.ts";
 import { getCompleter, getPrompt } from "./utils.ts";
 import db from "../db/db.ts";
 
-export const startRepl = (command: Command) => {
+export const startRepl = (cli: Command) => {
   console.log(getInitialText());
   console.log(getUserInformation());
 
   return new Promise((_resolve) => {
     const replServer = repl.start({
       ignoreUndefined: true,
-      eval: getReplEvalFunction(command),
-      completer: getCompleter(command),
+      eval: getReplEvalFunction(cli),
+      completer: getCompleter(cli),
       prompt: getPrompt(),
     });
 
