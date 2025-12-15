@@ -1,3 +1,15 @@
+# [2.4.0](https://github.com/rrivirr/rriv-ctl/compare/v2.3.5...v2.4.0) (2025-12-15)
+
+
+### Bug Fixes
+
+* rework installer script ([e274e4d](https://github.com/rrivirr/rriv-ctl/commit/e274e4d81bd44f4c6ed1b801680bd141f4645d1d))
+
+
+### Features
+
+* auto completion ([2834daf](https://github.com/rrivirr/rriv-ctl/commit/2834daf839af30337e61b128bb6d158048e82fc1))
+
 ## [2.3.5](https://github.com/rrivirr/rriv-ctl/compare/v2.3.4...v2.3.5) (2025-12-15)
 
 
