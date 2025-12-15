@@ -43,13 +43,13 @@ initializeCommands(cli);
 const tree = getAutoCompleteTree(cli);
 const completion = initAutoComplete(tree);
 
-if (!process.argv.includes("--completion")) {
+if (process.argv.includes("--setup-completion")) {
+  completion.setupShellInitFile();
+} else if (!process.argv.includes("--completion")) {
   cli
     .parseAsync()
     .then()
     .catch((error) => {
       errorHandler({ error, exit: true });
     });
-} else if (process.argv.includes("--setup-completion")) {
-  completion.setupShellInitFile();
 }
