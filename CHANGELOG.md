@@ -1,3 +1,12 @@
+## [2.3.5](https://github.com/rrivirr/rriv-ctl/compare/v2.3.4...v2.3.5) (2025-12-15)
+
+
+### Bug Fixes
+
+* remove obsolete set_mode command, replaced with set mode ([a54a7ee](https://github.com/rrivirr/rriv-ctl/commit/a54a7ee2bf049be3bffde03511c7ac868bcd6975))
+* restore installer ([deaa1a7](https://github.com/rrivirr/rriv-ctl/commit/deaa1a7b5541de8a4a72e12d7bd69b269e6a1864))
+* restore installer ([ac98bc7](https://github.com/rrivirr/rriv-ctl/commit/ac98bc7a2349a29dd7725c84ef90b0602aa6cff0))
+
 ## [2.3.4](https://github.com/rrivirr/rriv-ctl/compare/v2.3.3...v2.3.4) (2025-12-10)
 
 
