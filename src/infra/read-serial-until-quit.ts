@@ -36,11 +36,11 @@ export const readSerialUntilQuit = (
         serialPort.pipe(parser);
         if (debug) {
           serialPort.write(
-            '{"object":"datalogger", "action":"set_mode", "mode":"watch-debug"}\n'
+            '{"object":"datalogger", "action":"set", "mode":"watch-debug"}\n'
           );
         } else {
           serialPort.write(
-            '{"object":"datalogger", "action":"set_mode", "mode":"watch"}\n'
+            '{"object":"datalogger", "action":"set", "mode":"watch"}\n'
           );
         }
       }, 1000);
