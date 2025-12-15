@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/rrivirr/rriv-ctl/compare/v2.4.1...v2.4.2) (2025-12-15)
+
+
+### Bug Fixes
+
+* add update script as asset ([87e0be8](https://github.com/rrivirr/rriv-ctl/commit/87e0be80a3d552014fb9cc06f1bb088950d6b7e1))
+
 ## [2.4.1](https://github.com/rrivirr/rriv-ctl/compare/v2.4.0...v2.4.1) (2025-12-15)
 
 
