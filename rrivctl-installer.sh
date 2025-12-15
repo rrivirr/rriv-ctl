@@ -48,42 +48,36 @@
     curl --proto '=https' --tlsv1.2 --progress-bar -fSLo $temp_app_location $download_url
     if [[ -f $app_location ]] ; then 
         mv $app_location $old_app_location 
+    else 
+        true
     fi
 
     mv $temp_app_location $app_location
     chmod +x $app_location
 
-    prev_line_to_add="alias rrivctlv2=$app_location"
-    line_to_add="rrivctlv2()"
+    line_to_add="alias rrivctlv2=$app_location"
     shell=".bashrc"
+    
+
     if [[ ${SHELL#*zsh} != $SHELL ]]; then
         shell=".zshrc"
     fi
+
     shell_rc="$HOME/$shell"
 
-    add_lines_to_shrc()
+    check_if_line_exists()
     {
-        cat >> $shell_rc <<EOL
-
-function rrivctlv2() {
-    $app_location "\$@"
-}
-EOL
-    }
-    
-    rm_prev_alias()
-    {
-        if [[ ${SHELL#*zsh} != $SHELL ]]; then
-            sed -i '' "/alias rrivctlv2=/d" $shell_rc
-        else 
-            sed -i "/alias rrivctlv2=/d" $shell_rc
-        fi
+        grep -qsFx "$line_to_add" $shell_rc
     }
 
-    grep -qsFx "$prev_line_to_add" $shell_rc  && rm_prev_alias
-    grep -qsF "$line_to_add" $shell_rc || add_lines_to_shrc
 
-    $app_location --setup-completion
-    source $shell_rc
+    add_line_to_shrc()
+    {
+        printf "\n" >> "$shell_rc"
+        printf "%s\n" "$line_to_add" >> "$shell_rc"
+        echo "Please restart your shell or source ~/$shell run to make rrivctlv2 available"
+    }
+
+    check_if_line_exists || add_line_to_shrc
     echo "success"   
 }
