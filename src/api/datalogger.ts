@@ -3,6 +3,8 @@ import {
   DataloggerConfigLibraryById,
   Driver,
   CreateDataloggerConfigDto,
+  ConfigHistoryRequest,
+  DataloggerConfigHistory,
 } from "./types.ts";
 import { rrivApiAxios } from "./axios.ts";
 
@@ -26,6 +28,16 @@ export const getDataloggerLibraryConfig = async (body: {
   const { name, search, isPublic } = body;
   const response = await rrivApiAxios.get(`/datalogger/libraryConfig`, {
     params: { name, search, isPublic },
+  });
+
+  return response.data;
+};
+
+export const getDataloggerConfigHistory = async (
+  body: ConfigHistoryRequest
+): Promise<DataloggerConfigHistory[]> => {
+  const response = await rrivApiAxios.get(`/datalogger/history`, {
+    params: { ...body },
   });
 
   return response.data;

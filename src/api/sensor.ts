@@ -1,7 +1,9 @@
 import {
+  ConfigHistoryRequest,
   ConfigLibrary,
   CreateSensorConfigDto,
   Driver,
+  SensorConfigHistory,
   SensorConfigLibraryById,
 } from "./types.ts";
 import { rrivApiAxios } from "./axios.ts";
@@ -16,6 +18,16 @@ export const createSensorConfig = async (
   body: CreateSensorConfigDto
 ): Promise<void> => {
   await rrivApiAxios.post(`/sensor/config`, body);
+};
+
+export const getSensorConfigHistory = async (
+  body: ConfigHistoryRequest
+): Promise<SensorConfigHistory[]> => {
+  const response = await rrivApiAxios.get(`/sensor/history`, {
+    params: { ...body },
+  });
+
+  return response.data;
 };
 
 export const getSensorLibraryConfig = async (body: {

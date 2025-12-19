@@ -22,6 +22,7 @@ export default tseslint.config(
       "**/check-version.ts",
       "**/repl/*.ts",
       "**/auto-complete-tree.ts",
+      "**/config-history.service.ts",
     ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
