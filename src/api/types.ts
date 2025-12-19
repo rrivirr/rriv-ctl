@@ -1,4 +1,6 @@
-export interface IdRequest { id: string }
+export interface IdRequest {
+  id: string;
+}
 
 export interface ContextNameRequest {
   contextName: string;
@@ -15,6 +17,14 @@ export interface Context {
 export interface DeviceContextRequest {
   contextId: string;
   deviceId: string;
+}
+export interface ConfigHistoryRequest {
+  limit?: number;
+  asAt?: string;
+  deviceId: string;
+  offset?: number;
+  order?: string;
+  sensorName?: string;
 }
 
 export interface DeviceContext {
@@ -86,20 +96,36 @@ export interface SensorConfigHistory {
   createdAt: string;
   deactivatedAt: string;
   changesMade: object;
+  ConfigSnapshot: {
+    DeviceContext: {
+      Context: {
+        name: string;
+      };
+    };
+  };
+}
+
+export interface DataloggerConfigHistory {
+  id: string;
+  changesMade: object;
+  name: string;
+  config: object;
+  dataloggerDriverId: string;
+  configSnapshotId: string;
+  active: boolean;
+  createdAt: string;
+  deactivatedAt: string;
+  ConfigSnapshot: {
+    DeviceContext: {
+      Context: {
+        name: string;
+      };
+    };
+  };
 }
 
 export interface ConfigHistory {
-  dataloggerConfigs: {
-    id: string;
-    changesMade: object;
-    name: string;
-    config: object;
-    dataloggerDriverId: string;
-    configSnapshotId: string;
-    active: boolean;
-    createdAt: string;
-    deactivatedAt: string;
-  }[];
+  dataloggerConfigs: DataloggerConfigHistory[];
   sensorConfigs: SensorConfigHistory[];
 }
 

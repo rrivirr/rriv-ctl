@@ -17,7 +17,9 @@ cli
   .name("rrivctl")
   .description(packageJson.description)
   .option("--debug-mode <debugMode>")
-  .addOption(new Option("--env <env>").choices(["dev", "staging", "prod"]))
+  .addOption(
+    new Option("--env <env>").choices(["local", "dev", "staging", "prod"])
+  )
   .version(packageJson.version, "-v, --version")
   .action(async (options) => {
     const { debugMode, env } = options;

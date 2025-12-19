@@ -39,7 +39,8 @@ export const preAction = async (
           commandName === "rrivctl" ||
           (commandName === "list" && args[0] === "device" && options.all) ||
           (commandName === "device" && commandParentName === "provision") ||
-          (commandName === "debug" && commandParentName === "probe")
+          (commandName === "debug" && commandParentName === "probe") ||
+          commandParentName === "history"
         )
       ) {
         await runChecks({

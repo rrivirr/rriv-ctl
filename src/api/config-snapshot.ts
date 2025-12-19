@@ -5,17 +5,16 @@ import {
   ConfigSnapshot,
   DeviceContextRequest,
   OverwriteConfigSnapshotDto,
+  ConfigHistoryRequest,
 } from "./types.ts";
 import { rrivApiAxios } from "./axios.ts";
 
 export const getConfigHistory = async (
-  body: DeviceContextRequest & { asAt?: string }
+  body: ConfigHistoryRequest
 ): Promise<ConfigHistory> => {
-  const { deviceId, contextId, asAt } = body;
-  const response = await rrivApiAxios.get(
-    `/configSnapshot/history?deviceId=${deviceId}&contextId=${contextId}`,
-    { params: { asAt } }
-  );
+  const response = await rrivApiAxios.get(`/configSnapshot/history`, {
+    params: { ...body },
+  });
 
   return response.data;
 };

@@ -18,21 +18,25 @@ export const getConfig = () => {
 
 export const setConfig = async (env: Environment) => {
   const data = db.data;
-  if (data.environment?.name === env) {
+  if (env === "local") {
+    db.update((data) => {
+      data.environment.name = "";
+    });
+  } else if (data.environment?.name === env) {
     console.log(`already in the ${env} environment`);
-    return;
+  } else {
+    const Key = `${env}.json`;
+    const r = await s3Client.send(
+      new GetObjectCommand({
+        Bucket: "rriv-envs",
+        Key,
+      })
+    );
+    const body = await r.Body?.transformToString();
+    const config = JSON.parse(body!);
+    db.update((data) => {
+      data.environment = { name: env, config };
+    });
+    console.log(`successfully set to the ${env} environment`);
   }
-  const Key = `${env}.json`;
-  const r = await s3Client.send(
-    new GetObjectCommand({
-      Bucket: "rriv-envs",
-      Key,
-    })
-  );
-  const body = await r.Body?.transformToString();
-  const config = JSON.parse(body!);
-  db.update((data) => {
-    data.environment = { name: env, config };
-  });
-  console.log(`successfully set to the ${env} environment`);
 };
