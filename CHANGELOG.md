@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/rrivirr/rriv-ctl/compare/v2.4.2...v2.5.0) (2025-12-19)
+
+
+### Features
+
+* history command ([229c4f8](https://github.com/rrivirr/rriv-ctl/commit/229c4f8065dc05d11597c1ce5a920411158bcfce))
+
 ## [2.4.2](https://github.com/rrivirr/rriv-ctl/compare/v2.4.1...v2.4.2) (2025-12-15)
 
 
