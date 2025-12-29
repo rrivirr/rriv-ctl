@@ -12,9 +12,6 @@ export const makeListCommand = (cli: Command) => {
         "context",
         "device",
         "config-snapshot",
-        "library-config-snapshot",
-        "library-sensor-config",
-        "library-datalogger-config",
       ])
     )
     .option("-n, --name <name>", "get resource with specified name")

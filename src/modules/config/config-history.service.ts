@@ -4,7 +4,7 @@ import {
   DataloggerConfigHistory,
   SensorConfigHistory,
 } from "../../api/types.ts";
-import { DefaultObject } from "../../types.ts";
+import { DefaultObject, Resource } from "../../types.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { getDataloggerConfigHistory } from "../../api/datalogger.ts";
 import { getSensorConfigHistory } from "../../api/sensor.ts";
@@ -30,7 +30,7 @@ export const listConfigHistory = async (body: {
   deviceId?: string;
   limit?: number;
   sensorId?: string;
-  resource: string;
+  resource: Resource;
 }) => {
   const { deviceId: specifiedDeviceId, limit, sensorId, resource } = body;
   const {
@@ -39,7 +39,7 @@ export const listConfigHistory = async (body: {
   const deviceId = specifiedDeviceId || connectedDeviceId;
 
   if (!deviceId) {
-    throw new Error("no deviceId specified");
+    throw new Error("no connected device/deviceId specified");
   }
   let dataloggerConfigs: DataloggerConfigHistory[] = [];
   let sensorConfigs: SensorConfigHistory[] = [];
@@ -48,7 +48,6 @@ export const listConfigHistory = async (body: {
     const configHistory = await getConfigHistory({
       deviceId,
       limit,
-      sensorName: sensorId,
     });
 
     dataloggerConfigs = configHistory.dataloggerConfigs;
@@ -182,13 +181,13 @@ export const listConfigHistory = async (body: {
 export const getConfigHistoryAtTime = async (body: {
   deviceId?: string;
   sensorId?: string;
-  resource: string;
-  datetimeNumber: number;
+  resource: Resource;
+  datetime: string;
   returnResult?: boolean;
 }) => {
   const {
     deviceId: specifiedDeviceId,
-    datetimeNumber,
+    datetime,
     sensorId,
     resource,
     returnResult,
@@ -197,7 +196,10 @@ export const getConfigHistoryAtTime = async (body: {
     deviceContext: { deviceId: connectedDeviceId },
   } = getActiveUser();
   const deviceId = specifiedDeviceId || connectedDeviceId;
-  const datetime = new Date(datetimeNumber).toISOString();
+
+  if (!deviceId) {
+    throw new Error("no connected device/deviceId specified");
+  }
 
   let dataloggerConfigs: DataloggerConfigHistory[] = [];
   let sensorConfigs: SensorConfigHistory[] = [];
@@ -206,7 +208,6 @@ export const getConfigHistoryAtTime = async (body: {
     const configHistory = await getConfigHistory({
       deviceId,
       asAt: datetime,
-      sensorName: sensorId,
     });
 
     dataloggerConfigs = configHistory.dataloggerConfigs;
@@ -227,12 +228,16 @@ export const getConfigHistoryAtTime = async (body: {
   }
 
   const snapshot: DefaultObject = {};
+  const snapshotToLog: DefaultObject = {};
   const dataloggerConfig = dataloggerConfigs[0];
   if (dataloggerConfig) {
     snapshot["datalogger"] = {
       id: dataloggerConfig.id,
       config: dataloggerConfig.config,
       createdAt: dataloggerConfig.createdAt,
+    };
+    snapshotToLog["datalogger"] = {
+      ...dataloggerConfig.config,
     };
   }
 
@@ -243,30 +248,36 @@ export const getConfigHistoryAtTime = async (body: {
       config: s.config,
       createdAt: s.createdAt,
     }));
+    snapshotToLog["sensors"] = sensorConfigs.map((s) => ({
+      id: s.name,
+      ...s.config,
+    }));
   }
 
   if (returnResult) {
-    return snapshot;
+    return { snapshot, snapshotToLog };
   }
-  console.log(JSON.stringify(snapshot, null, 2));
+  console.log(JSON.stringify(snapshotToLog, null, 2));
 };
 
 export const applyConfigHistory = async (body: {
   deviceId?: string;
   sensorId?: string;
-  resource: string;
-  datetimeNumber: number;
+  resource: Resource;
+  datetime: string;
 }) => {
   const configHistory = await getConfigHistoryAtTime({
     ...body,
     returnResult: true,
   });
-  if (!configHistory || !Object.keys(configHistory).length) {
+  if (!configHistory || !Object.keys(configHistory.snapshot).length) {
     throw new Error("no snapshot found at specified timestamp");
   }
 
+  const { snapshot: snapshotHistory } = configHistory;
+
   const snapshot = {} as Parameters<typeof applyConfigSnapshot>[0];
-  const dataloggerConfig = configHistory?.datalogger;
+  const dataloggerConfig = snapshotHistory?.datalogger;
 
   snapshot["datalogger"] = dataloggerConfig
     ? {
@@ -275,7 +286,7 @@ export const applyConfigHistory = async (body: {
       }
     : {};
   snapshot["sensor"] =
-    configHistory?.sensors?.map((s: any) => ({
+    snapshotHistory?.sensors?.map((s: any) => ({
       config: s.config,
       configId: s.id,
       name: s.name,

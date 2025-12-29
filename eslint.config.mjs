@@ -23,6 +23,8 @@ export default tseslint.config(
       "**/repl/*.ts",
       "**/auto-complete-tree.ts",
       "**/config-history.service.ts",
+      "**/config/library/types.ts",
+      "**/config/library/config-snapshot.library.ts",
     ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",

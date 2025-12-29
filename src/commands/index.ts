@@ -10,17 +10,16 @@ import { makeConnectCommand } from "./connect/index.ts";
 import { makeCreateCommand } from "./create/index.ts";
 import { makeTestCommand } from "./test/index.ts";
 import { makeAuthCommand } from "./auth/index.ts";
-import { makeApplyCommand } from "./apply/index.ts";
 import { makeDeleteCommand } from "./delete/index.ts";
 import { makeSyncCommand } from "./sync/index.ts";
 import { makeUseCommand } from "./use/index.ts";
 import { makeUpdateCommand } from "./update/index.ts";
 import { makeSaveCommand } from "./save/index.ts";
-import { makePublishCommand } from "./publish/index.ts";
 import { makeEndCommand } from "./end/index.ts";
 import { makeFirmwareCommands } from "./firmware/index.ts";
 import { makeProvisionCommand } from "./provision/index.ts";
 import { makeHistoryCommand } from "./history/index.ts";
+import { makeLibraryCommand } from "./library/index.ts";
 
 export const initializeCommands = (cli: Command) => {
   makeWatchCommand(cli);
@@ -34,15 +33,14 @@ export const initializeCommands = (cli: Command) => {
   makeCreateCommand(cli);
   makeTestCommand(cli);
   makeAuthCommand(cli);
-  makeApplyCommand(cli);
   makeDeleteCommand(cli);
   makeSyncCommand(cli);
   makeUseCommand(cli);
   makeUpdateCommand(cli);
   makeSaveCommand(cli);
-  makePublishCommand(cli);
   makeEndCommand(cli);
   makeFirmwareCommands(cli);
   makeProvisionCommand(cli);
   makeHistoryCommand(cli);
+  makeLibraryCommand(cli);
 };
