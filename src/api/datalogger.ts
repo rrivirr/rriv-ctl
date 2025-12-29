@@ -23,11 +23,11 @@ export const createDataloggerConfig = async (
 export const getDataloggerLibraryConfig = async (body: {
   name?: string;
   search?: string;
-  isPublic?: boolean;
+  author?: string;
 }): Promise<ConfigLibrary[]> => {
-  const { name, search, isPublic } = body;
+  const { name, search, author } = body;
   const response = await rrivApiAxios.get(`/datalogger/libraryConfig`, {
-    params: { name, search, isPublic },
+    params: { name, search, author },
   });
 
   return response.data;
@@ -57,31 +57,37 @@ export const getDataloggerLibraryConfigById = async (body: {
 export const publishNewDataloggerLibraryConfig = async (body: {
   name: string;
   description?: string;
-  deviceId: string;
-  contextId: string;
+  config: object;
 }): Promise<void> => {
-  const { name, description, deviceId, contextId } = body;
+  const { name, description, config } = body;
   await rrivApiAxios.post(`/datalogger/libraryConfig`, {
     name,
     description,
-    deviceId,
-    contextId,
+    config,
   });
 };
 
 export const publishNewDataloggerLibraryConfigVersion = async (body: {
   description?: string;
   dataloggerLibraryId: string;
-  deviceId: string;
-  contextId: string;
+  config: object;
 }): Promise<void> => {
-  const { description, deviceId, contextId, dataloggerLibraryId } = body;
+  const { description, config, dataloggerLibraryId } = body;
   await rrivApiAxios.post(
     `/datalogger/libraryConfig/${dataloggerLibraryId}/version`,
     {
       description,
-      deviceId,
-      contextId,
+      config,
     }
   );
+};
+
+export const updateDataloggerLibraryConfig = async (body: {
+  dataloggerLibraryId: string;
+  isPublic: boolean;
+}): Promise<void> => {
+  const { dataloggerLibraryId, isPublic } = body;
+  await rrivApiAxios.patch(`/datalogger/libraryConfig/${dataloggerLibraryId}`, {
+    isPublic,
+  });
 };

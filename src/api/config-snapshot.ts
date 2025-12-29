@@ -80,11 +80,11 @@ export const saveConfigSnapshot = async (
 export const getLibraryConfigSnapshots = async (body: {
   name?: string;
   search?: string;
-  isPublic?: boolean;
+  author?: string;
 }): Promise<ConfigLibrary[]> => {
-  const { name, search, isPublic } = body;
+  const { name, search, author } = body;
   const response = await rrivApiAxios.get(`/configSnapshot/libraryConfig`, {
-    params: { name, search, isPublic },
+    params: { name, search, author },
   });
 
   return response.data;
@@ -101,12 +101,10 @@ export const getLibraryConfigSnapshotById = async (body: {
   return response.data;
 };
 
-export const publishNewConfigSnapshotLibrary = async (body: {
+export const createNewConfigSnapshotLibrary = async (body: {
   name: string;
   description?: string;
-  configSnapshot:
-    | { configSnapshotId: string }
-    | { deviceId: string; contextId: string };
+  configSnapshot: { datalogger: object; sensors: object[] };
 }): Promise<void> => {
   const { name, description, configSnapshot } = body;
   await rrivApiAxios.post(`/configSnapshot/libraryConfig`, {
@@ -116,12 +114,10 @@ export const publishNewConfigSnapshotLibrary = async (body: {
   });
 };
 
-export const publishNewConfigSnapshotLibraryVersion = async (body: {
+export const createNewConfigSnapshotLibraryVersion = async (body: {
   description?: string;
   libraryConfigSnapshotId: string;
-  configSnapshot:
-    | { configSnapshotId: string }
-    | { deviceId: string; contextId: string };
+  configSnapshot: { datalogger: object; sensors: object[] };
 }): Promise<void> => {
   const { description, configSnapshot, libraryConfigSnapshotId } = body;
   await rrivApiAxios.post(
@@ -130,5 +126,16 @@ export const publishNewConfigSnapshotLibraryVersion = async (body: {
       description,
       ...configSnapshot,
     }
+  );
+};
+
+export const updateDeviceLibraryConfig = async (body: {
+  libraryConfigSnapshotId: string;
+  isPublic: boolean;
+}): Promise<void> => {
+  const { libraryConfigSnapshotId, isPublic } = body;
+  await rrivApiAxios.patch(
+    `/configSnapshot/libraryConfig/${libraryConfigSnapshotId}`,
+    { isPublic }
   );
 };

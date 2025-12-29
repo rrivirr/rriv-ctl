@@ -33,11 +33,11 @@ export const getSensorConfigHistory = async (
 export const getSensorLibraryConfig = async (body: {
   name?: string;
   search?: string;
-  isPublic?: boolean;
+  author?: string;
 }): Promise<ConfigLibrary[]> => {
-  const { name, search, isPublic } = body;
+  const { name, search, author } = body;
   const response = await rrivApiAxios.get(`/sensor/libraryConfig`, {
-    params: { name, search, isPublic },
+    params: { name, search, author },
   });
 
   return response.data;
@@ -57,24 +57,36 @@ export const getSensorLibraryConfigById = async (body: {
 export const publishNewSensorLibraryConfig = async (body: {
   name: string;
   description?: string;
-  sensorConfigId: string;
+  config: object;
 }): Promise<void> => {
-  const { name, description, sensorConfigId } = body;
+  const { name, description, config } = body;
   await rrivApiAxios.post(`/sensor/libraryConfig`, {
     name,
     description,
-    sensorConfigId,
+    config,
   });
 };
 
 export const publishNewSensorLibraryConfigVersion = async (body: {
   description?: string;
   sensorLibraryId: string;
-  sensorConfigId: string;
+  config: object;
+  sensorName: string;
 }): Promise<void> => {
-  const { description, sensorConfigId, sensorLibraryId } = body;
+  const { description, config, sensorLibraryId, sensorName } = body;
   await rrivApiAxios.post(`/sensor/libraryConfig/${sensorLibraryId}/version`, {
     description,
-    sensorConfigId,
+    sensorName,
+    config,
+  });
+};
+
+export const updateSensorLibraryConfig = async (body: {
+  sensorLibraryId: string;
+  isPublic: boolean;
+}): Promise<void> => {
+  const { sensorLibraryId, isPublic } = body;
+  await rrivApiAxios.patch(`/sensor/libraryConfig/${sensorLibraryId}`, {
+    isPublic,
   });
 };

@@ -1,0 +1,14 @@
+{
+  "mode": "interactive",
+  "site_name": "site1",
+  "logger_name": "Logger2",
+  "sleep_interval": 65535,
+  "start_up_delay": 0,
+  "enable_telemetry": true,
+  "interactive_logging": false,
+  "delay_between_bursts": 0,
+  "deployment_timestamp": 18446744073709550000,
+  "deployment_identifier": "deployment*1",
+  "bursts_per_measurement_cycle": 1,
+  "interactive_logging_interval": 1
+}

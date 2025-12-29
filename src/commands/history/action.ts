@@ -3,6 +3,7 @@ import {
   getConfigHistoryAtTime,
   applyConfigHistory,
 } from "../../modules/config/config-history.service.ts";
+import { Resource } from "../../types.ts";
 
 const validateSensorId = (object: string, sensorId?: string) => {
   if (object === "sensor" && !sensorId) {
@@ -10,7 +11,7 @@ const validateSensorId = (object: string, sensorId?: string) => {
   }
 };
 
-const refactorDatetime = (datetime: string) => {
+export const refactorDatetime = (datetime: string) => {
   const [date, time] = datetime.split("T");
   if (!date) {
     throw new Error("invalid datetime received");
@@ -29,11 +30,11 @@ const refactorDatetime = (datetime: string) => {
   const dateSpecified = new Date(
     new Date(new Date().setFullYear(+year, +month - 1, +day)).setHours(hour)
   ).setMinutes(minute);
-  return dateSpecified;
+  return new Date(dateSpecified).toISOString();
 };
 
 export const getAction = async (
-  object: string,
+  object: Resource,
   datetime: string,
   options: any
 ) => {
@@ -43,12 +44,12 @@ export const getAction = async (
     deviceId,
     sensorId,
     resource: object,
-    datetimeNumber: refactorDatetime(datetime),
+    datetime: refactorDatetime(datetime),
   });
 };
 
 export const applyAction = async (
-  object: string,
+  object: Resource,
   datetime: string,
   options: any
 ) => {
@@ -58,11 +59,11 @@ export const applyAction = async (
     deviceId,
     sensorId,
     resource: object,
-    datetimeNumber: refactorDatetime(datetime),
+    datetime: refactorDatetime(datetime),
   });
 };
 
-export const listAction = async (object: string, options: any) => {
+export const listAction = async (object: Resource, options: any) => {
   const { number, deviceId, sensorId } = options;
   if (number && !+number) {
     throw new Error("Not a valid number");

@@ -159,7 +159,7 @@ export const applyConfigSnapshot = async (body: {
     email,
   } = getActiveUser();
 
-  // @TODO how to remove all sensors
+  // @TODO remove all sensors?
   // await sendCommandAndEchoResponse(
   //   JSON.stringify({ action: "remove", object: "datalogger" })
   // );

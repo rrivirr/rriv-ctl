@@ -31,6 +31,8 @@ export type toSyncConfig = { requestId: string } & (
 
 export type Source = "command" | "preAction";
 
+export type Resource = "device" | "datalogger" | "sensor";
+
 export type Environment = "dev" | "staging" | "prod" | "local";
 
 export type JwtPayload = DefaultJwtPayload & { name: string; email: string };
