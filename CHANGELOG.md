@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/rrivirr/rriv-ctl/compare/v2.5.0...v2.6.0) (2025-12-29)
+
+
+### Features
+
+* library command ([0ef31c8](https://github.com/rrivirr/rriv-ctl/commit/0ef31c8da982c2fe0b894739e6919d2896dbd0b0))
+
 # [2.5.0](https://github.com/rrivirr/rriv-ctl/compare/v2.4.2...v2.5.0) (2025-12-19)
 
 
