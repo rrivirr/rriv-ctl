@@ -74,11 +74,11 @@ export const registerEuiAction = async () => {
       process.exit();
     } else {
       logAsDebug(result2);
-      eui = result1.dev_eui; //or join_eui
+      eui = result1.dev_eui;
     }
   } else {
     logAsDebug(result1);
-    eui = result1.dev_eui; //or join_eui
+    eui = result1.dev_eui;
   }
 
   if (!eui) {
