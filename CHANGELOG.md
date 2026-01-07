@@ -1,3 +1,10 @@
+# [2.7.0](https://github.com/rrivirr/rriv-ctl/compare/v2.6.0...v2.7.0) (2026-01-07)
+
+
+### Features
+
+* provision eui command ([3a0161c](https://github.com/rrivirr/rriv-ctl/commit/3a0161c22d251ac4048cec4dcbc52c0a51f930f4))
+
 # [2.6.0](https://github.com/rrivirr/rriv-ctl/compare/v2.5.0...v2.6.0) (2025-12-29)
 
 
