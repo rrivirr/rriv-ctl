@@ -1,3 +1,10 @@
+# [2.8.0](https://github.com/rrivirr/rriv-ctl/compare/v2.7.0...v2.8.0) (2026-01-08)
+
+
+### Features
+
+* add mqtt to watch command ([453ce6b](https://github.com/rrivirr/rriv-ctl/commit/453ce6ba40b736ecf3a6ef7cfb8aef2504845894))
+
 # [2.7.0](https://github.com/rrivirr/rriv-ctl/compare/v2.6.0...v2.7.0) (2026-01-07)
 
 
