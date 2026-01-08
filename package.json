@@ -73,6 +73,7 @@
     "jwt-decode": "^4.0.0",
     "lowdb": "^7.0.1",
     "moment": "^2.30.1",
+    "mqtt": "^5.14.1",
     "omelette": "^0.4.17",
     "serialport": "^13.0.0",
     "yoctocolors": "^2.1.1"

@@ -1,7 +1,7 @@
 import { getConnectedDevice } from "../../util/get-connected-device.ts";
 import { setDeviceEpoch } from "../../infra/set-device-epoch.ts";
 import db from "../../db/db.ts";
-import { getDevice } from "../../api/device.ts";
+import { getDevices } from "../../api/device.ts";
 import { bindDevice } from "../../util/bind-device.ts";
 import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
@@ -39,7 +39,7 @@ export const connectAction = async (options: any) => {
   }
 
   if (!toBindDevice) {
-    const devices = await getDevice({ id });
+    const devices = await getDevices({ id });
     const existingDevice = devices[0];
 
     if (
@@ -55,7 +55,7 @@ export const connectAction = async (options: any) => {
   }
 
   if (toBindDevice) {
-    const devices = await getDevice({ serialNumber });
+    const devices = await getDevices({ serialNumber });
     device = devices[0];
     if (!device) {
       device = await bindDevice({

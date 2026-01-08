@@ -1,30 +1,14 @@
 import { Device } from "./types.ts";
 import { rrivApiAxios } from "./axios.ts";
 
-export const getDevice = async (body: {
-  id?: string;
-  serialNumber?: string;
-}): Promise<Device[]> => {
-  let query = ``;
-  const { id, serialNumber } = body;
-
-  if (id) {
-    query = `id=${id}`;
-  } else {
-    query = `serialNumber=${serialNumber}`;
-  }
-  const response = await rrivApiAxios.get(`/device?${query}`, {});
-
-  return response.data;
-};
-
 export const getDevices = async (body: {
   contextId?: string;
+  id?: string;
+  serialNumber?: string;
+  identifier?: string;
 }): Promise<Device[]> => {
-  const { contextId } = body;
-
   const response = await rrivApiAxios.get(`/device`, {
-    params: { contextId },
+    params: { ...body },
   });
 
   return response.data;

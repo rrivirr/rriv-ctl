@@ -45,6 +45,7 @@ export interface Device {
     assignedDeviceName: string;
     Context: { name: string; id: string };
   }[];
+  DeviceEuis: { eui: string }[];
 }
 
 export interface ConfigLibrary {
