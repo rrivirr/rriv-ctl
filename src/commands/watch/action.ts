@@ -1,5 +1,5 @@
 import moment from "moment";
-import { connect } from "mqtt";
+import { connectAsync } from "mqtt";
 import { getSerialPathFromCache } from "../../util/get-serial-path-from-cache.ts";
 import { readSerialUntilQuit } from "../../infra/read-serial-until-quit.ts";
 import { getDevices } from "../../api/device.ts";
@@ -22,7 +22,7 @@ export const watchAction = async (deviceIdentifier: string, options: any) => {
     if (!mqttUrl) {
       throw new Error("mqtt url not configured");
     }
-    const client = connect(mqttUrl);
+    const client = await connectAsync(mqttUrl);
     await client.subscribeAsync(`/data/raw/${"devEui"}`);
     console.log("listening....");
     client.on("message", (topic, message) => {
