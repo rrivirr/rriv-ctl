@@ -1,3 +1,11 @@
+## [2.8.1](https://github.com/rrivirr/rriv-ctl/compare/v2.8.0...v2.8.1) (2026-01-08)
+
+
+### Bug Fixes
+
+* add mqtt url config support ([9db0c2d](https://github.com/rrivirr/rriv-ctl/commit/9db0c2d97889f2f1200bcf8066341616ada6e551))
+* use connect async ([80bc475](https://github.com/rrivirr/rriv-ctl/commit/80bc47570ee3d7a2165dd12703cf77a8e66e5f97))
+
 # [2.8.0](https://github.com/rrivirr/rriv-ctl/compare/v2.7.0...v2.8.0) (2026-01-08)
 
 
