@@ -1,3 +1,10 @@
+## [2.8.2](https://github.com/rrivirr/rriv-ctl/compare/v2.8.1...v2.8.2) (2026-01-08)
+
+
+### Bug Fixes
+
+* remove hardcoded eui ([385053c](https://github.com/rrivirr/rriv-ctl/commit/385053c4d42cb073377fc396778019013bc455f7))
+
 ## [2.8.1](https://github.com/rrivirr/rriv-ctl/compare/v2.8.0...v2.8.1) (2026-01-08)
 
 
