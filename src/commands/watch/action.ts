@@ -23,7 +23,7 @@ export const watchAction = async (deviceIdentifier: string, options: any) => {
       throw new Error("mqtt url not configured");
     }
     const client = await connectAsync(mqttUrl);
-    await client.subscribeAsync(`/data/raw/${"devEui"}`);
+    await client.subscribeAsync(`/data/raw/${eui}`);
     console.log("listening....");
     client.on("message", (topic, message) => {
       console.log("Received:", JSON.parse(message.toString()));
