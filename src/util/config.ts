@@ -13,6 +13,7 @@ export const getConfig = () => {
     KEYCLOAK_URL: process.env.KEYCLOAK_URL!,
     KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID!,
     DATA_API_URL: process.env.DATA_API_URL!,
+    MQTT_URL: process.env.MQTT_URL!,
   };
 };
 
