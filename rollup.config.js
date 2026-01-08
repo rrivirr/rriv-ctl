@@ -22,6 +22,7 @@ const env = {
     process.env.SPACES_SECRET_KEY
   ),
   "process.env.SPACES_ENDPOINT": JSON.stringify(process.env.SPACES_ENDPOINT),
+  "process.env.MQTT_URL": JSON.stringify(process.env.MQTT_URL),
 };
 
 export default {

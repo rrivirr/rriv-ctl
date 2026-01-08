@@ -41,7 +41,8 @@ export const preAction = async (
           (commandName === "device" && commandParentName === "provision") ||
           (commandName === "debug" && commandParentName === "probe") ||
           commandParentName === "history" ||
-          commandParentName === "library"
+          commandParentName === "library" ||
+          (commandName === "watch" && args.length)
         )
       ) {
         await runChecks({

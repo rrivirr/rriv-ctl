@@ -43,6 +43,7 @@ export async function processReplCommand(
           (args[2] === "--all" || args[2] === "-a")) ||
         (commandName === "provision" && args[1] === "device") ||
         (commandName === "probe" && args[1] === "debug") ||
+        (commandName === "watch" && args[1]) ||
         commandName === "history"
       )
     ) {
