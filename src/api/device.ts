@@ -84,3 +84,11 @@ export const getFirmwareHistory = async (
 export const registerEui = async (body: { deviceId: string; eui: string }) => {
   await rrivApiAxios.post(`/device/registerEui`, body);
 };
+
+export const sendCommand = async (body: {
+  command: string;
+  identifier: string;
+}): Promise<{ responseId: string }> => {
+  const response = await rrivApiAxios.post(`/device/sendCommand`, body);
+  return response.data;
+};

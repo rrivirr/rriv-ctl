@@ -20,6 +20,7 @@ import { makeFirmwareCommands } from "./firmware/index.ts";
 import { makeProvisionCommand } from "./provision/index.ts";
 import { makeHistoryCommand } from "./history/index.ts";
 import { makeLibraryCommand } from "./library/index.ts";
+import { makeSendCommand } from "./send/index.ts";
 
 export const initializeCommands = (cli: Command) => {
   makeWatchCommand(cli);
@@ -38,6 +39,7 @@ export const initializeCommands = (cli: Command) => {
   makeUseCommand(cli);
   makeUpdateCommand(cli);
   makeSaveCommand(cli);
+  makeSendCommand(cli);
   makeEndCommand(cli);
   makeFirmwareCommands(cli);
   makeProvisionCommand(cli);
