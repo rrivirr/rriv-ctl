@@ -1,5 +1,5 @@
 import { Argument, Command } from "commander";
-import { setAction, sendAction } from "./action.ts";
+import { setAction } from "./action.ts";
 import { CONFIGS } from "../../constants.ts";
 
 export const makeSetCommand = (cli: Command) => {
@@ -12,13 +12,4 @@ export const makeSetCommand = (cli: Command) => {
     .option("-f, --file <file>")
     .description("set values on an object or create an object")
     .action(setAction);
-
-  // TEMP LOCATION
-  cli
-    .command("send")
-    .addArgument(new Argument("<object>").choices(["sensor"]))
-    .argument("id")
-    .argument("command")
-    .description("set values on an object or create an object")
-    .action(sendAction);
 };

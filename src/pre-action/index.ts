@@ -38,6 +38,7 @@ export const preAction = async (
         !(
           commandName === "rrivctl" ||
           (commandName === "list" && args[0] === "device" && options.all) ||
+          (commandName === "send" && args[0] === "command") ||
           (commandName === "device" && commandParentName === "provision") ||
           (commandName === "debug" && commandParentName === "probe") ||
           commandParentName === "history" ||
