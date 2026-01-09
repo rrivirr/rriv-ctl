@@ -1,3 +1,10 @@
+# [2.9.0](https://github.com/rrivirr/rriv-ctl/compare/v2.8.2...v2.9.0) (2026-01-09)
+
+
+### Features
+
+* send command ([159a6bd](https://github.com/rrivirr/rriv-ctl/commit/159a6bdab71986fb6f0009c3d4c904201dd8e4cc))
+
 ## [2.8.2](https://github.com/rrivirr/rriv-ctl/compare/v2.8.1...v2.8.2) (2026-01-08)
 
 
