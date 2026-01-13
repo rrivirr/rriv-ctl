@@ -21,7 +21,6 @@ export const provisionAction = async () => {
   }
 
   await flashInitialFirmware(boardVersion);
-  logAsDebug("device successfully flashed...");
 
   if (!uid) {
     const connectedDevice = await getConnectedDevice({
