@@ -1,3 +1,11 @@
+## [2.9.1-alpha.1](https://github.com/rrivirr/rriv-ctl/compare/v2.9.0...v2.9.1-alpha.1) (2026-01-13)
+
+
+### Bug Fixes
+
+* minor fixes ([21a8be9](https://github.com/rrivirr/rriv-ctl/commit/21a8be909419f63854a5f35bc132890125e7e2bb))
+* remove quiet mode ([ca40b6f](https://github.com/rrivirr/rriv-ctl/commit/ca40b6fb8387ca2d341f6664fee25bc2927b8b83))
+
 # [2.9.0](https://github.com/rrivirr/rriv-ctl/compare/v2.8.2...v2.9.0) (2026-01-09)
 
 
