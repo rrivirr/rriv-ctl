@@ -1,3 +1,10 @@
+## [2.9.1](https://github.com/rrivirr/rriv-ctl/compare/v2.9.0...v2.9.1) (2026-01-13)
+
+
+### Bug Fixes
+
+* minor fixes ([21a8be9](https://github.com/rrivirr/rriv-ctl/commit/21a8be909419f63854a5f35bc132890125e7e2bb))
+
 # [2.9.0](https://github.com/rrivirr/rriv-ctl/compare/v2.8.2...v2.9.0) (2026-01-09)
 
 
