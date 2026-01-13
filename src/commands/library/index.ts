@@ -35,7 +35,7 @@ export const makeLibraryCommand = (cli: Command) => {
       "Specify a json file containing configuration to save"
     )
     .option("-u, --update", "save to a pre-existing library")
-    .option("-n, --note", "Store a descriptive note")
+    .option("-n, --note <note>", "Store a descriptive note")
     .action(saveAction);
 
   libraryCommand

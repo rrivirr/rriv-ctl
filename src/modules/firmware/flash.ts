@@ -76,5 +76,6 @@ export const flashInitialFirmware = async (boardVersion: string) => {
   if (boardVersion !== firmwareVersion) {
     console.log("flashing", firmwareVersion, "to device");
     await flash(firmwareVersion, "flash-initial-firmware", true);
+    console.log("device successfully flashed...");
   }
 };
