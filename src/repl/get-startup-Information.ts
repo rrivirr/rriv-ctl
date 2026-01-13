@@ -27,8 +27,8 @@ export const getUserInformation = () => {
   if (!user) {
     throw new Error("Unexpected Error; Shell startup");
   }
-  const { lastLoginAt, name, toSync } = user;
-  let text = `Welcome ${name}\nLast login at: ${new Date(lastLoginAt).toLocaleString()}`;
+  const { lastLoginAt, currentLoginAt, name, toSync } = user;
+  let text = `Welcome ${name}\nLast login at: ${new Date(lastLoginAt || currentLoginAt).toLocaleString()}`;
   const numberOfChanges = toSync.length;
   if (numberOfChanges) {
     text = `${text}\n${red(`You have ${numberOfChanges} unsynced changes`)}\n`;

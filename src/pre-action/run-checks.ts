@@ -11,8 +11,7 @@ export const runChecks = async (body: {
   commandArgument: string;
   replServer?: REPLServer;
 }) => {
-  const { email, accessToken, context, device, deviceContext } =
-    getActiveUser();
+  const { email, context, device, deviceContext } = getActiveUser();
 
   const { commandName, commandArgument, replServer } = body;
   if (
@@ -30,11 +29,10 @@ export const runChecks = async (body: {
     if (commandArgument !== "-h") {
       // check if context exists
       if (!context.id || !context.name) {
-        const contexts = await getContexts({ accessToken });
+        const contexts = await getContexts({});
         if (!contexts.length) {
           const context = await createContext({
             contextName: "rrivctl",
-            accessToken,
           });
           db.update((data) => {
             data[email].context = {
@@ -72,7 +70,7 @@ export const runChecks = async (body: {
           !device.id ||
           !device.uniqueName ||
           !device.serialNumber ||
-          device.serialNumber !== connectedDevice.serialNumber ||
+          device.serialNumber !== connectedDevice?.serialNumber ||
           !deviceContext.deviceId ||
           !deviceContext.contextId ||
           !deviceContext.assignedDeviceName ||
@@ -99,9 +97,9 @@ export const runChecks = async (body: {
         }
 
         // incase the port path changed
-        if (connectedDevice.serialPortPath !== device.serialPortPath) {
+        if (connectedDevice?.serialPortPath !== device.serialPortPath) {
           db.update((data) => {
-            data[email].device.serialPortPath = connectedDevice.serialPortPath;
+            data[email].device.serialPortPath = connectedDevice!.serialPortPath;
           });
         }
       }

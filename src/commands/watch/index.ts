@@ -4,6 +4,10 @@ import { watchAction } from "./action.ts";
 export const makeWatchCommand = (cli: Command) => {
   cli
     .command("watch")
+    .argument(
+      "[deviceIdentifier]",
+      "ssignedDeviceName, uuid, serial number, or uniqueName"
+    )
     .description("watch data output and log to a file")
     .option("-d, --debug", "enabled debuggin output", false)
     .option("-f, --file <file>", "name of a file to output sensor data to")

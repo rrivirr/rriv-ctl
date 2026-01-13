@@ -28,8 +28,8 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
 
   const currentTag = `v${packageJson.version}`;
 
-  await loadScript("../rrivctl-installer.sh", "rrivctl-installer.sh");
-  const args = ["rrivctl-installer.sh"];
+  await loadScript("../src/modules/update/util/update.sh", "update.sh");
+  const args = ["update.sh"];
 
   if (tag) {
     if (
@@ -64,8 +64,12 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
     }
   }
 
-  await spawn(`bash`, args);
-  await spawn("rm", [args[0]]);
+  const cleanup = async () => {
+    await spawn("rm", [args[0]]);
+  };
+
+  await spawn(`bash`, args, cleanup);
+  await cleanup();
 };
 
 export const checkVersionAndUpdate = async () => {
@@ -87,6 +91,8 @@ export const checkVersionAndUpdate = async () => {
       }
     } catch (error) {
       errorHandler({ error, exit: false });
+      console.log("auto update failed");
+      console.log("==================");
     }
 
     db.update((data) => {

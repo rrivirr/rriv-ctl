@@ -1,36 +1,14 @@
-import axios from "axios";
-import { AccessToken, Device } from "./types.ts";
-
-export const getDevice = async (body: {
-  id?: string;
-  serialNumber?: string;
-  accessToken: string;
-}): Promise<Device[]> => {
-  let query = ``;
-  const { id, serialNumber, accessToken } = body;
-
-  if (id) {
-    query = `id=${id}`;
-  } else {
-    query = `serialNumber=${serialNumber}`;
-  }
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/device?${query}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-
-  return response.data;
-};
+import { Device } from "./types.ts";
+import { rrivApiAxios } from "./axios.ts";
 
 export const getDevices = async (body: {
-  accessToken: string;
   contextId?: string;
+  id?: string;
+  serialNumber?: string;
+  identifier?: string;
 }): Promise<Device[]> => {
-  const { accessToken, contextId } = body;
-
-  const response = await axios.get(`${process.env.RRIV_API_URL}/device`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    params: { contextId },
+  const response = await rrivApiAxios.get(`/device`, {
+    params: { ...body },
   });
 
   return response.data;
@@ -38,40 +16,30 @@ export const getDevices = async (body: {
 
 export const provisionDevice = async (body: {
   uid: string;
-  accessToken: string;
 }): Promise<Device> => {
-  const { uid, accessToken } = body;
-  const response = await axios.post(
-    `${process.env.RRIV_API_URL}/device`,
-    { uid, type: "rriv_0_4_2" },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  const { uid } = body;
+  const response = await rrivApiAxios.post(`/device`, {
+    uid,
+    type: "rriv_0_4_2",
+  });
 
   return response.data;
 };
 
 export const bindDevice = async (body: {
   serialNumber: string;
-  accessToken: string;
 }): Promise<Device> => {
-  const { serialNumber, accessToken } = body;
-  const response = await axios.post(
-    `${process.env.RRIV_API_URL}/device/${serialNumber}/bind`,
-    {},
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  const { serialNumber } = body;
+  const response = await rrivApiAxios.post(`/device/${serialNumber}/bind`, {});
 
   return response.data;
 };
 
-export const unbindDevice = async (
-  body: { serialNumber: string } & AccessToken
-) => {
-  const { serialNumber, accessToken } = body;
-  const response = await axios.post(
-    `${process.env.RRIV_API_URL}/device/${serialNumber}/unbind`,
-    {},
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+export const unbindDevice = async (body: { serialNumber: string }) => {
+  const { serialNumber } = body;
+  const response = await rrivApiAxios.post(
+    `/device/${serialNumber}/unbind`,
+    {}
   );
 
   return response.data;
@@ -82,23 +50,22 @@ export const createFirmwareHistoryEntry = async (body: {
   installedAt: string;
   deviceId: string;
   contextId: string;
-  accessToken: string;
 }) => {
-  const { version, installedAt, deviceId, contextId, accessToken } = body;
-  await axios.post(
-    `${process.env.RRIV_API_URL}/device/firmware/history`,
-    { version, installedAt, deviceId, contextId },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  const { version, installedAt, deviceId, contextId } = body;
+  await rrivApiAxios.post(`/device/firmware/history`, {
+    version,
+    installedAt,
+    deviceId,
+    contextId,
+  });
 };
 
 export const getFirmwareHistory = async (
-  body: { accessToken: string } & (
+  body:
     | {
         deviceId: string;
       }
     | { serialNumber: string }
-  )
 ): Promise<
   {
     version: string;
@@ -107,14 +74,21 @@ export const getFirmwareHistory = async (
     contextName: string;
   }[]
 > => {
-  const { accessToken, ...params } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/device/firmware/history`,
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      params,
-    }
-  );
+  const response = await rrivApiAxios.get(`/device/firmware/history`, {
+    params: body,
+  });
 
+  return response.data;
+};
+
+export const registerEui = async (body: { deviceId: string; eui: string }) => {
+  await rrivApiAxios.post(`/device/registerEui`, body);
+};
+
+export const sendCommand = async (body: {
+  command: string;
+  identifier: string;
+}): Promise<{ responseId: string }> => {
+  const response = await rrivApiAxios.post(`/device/sendCommand`, body);
   return response.data;
 };

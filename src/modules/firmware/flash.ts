@@ -14,7 +14,7 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 const flash = async (
   firmwareVersion: string,
   fileName: string,
-  serialPortPath?: string
+  initialFirmware?: boolean
 ) => {
   await probeRsCheck();
   const dirPath = getRrivCtlDir();
@@ -22,16 +22,22 @@ const flash = async (
   const script = `../src/modules/firmware/scripts/${fileName}.sh`;
 
   await loadScript(script, `${fileName}.sh`);
-  await spawn("bash", [`${fileName}.sh`, dirPath, firmwareVersion]);
-  await spawn("rm", [`${fileName}.sh`]);
+  const cleanup = async () => {
+    await spawn("rm", [`${fileName}.sh`]);
+  };
+  await spawn("bash", [`${fileName}.sh`, dirPath, firmwareVersion], cleanup);
+  await cleanup();
 
-  await waitForReady(serialPortPath, 3000);
+  if (initialFirmware) {
+    await new Promise((resolve) => setTimeout(resolve, 7000));
+  } else {
+    await waitForReady(3000);
+  }
 };
 
 export const flashFirmware = async (firmwareVersion: string) => {
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
     email,
   } = getActiveUser();
 
@@ -44,7 +50,7 @@ export const flashFirmware = async (firmwareVersion: string) => {
     contextId,
   };
   try {
-    await createFirmwareHistoryEntry({ ...dataToUpload, accessToken });
+    await createFirmwareHistoryEntry({ ...dataToUpload });
   } catch (error) {
     db.update((data) => {
       data[email].toSync = [
@@ -60,13 +66,16 @@ export const flashFirmware = async (firmwareVersion: string) => {
   }
 };
 
-export const flashInitialFirmware = async (serialPortPath?: string) => {
+export const flashInitialFirmware = async (boardVersion: string) => {
   const octokit = new Octokit();
   const release = await octokit.repos.getLatestRelease({
     owner: "rrivirr",
     repo: "rriv-firmware",
   });
   const firmwareVersion = release.data.tag_name;
-  console.log("flashing ", firmwareVersion, "to device");
-  await flash(firmwareVersion, "flash-initial-firmware", serialPortPath);
+  if (boardVersion !== firmwareVersion) {
+    console.log("flashing", firmwareVersion, "to device");
+    await flash(firmwareVersion, "flash-initial-firmware", true);
+    console.log("device successfully flashed...");
+  }
 };

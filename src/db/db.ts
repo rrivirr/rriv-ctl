@@ -25,6 +25,7 @@ export interface Data {
   };
   expirationTime: number;
   lastLoginAt: Date;
+  currentLoginAt: Date;
   toSync: toSyncConfig[];
 }
 
@@ -36,6 +37,16 @@ export type DB = {
   updateChannel: UpdateChannel;
   debugMode: boolean;
   replSigIntFunctions: Function[];
+  environment: {
+    name: string;
+    config: {
+      RRIV_API_URL: string;
+      KEYCLOAK_URL: string;
+      KEYCLOAK_CLIENT_ID: string;
+      DATA_API_URL: string;
+      MQTT_URL: string;
+    };
+  };
 };
 
 const dirPath = getRrivCtlDir();

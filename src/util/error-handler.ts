@@ -1,15 +1,17 @@
 import { CommanderError } from "commander";
+import { logAsDebug } from "./debug-logger.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const errorHandler = (body: { error: any; exit: boolean }) => {
   const { error, exit } = body;
+  logAsDebug(error);
   const errorResponse = error?.response?.data;
   if (errorResponse) {
     const errorMessage =
       `ApiError: ` +
       (errorResponse?.error_description ||
         errorResponse.message ||
-        errorResponse);
+        JSON.stringify(errorResponse));
 
     if (errorMessage === "ApiError: uniquename of device is required") {
       console.log("unique name flag is required");

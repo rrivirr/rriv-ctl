@@ -17,7 +17,15 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/action.ts", "**/check-version.ts", "**/repl/*.ts"],
+    files: [
+      "**/action.ts",
+      "**/check-version.ts",
+      "**/repl/*.ts",
+      "**/auto-complete-tree.ts",
+      "**/config-history.service.ts",
+      "**/config/library/types.ts",
+      "**/config/library/config-snapshot.library.ts",
+    ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },
@@ -41,6 +49,18 @@ export default tseslint.config(
     files: ["src/modules/auth/auth.service.ts"],
     rules: {
       "@typescript-eslint/no-dynamic-delete": "off",
+    },
+  },
+  {
+    files: [
+      "src/commands/connect/action.ts",
+      "src/pre-action/run-checks.ts",
+      "src/infra/s3.ts",
+      "src/util/config.ts",
+      "src/commands/watch/action.ts",
+    ],
+    rules: {
+      "@typescript-eslint/no-non-null-assertion": "off",
     },
   }
 );

@@ -2,7 +2,6 @@ import Table from "cli-table3";
 import { randomUUID } from "crypto";
 import {
   getActiveConfigSnapshot,
-  getConfigHistory,
   getConfigSnapshots,
   overwriteConfigSnapshot,
   saveConfigSnapshot,
@@ -16,13 +15,11 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 export const getConfigSnapshot = async () => {
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
   } = getActiveUser();
 
   const configSnapshot = await getActiveConfigSnapshot({
     deviceId,
     contextId,
-    accessToken,
   });
   const { dataloggerConfig, sensorConfig } = configSnapshot;
   const table = new Table({
@@ -60,11 +57,9 @@ export const listConfigSnapshot = async (options: {
   search?: string;
 }) => {
   const { name, search } = options;
-  const { accessToken } = getActiveUser();
 
   const configSnapshots = await getConfigSnapshots({
     name,
-    accessToken,
     search,
   });
   if (!configSnapshots.length) {
@@ -120,20 +115,16 @@ export const listConfigSnapshot = async (options: {
 export const saveCurrentSnapshot = async (body: { name: string }) => {
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
   } = getActiveUser();
-  await saveConfigSnapshot({ ...body, deviceId, contextId, accessToken });
+  await saveConfigSnapshot({ ...body, deviceId, contextId });
   console.log("current config snapshot saved successfully");
 };
 
 export const applySavedConfigSnapshot = async (body: { name: string }) => {
   const { name } = body;
 
-  const { accessToken } = getActiveUser();
-
   const configSnapshots = await getConfigSnapshots({
     name,
-    accessToken,
   });
 
   if (!configSnapshots.length) {
@@ -157,42 +148,6 @@ export const applySavedConfigSnapshot = async (body: { name: string }) => {
   });
 };
 
-export const applyConfigHistory = async (body: { timestamp: string }) => {
-  const {
-    deviceContext: { deviceId, contextId },
-    accessToken,
-  } = getActiveUser();
-  const configHistory = await getConfigHistory({
-    accessToken,
-    deviceId,
-    contextId,
-    asAt: body.timestamp,
-  });
-  const { dataloggerConfigs, sensorConfigs } = configHistory;
-
-  const snapshot = {} as Parameters<typeof applyConfigSnapshot>[0];
-  const dataloggerConfig = dataloggerConfigs[0];
-
-  if (!dataloggerConfig && !sensorConfigs.length) {
-    throw new Error("no snapshot found at specified timestamp");
-  }
-
-  snapshot["datalogger"] = dataloggerConfig
-    ? {
-        config: dataloggerConfig.config,
-        configId: dataloggerConfig.id,
-      }
-    : {};
-  snapshot["sensor"] =
-    sensorConfigs?.map((s) => ({
-      config: s.config,
-      configId: s.id,
-      name: s.name,
-    })) || [];
-
-  await applyConfigSnapshot(snapshot);
-};
-
 export const applyConfigSnapshot = async (body: {
   datalogger: { config?: object; configId?: string };
   sensor: { config: object; configId: string; name: string }[];
@@ -200,12 +155,11 @@ export const applyConfigSnapshot = async (body: {
   const { datalogger, sensor } = body;
   const {
     deviceContext: { deviceId, contextId },
-    accessToken,
     toSync,
     email,
   } = getActiveUser();
 
-  // @TODO how to remove all sensors
+  // @TODO remove all sensors?
   // await sendCommandAndEchoResponse(
   //   JSON.stringify({ action: "remove", object: "datalogger" })
   // );
@@ -245,7 +199,7 @@ export const applyConfigSnapshot = async (body: {
       });
     } else {
       try {
-        await overwriteConfigSnapshot({ ...dataToUpload, accessToken });
+        await overwriteConfigSnapshot({ ...dataToUpload });
         console.log("config uploaded to cloud successfully");
       } catch (error) {
         db.update((data) => {

@@ -40,7 +40,7 @@ export const getConnectedDevice = async (body: {
       break;
     }
 
-    if (count === 0) {
+    if (count === 0 && !provisionCommand) {
       console.log("No RRIV device found");
       console.log("Waiting for a device");
       wait = true;
@@ -50,6 +50,9 @@ export const getConnectedDevice = async (body: {
   }
 
   if (!serialPortPath && !specifiedSerialPortPath) {
+    if (provisionCommand) {
+      return;
+    }
     console.log(
       "Try using rrivctlv2 connect -p <path> to specify the path to the RRIV serial device"
     );

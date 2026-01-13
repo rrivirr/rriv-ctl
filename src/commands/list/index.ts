@@ -12,10 +12,6 @@ export const makeListCommand = (cli: Command) => {
         "context",
         "device",
         "config-snapshot",
-        "config-history",
-        "library-config-snapshot",
-        "library-sensor-config",
-        "library-datalogger-config",
       ])
     )
     .option("-n, --name <name>", "get resource with specified name")
@@ -27,7 +23,6 @@ export const makeListCommand = (cli: Command) => {
       "-p, --private <private>",
       "true/false, get library configs that belong to you"
     )
-    .option("-t, --as-at <asAt>", "get config snapshot as at specified time")
     .option("-a, --all", "get all devices bound to you")
     .description("list resources")
     .action(listAction);

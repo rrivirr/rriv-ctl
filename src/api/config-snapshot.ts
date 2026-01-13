@@ -1,22 +1,20 @@
-import axios from "axios";
 import {
-  AccessToken,
   ConfigHistory,
   ConfigLibrary,
   ConfigLibraryById,
   ConfigSnapshot,
   DeviceContextRequest,
   OverwriteConfigSnapshotDto,
+  ConfigHistoryRequest,
 } from "./types.ts";
+import { rrivApiAxios } from "./axios.ts";
 
 export const getConfigHistory = async (
-  body: DeviceContextRequest & { asAt?: string }
+  body: ConfigHistoryRequest
 ): Promise<ConfigHistory> => {
-  const { accessToken, deviceId, contextId, asAt } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/configSnapshot/history?deviceId=${deviceId}&contextId=${contextId}`,
-    { headers: { Authorization: `Bearer ${accessToken}` }, params: { asAt } }
-  );
+  const response = await rrivApiAxios.get(`/configSnapshot/history`, {
+    params: { ...body },
+  });
 
   return response.data;
 };
@@ -27,26 +25,22 @@ export const getActiveConfigSnapshot = async (
   dataloggerConfig: { config: object };
   sensorConfig: { id: string; name: string; config: object }[];
 }> => {
-  const { accessToken, deviceId, contextId } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/configSnapshot/active?deviceId=${deviceId}&contextId=${contextId}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+  const { deviceId, contextId } = body;
+  const response = await rrivApiAxios.get(
+    `/configSnapshot/active?deviceId=${deviceId}&contextId=${contextId}`
   );
 
   return response.data;
 };
 
-export const getConfigSnapshots = async (
-  body: { name?: string; search?: string } & AccessToken
-): Promise<ConfigSnapshot[]> => {
-  const { accessToken, name, search } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/configSnapshot`,
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      params: { name, search },
-    }
-  );
+export const getConfigSnapshots = async (body: {
+  name?: string;
+  search?: string;
+}): Promise<ConfigSnapshot[]> => {
+  const { name, search } = body;
+  const response = await rrivApiAxios.get(`/configSnapshot`, {
+    params: { name, search },
+  });
 
   return response.data;
 };
@@ -55,7 +49,6 @@ export const overwriteConfigSnapshot = async (
   body: OverwriteConfigSnapshotDto
 ): Promise<void> => {
   const {
-    accessToken,
     dataloggerConfigId,
     sensorConfigIds,
     deviceId,
@@ -63,94 +56,86 @@ export const overwriteConfigSnapshot = async (
     createdAt,
   } = body;
 
-  await axios.put(
-    `${process.env.RRIV_API_URL}/configSnapshot/active`,
-    { dataloggerConfigId, sensorConfigIds, deviceId, contextId, createdAt },
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    }
-  );
+  await rrivApiAxios.put(`/configSnapshot/active`, {
+    dataloggerConfigId,
+    sensorConfigIds,
+    deviceId,
+    contextId,
+    createdAt,
+  });
 };
 
 export const saveConfigSnapshot = async (
   body: { name: string } & DeviceContextRequest
 ): Promise<void> => {
-  const { accessToken, name, deviceId, contextId } = body;
+  const { name, deviceId, contextId } = body;
 
-  await axios.post(
-    `${process.env.RRIV_API_URL}/configSnapshot/save`,
-    { name, deviceId, contextId },
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    }
-  );
+  await rrivApiAxios.post(`/configSnapshot/save`, {
+    name,
+    deviceId,
+    contextId,
+  });
 };
 
-export const getLibraryConfigSnapshots = async (
-  body: { name?: string; search?: string; isPublic?: boolean } & AccessToken
-): Promise<ConfigLibrary[]> => {
-  const { accessToken, name, search, isPublic } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/configSnapshot/libraryConfig`,
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      params: { name, search, isPublic },
-    }
+export const getLibraryConfigSnapshots = async (body: {
+  name?: string;
+  search?: string;
+  author?: string;
+}): Promise<ConfigLibrary[]> => {
+  const { name, search, author } = body;
+  const response = await rrivApiAxios.get(`/configSnapshot/libraryConfig`, {
+    params: { name, search, author },
+  });
+
+  return response.data;
+};
+
+export const getLibraryConfigSnapshotById = async (body: {
+  libraryConfigSnapshotId: string;
+}): Promise<ConfigLibraryById> => {
+  const { libraryConfigSnapshotId } = body;
+  const response = await rrivApiAxios.get(
+    `/configSnapshot/libraryConfig/${libraryConfigSnapshotId}`
   );
 
   return response.data;
 };
 
-export const getLibraryConfigSnapshotById = async (
-  body: { libraryConfigSnapshotId: string } & AccessToken
-): Promise<ConfigLibraryById> => {
-  const { accessToken, libraryConfigSnapshotId } = body;
-  const response = await axios.get(
-    `${process.env.RRIV_API_URL}/configSnapshot/libraryConfig/${libraryConfigSnapshotId}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-
-  return response.data;
+export const createNewConfigSnapshotLibrary = async (body: {
+  name: string;
+  description?: string;
+  configSnapshot: { datalogger: object; sensors: object[] };
+}): Promise<void> => {
+  const { name, description, configSnapshot } = body;
+  await rrivApiAxios.post(`/configSnapshot/libraryConfig`, {
+    name,
+    description,
+    ...configSnapshot,
+  });
 };
 
-export const publishNewConfigSnapshotLibrary = async (
-  body: {
-    name: string;
-    description?: string;
-    configSnapshot:
-      | { configSnapshotId: string }
-      | { deviceId: string; contextId: string };
-  } & AccessToken
-): Promise<void> => {
-  const { accessToken, name, description, configSnapshot } = body;
-  await axios.post(
-    `${process.env.RRIV_API_URL}/configSnapshot/libraryConfig`,
-    {
-      name,
-      description,
-      ...configSnapshot,
-    },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-};
-
-export const publishNewConfigSnapshotLibraryVersion = async (
-  body: {
-    description?: string;
-    libraryConfigSnapshotId: string;
-    configSnapshot:
-      | { configSnapshotId: string }
-      | { deviceId: string; contextId: string };
-  } & AccessToken
-): Promise<void> => {
-  const { accessToken, description, configSnapshot, libraryConfigSnapshotId } =
-    body;
-  await axios.post(
-    `${process.env.RRIV_API_URL}/configSnapshot/libraryConfig/${libraryConfigSnapshotId}/version`,
+export const createNewConfigSnapshotLibraryVersion = async (body: {
+  description?: string;
+  libraryConfigSnapshotId: string;
+  configSnapshot: { datalogger: object; sensors: object[] };
+}): Promise<void> => {
+  const { description, configSnapshot, libraryConfigSnapshotId } = body;
+  await rrivApiAxios.post(
+    `/configSnapshot/libraryConfig/${libraryConfigSnapshotId}/version`,
     {
       description,
       ...configSnapshot,
-    },
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    }
+  );
+};
+
+export const updateDeviceLibraryConfig = async (body: {
+  libraryConfigSnapshotId: string;
+  isPublic: boolean;
+}): Promise<void> => {
+  const { libraryConfigSnapshotId, isPublic } = body;
+  await rrivApiAxios.patch(
+    `/configSnapshot/libraryConfig/${libraryConfigSnapshotId}`,
+    { isPublic }
   );
 };

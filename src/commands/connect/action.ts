@@ -1,7 +1,7 @@
 import { getConnectedDevice } from "../../util/get-connected-device.ts";
 import { setDeviceEpoch } from "../../infra/set-device-epoch.ts";
 import db from "../../db/db.ts";
-import { getDevice } from "../../api/device.ts";
+import { getDevices } from "../../api/device.ts";
 import { bindDevice } from "../../util/bind-device.ts";
 import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
@@ -17,9 +17,9 @@ export const connectAction = async (options: any) => {
     specifiedSerialPortPath: path,
     fromRunCheck,
   });
-  const serialNumber = connectedDevice.serialNumber;
-  const serialPortPath = connectedDevice.serialPortPath;
-  const wait = connectedDevice.wait;
+  const serialNumber = connectedDevice!.serialNumber;
+  const serialPortPath = connectedDevice!.serialPortPath;
+  const wait = connectedDevice!.wait;
 
   const user = getActiveUser();
   const {
@@ -29,7 +29,6 @@ export const connectAction = async (options: any) => {
       serialNumber: existingSerialNumber,
     },
     context,
-    accessToken,
   } = user;
 
   let toBindDevice = false;
@@ -40,7 +39,7 @@ export const connectAction = async (options: any) => {
   }
 
   if (!toBindDevice) {
-    const devices = await getDevice({ id, accessToken });
+    const devices = await getDevices({ id });
     const existingDevice = devices[0];
 
     if (
@@ -56,11 +55,10 @@ export const connectAction = async (options: any) => {
   }
 
   if (toBindDevice) {
-    const devices = await getDevice({ serialNumber, accessToken });
+    const devices = await getDevices({ serialNumber });
     device = devices[0];
     if (!device) {
       device = await bindDevice({
-        accessToken,
         serialNumber,
       });
       pullConfig = true;
@@ -101,7 +99,6 @@ export const connectAction = async (options: any) => {
     await createDeviceContext({
       contextId: currentContextId,
       deviceId: device.id,
-      accessToken,
       assignedDeviceName,
     });
   }

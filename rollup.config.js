@@ -15,13 +15,22 @@ const env = {
   "process.env.KEYCLOAK_CLIENT_ID": JSON.stringify(
     process.env.KEYCLOAK_CLIENT_ID
   ),
+  "process.env.SPACES_ACCESS_KEY": JSON.stringify(
+    process.env.SPACES_ACCESS_KEY
+  ),
+  "process.env.SPACES_SECRET_KEY": JSON.stringify(
+    process.env.SPACES_SECRET_KEY
+  ),
+  "process.env.SPACES_ENDPOINT": JSON.stringify(process.env.SPACES_ENDPOINT),
+  "process.env.MQTT_URL": JSON.stringify(process.env.MQTT_URL),
 };
 
 export default {
   input: "./src/index.ts",
   external: ["serialport"],
   output: {
-    file: "./dist/index.cjs",
+    dir: "./dist",
+    entryFileNames: "index.cjs",
     format: "cjs",
     sourcemap: false,
   },

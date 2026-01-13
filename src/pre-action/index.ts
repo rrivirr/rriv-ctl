@@ -11,6 +11,12 @@ export const preAction = async (
   const commandName = actionCommand.name();
   const args = actionCommand.args;
   const options = actionCommand.opts();
+  const commandParentName = actionCommand.parent?.name();
+
+  if (args.length && commandName === "rrivctl") {
+    console.log("invalid command received");
+    process.exit();
+  }
 
   try {
     if (commandName !== "update") {
@@ -19,9 +25,12 @@ export const preAction = async (
 
     if (
       !(
-        actionCommand.parent?.name() === "auth" ||
+        commandParentName === "auth" ||
+        commandName === "test" ||
         commandName === "whoami" ||
-        commandName === "update"
+        commandName === "update" ||
+        options.env ||
+        options.debugMode
       )
     ) {
       await authCheck();
@@ -29,8 +38,12 @@ export const preAction = async (
         !(
           commandName === "rrivctl" ||
           (commandName === "list" && args[0] === "device" && options.all) ||
-          (commandName === "device" &&
-            actionCommand.parent?.name() === "provision")
+          (commandName === "send" && args[0] === "command") ||
+          (commandName === "device" && commandParentName === "provision") ||
+          (commandName === "debug" && commandParentName === "probe") ||
+          commandParentName === "history" ||
+          commandParentName === "library" ||
+          (commandName === "watch" && args.length)
         )
       ) {
         await runChecks({

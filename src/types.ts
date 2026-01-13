@@ -13,25 +13,26 @@ export type DefaultObject = Record<string, any>;
 export type toSyncConfig = { requestId: string } & (
   | {
       type: SyncDataType.DataloggerConfig;
-      data: Omit<CreateDataloggerConfigDto, "accessToken">;
+      data: CreateDataloggerConfigDto;
     }
   | {
       type: SyncDataType.SensorConfig;
-      data: Omit<CreateSensorConfigDto, "accessToken">;
+      data: CreateSensorConfigDto;
     }
   | {
       type: SyncDataType.ConfigSnapshot;
-      data: Omit<OverwriteConfigSnapshotDto, "accessToken">;
+      data: OverwriteConfigSnapshotDto;
     }
   | {
       type: SyncDataType.FirmwareHistory;
-      data: Omit<
-        Parameters<typeof createFirmwareHistoryEntry>[0],
-        "accessToken"
-      >;
+      data: Parameters<typeof createFirmwareHistoryEntry>[0];
     }
 );
 
 export type Source = "command" | "preAction";
+
+export type Resource = "device" | "datalogger" | "sensor";
+
+export type Environment = "dev" | "staging" | "prod" | "local";
 
 export type JwtPayload = DefaultJwtPayload & { name: string; email: string };

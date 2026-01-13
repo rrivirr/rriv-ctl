@@ -4,65 +4,108 @@ import {
   getDataloggerLibraryConfigById,
   publishNewDataloggerLibraryConfig,
   publishNewDataloggerLibraryConfigVersion,
+  updateDataloggerLibraryConfig,
 } from "../../../api/datalogger.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { uploadDataloggerConfig } from "../datalogger-config.service.ts";
 import { writeConfigToDevice } from "../../../infra/write-config-to-device.ts";
 import { sendCommands } from "../../../infra/send-commands.ts";
 import { getActiveUser } from "../../../util/get-logged-in-user.ts";
+import {
+  GetLibraryConfigDto,
+  SaveConfigToLibraryDto,
+  ApplyLibraryConfigDto,
+  ListLibraryConfigDto,
+  PublishLibraryConfigDto,
+} from "./types.ts";
+import { getConfigHistoryAtTime } from "../config-history.service.ts";
 
-export const publishCurrentDataloggerConfig = async (body: {
-  libraryConfigName: string;
-  description?: string;
-}) => {
-  const { libraryConfigName, description } = body;
+export const saveDataloggerConfig = async (body: SaveConfigToLibraryDto) => {
   const {
-    deviceContext: { deviceId, contextId },
-    accessToken,
+    name,
+    fileConfig,
+    update,
+    deviceId: specifiedDeviceId,
+    note,
+    datetime,
+  } = body;
+  const {
+    deviceContext: { deviceId: connectedDeviceId },
   } = getActiveUser();
+  let config;
+  const deviceId = specifiedDeviceId || connectedDeviceId;
+
+  if (fileConfig) {
+    config = { ...fileConfig, object: "datalogger" };
+  } else {
+    if (!deviceId) {
+      throw new Error("no connected device/deviceId specified");
+    }
+
+    if (datetime) {
+      const history = await getConfigHistoryAtTime({
+        deviceId,
+        datetime,
+        resource: "datalogger",
+        returnResult: true,
+      });
+      if (
+        !history ||
+        !Object.keys(history?.snapshotToLog).length ||
+        !Object.keys(history?.snapshotToLog?.datalogger)
+      ) {
+        throw new Error("no snapshot found at specified timestamp");
+      }
+
+      config = history.snapshotToLog.datalogger;
+    } else {
+      const [dataloggerConfig] = await sendCommands(
+        [JSON.stringify({ object: "datalogger", action: "get" })],
+        false
+      );
+
+      config = { ...dataloggerConfig, object: "datalogger" };
+    }
+  }
+
+  if (!config) {
+    throw new Error("no config found");
+  }
 
   const existingDataloggerLibraryConfigs = await getDataloggerLibraryConfig({
-    accessToken,
-    isPublic: false,
-    name: libraryConfigName,
+    name,
   });
-
   const existingDataloggerLibraryConfig = existingDataloggerLibraryConfigs[0];
 
-  if (existingDataloggerLibraryConfig) {
+  if (update) {
+    if (!existingDataloggerLibraryConfig) {
+      throw new Error("no existing library found with name");
+    }
     await publishNewDataloggerLibraryConfigVersion({
-      deviceId,
-      description,
-      contextId,
-      accessToken,
+      description: note,
+      config,
       dataloggerLibraryId: existingDataloggerLibraryConfig.id,
     });
   } else {
     await publishNewDataloggerLibraryConfig({
-      name: libraryConfigName,
-      deviceId,
-      contextId,
-      accessToken,
-      description,
+      name,
+      config,
+      description: note,
     });
   }
 
   console.log("successful");
 };
 
-export const listLibraryDataloggerConfig = async (body: {
-  isPublic?: boolean;
-  name?: string;
-  search?: string;
-}) => {
-  const { isPublic, name, search } = body;
-  const { accessToken } = getActiveUser();
+export const listLibraryDataloggerConfig = async (
+  body: ListLibraryConfigDto
+) => {
+  const { name, search, author } = body;
 
   const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
     name,
     search,
-    isPublic,
-    accessToken,
+    author,
   });
 
   if (name) {
@@ -71,7 +114,6 @@ export const listLibraryDataloggerConfig = async (body: {
       const dataloggerLibraryConfigDetails =
         await getDataloggerLibraryConfigById({
           dataloggerLibraryId: dataloggerLibraryConfig.id,
-          accessToken,
         });
 
       const {
@@ -98,18 +140,18 @@ export const listLibraryDataloggerConfig = async (body: {
       const table = new Table({
         head: ["libraryDataloggerConfig", "version", "config"],
         wordWrap: true,
-        wrapOnWordBoundary: false,
+        wrapOnWordBoundary: true,
         colWidths: [30, 30, 80],
       });
       table.push(
         [
           {
-            content: `name: ${name}\ndescription: ${description}\ncreator: ${firstName} ${lastName}`,
+            content: `name: ${name}\nnote: ${description}\ncreator: ${firstName} ${lastName}`,
             rowSpan: 3,
             vAlign: "center",
           },
           {
-            content: `version:${version}\ndescription: ${versionDescription}\ncreated by:${versionFirstName} ${versionLastName}`,
+            content: `version:${version}\nnote: ${versionDescription}\ncreated by:${versionFirstName} ${versionLastName}`,
             rowSpan: 3,
             vAlign: "center",
           },
@@ -117,6 +159,8 @@ export const listLibraryDataloggerConfig = async (body: {
             content: JSON.stringify(config),
             rowSpan: 3,
             vAlign: "center",
+            wordWrap: true,
+            wrapOnWordBoundary: false,
           },
         ],
         [],
@@ -133,7 +177,7 @@ export const listLibraryDataloggerConfig = async (body: {
           [
             { content: "", rowSpan: 3 },
             {
-              content: `version:${version}\ndescription: ${versionDescription}\ncreated by:${versionFirstName} ${versionLastName}`,
+              content: `version:${version}\nnote: ${versionDescription}\ncreated by:${versionFirstName} ${versionLastName}`,
               rowSpan: 3,
               vAlign: "center",
             },
@@ -141,6 +185,8 @@ export const listLibraryDataloggerConfig = async (body: {
               content: JSON.stringify(config),
               rowSpan: 3,
               vAlign: "center",
+              wordWrap: true,
+              wrapOnWordBoundary: false,
             },
           ],
           [],
@@ -157,16 +203,31 @@ export const listLibraryDataloggerConfig = async (body: {
   }
 };
 
-export const applyPublishedDataloggerConfig = async (body: {
-  name: string;
-  version?: number;
-}) => {
-  const { name, version } = body;
-  const { accessToken } = getActiveUser();
+export const publishDataloggerConfig = async (
+  body: PublishLibraryConfigDto
+) => {
+  const { name } = body;
+  const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
+    name,
+  });
+  if (!dataloggerLibraryConfigs.length) {
+    throw new Error("no library config found with specified name");
+  }
+
+  const dataloggerLibraryConfig = dataloggerLibraryConfigs[0];
+
+  await updateDataloggerLibraryConfig({
+    dataloggerLibraryId: dataloggerLibraryConfig.id,
+    isPublic: true,
+  });
+};
+
+export const getLibraryDataloggerConfig = async (body: GetLibraryConfigDto) => {
+  const { name, author, version, returnResult } = body;
 
   const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
     name,
-    accessToken,
+    author,
   });
 
   if (!dataloggerLibraryConfigs.length) {
@@ -176,7 +237,6 @@ export const applyPublishedDataloggerConfig = async (body: {
   const dataloggerLibraryConfig = dataloggerLibraryConfigs[0];
   const dataloggerLibraryConfigDetails = await getDataloggerLibraryConfigById({
     dataloggerLibraryId: dataloggerLibraryConfig.id,
-    accessToken,
   });
 
   const { DataloggerLibraryConfigVersion } = dataloggerLibraryConfigDetails;
@@ -185,31 +245,44 @@ export const applyPublishedDataloggerConfig = async (body: {
     throw new Error("library config specified is empty");
   }
 
-  let dataloggerConfigToApply;
+  let dataloggerConfig;
   if (!version) {
     // latest version
-    dataloggerConfigToApply = DataloggerLibraryConfigVersion[0];
+    dataloggerConfig = DataloggerLibraryConfigVersion[0];
   } else {
-    dataloggerConfigToApply = DataloggerLibraryConfigVersion.find(
+    dataloggerConfig = DataloggerLibraryConfigVersion.find(
       (s) => s.version === version
     );
 
-    if (!dataloggerConfigToApply) {
+    if (!dataloggerConfig) {
       throw new Error("invalid library config version received");
     }
   }
   const {
-    DataloggerConfig: { config, dataloggerDriverId },
-  } = dataloggerConfigToApply;
+    DataloggerConfig: { config },
+  } = dataloggerConfig;
 
-  await sendCommands(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [JSON.stringify({ action: "remove", object: (config as any).object })]
-  );
-  await writeConfigToDevice(config);
+  if (returnResult) {
+    return config;
+  }
+  console.log(JSON.stringify(config, null, 2));
+};
 
-  await uploadDataloggerConfig({
-    ...config,
-    dataloggerDriverId,
+export const applyLibraryDataloggerConfig = async (
+  body: ApplyLibraryConfigDto
+) => {
+  const { name, version, author } = body;
+  const config = await getLibraryDataloggerConfig({
+    name,
+    version,
+    author,
+    returnResult: true,
   });
+
+  if (!config || !Object.keys(config).length) {
+    throw new Error("library config is empty");
+  }
+
+  await writeConfigToDevice(config);
+  await uploadDataloggerConfig(config);
 };

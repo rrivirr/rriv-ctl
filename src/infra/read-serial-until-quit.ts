@@ -2,7 +2,6 @@ import { ReadlineParser } from "serialport";
 import * as fs from "fs";
 import moment from "moment";
 import path from "path";
-import serialCommands from "./serial-commands.ts";
 import paths from "../util/paths.ts";
 import { connectSerial } from "./connect-serial.ts";
 import db from "../db/db.ts";
@@ -27,7 +26,6 @@ export const readSerialUntilQuit = (
       includeDelimiter: false,
     });
     const serialPort = connectSerial(serialPortPath);
-    serialPort.write(serialCommands.quietModeCommand + "\n");
     // TODO: note sure if drain, timeout, and flush are all necessary
     // TODO: this has to do with waiting for the serial port to open and flushing existing input to make a nice file output
     serialPort.drain(() => {
@@ -36,11 +34,11 @@ export const readSerialUntilQuit = (
         serialPort.pipe(parser);
         if (debug) {
           serialPort.write(
-            '{"object":"datalogger", "action":"set_mode", "mode":"watch-debug"}\n'
+            '{"object":"datalogger", "action":"set", "mode":"watch-debug"}\n'
           );
         } else {
           serialPort.write(
-            '{"object":"datalogger", "action":"set_mode", "mode":"watch"}\n'
+            '{"object":"datalogger", "action":"set", "mode":"watch"}\n'
           );
         }
       }, 1000);

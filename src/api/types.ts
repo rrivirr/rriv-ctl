@@ -1,11 +1,10 @@
-export interface AccessToken {
-  accessToken: string;
+export interface IdRequest {
+  id: string;
 }
-export type IdRequest = { id: string } & AccessToken;
 
-export type ContextNameRequest = {
+export interface ContextNameRequest {
   contextName: string;
-} & AccessToken;
+}
 
 export interface Context {
   id: string;
@@ -15,10 +14,18 @@ export interface Context {
   endedAt: string;
 }
 
-export type DeviceContextRequest = {
+export interface DeviceContextRequest {
   contextId: string;
   deviceId: string;
-} & AccessToken;
+}
+export interface ConfigHistoryRequest {
+  limit?: number;
+  asAt?: string;
+  deviceId: string;
+  offset?: number;
+  order?: string;
+  sensorName?: string;
+}
 
 export interface DeviceContext {
   id: string;
@@ -38,6 +45,7 @@ export interface Device {
     assignedDeviceName: string;
     Context: { name: string; id: string };
   }[];
+  DeviceEuis: { eui: string }[];
 }
 
 export interface ConfigLibrary {
@@ -89,20 +97,36 @@ export interface SensorConfigHistory {
   createdAt: string;
   deactivatedAt: string;
   changesMade: object;
+  ConfigSnapshot: {
+    DeviceContext: {
+      Context: {
+        name: string;
+      };
+    };
+  };
+}
+
+export interface DataloggerConfigHistory {
+  id: string;
+  changesMade: object;
+  name: string;
+  config: object;
+  dataloggerDriverId: string;
+  configSnapshotId: string;
+  active: boolean;
+  createdAt: string;
+  deactivatedAt: string;
+  ConfigSnapshot: {
+    DeviceContext: {
+      Context: {
+        name: string;
+      };
+    };
+  };
 }
 
 export interface ConfigHistory {
-  dataloggerConfigs: {
-    id: string;
-    changesMade: object;
-    name: string;
-    config: object;
-    dataloggerDriverId: string;
-    configSnapshotId: string;
-    active: boolean;
-    createdAt: string;
-    deactivatedAt: string;
-  }[];
+  dataloggerConfigs: DataloggerConfigHistory[];
   sensorConfigs: SensorConfigHistory[];
 }
 
@@ -184,7 +208,7 @@ export interface SensorConfigLibraryById {
   }[];
 }
 
-export type CreateDataloggerConfigDto = {
+export interface CreateDataloggerConfigDto {
   singlePropertyChange: boolean;
   config: object;
   createdAt: string;
@@ -192,9 +216,9 @@ export type CreateDataloggerConfigDto = {
   name: string;
   deviceId: string;
   contextId: string;
-} & AccessToken;
+}
 
-export type CreateSensorConfigDto = {
+export interface CreateSensorConfigDto {
   singlePropertyChange: boolean;
   config: object;
   createdAt: string;
@@ -202,7 +226,7 @@ export type CreateSensorConfigDto = {
   name: string;
   deviceId: string;
   contextId: string;
-} & AccessToken;
+}
 
 export type OverwriteConfigSnapshotDto = {
   dataloggerConfigId?: string;

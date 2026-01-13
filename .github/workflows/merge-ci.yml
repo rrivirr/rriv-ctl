@@ -56,13 +56,29 @@ jobs:
         with:
           tag: v2.1.5-procursus7
 
+      - name: Download JSON from S3
+        run: aws s3api get-object --bucket rriv-envs --output json --key prod.json --endpoint-url ${{ secrets.SPACES_ENDPOINT }} ./config.json
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+          AWS_DEFAULT_REGION: "us-east-1"
+
+      - name: JSON to variables
+        uses: laingcc/json-to-variables@release
+        with:
+          filename: "./config.json"
+          masked: true
+
       - name: Build binaries
         run: npm run binary
         env:
-          RRIV_API_URL: https://api.dev.rriv.org/rriv
-          KEYCLOAK_URL: https://auth.dev.rriv.org/realms/rriv-beta-dev/protocol/openid-connect/token
-          KEYCLOAK_CLIENT_ID: rrivctl
-          DATA_API_URL: https://api.dev.rriv.org/data/readings
+          RRIV_API_URL: ${{ env.json_RRIV_API_URL }}
+          KEYCLOAK_URL: ${{ env.json_KEYCLOAK_URL }}
+          KEYCLOAK_CLIENT_ID: ${{ env.json_KEYCLOAK_CLIENT_ID }}
+          DATA_API_URL: ${{ env.json_DATA_API_URL }}
+          SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
+          SPACES_SECRET_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+          SPACES_ENDPOINT: ${{ secrets.SPACES_ENDPOINT }}
 
       - name: move installer
         run: cp rrivctl-installer.sh apps/
