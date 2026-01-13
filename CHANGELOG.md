@@ -1,3 +1,10 @@
+## [2.9.1-alpha.2](https://github.com/rrivirr/rriv-ctl/compare/v2.9.1-alpha.1...v2.9.1-alpha.2) (2026-01-13)
+
+
+### Bug Fixes
+
+* skip flashing for provision device ([f7529d3](https://github.com/rrivirr/rriv-ctl/commit/f7529d3f90391ba1094d5cdadb4151ed34bbe6b3))
+
 ## [2.9.1-alpha.1](https://github.com/rrivirr/rriv-ctl/compare/v2.9.0...v2.9.1-alpha.1) (2026-01-13)
 
 
