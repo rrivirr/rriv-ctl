@@ -4,15 +4,15 @@ import fs from "fs";
 import { getConfig } from "../util/config.ts";
 
 export const getReadings = async (query: {
-  id: string;
+  eui: string;
   dirPath: string;
   startDate?: string;
   endDate?: string;
 }): Promise<string> => {
-  const { id, dirPath, startDate, endDate } = query;
+  const { eui, dirPath, startDate, endDate } = query;
   try {
     const config = getConfig();
-    const response = await axios.get(`${config.DATA_API_URL}/readings/${id}`, {
+    const response = await axios.get(`${config.DATA_API_URL}/readings/${eui}`, {
       params: { rangeStart: startDate, rangeEnd: endDate, format: "csv" },
       responseType: "stream",
     });
