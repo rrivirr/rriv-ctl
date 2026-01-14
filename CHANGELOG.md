@@ -1,3 +1,10 @@
+## [2.9.3](https://github.com/rrivirr/rriv-ctl/compare/v2.9.2...v2.9.3) (2026-01-14)
+
+
+### Bug Fixes
+
+* get data should use identifier ([13dab83](https://github.com/rrivirr/rriv-ctl/commit/13dab834756de8f24ff68dd34df139d07edf1777))
+
 ## [2.9.2](https://github.com/rrivirr/rriv-ctl/compare/v2.9.1...v2.9.2) (2026-01-14)
 
 
