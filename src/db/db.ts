@@ -45,6 +45,7 @@ export type DB = {
       KEYCLOAK_CLIENT_ID: string;
       DATA_API_URL: string;
       MQTT_URL: string;
+      ADMIN_EMAIL: string;
     };
   };
 };

@@ -12,6 +12,7 @@ import db from "../../db/db.ts";
 import { passwordPrompt, signupPrompt } from "../../prompts/auth.prompt.ts";
 import { JwtPayload } from "../../types.ts";
 import { getLoggedInUser } from "../../util/get-logged-in-user.ts";
+import { getConfig } from "../../util/config.ts";
 
 export const login = async (email: string) => {
   try {
@@ -110,15 +111,11 @@ export const signup = async (body: Partial<Omit<SignupDto, "password">>) => {
   const signupBody = await signupPrompt(body);
 
   await signupApiCall({ ...signupBody });
-  if (signupBody.email.includes("rriv.org")) {
-    console.log(
-      "\nSignup complete. You must verify your email address to log in.\nPlease check your email and follow the verification link."
-    );
-  } else {
-    console.log(
-      `\nYour email is not a @rriv.org address, and therefore requires manual verification.\nPlease contact the platform administrators to verify your account.`
-    );
-  }
+  const config = getConfig();
+
+  console.log(
+    `\nRegistration successful!\nContact an admin to approve your account and start using rrivctl.\n${config.ADMIN_EMAIL || ""}`
+  );
 };
 
 export const verify = async (email: string) => {
