@@ -23,6 +23,7 @@ const env = {
   ),
   "process.env.SPACES_ENDPOINT": JSON.stringify(process.env.SPACES_ENDPOINT),
   "process.env.MQTT_URL": JSON.stringify(process.env.MQTT_URL),
+  "process.env.ADMIN_EMAIL": JSON.stringify(process.env.ADMIN_EMAIL),
 };
 
 export default {
