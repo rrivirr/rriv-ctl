@@ -2,6 +2,7 @@ import fs from "fs";
 import { getReadings } from "../../api/readings.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 import { getConfigSnapshot } from "../../modules/config/config-snapshot.service.ts";
+import { getDevices } from "../../api/device.ts";
 
 export const getAction = async (
   object: string,
@@ -13,7 +14,18 @@ export const getAction = async (
     const startDate = parameter;
 
     if (!id) {
-      throw new Error("eui required");
+      throw new Error("device identifier required");
+    }
+
+    const device = await getDevices({ identifier: id });
+    if (!device.length) {
+      console.log("no device found with specified identifier");
+      return;
+    }
+    const eui = device[0].DeviceEuis[0]?.eui;
+    if (!eui) {
+      console.log("no euis registered for device");
+      return;
     }
 
     const dirPath = "./data";
@@ -21,7 +33,7 @@ export const getAction = async (
       fs.mkdirSync(dirPath);
     }
 
-    const file = await getReadings({ id, dirPath, startDate, endDate });
+    const file = await getReadings({ eui, dirPath, startDate, endDate });
     if (file) {
       console.log(`saved to ${file}`);
     }
