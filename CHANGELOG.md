@@ -1,3 +1,10 @@
+## [2.9.4](https://github.com/rrivirr/rriv-ctl/compare/v2.9.3...v2.9.4) (2026-01-14)
+
+
+### Bug Fixes
+
+* signup message ([489c7e6](https://github.com/rrivirr/rriv-ctl/commit/489c7e6459e2888751c97ec2552292c0ce15f3b2))
+
 ## [2.9.3](https://github.com/rrivirr/rriv-ctl/compare/v2.9.2...v2.9.3) (2026-01-14)
 
 
