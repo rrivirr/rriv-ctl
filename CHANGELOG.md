@@ -1,3 +1,12 @@
+## [2.9.2](https://github.com/rrivirr/rriv-ctl/compare/v2.9.1...v2.9.2) (2026-01-14)
+
+
+### Bug Fixes
+
+* merge alpha ([d6b95e7](https://github.com/rrivirr/rriv-ctl/commit/d6b95e75cc2b9b5a499f4c890ec8cf0c15a21a0b))
+* remove quiet mode ([ca40b6f](https://github.com/rrivirr/rriv-ctl/commit/ca40b6fb8387ca2d341f6664fee25bc2927b8b83))
+* skip flashing for provision device ([f7529d3](https://github.com/rrivirr/rriv-ctl/commit/f7529d3f90391ba1094d5cdadb4151ed34bbe6b3))
+
 ## [2.9.1](https://github.com/rrivirr/rriv-ctl/compare/v2.9.0...v2.9.1) (2026-01-13)
 
 ### Bug Fixes
