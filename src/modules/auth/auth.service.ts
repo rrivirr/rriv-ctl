@@ -26,9 +26,11 @@ export const login = async (email: string) => {
     }
     const user = getLoggedInUser(emailToLogin);
     if (user) {
-      db.update((data) => {
-        data.activeEmail = emailToLogin;
-      });
+      if (emailToLogin !== activeEmail) {
+        db.update((data) => {
+          data.activeEmail = emailToLogin;
+        });
+      }
     } else {
       if (activeEmail && (!email || email === activeEmail)) {
         console.log(`logging in as ${bold(blue(`${activeEmail}`))}`);
@@ -43,11 +45,12 @@ export const login = async (email: string) => {
 
       db.update((data) => {
         data.activeEmail = emailToLogin;
-        data[emailToLogin] = {
+        data[emailToLogin][data.environment.name] = {
           accessToken,
           name: decodedToken.name,
           expirationTime: +now.setSeconds(now.getSeconds() + expiresIn),
-          lastLoginAt: data[emailToLogin]?.currentLoginAt,
+          lastLoginAt:
+            data[emailToLogin][data.environment.name]?.currentLoginAt,
           currentLoginAt: new Date(),
           toSync: [],
           context: { id: "", name: "" },
@@ -85,8 +88,8 @@ To resend the verification email run the command ${italic(`rrivctlv2 auth verify
 
 export const logout = () => {
   db.update((data) => {
-    data[data.activeEmail] = {
-      ...data[data.activeEmail],
+    data[data.activeEmail][data.environment.name] = {
+      ...data[data.activeEmail][data.environment.name],
       accessToken: "",
       name: "",
       expirationTime: 0,

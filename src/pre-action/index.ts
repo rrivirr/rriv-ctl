@@ -3,6 +3,7 @@ import { errorHandler } from "../util/error-handler.ts";
 import { authCheck } from "../util/auth-check.ts";
 import { runChecks } from "./run-checks.ts";
 import { checkVersionAndUpdate } from "../modules/update/update.service.ts";
+import db from "../db/db.ts";
 
 export const preAction = async (
   thisCommand: Command,
@@ -19,6 +20,12 @@ export const preAction = async (
   }
 
   try {
+    if (!db.data?.environment?.name) {
+      db.update((data) => {
+        data.environment.name = "prod";
+      });
+    }
+
     if (commandName !== "update") {
       await checkVersionAndUpdate();
     }

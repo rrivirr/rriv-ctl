@@ -9,10 +9,13 @@ export const getActiveUser = () => {
 };
 
 export const getLoggedInUser = (email?: string) => {
-  const { activeEmail } = db.data;
+  const {
+    activeEmail,
+    environment: { name: env },
+  } = db.data;
 
   if (email) {
-    const user = db.data[email];
+    const user = db.data[email][env];
     if (Date.now() < user?.expirationTime && user?.accessToken) {
       return { ...user, email };
     }
@@ -20,7 +23,7 @@ export const getLoggedInUser = (email?: string) => {
   }
 
   if (activeEmail) {
-    const user = db.data[activeEmail];
+    const user = db.data[activeEmail][env];
     if (Date.now() < user?.expirationTime && user?.accessToken) {
       return { ...user, email: activeEmail };
     }
