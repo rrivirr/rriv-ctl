@@ -7,7 +7,7 @@ import { logAsDebug } from "../../util/debug-logger.ts";
 import { getBoardVersion } from "../../util/get-device-details.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
-export const provisionAction = async () => {
+export const provisionAction = async (options: any) => {
   const result = await getConnectedDevice({
     provisionCommand: true,
   });
@@ -20,7 +20,9 @@ export const provisionAction = async () => {
     boardVersion = await getBoardVersion(serialPortPath);
   }
 
-  await flashInitialFirmware(boardVersion);
+  if (!options.skip) {
+    await flashInitialFirmware(boardVersion);
+  }
 
   if (!uid) {
     const connectedDevice = await getConnectedDevice({

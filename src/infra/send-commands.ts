@@ -1,6 +1,5 @@
 import { ReadlineParser } from "serialport";
 import { connectSerial } from "./connect-serial.ts";
-import serialCommands from "./serial-commands.ts";
 import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 import { DefaultObject } from "../types.ts";
 import { waitForReady } from "./wait-for-ready.ts";
@@ -14,11 +13,11 @@ export const sendCommands = async (
   const serialPortPath = getSerialPathFromCache();
   const results = [];
 
-  for (const command of [serialCommands.quietModeCommand, ...commands]) {
+  for (const command of commands) {
     logAsDebug("command to be sent", command);
     const result = await sendSingleCommand(
       command + "\n",
-      echoResponse && command !== serialCommands.quietModeCommand,
+      echoResponse,
       customPath || serialPortPath
     );
     if (result.error) {
@@ -38,9 +37,7 @@ export const sendCommands = async (
       }
     }
 
-    if (command !== serialCommands.quietModeCommand) {
-      results.push(result);
-    }
+    results.push(result);
   }
 
   return results;
