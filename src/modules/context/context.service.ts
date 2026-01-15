@@ -14,12 +14,13 @@ export const endContext = async () => {
   const {
     context: { id },
     email,
+    env,
   } = getActiveUser();
 
   await updateContext({ id, end: true });
   db.update((data) => {
-    data[email].context = { id: "", name: "" };
-    data[email].deviceContext = {
+    data[email][env].context = { id: "", name: "" };
+    data[email][env].deviceContext = {
       contextId: "",
       deviceId: "",
       assignedDeviceName: "",
@@ -63,7 +64,7 @@ export const listContexts = async (options: {
 };
 
 export const useContext = async (name: string) => {
-  const { email } = getActiveUser();
+  const { email, env } = getActiveUser();
 
   const context = await getContextByName({
     contextName: name,
@@ -75,11 +76,11 @@ export const useContext = async (name: string) => {
     throw new Error("context specified has already ended");
   }
   db.update((data) => {
-    data[email].context = {
+    data[email][env].context = {
       id: context.id,
       name: context.name,
     };
-    data[email].deviceContext = {
+    data[email][env].deviceContext = {
       contextId: "",
       deviceId: "",
       assignedDeviceName: "",
@@ -92,6 +93,7 @@ export const deleteContext = async (name: string) => {
   const {
     context: { id: existingContextId },
     email,
+    env,
   } = getActiveUser();
 
   const context = await getContextByName({
@@ -104,11 +106,11 @@ export const deleteContext = async (name: string) => {
   console.log("context deleted successfully");
   if (existingContextId === context.id) {
     db.update((data) => {
-      data[email].context = {
+      data[email][env].context = {
         id: "",
         name: "",
       };
-      data[email].deviceContext = {
+      data[email][env].deviceContext = {
         contextId: "",
         deviceId: "",
         assignedDeviceName: "",

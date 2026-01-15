@@ -11,7 +11,7 @@ export const runChecks = async (body: {
   commandArgument: string;
   replServer?: REPLServer;
 }) => {
-  const { email, context, device, deviceContext } = getActiveUser();
+  const { email, context, device, deviceContext, env } = getActiveUser();
 
   const { commandName, commandArgument, replServer } = body;
   if (
@@ -35,7 +35,7 @@ export const runChecks = async (body: {
             contextName: "rrivctl",
           });
           db.update((data) => {
-            data[email].context = {
+            data[email][env].context = {
               id: context.id,
               name: context.name,
             };
@@ -46,7 +46,7 @@ export const runChecks = async (body: {
             throw new Error("no context found, select context to proceed");
           } else {
             db.update((data) => {
-              data[email].context = {
+              data[email][env].context = {
                 id: defaultContext.id,
                 name: defaultContext.name,
               };
@@ -78,12 +78,12 @@ export const runChecks = async (body: {
           deviceContext.contextId !== context.id
         ) {
           db.update((data) => {
-            data[email].deviceContext = {
+            data[email][env].deviceContext = {
               contextId: "",
               deviceId: "",
               assignedDeviceName: "",
             };
-            data[email].device = {
+            data[email][env].device = {
               id: "",
               serialNumber: "",
               uniqueName: "",
@@ -99,7 +99,8 @@ export const runChecks = async (body: {
         // incase the port path changed
         if (connectedDevice?.serialPortPath !== device.serialPortPath) {
           db.update((data) => {
-            data[email].device.serialPortPath = connectedDevice!.serialPortPath;
+            data[email][env].device.serialPortPath =
+              connectedDevice!.serialPortPath;
           });
         }
       }

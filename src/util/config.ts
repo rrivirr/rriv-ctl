@@ -32,7 +32,7 @@ export const setConfig = async (env: Environment) => {
         ADMIN_EMAIL: process.env.ADMIN_EMAIL!,
       };
     });
-  } else if (data.environment?.name === env) {
+  } else if (data.environment.name === env) {
     console.log(`already in the ${env} environment`);
   } else {
     const Key = `${env}.json`;

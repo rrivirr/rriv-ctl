@@ -8,7 +8,7 @@ import { errorHandler } from "../../util/error-handler.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const syncCommands = async () => {
-  const { toSync, email } = getActiveUser();
+  const { toSync, email, env } = getActiveUser();
 
   if (!toSync?.length) {
     console.log("no pending actions to sync");
@@ -27,8 +27,8 @@ export const syncCommands = async () => {
         await createFirmwareHistoryEntry({ ...data });
       }
       db.update((data) => {
-        const toSyncData = data[email].toSync;
-        data[email].toSync = toSyncData.filter(
+        const toSyncData = data[email][env].toSync;
+        data[email][env].toSync = toSyncData.filter(
           (d) => d.requestId !== requestId
         );
       });

@@ -45,25 +45,27 @@ export const login = async (email: string) => {
 
       db.update((data) => {
         data.activeEmail = emailToLogin;
-        data[emailToLogin][data.environment.name] = {
-          accessToken,
-          name: decodedToken.name,
-          expirationTime: +now.setSeconds(now.getSeconds() + expiresIn),
-          lastLoginAt:
-            data[emailToLogin][data.environment.name]?.currentLoginAt,
-          currentLoginAt: new Date(),
-          toSync: [],
-          context: { id: "", name: "" },
-          device: {
-            id: "",
-            uniqueName: "",
-            serialNumber: "",
-            serialPortPath: "",
-          },
-          deviceContext: {
-            contextId: "",
-            deviceId: "",
-            assignedDeviceName: "",
+        data[emailToLogin] = {
+          [data.environment.name]: {
+            accessToken,
+            name: decodedToken.name,
+            expirationTime: +now.setSeconds(now.getSeconds() + expiresIn),
+            lastLoginAt:
+              data?.[emailToLogin]?.[data.environment.name]?.currentLoginAt,
+            currentLoginAt: new Date(),
+            toSync: [],
+            context: { id: "", name: "" },
+            device: {
+              id: "",
+              uniqueName: "",
+              serialNumber: "",
+              serialPortPath: "",
+            },
+            deviceContext: {
+              contextId: "",
+              deviceId: "",
+              assignedDeviceName: "",
+            },
           },
         };
       });
@@ -87,26 +89,30 @@ To resend the verification email run the command ${italic(`rrivctlv2 auth verify
 };
 
 export const logout = () => {
-  db.update((data) => {
-    data[data.activeEmail][data.environment.name] = {
-      ...data[data.activeEmail][data.environment.name],
-      accessToken: "",
-      name: "",
-      expirationTime: 0,
-      context: { id: "", name: "" },
-      device: {
-        id: "",
-        uniqueName: "",
-        serialNumber: "",
-        serialPortPath: "",
-      },
-      deviceContext: {
-        contextId: "",
-        deviceId: "",
-        assignedDeviceName: "",
-      },
-    };
-  });
+  const { activeEmail, environment } = db.data;
+  if (activeEmail && db.data?.[activeEmail]?.[environment.name]) {
+    db.update((data) => {
+      data[data.activeEmail][data.environment.name] = {
+        ...data[data.activeEmail][data.environment.name],
+        accessToken: "",
+        name: "",
+        expirationTime: 0,
+        context: { id: "", name: "" },
+        device: {
+          id: "",
+          uniqueName: "",
+          serialNumber: "",
+          serialPortPath: "",
+        },
+        deviceContext: {
+          contextId: "",
+          deviceId: "",
+          assignedDeviceName: "",
+        },
+      };
+    });
+  }
+
   console.log("successful");
 };
 

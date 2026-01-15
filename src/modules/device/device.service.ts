@@ -9,17 +9,17 @@ import { listContextDevices } from "../context/device-context.service.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const unbindDevice = async (serialNumber: string) => {
-  const { email } = getActiveUser();
+  const { email, env } = getActiveUser();
 
   await unbindDeviceApiCall({ serialNumber });
 
   db.update((data) => {
-    data[email].deviceContext = {
+    data[email][env].deviceContext = {
       contextId: "",
       deviceId: "",
       assignedDeviceName: "",
     };
-    data[email].device = {
+    data[email][env].device = {
       id: "",
       serialNumber: "",
       uniqueName: "",

@@ -157,6 +157,7 @@ export const applyConfigSnapshot = async (body: {
     deviceContext: { deviceId, contextId },
     toSync,
     email,
+    env,
   } = getActiveUser();
 
   // @TODO remove all sensors?
@@ -188,7 +189,7 @@ export const applyConfigSnapshot = async (body: {
     };
     if (toSync?.length) {
       db.update((data) => {
-        data[email].toSync = [
+        data[email][env].toSync = [
           ...toSync,
           {
             requestId: randomUUID(),
@@ -203,7 +204,7 @@ export const applyConfigSnapshot = async (body: {
         console.log("config uploaded to cloud successfully");
       } catch (error) {
         db.update((data) => {
-          data[email].toSync = [
+          data[email][env].toSync = [
             {
               requestId: randomUUID(),
               data: dataToUpload,

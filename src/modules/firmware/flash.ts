@@ -39,6 +39,7 @@ export const flashFirmware = async (firmwareVersion: string) => {
   const {
     deviceContext: { deviceId, contextId },
     email,
+    env,
   } = getActiveUser();
 
   await flash(firmwareVersion, "flash-firmware");
@@ -53,7 +54,7 @@ export const flashFirmware = async (firmwareVersion: string) => {
     await createFirmwareHistoryEntry({ ...dataToUpload });
   } catch (error) {
     db.update((data) => {
-      data[email].toSync = [
+      data[email][env].toSync = [
         {
           requestId: randomUUID(),
           data: dataToUpload,
