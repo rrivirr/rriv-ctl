@@ -1,5 +1,5 @@
 import { listContexts } from "../../modules/context/context.service.ts";
-import { listConfigSnapshot } from "..//../modules/config/config-snapshot.service.ts";
+import { listConfigSnapshot } from "../../modules/config/config-snapshot.service.ts";
 import { listDevices } from "../../modules/device/device.service.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 

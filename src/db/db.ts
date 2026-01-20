@@ -1,7 +1,7 @@
 import "lowdb";
 import { JSONFileSyncPreset } from "lowdb/node";
 import fs from "fs";
-import { toSyncConfig } from "../types.ts";
+import { Environment, toSyncConfig } from "../types.ts";
 import { getRrivCtlDir } from "../util/paths.ts";
 import { UpdateChannel } from "../constants.ts";
 
@@ -30,7 +30,9 @@ export interface Data {
 }
 
 export type DB = {
-  [key: string]: Data;
+  [key: string]: {
+    [key: string]: Data;
+  };
 } & {
   activeEmail: string;
   lastVersionCheckAt: Date;
@@ -38,7 +40,7 @@ export type DB = {
   debugMode: boolean;
   replSigIntFunctions: Function[];
   environment: {
-    name: string;
+    name: Environment;
     config: {
       RRIV_API_URL: string;
       KEYCLOAK_URL: string;

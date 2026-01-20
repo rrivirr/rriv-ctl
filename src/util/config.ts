@@ -22,9 +22,17 @@ export const setConfig = async (env: Environment) => {
   const data = db.data;
   if (env === "local") {
     db.update((data) => {
-      data.environment.name = "";
+      data.environment.name = "local";
+      data.environment.config = {
+        RRIV_API_URL: process.env.RRIV_API_URL!,
+        KEYCLOAK_URL: process.env.KEYCLOAK_URL!,
+        KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID!,
+        DATA_API_URL: process.env.DATA_API_URL!,
+        MQTT_URL: process.env.MQTT_URL!,
+        ADMIN_EMAIL: process.env.ADMIN_EMAIL!,
+      };
     });
-  } else if (data.environment?.name === env) {
+  } else if (data.environment.name === env) {
     console.log(`already in the ${env} environment`);
   } else {
     const Key = `${env}.json`;

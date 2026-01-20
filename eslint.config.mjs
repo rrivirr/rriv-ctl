@@ -58,6 +58,7 @@ export default tseslint.config(
       "src/infra/s3.ts",
       "src/util/config.ts",
       "src/commands/watch/action.ts",
+      "src/pre-action/index.ts",
     ],
     rules: {
       "@typescript-eslint/no-non-null-assertion": "off",

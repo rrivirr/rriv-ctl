@@ -14,6 +14,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
     email,
     toSync,
     deviceContext: { deviceId, contextId },
+    env,
   } = getActiveUser();
   const { dataloggerDriverId: receivedDataloggerDriverId, ...config } = payload;
   let dataloggerDriverId = receivedDataloggerDriverId;
@@ -47,7 +48,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
 
   if (toSync?.length) {
     db.update((data) => {
-      data[email].toSync = [
+      data[email][env].toSync = [
         ...toSync,
         {
           requestId: randomUUID(),
@@ -62,7 +63,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
       console.log("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {
-        data[email].toSync = [
+        data[email][env].toSync = [
           {
             requestId: randomUUID(),
             data: dataToUpload,

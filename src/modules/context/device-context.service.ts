@@ -9,6 +9,7 @@ export const endDeviceContext = async () => {
   const {
     deviceContext: { deviceId, contextId },
     email,
+    env,
   } = getActiveUser();
 
   await DeviceContextApiCalls.updateDeviceContext({
@@ -17,7 +18,7 @@ export const endDeviceContext = async () => {
     end: true,
   });
   db.update((data) => {
-    data[email].deviceContext = {
+    data[email][env].deviceContext = {
       contextId: "",
       deviceId: "",
       assignedDeviceName: "",

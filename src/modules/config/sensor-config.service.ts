@@ -11,6 +11,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
     toSync,
     deviceContext: { deviceId, contextId },
     email,
+    env,
   } = getActiveUser();
   const { sensorDriverId: receivedSensorDriverId, id, ...config } = payload;
   let sensorDriverId = receivedSensorDriverId;
@@ -44,7 +45,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
 
   if (toSync?.length) {
     db.update((data) => {
-      data[email].toSync = [
+      data[email][env].toSync = [
         ...toSync,
         {
           requestId: randomUUID(),
@@ -59,7 +60,7 @@ export const uploadSensorConfig = async (payload: DefaultObject) => {
       console.log("config uploaded to cloud successfully");
     } catch (error) {
       db.update((data) => {
-        data[email].toSync = [
+        data[email][env].toSync = [
           {
             requestId: randomUUID(),
             data: dataToUpload,
