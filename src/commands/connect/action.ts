@@ -71,7 +71,7 @@ export const connectAction = async (options: any) => {
   }
 
   db.update((data) => {
-    data[user.email].device = {
+    data[user.email][user.env].device = {
       id: device.id,
       uniqueName: device.uniqueName,
       serialNumber: device.serialNumber,
@@ -88,12 +88,12 @@ export const connectAction = async (options: any) => {
       deviceNameToAssign = deviceContext.assignedDeviceName;
     } else {
       throw new Error(
-        `device already in another context: ${bold(deviceContext.Context.name)}`
+        `device already in another context: ${bold(deviceContext.Context.name)}`,
       );
     }
   } else if (!assignedDeviceName) {
     throw new Error(
-      `device yet to be added to current context\nrun ${italic("rrivctlv2 connect --assigned-device-name <name to assign device in current context>")}`
+      `device yet to be added to current context\nrun ${italic("rrivctlv2 connect --assigned-device-name <name to assign device in current context>")}`,
     );
   } else {
     await createDeviceContext({
@@ -104,7 +104,7 @@ export const connectAction = async (options: any) => {
   }
 
   db.update((data) => {
-    data[user.email].deviceContext = {
+    data[user.email][user.env].deviceContext = {
       contextId: currentContextId,
       deviceId: device.id,
       assignedDeviceName: deviceNameToAssign,
