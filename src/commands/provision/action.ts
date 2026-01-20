@@ -33,7 +33,7 @@ export const provisionAction = async (options: any) => {
   }
   if (!uid) {
     throw new Error(
-      "unplug and plug back in the device or press the reset button on the device\nthen run provision command again"
+      "unplug and plug back in the device or press the reset button on the device\nthen run provision command again",
     );
   }
   const device = await provisionDevice({ uid });
@@ -47,12 +47,12 @@ export const provisionAction = async (options: any) => {
       }),
     ],
     false,
-    serialPortPath
+    serialPortPath,
   );
   console.log(
     `device successfully provisioned
   run ${italic("rrivctlv2 connect -a <name to assign device in current context>")}
-  to connect the device to your account`
+  to connect the device to your account`,
   );
 };
 
@@ -61,13 +61,13 @@ export const registerEuiAction = async () => {
 
   const [result1] = await sendCommands(
     [JSON.stringify({ object: "telemeter", action: "get" })],
-    false
+    false,
   );
   if (result1.message) {
     // try again
     const [result2] = await sendCommands(
       [JSON.stringify({ object: "telemeter", action: "get" })],
-      false
+      false,
     );
 
     if (result2.message) {

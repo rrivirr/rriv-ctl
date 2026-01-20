@@ -7,7 +7,7 @@ import db from "../db/db.ts";
 
 export const preAction = async (
   thisCommand: Command,
-  actionCommand: Command
+  actionCommand: Command,
 ) => {
   const commandName = actionCommand.name();
   const args = actionCommand.args;
