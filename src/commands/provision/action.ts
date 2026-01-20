@@ -22,7 +22,6 @@ export const provisionAction = async (options: any) => {
 
   if (!options.skip) {
     await flashInitialFirmware(boardVersion);
-    return;
   }
 
   if (!uid) {
