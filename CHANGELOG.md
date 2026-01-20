@@ -1,3 +1,11 @@
+## [2.9.5](https://github.com/rrivirr/rriv-ctl/compare/v2.9.4...v2.9.5) (2026-01-20)
+
+
+### Bug Fixes
+
+* auth changes ([b3fb972](https://github.com/rrivirr/rriv-ctl/commit/b3fb9728834f3ece79496dfeeec1d12b10d483fe))
+* auth while env switching ([bad437e](https://github.com/rrivirr/rriv-ctl/commit/bad437e44606475239e2de10c34c6d8336452d73))
+
 ## [2.9.4](https://github.com/rrivirr/rriv-ctl/compare/v2.9.3...v2.9.4) (2026-01-14)
 
 
