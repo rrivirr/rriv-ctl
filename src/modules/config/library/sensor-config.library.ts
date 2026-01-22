@@ -6,6 +6,7 @@ import {
   publishNewSensorLibraryConfig,
   publishNewSensorLibraryConfigVersion,
   updateSensorLibraryConfig,
+  deleteSensorLibraryConfig,
 } from "../../../api/sensor.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { writeConfigToDevice } from "../../../infra/write-config-to-device.ts";
@@ -70,7 +71,7 @@ export const saveSensorConfig = async (body: SaveConfigToLibraryDto) => {
     } else {
       const [sensorConfig] = await sendCommands(
         [JSON.stringify({ object: "sensor", action: "get", id: sensorId })],
-        false
+        false,
       );
 
       config = { ...sensorConfig, object: "sensor" };
@@ -169,7 +170,7 @@ export const listLibrarySensorConfig = async (body: ListLibraryConfigDto) => {
           },
         ],
         [],
-        []
+        [],
       );
 
       for (const {
@@ -194,7 +195,7 @@ export const listLibrarySensorConfig = async (body: ListLibraryConfigDto) => {
             },
           ],
           [],
-          []
+          [],
         );
       }
 
@@ -253,7 +254,7 @@ export const getLibrarySensorConfig = async (body: GetLibraryConfigDto) => {
     sensorConfig = SensorLibraryConfigVersion[0];
   } else {
     sensorConfig = SensorLibraryConfigVersion.find(
-      (s) => s.version === version
+      (s) => s.version === version,
     );
 
     if (!sensorConfig) {
@@ -288,4 +289,8 @@ export const applyLibrarySensorConfig = async (body: ApplyLibraryConfigDto) => {
 
   await writeConfigToDevice({ ...config, id });
   await uploadSensorConfig({ ...config, id });
+};
+
+export const deleteLibrarySensorConfig = async (name: string) => {
+  await deleteSensorLibraryConfig({ name });
 };

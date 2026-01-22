@@ -5,6 +5,7 @@ import {
   publishNewDataloggerLibraryConfig,
   publishNewDataloggerLibraryConfigVersion,
   updateDataloggerLibraryConfig,
+  deleteDataloggerLibraryConfig,
 } from "../../../api/datalogger.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { uploadDataloggerConfig } from "../datalogger-config.service.ts";
@@ -61,7 +62,7 @@ export const saveDataloggerConfig = async (body: SaveConfigToLibraryDto) => {
     } else {
       const [dataloggerConfig] = await sendCommands(
         [JSON.stringify({ object: "datalogger", action: "get" })],
-        false
+        false,
       );
 
       config = { ...dataloggerConfig, object: "datalogger" };
@@ -98,7 +99,7 @@ export const saveDataloggerConfig = async (body: SaveConfigToLibraryDto) => {
 };
 
 export const listLibraryDataloggerConfig = async (
-  body: ListLibraryConfigDto
+  body: ListLibraryConfigDto,
 ) => {
   const { name, search, author } = body;
 
@@ -164,7 +165,7 @@ export const listLibraryDataloggerConfig = async (
           },
         ],
         [],
-        []
+        [],
       );
 
       for (const {
@@ -190,7 +191,7 @@ export const listLibraryDataloggerConfig = async (
             },
           ],
           [],
-          []
+          [],
         );
       }
 
@@ -204,7 +205,7 @@ export const listLibraryDataloggerConfig = async (
 };
 
 export const publishDataloggerConfig = async (
-  body: PublishLibraryConfigDto
+  body: PublishLibraryConfigDto,
 ) => {
   const { name } = body;
   const dataloggerLibraryConfigs = await getDataloggerLibraryConfig({
@@ -251,7 +252,7 @@ export const getLibraryDataloggerConfig = async (body: GetLibraryConfigDto) => {
     dataloggerConfig = DataloggerLibraryConfigVersion[0];
   } else {
     dataloggerConfig = DataloggerLibraryConfigVersion.find(
-      (s) => s.version === version
+      (s) => s.version === version,
     );
 
     if (!dataloggerConfig) {
@@ -269,7 +270,7 @@ export const getLibraryDataloggerConfig = async (body: GetLibraryConfigDto) => {
 };
 
 export const applyLibraryDataloggerConfig = async (
-  body: ApplyLibraryConfigDto
+  body: ApplyLibraryConfigDto,
 ) => {
   const { name, version, author } = body;
   const config = await getLibraryDataloggerConfig({
@@ -285,4 +286,8 @@ export const applyLibraryDataloggerConfig = async (
 
   await writeConfigToDevice(config);
   await uploadDataloggerConfig(config);
+};
+
+export const deleteLibraryDataloggerConfig = async (name: string) => {
+  await deleteDataloggerLibraryConfig({ name });
 };

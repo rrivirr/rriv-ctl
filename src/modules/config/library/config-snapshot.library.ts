@@ -6,6 +6,7 @@ import {
   createNewConfigSnapshotLibraryVersion,
   getLibraryConfigSnapshotById,
   updateDeviceLibraryConfig,
+  deleteDeviceLibraryConfig,
 } from "../../../api/config-snapshot.ts";
 import { logConfigLibrary } from "../../../util/log-config-library.ts";
 import { applyConfigSnapshot } from "../config-snapshot.service.ts";
@@ -85,7 +86,7 @@ export const saveDeviceConfig = async (body: SaveConfigToLibraryDto) => {
             include_configuration: true,
           }),
         ],
-        false
+        false,
       );
 
       config = {
@@ -196,7 +197,7 @@ export const listLibraryDeviceConfig = async (body: ListLibraryConfigDto) => {
           },
         ],
         [],
-        []
+        [],
       );
       for (const { name, config } of SensorConfig) {
         table.push(
@@ -213,7 +214,7 @@ export const listLibraryDeviceConfig = async (body: ListLibraryConfigDto) => {
             },
           ],
           [],
-          []
+          [],
         );
       }
 
@@ -241,7 +242,7 @@ export const listLibraryDeviceConfig = async (body: ListLibraryConfigDto) => {
             },
           ],
           [],
-          []
+          [],
         );
         for (const { name, config } of SensorConfig) {
           table.push(
@@ -258,7 +259,7 @@ export const listLibraryDeviceConfig = async (body: ListLibraryConfigDto) => {
               },
             ],
             [],
-            []
+            [],
           );
         }
       }
@@ -320,7 +321,7 @@ export const getLibraryDeviceConfig = async (body: GetLibraryConfigDto) => {
     configSnapshot = SystemLibraryConfigVersion[0];
   } else {
     configSnapshot = SystemLibraryConfigVersion.find(
-      (s) => s.version === version
+      (s) => s.version === version,
     );
 
     if (!configSnapshot) {
@@ -383,4 +384,8 @@ export const applyLibraryDeviceConfig = async (body: ApplyLibraryConfigDto) => {
   snapshot["sensor"] = config.sensors;
 
   await applyConfigSnapshot(snapshot);
+};
+
+export const deleteLibraryDeviceConfig = async (name: string) => {
+  await deleteDeviceLibraryConfig({ name });
 };

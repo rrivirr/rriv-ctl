@@ -15,13 +15,13 @@ export const getSensorDrivers = async (): Promise<Driver[]> => {
 };
 
 export const createSensorConfig = async (
-  body: CreateSensorConfigDto
+  body: CreateSensorConfigDto,
 ): Promise<void> => {
   await rrivApiAxios.post(`/sensor/config`, body);
 };
 
 export const getSensorConfigHistory = async (
-  body: ConfigHistoryRequest
+  body: ConfigHistoryRequest,
 ): Promise<SensorConfigHistory[]> => {
   const response = await rrivApiAxios.get(`/sensor/history`, {
     params: { ...body },
@@ -48,7 +48,7 @@ export const getSensorLibraryConfigById = async (body: {
 }): Promise<SensorConfigLibraryById> => {
   const { sensorLibraryId } = body;
   const response = await rrivApiAxios.get(
-    `/sensor/libraryConfig/${sensorLibraryId}`
+    `/sensor/libraryConfig/${sensorLibraryId}`,
   );
 
   return response.data;
@@ -89,4 +89,9 @@ export const updateSensorLibraryConfig = async (body: {
   await rrivApiAxios.patch(`/sensor/libraryConfig/${sensorLibraryId}`, {
     isPublic,
   });
+};
+
+export const deleteSensorLibraryConfig = async (body: { name: string }) => {
+  const { name } = body;
+  await rrivApiAxios.delete(`/sensor/libraryConfig/${name}`);
 };

@@ -15,7 +15,7 @@ export const getDataloggerDrivers = async (): Promise<Driver[]> => {
 };
 
 export const createDataloggerConfig = async (
-  body: CreateDataloggerConfigDto
+  body: CreateDataloggerConfigDto,
 ): Promise<void> => {
   await rrivApiAxios.post(`/datalogger/config`, body);
 };
@@ -34,7 +34,7 @@ export const getDataloggerLibraryConfig = async (body: {
 };
 
 export const getDataloggerConfigHistory = async (
-  body: ConfigHistoryRequest
+  body: ConfigHistoryRequest,
 ): Promise<DataloggerConfigHistory[]> => {
   const response = await rrivApiAxios.get(`/datalogger/history`, {
     params: { ...body },
@@ -48,7 +48,7 @@ export const getDataloggerLibraryConfigById = async (body: {
 }): Promise<DataloggerConfigLibraryById> => {
   const { dataloggerLibraryId } = body;
   const response = await rrivApiAxios.get(
-    `/datalogger/libraryConfig/${dataloggerLibraryId}`
+    `/datalogger/libraryConfig/${dataloggerLibraryId}`,
   );
 
   return response.data;
@@ -78,7 +78,7 @@ export const publishNewDataloggerLibraryConfigVersion = async (body: {
     {
       description,
       config,
-    }
+    },
   );
 };
 
@@ -90,4 +90,9 @@ export const updateDataloggerLibraryConfig = async (body: {
   await rrivApiAxios.patch(`/datalogger/libraryConfig/${dataloggerLibraryId}`, {
     isPublic,
   });
+};
+
+export const deleteDataloggerLibraryConfig = async (body: { name: string }) => {
+  const { name } = body;
+  await rrivApiAxios.delete(`/datalogger/libraryConfig/${name}`);
 };
