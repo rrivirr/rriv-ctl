@@ -5,6 +5,7 @@ import {
   getAction,
   listAction,
   applyAction,
+  deleteAction,
 } from "./action.ts";
 
 export const makeLibraryCommand = (cli: Command) => {
@@ -17,7 +18,7 @@ export const makeLibraryCommand = (cli: Command) => {
   ]);
   const sensorIdOption = new Option(
     "-s, --sensor-id <sensorId>",
-    "Specify the sensor id"
+    "Specify the sensor id",
   );
 
   libraryCommand
@@ -28,11 +29,11 @@ export const makeLibraryCommand = (cli: Command) => {
     .addOption(sensorIdOption)
     .option(
       "-d, --device-id <deviceId>",
-      "Get the configuration to tag from device other than the currently attached device."
+      "Get the configuration to tag from device other than the currently attached device.",
     )
     .option(
       "-f, --file-name <fileName>",
-      "Specify a json file containing configuration to save"
+      "Specify a json file containing configuration to save",
     )
     .option("-u, --update", "save to a pre-existing library")
     .option("-n, --note <note>", "Store a descriptive note")
@@ -57,7 +58,7 @@ export const makeLibraryCommand = (cli: Command) => {
     .argument("[libraryName]", "[owner::]<library_name>")
     .option(
       "-f, --filter <filter>",
-      "Filter library names for a specified string"
+      "Filter library names for a specified string",
     )
     .action(listAction);
 
@@ -66,4 +67,10 @@ export const makeLibraryCommand = (cli: Command) => {
     .addArgument(objectArgument)
     .argument("name", "[owner::]library_name[:version]")
     .action(getAction);
+
+  libraryCommand
+    .command("delete")
+    .addArgument(objectArgument)
+    .argument("name")
+    .action(deleteAction);
 };

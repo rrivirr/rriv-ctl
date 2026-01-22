@@ -6,6 +6,7 @@ import {
   listLibraryDeviceConfig,
   publishDeviceConfig,
   saveDeviceConfig,
+  deleteLibraryDeviceConfig,
 } from "../../modules/config/library/config-snapshot.library.ts";
 import {
   publishDataloggerConfig,
@@ -13,6 +14,7 @@ import {
   getLibraryDataloggerConfig,
   applyLibraryDataloggerConfig,
   saveDataloggerConfig,
+  deleteLibraryDataloggerConfig,
 } from "../../modules/config/library/datalogger-config.library.ts";
 import {
   applyLibrarySensorConfig,
@@ -20,6 +22,7 @@ import {
   listLibrarySensorConfig,
   saveSensorConfig,
   publishSensorConfig,
+  deleteLibrarySensorConfig,
 } from "../../modules/config/library/sensor-config.library.ts";
 
 export const getNameAndVersion = (arg: string) => {
@@ -54,7 +57,7 @@ export const saveAction = async (
   object: string,
   name: string,
   datetime: string,
-  options: any
+  options: any,
 ) => {
   const { fileName, sensorId, update, deviceId, note } = options;
   if (deviceId && !datetime) {
@@ -100,7 +103,7 @@ export const getAction = async (object: string, arg: string) => {
 export const listAction = async (
   object: string,
   nameArg: string,
-  options: any
+  options: any,
 ) => {
   const { filter } = options;
   let name;
@@ -126,7 +129,7 @@ export const listAction = async (
 export const applyAction = async (
   object: string,
   arg: string,
-  options: any
+  options: any,
 ) => {
   const { sensorId } = options;
   const { name, version, author } = getAuthorNameAndVersion(arg);
@@ -138,5 +141,15 @@ export const applyAction = async (
     await applyLibraryDataloggerConfig(payload);
   } else if (object === "sensor") {
     await applyLibrarySensorConfig(payload);
+  }
+};
+
+export const deleteAction = async (object: string, name: string) => {
+  if (object === "device") {
+    await deleteLibraryDeviceConfig(name);
+  } else if (object === "datalogger") {
+    await deleteLibraryDataloggerConfig(name);
+  } else if (object === "sensor") {
+    await deleteLibrarySensorConfig(name);
   }
 };

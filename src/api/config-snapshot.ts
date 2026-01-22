@@ -10,7 +10,7 @@ import {
 import { rrivApiAxios } from "./axios.ts";
 
 export const getConfigHistory = async (
-  body: ConfigHistoryRequest
+  body: ConfigHistoryRequest,
 ): Promise<ConfigHistory> => {
   const response = await rrivApiAxios.get(`/configSnapshot/history`, {
     params: { ...body },
@@ -20,14 +20,14 @@ export const getConfigHistory = async (
 };
 
 export const getActiveConfigSnapshot = async (
-  body: DeviceContextRequest
+  body: DeviceContextRequest,
 ): Promise<{
   dataloggerConfig: { config: object };
   sensorConfig: { id: string; name: string; config: object }[];
 }> => {
   const { deviceId, contextId } = body;
   const response = await rrivApiAxios.get(
-    `/configSnapshot/active?deviceId=${deviceId}&contextId=${contextId}`
+    `/configSnapshot/active?deviceId=${deviceId}&contextId=${contextId}`,
   );
 
   return response.data;
@@ -46,7 +46,7 @@ export const getConfigSnapshots = async (body: {
 };
 
 export const overwriteConfigSnapshot = async (
-  body: OverwriteConfigSnapshotDto
+  body: OverwriteConfigSnapshotDto,
 ): Promise<void> => {
   const {
     dataloggerConfigId,
@@ -66,7 +66,7 @@ export const overwriteConfigSnapshot = async (
 };
 
 export const saveConfigSnapshot = async (
-  body: { name: string } & DeviceContextRequest
+  body: { name: string } & DeviceContextRequest,
 ): Promise<void> => {
   const { name, deviceId, contextId } = body;
 
@@ -95,7 +95,7 @@ export const getLibraryConfigSnapshotById = async (body: {
 }): Promise<ConfigLibraryById> => {
   const { libraryConfigSnapshotId } = body;
   const response = await rrivApiAxios.get(
-    `/configSnapshot/libraryConfig/${libraryConfigSnapshotId}`
+    `/configSnapshot/libraryConfig/${libraryConfigSnapshotId}`,
   );
 
   return response.data;
@@ -125,7 +125,7 @@ export const createNewConfigSnapshotLibraryVersion = async (body: {
     {
       description,
       ...configSnapshot,
-    }
+    },
   );
 };
 
@@ -136,6 +136,11 @@ export const updateDeviceLibraryConfig = async (body: {
   const { libraryConfigSnapshotId, isPublic } = body;
   await rrivApiAxios.patch(
     `/configSnapshot/libraryConfig/${libraryConfigSnapshotId}`,
-    { isPublic }
+    { isPublic },
   );
+};
+
+export const deleteDeviceLibraryConfig = async (body: { name: string }) => {
+  const { name } = body;
+  await rrivApiAxios.delete(`/configSnapshot/libraryConfig/${name}`);
 };
