@@ -1,11 +1,16 @@
 import moment from "moment";
 import { connectAsync } from "mqtt";
+import path from "path";
+import * as fs from "fs";
+import paths from "../../util/paths.ts";
 import { getSerialPathFromCache } from "../../util/get-serial-path-from-cache.ts";
 import { readSerialUntilQuit } from "../../infra/read-serial-until-quit.ts";
 import { getDevices } from "../../api/device.ts";
 import { getConfig } from "../../util/config.ts";
 
 export const watchAction = async (deviceIdentifier: string, options: any) => {
+  const project = options.project ?? "rriv";
+
   if (deviceIdentifier) {
     const device = await getDevices({ identifier: deviceIdentifier });
     if (!device.length) {
@@ -24,12 +29,23 @@ export const watchAction = async (deviceIdentifier: string, options: any) => {
     }
     const client = await connectAsync(mqttUrl);
     await client.subscribeAsync(`/data/raw/${eui}`);
-    console.log("listening....");
+    const file =
+      options.file ??
+      project + "_" + moment().format("YYYY-MM-DDTHH:mm") + ".txt";
+
+    const logPath = path.join(paths.getRRIVDir(), "remote_watch", file);
+    const dirPath = logPath.substring(0, logPath.lastIndexOf("/"));
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    console.log(`listening and logging data to ${logPath}\n`);
+
     client.on("message", (topic, message) => {
       console.log("Received:", JSON.parse(message.toString()));
+      fs.writeFileSync(logPath, message.toString() + "\n", { flag: "a" });
     });
   } else {
-    const project = options.project ?? "rriv";
     const file =
       options.file ??
       project + "_" + moment().format("YYYY-MM-DDTHH:mm") + "_watch.txt";
