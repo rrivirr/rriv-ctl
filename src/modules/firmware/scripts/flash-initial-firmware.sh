@@ -9,7 +9,7 @@ if [ ! -e "$file_path" ]; then
    curl --progress-bar --proto '=https' --tlsv1.2 -fSLo $file_path https://github.com/rrivirr/rriv-firmware/releases/download/$firmware_version/rriv-firmware.elf
 fi
 
-probe-rs download $dirPath/rriv-firmware.elf \
+probe-rs download $file_path \
       --chip STM32F103RE  \
       --protocol swd \
       --allow-erase-all \
