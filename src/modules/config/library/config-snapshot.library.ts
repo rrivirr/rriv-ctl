@@ -77,7 +77,8 @@ export const saveDeviceConfig = async (body: SaveConfigToLibraryDto) => {
         sensors: configSensors,
       };
     } else {
-      const [dataloggerConfig, sensorsConfig] = await sendCommands(
+      let sensorConfigs;
+      const [dataloggerConfig, sensors] = await sendCommands(
         [
           JSON.stringify({ object: "datalogger", action: "get" }),
           JSON.stringify({
@@ -88,11 +89,18 @@ export const saveDeviceConfig = async (body: SaveConfigToLibraryDto) => {
         ],
         false,
       );
+      if (sensors?.sensors?.length) {
+        sensorConfigs = await sendCommands(
+          sensors.sensors.map((s: any) =>
+            JSON.stringify({ object: "sensor", action: "get", id: s.id }),
+          ),
+        );
+      }
 
       config = {
         datalogger: { ...dataloggerConfig, object: "datalogger" },
         sensors:
-          sensorsConfig?.sensors?.map(({ id, ...sensorConfig }: any) => ({
+          sensorConfigs?.map(({ id, ...sensorConfig }: any) => ({
             name: id,
             object: "sensor",
             ...sensorConfig,
