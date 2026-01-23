@@ -1,3 +1,10 @@
+## [2.10.1](https://github.com/rrivirr/rriv-ctl/compare/v2.10.0...v2.10.1) (2026-01-23)
+
+
+### Bug Fixes
+
+* firmware download location ([3325959](https://github.com/rrivirr/rriv-ctl/commit/33259597efa966703a7601d4b8d7247b6aadade3))
+
 # [2.10.0](https://github.com/rrivirr/rriv-ctl/compare/v2.9.6...v2.10.0) (2026-01-22)
 
 
