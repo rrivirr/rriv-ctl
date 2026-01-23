@@ -31,9 +31,9 @@ export const watchAction = async (deviceIdentifier: string, options: any) => {
     await client.subscribeAsync(`/data/raw/${eui}`);
     const file =
       options.file ??
-      project + "_" + moment().format("YYYY-MM-DDTHH:mm") + "_remote_watch.txt";
+      project + "_" + moment().format("YYYY-MM-DDTHH:mm") + ".txt";
 
-    const logPath = path.join(paths.getRRIVDir(), "watch", file);
+    const logPath = path.join(paths.getRRIVDir(), "remote_watch", file);
     const dirPath = logPath.substring(0, logPath.lastIndexOf("/"));
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath, { recursive: true });
