@@ -1,3 +1,10 @@
+## [2.10.4](https://github.com/rrivirr/rriv-ctl/compare/v2.10.3...v2.10.4) (2026-01-25)
+
+
+### Bug Fixes
+
+* [#51](https://github.com/rrivirr/rriv-ctl/issues/51) ([50e8af6](https://github.com/rrivirr/rriv-ctl/commit/50e8af6fdc58da43e22105ac3364779c96444dcd))
+
 ## [2.10.3](https://github.com/rrivirr/rriv-ctl/compare/v2.10.2...v2.10.3) (2026-01-23)
 
 
