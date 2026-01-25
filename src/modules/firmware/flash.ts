@@ -11,10 +11,35 @@ import { SyncDataType } from "../../constants.ts";
 import { loadScript } from "../../util/load-script.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
+const initialFirmwareRetry = async (
+  dirPath: string,
+  firmwareVersion: string,
+) => {
+  const cleanup = async () => {
+    await spawn("rm", [`flash-initial-firmware.sh`]);
+    await spawn("rm", [`flash-firmware.sh`]);
+  };
+  await loadScript(
+    "../src/modules/firmware/scripts/flash-firmware.sh",
+    `flash-firmware.sh`,
+  );
+  try {
+    console.log("\nretrying...");
+    await spawn(
+      "bash",
+      [`flash-firmware.sh`, dirPath, firmwareVersion],
+      cleanup,
+    );
+    await cleanup();
+  } catch (error) {
+    errorHandler({ error, exit: true });
+  }
+};
+
 const flash = async (
   firmwareVersion: string,
   fileName: string,
-  initialFirmware?: boolean
+  initialFirmware?: boolean,
 ) => {
   await probeRsCheck();
   const dirPath = getRrivCtlDir();
@@ -25,7 +50,14 @@ const flash = async (
   const cleanup = async () => {
     await spawn("rm", [`${fileName}.sh`]);
   };
-  await spawn("bash", [`${fileName}.sh`, dirPath, firmwareVersion], cleanup);
+
+  await spawn(
+    "bash",
+    [`${fileName}.sh`, dirPath, firmwareVersion],
+    initialFirmware
+      ? () => initialFirmwareRetry(dirPath, firmwareVersion)
+      : cleanup,
+  );
   await cleanup();
 
   if (initialFirmware) {
