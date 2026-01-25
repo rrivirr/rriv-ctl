@@ -4,11 +4,12 @@ import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 import { DefaultObject } from "../types.ts";
 import { waitForReady } from "./wait-for-ready.ts";
 import { logAsDebug } from "../util/debug-logger.ts";
+import cli from "../cli.ts";
 
 export const sendCommands = async (
   commands: string[],
   echoResponse = true,
-  customPath?: string
+  customPath?: string,
 ) => {
   const serialPortPath = getSerialPathFromCache();
   const results = [];
@@ -18,7 +19,7 @@ export const sendCommands = async (
     const result = await sendSingleCommand(
       command + "\n",
       echoResponse,
-      customPath || serialPortPath
+      customPath || serialPortPath,
     );
     if (result.error) {
       const errorMessage = result.error;
@@ -30,7 +31,8 @@ export const sendCommands = async (
         throw new Error("exit"); // exit flow without throwing error
       } else if (errorMessage === "datalogger-ready") {
         console.log("datalogger-ready received from device");
-        console.log("run previous command again");
+        console.log("running command again...\n");
+        await cli.parseAsync();
         throw new Error("exit");
       } else {
         throw new Error(`Command failed: ${errorMessage}`);
@@ -46,7 +48,7 @@ export const sendCommands = async (
 export const sendSingleCommand = (
   command: string,
   echoResponse: boolean,
-  serialPortPath: string
+  serialPortPath: string,
 ) => {
   const serialPort = connectSerial(serialPortPath);
 
@@ -105,7 +107,7 @@ export const sendSingleCommand = (
               "command:",
               command,
               "data:",
-              data
+              data,
             );
             return;
           }
