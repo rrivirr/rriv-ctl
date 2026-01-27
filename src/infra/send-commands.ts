@@ -70,7 +70,7 @@ export const sendSingleCommand = (
       if (timeout) {
         clearTimeout(timeout);
       }
-      if (data.includes("action")) {
+      if (data?.includes("action")) {
         // skip this line, it's just the echo back
         timeout = setTimeout(function () {
           serialPort.close();
