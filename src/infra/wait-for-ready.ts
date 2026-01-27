@@ -22,7 +22,7 @@ export const waitForReady = async (milliseconds?: number) => {
       if (timeout) {
         clearTimeout(timeout);
       }
-      if (data.includes("datalogger-ready")) {
+      if (data?.includes("datalogger-ready")) {
         console.log("device is ready");
         serialPort.close();
         resolve();
