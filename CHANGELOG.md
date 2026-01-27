@@ -1,3 +1,10 @@
+## [2.10.7](https://github.com/rrivirr/rriv-ctl/compare/v2.10.6...v2.10.7) (2026-01-27)
+
+
+### Bug Fixes
+
+* provision device with custom firmware version ([5762c28](https://github.com/rrivirr/rriv-ctl/commit/5762c28c669c8e7099378e28f8634cd7363ed601))
+
 ## [2.10.6](https://github.com/rrivirr/rriv-ctl/compare/v2.10.5...v2.10.6) (2026-01-27)
 
 
