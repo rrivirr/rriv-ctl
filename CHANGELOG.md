@@ -1,3 +1,11 @@
+## [2.10.8](https://github.com/rrivirr/rriv-ctl/compare/v2.10.7...v2.10.8) (2026-01-27)
+
+
+### Bug Fixes
+
+* handle empty response ([55311e3](https://github.com/rrivirr/rriv-ctl/commit/55311e33bd5326c729c746244a83d236113e88aa))
+* handle empty response ([3b39517](https://github.com/rrivirr/rriv-ctl/commit/3b395170eb7a19be6cf25807aa1f2e0fd288b26d))
+
 ## [2.10.7](https://github.com/rrivirr/rriv-ctl/compare/v2.10.6...v2.10.7) (2026-01-27)
 
 
