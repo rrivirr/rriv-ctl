@@ -99,16 +99,24 @@ export const flashFirmware = async (firmwareVersion: string) => {
   }
 };
 
-export const flashInitialFirmware = async (boardVersion: string) => {
-  const octokit = new Octokit();
-  const release = await octokit.repos.getLatestRelease({
-    owner: "rrivirr",
-    repo: "rriv-firmware",
-  });
-  const firmwareVersion = release.data.tag_name;
-  if (boardVersion !== firmwareVersion) {
-    console.log("flashing", firmwareVersion, "to device");
-    await flash(firmwareVersion, "flash-initial-firmware", true);
+export const flashInitialFirmware = async (
+  boardVersion: string,
+  customVersion?: string,
+) => {
+  let versionToFlash = customVersion;
+
+  if (!versionToFlash) {
+    const octokit = new Octokit();
+    const release = await octokit.repos.getLatestRelease({
+      owner: "rrivirr",
+      repo: "rriv-firmware",
+    });
+    versionToFlash = release.data.tag_name;
+  }
+
+  if (boardVersion !== versionToFlash) {
+    console.log("flashing", versionToFlash, "to device");
+    await flash(versionToFlash, "flash-initial-firmware", true);
     console.log("device successfully flashed...");
   }
 };
