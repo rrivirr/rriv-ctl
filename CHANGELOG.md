@@ -1,3 +1,10 @@
+## [2.9.1-alpha.4](https://github.com/rrivirr/rriv-ctl/compare/v2.9.1-alpha.3...v2.9.1-alpha.4) (2026-02-01)
+
+
+### Bug Fixes
+
+* remove echo ([24bb82b](https://github.com/rrivirr/rriv-ctl/commit/24bb82bb04c475750079c49283a510b6145848fd))
+
 ## [2.9.1-alpha.3](https://github.com/rrivirr/rriv-ctl/compare/v2.9.1-alpha.2...v2.9.1-alpha.3) (2026-02-01)
 
 
