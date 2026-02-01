@@ -1,3 +1,10 @@
+## [2.10.14](https://github.com/rrivirr/rriv-ctl/compare/v2.10.13...v2.10.14) (2026-02-01)
+
+
+### Bug Fixes
+
+* remork auto setup autocomplete ([4d8c2c2](https://github.com/rrivirr/rriv-ctl/commit/4d8c2c2e236191f8fee172a5c85807e71f531367))
+
 ## [2.10.13](https://github.com/rrivirr/rriv-ctl/compare/v2.10.12...v2.10.13) (2026-02-01)
 
 
