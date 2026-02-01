@@ -1,3 +1,10 @@
+## [2.9.1-alpha.3](https://github.com/rrivirr/rriv-ctl/compare/v2.9.1-alpha.2...v2.9.1-alpha.3) (2026-02-01)
+
+
+### Bug Fixes
+
+* echo for debugging ([ff6d681](https://github.com/rrivirr/rriv-ctl/commit/ff6d681ab11d556257d5b21251fd5efbefb9c219))
+
 ## [2.9.1-alpha.2](https://github.com/rrivirr/rriv-ctl/compare/v2.9.1-alpha.1...v2.9.1-alpha.2) (2026-01-13)
 
 
