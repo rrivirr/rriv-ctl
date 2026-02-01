@@ -1,3 +1,10 @@
+## [2.10.12](https://github.com/rrivirr/rriv-ctl/compare/v2.10.11...v2.10.12) (2026-02-01)
+
+
+### Bug Fixes
+
+* installer for auto complete ([1ba9d26](https://github.com/rrivirr/rriv-ctl/commit/1ba9d2615def8684a2dec4cc7940a84e40903e8c))
+
 ## [2.10.11](https://github.com/rrivirr/rriv-ctl/compare/v2.10.10...v2.10.11) (2026-02-01)
 
 
