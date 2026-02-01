@@ -83,6 +83,7 @@ EOL
     grep -qsFx "$prev_line_to_add" $shell_rc  && rm_prev_alias
     grep -qsF "$line_to_add" $shell_rc || add_lines_to_shrc
 
+    echo $app_location
     $app_location --setup-completion
     source $shell_rc
     echo "success"   
