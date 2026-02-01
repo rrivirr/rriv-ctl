@@ -83,7 +83,8 @@ EOL
     setupAutoComplete()
     {
         sleep 2
-        "$app_location" --setup-completion
+        echo $app_location
+        "$app_location" -- --setup-completion
     }
 
     grep -qsFx "$prev_line_to_add" $shell_rc  && rm_prev_alias
