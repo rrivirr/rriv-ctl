@@ -83,9 +83,8 @@ EOL
     setupAutoComplete()
     {
         sleep 2
-        rrivctlv2 setup-completion
+        $app_location --setup-completion
         source $shell_rc
-
     }
 
     grep -qsFx "$prev_line_to_add" $shell_rc  && rm_prev_alias
