@@ -39,6 +39,7 @@ export type DB = {
   updateChannel: UpdateChannel;
   debugMode: boolean;
   replSigIntFunctions: Function[];
+  autoCompleteSetup: boolean;
   environment: {
     name: Environment;
     config: {
