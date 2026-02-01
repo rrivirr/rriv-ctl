@@ -37,7 +37,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
       (!tag.includes("alpha") && updateChannel?.includes("alpha"))
     ) {
       throw new Error(
-        "Tag specified not in update channel. Use --channel to change your update channel"
+        "Tag specified not in update channel. Use --channel to change your update channel",
       );
     }
     if (tag === currentTag) {
