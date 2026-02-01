@@ -1,3 +1,10 @@
+## [2.10.13](https://github.com/rrivirr/rriv-ctl/compare/v2.10.12...v2.10.13) (2026-02-01)
+
+
+### Bug Fixes
+
+* test auto complete set up ([fa26887](https://github.com/rrivirr/rriv-ctl/commit/fa268870464bc0b174f35fede2330bbac9e80872))
+
 ## [2.10.12](https://github.com/rrivirr/rriv-ctl/compare/v2.10.11...v2.10.12) (2026-02-01)
 
 
