@@ -8,7 +8,7 @@ import cli from "./cli.ts";
 const tree = getAutoCompleteTree(cli);
 const completion = initAutoComplete(tree);
 
-if (process.argv.includes("setup-completion")) {
+if (process.argv.includes("--setup-completion")) {
   completion.setupShellInitFile();
 } else if (!process.argv.includes("--completion")) {
   cli
