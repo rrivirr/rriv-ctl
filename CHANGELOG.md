@@ -1,3 +1,10 @@
+## [2.10.11](https://github.com/rrivirr/rriv-ctl/compare/v2.10.10...v2.10.11) (2026-02-01)
+
+
+### Bug Fixes
+
+* update script ([a80c877](https://github.com/rrivirr/rriv-ctl/commit/a80c8776803b5664023d2391ba09108328c36462))
+
 ## [2.10.10](https://github.com/rrivirr/rriv-ctl/compare/v2.10.9...v2.10.10) (2026-02-01)
 
 
