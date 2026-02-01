@@ -83,14 +83,15 @@ EOL
     setupAutoComplete()
     {
         sleep 2
-        echo $app_location
-        "$app_location" -- --setup-completion
+        rrivctlv2 setup-completion
+        source $shell_rc
+
     }
 
     grep -qsFx "$prev_line_to_add" $shell_rc  && rm_prev_alias
     grep -qsF "$line_to_add" $shell_rc || add_lines_to_shrc
-    grep -qsFx "# begin rrivctlv2 completion" $shell_rc || setupAutoComplete
-
     source $shell_rc
+
+    grep -qsFx "# begin rrivctlv2 completion" $shell_rc || setupAutoComplete
     echo "success"   
 }
