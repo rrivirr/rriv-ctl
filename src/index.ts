@@ -16,8 +16,6 @@ const setupAutoComplete = () => {
       data.autoCompleteSetup = true;
     });
     completion.setupShellInitFile(); // calls process.exit
-  } else {
-    console.log("running");
   }
 };
 
