@@ -1,3 +1,10 @@
+## [2.10.10](https://github.com/rrivirr/rriv-ctl/compare/v2.10.9...v2.10.10) (2026-02-01)
+
+
+### Bug Fixes
+
+* auto update ([ff48819](https://github.com/rrivirr/rriv-ctl/commit/ff4881917972ab19c42206ca8aa4b0ee5742ffcf))
+
 ## [2.10.9](https://github.com/rrivirr/rriv-ctl/compare/v2.10.8...v2.10.9) (2026-02-01)
 
 
