@@ -82,7 +82,7 @@ EOL
 
     grep -qsFx "$prev_line_to_add" $shell_rc  && rm_prev_alias
     grep -qsF "$line_to_add" $shell_rc || add_lines_to_shrc
-    source $shell_rc
+
 
     echo "success"   
 }
