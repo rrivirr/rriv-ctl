@@ -1,3 +1,10 @@
+## [2.10.15](https://github.com/rrivirr/rriv-ctl/compare/v2.10.14...v2.10.15) (2026-02-02)
+
+
+### Bug Fixes
+
+* remove excess console.log ([bbebb92](https://github.com/rrivirr/rriv-ctl/commit/bbebb9288d0708a6d17a79831a7bf6cd2ba5598c))
+
 ## [2.10.14](https://github.com/rrivirr/rriv-ctl/compare/v2.10.13...v2.10.14) (2026-02-01)
 
 
