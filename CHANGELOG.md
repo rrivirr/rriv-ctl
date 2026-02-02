@@ -1,3 +1,10 @@
+## [2.10.16](https://github.com/rrivirr/rriv-ctl/compare/v2.10.15...v2.10.16) (2026-02-02)
+
+
+### Bug Fixes
+
+* remove source rc ([3e6d776](https://github.com/rrivirr/rriv-ctl/commit/3e6d776bc6c5e433955c88bbce0208761bef56a0))
+
 ## [2.10.15](https://github.com/rrivirr/rriv-ctl/compare/v2.10.14...v2.10.15) (2026-02-02)
 
 
