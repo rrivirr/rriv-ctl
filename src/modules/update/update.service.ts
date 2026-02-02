@@ -28,7 +28,6 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
 
   const currentTag = `v${packageJson.version}`;
 
-  await loadScript("../src/modules/update/util/update.sh", "update.sh");
   const args = ["update.sh"];
 
   if (tag) {
@@ -67,6 +66,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
   const cleanup = async () => {
     await spawn("rm", [args[0]]);
   };
+  await loadScript("../src/modules/update/util/update.sh", "update.sh");
 
   await spawn(`bash`, args, cleanup);
   await cleanup();
