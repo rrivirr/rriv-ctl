@@ -106,6 +106,7 @@ export const flashInitialFirmware = async (
   let versionToFlash = customVersion;
 
   if (!versionToFlash) {
+    console.log("looking up latest firmware...");
     const octokit = new Octokit();
     const release = await octokit.repos.getLatestRelease({
       owner: "rrivirr",
