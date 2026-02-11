@@ -1,3 +1,11 @@
+## [2.10.17](https://github.com/rrivirr/rriv-ctl/compare/v2.10.16...v2.10.17) (2026-02-11)
+
+
+### Bug Fixes
+
+* add downloading firmware message ([7255c17](https://github.com/rrivirr/rriv-ctl/commit/7255c176c707e682f17ae16beb0eaa4b9c1dee65))
+* add text for lookup step ([2b22b9d](https://github.com/rrivirr/rriv-ctl/commit/2b22b9d9b2155738b27015cd7917c2b9f646f55f))
+
 ## [2.10.16](https://github.com/rrivirr/rriv-ctl/compare/v2.10.15...v2.10.16) (2026-02-02)
 
 
