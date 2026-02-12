@@ -1,3 +1,10 @@
+## [2.10.19](https://github.com/rrivirr/rriv-ctl/compare/v2.10.18...v2.10.19) (2026-02-12)
+
+
+### Bug Fixes
+
+* connect command ([14e0369](https://github.com/rrivirr/rriv-ctl/commit/14e0369d421629d60b9a9d5781299242d7573e68))
+
 ## [2.10.18](https://github.com/rrivirr/rriv-ctl/compare/v2.10.17...v2.10.18) (2026-02-12)
 
 
