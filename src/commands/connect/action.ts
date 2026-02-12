@@ -34,7 +34,7 @@ export const connectAction = async (options: any) => {
   let toBindDevice = false;
   let pullConfig = false;
   let device: Device | undefined;
-  if (!id || !existingUniqueName || !existingSerialNumber) {
+  if (!id || !existingUniqueName || !existingSerialNumber || id === 'guest') {
     toBindDevice = true;
   }
 
@@ -75,9 +75,14 @@ export const connectAction = async (options: any) => {
             };
           });
 
-          return
+          if (wait) {
+            await waitForReady();
+          }
+          await setDeviceEpoch();
+
+          return;
         }
-        throw e
+        throw e;
       }
 
     }
