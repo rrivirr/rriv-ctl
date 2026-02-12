@@ -58,10 +58,28 @@ export const connectAction = async (options: any) => {
     const devices = await getDevices({ serialNumber });
     device = devices[0];
     if (!device) {
-      device = await bindDevice({
-        serialNumber,
-      });
-      pullConfig = true;
+      try {
+        device = await bindDevice({
+          serialNumber,
+        });
+        pullConfig = true;
+      } catch (e: any) {
+        console.log('accessing device as guest...\n')
+        if (e?.response?.data?.message === 'device bound to another user') {
+          db.update((data) => {
+            data[user.email][user.env].device = {
+              id: 'guest',
+              uniqueName: 'guest',
+              serialNumber: serialNumber,
+              serialPortPath,
+            };
+          });
+
+          return
+        }
+        throw e
+      }
+
     }
   }
 
