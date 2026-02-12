@@ -3,6 +3,7 @@ import { DefaultObject } from "../../types.ts";
 import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { uploadConfig } from "../../modules/config/config.service.ts";
 import { logAsDebug } from "../../util/debug-logger.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const setAction = async (
   object: string,
@@ -50,7 +51,9 @@ export const setAction = async (
   const appliedConfig = await writeConfigToDevice(payload);
   console.log("config applied to device successfully");
 
-  if (object !== "board") {
+  const user = getActiveUser()
+
+  if (object !== "board" && user.device.id && user.device.id !== 'guest') {
     await uploadConfig({
       ...appliedConfig,
       object,
