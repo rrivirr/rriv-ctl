@@ -1,3 +1,10 @@
+## [2.10.18](https://github.com/rrivirr/rriv-ctl/compare/v2.10.17...v2.10.18) (2026-02-12)
+
+
+### Bug Fixes
+
+* support device access as guest ([ac22b67](https://github.com/rrivirr/rriv-ctl/commit/ac22b677454aa6e86a2335baa27d30b956432d38))
+
 ## [2.10.17](https://github.com/rrivirr/rriv-ctl/compare/v2.10.16...v2.10.17) (2026-02-11)
 
 
