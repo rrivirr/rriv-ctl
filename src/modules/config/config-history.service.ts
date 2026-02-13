@@ -15,9 +15,9 @@ const modifyChangesMade = (changesMade: object) => {
   if (!changesMade) return "";
   const modifiedChangesMade: string[] = [];
   for (const [key, value] of Object.entries(changesMade)) {
-    if (value.includes("removed")) {
+    if (value?.includes("removed")) {
       modifiedChangesMade.push(`${reset(key)}: ${redBright(value)}`);
-    } else if (value.includes("added")) {
+    } else if (value?.includes("added")) {
       modifiedChangesMade.push(`${reset(key)}: ${greenBright(value)}`);
     } else {
       modifiedChangesMade.push(`${reset(key)}: ${yellowBright(value)}`);

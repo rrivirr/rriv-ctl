@@ -23,7 +23,7 @@ export const sendCommands = async (
     );
     if (result.error) {
       const errorMessage = result.error;
-      if (errorMessage.includes("panic")) {
+      if (errorMessage?.includes("panic")) {
         console.log("The board crashed and is restarting ");
         console.log("Waiting.......");
         await waitForReady();
