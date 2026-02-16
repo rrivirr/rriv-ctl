@@ -1,3 +1,10 @@
+## [2.10.21](https://github.com/rrivirr/rriv-ctl/compare/v2.10.20...v2.10.21) (2026-02-16)
+
+
+### Bug Fixes
+
+* error messages ([d4ec1b1](https://github.com/rrivirr/rriv-ctl/commit/d4ec1b1ea91193291ad2930e39b545476d65457e))
+
 ## [2.10.20](https://github.com/rrivirr/rriv-ctl/compare/v2.10.19...v2.10.20) (2026-02-13)
 
 
