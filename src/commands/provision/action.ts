@@ -33,7 +33,7 @@ export const provisionAction = async (options: any) => {
   }
   if (!uid) {
     throw new Error(
-      "unplug and plug back in the device or press the reset button on the device\nthen run provision command again",
+      "No uid found. unplug and plug back in the device or press the reset button on the device\nthen run provision command again",
     );
   }
   const device = await provisionDevice({ uid });

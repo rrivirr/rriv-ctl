@@ -12,7 +12,7 @@ export const login = async (loginDetails: {
   const keycloakUrl = config.KEYCLOAK_URL;
 
   if (!keycloakUrl) {
-    throw new Error("keycloak not configured");
+    throw new Error("keycloak url not configured");
   }
 
   const response = await axios.post(

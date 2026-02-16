@@ -16,7 +16,7 @@ export const getLatestTag = async (channel: UpdateChannel) => {
     );
     if (!latestAlphaPrerelease) {
       // not expected
-      throw new Error("Unexpected error");
+      throw new Error("Unexpected error; no alpha release found");
     }
     latestTag = latestAlphaPrerelease.tag_name;
   } else {
