@@ -28,7 +28,7 @@ export async function processReplCommand(
     const commandToExecute = cli.commands.find((c) => c.name() === commandName);
     if (!commandToExecute) {
       // should not happen
-      console.log("Unexpected error occurred");
+      console.log("Unexpected error occurred; command to execute not found");
       process.exit(1);
     }
 

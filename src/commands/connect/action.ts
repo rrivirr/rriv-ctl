@@ -90,7 +90,7 @@ export const connectAction = async (options: any) => {
 
   if (!device) {
     // should not happen
-    throw new Error("Internal server error");
+    throw new Error("Internal server error; no device");
   }
 
   db.update((data) => {
