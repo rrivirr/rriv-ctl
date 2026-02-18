@@ -17,7 +17,7 @@ export const makeFirmwareCommands = (cli: Command) => {
   cli
     .command("flash")
     .description("flash the firmware on the connected device")
-    .argument("<firmwareVersion>")
+    .argument("[firmwareVersion]")
     .action(flashAction);
 
   cli
