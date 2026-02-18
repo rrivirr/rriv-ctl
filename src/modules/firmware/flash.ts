@@ -1,4 +1,3 @@
-import { Octokit } from "@octokit/rest";
 import { randomUUID } from "crypto";
 import { probeRsCheck } from "./util/probe-rs-check.ts";
 import { getRrivCtlDir } from "../../util/paths.ts";
@@ -10,6 +9,7 @@ import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
 import { loadScript } from "../../util/load-script.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
+import { getLatestFirmwareVersion } from "./util/get-latest-firmware-version.ts";
 
 const initialFirmwareRetry = async (
   dirPath: string,
@@ -41,6 +41,8 @@ const flash = async (
   fileName: string,
   initialFirmware?: boolean,
 ) => {
+  console.log("flashing", firmwareVersion, "to device");
+
   await probeRsCheck();
   const dirPath = getRrivCtlDir();
 
@@ -65,37 +67,47 @@ const flash = async (
   } else {
     await waitForReady(3000);
   }
+  console.log("device successfully flashed...");
 };
 
-export const flashFirmware = async (firmwareVersion: string) => {
+export const flashFirmware = async (firmwareVersion?: string) => {
   const {
     deviceContext: { deviceId, contextId },
     email,
     env,
+    device: { id },
   } = getActiveUser();
 
-  await flash(firmwareVersion, "flash-firmware");
+  let versionToFlash = firmwareVersion;
 
-  const dataToUpload = {
-    version: firmwareVersion,
-    installedAt: new Date().toISOString(),
-    deviceId,
-    contextId,
-  };
-  try {
-    await createFirmwareHistoryEntry({ ...dataToUpload });
-  } catch (error) {
-    db.update((data) => {
-      data[email][env].toSync = [
-        {
-          requestId: randomUUID(),
-          data: dataToUpload,
-          type: SyncDataType.FirmwareHistory,
-        },
-      ];
-    });
-    console.log("firmware cloud upload failed");
-    errorHandler({ error, exit: true });
+  if (!versionToFlash) {
+    versionToFlash = await getLatestFirmwareVersion();
+  }
+
+  await flash(versionToFlash, "flash-firmware");
+
+  if (id && id !== "guest") {
+    const dataToUpload = {
+      version: versionToFlash,
+      installedAt: new Date().toISOString(),
+      deviceId,
+      contextId,
+    };
+    try {
+      await createFirmwareHistoryEntry({ ...dataToUpload });
+    } catch (error) {
+      db.update((data) => {
+        data[email][env].toSync = [
+          {
+            requestId: randomUUID(),
+            data: dataToUpload,
+            type: SyncDataType.FirmwareHistory,
+          },
+        ];
+      });
+      console.log("firmware cloud upload failed");
+      errorHandler({ error, exit: true });
+    }
   }
 };
 
@@ -106,18 +118,10 @@ export const flashInitialFirmware = async (
   let versionToFlash = customVersion;
 
   if (!versionToFlash) {
-    console.log("looking up latest firmware...");
-    const octokit = new Octokit();
-    const release = await octokit.repos.getLatestRelease({
-      owner: "rrivirr",
-      repo: "rriv-firmware",
-    });
-    versionToFlash = release.data.tag_name;
+    versionToFlash = await getLatestFirmwareVersion();
   }
 
   if (boardVersion !== versionToFlash) {
-    console.log("flashing", versionToFlash, "to device");
     await flash(versionToFlash, "flash-initial-firmware", true);
-    console.log("device successfully flashed...");
   }
 };
