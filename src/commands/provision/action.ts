@@ -36,6 +36,10 @@ export const provisionAction = async (options: any) => {
       "No uid found. unplug and plug back in the device or press the reset button on the device\nthen run provision command again",
     );
   }
+  const matched = uid.match(/^[0-9A-Fa-f]{24}$/g);
+  if (!matched) {
+    throw new Error(`invalid uid received: ${uid}`);
+  }
   const device = await provisionDevice({ uid });
   logAsDebug("setting serial number on device...");
   await sendCommands(
