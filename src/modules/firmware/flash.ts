@@ -1,15 +1,11 @@
-import { randomUUID } from "crypto";
 import { probeRsCheck } from "./util/probe-rs-check.ts";
 import { getRrivCtlDir } from "../../util/paths.ts";
 import { spawn } from "../../util/spawn.ts";
 import { waitForReady } from "../../infra/wait-for-ready.ts";
-import { createFirmwareHistoryEntry } from "../../api/device.ts";
-import db from "../../db/db.ts";
 import { errorHandler } from "../../util/error-handler.ts";
-import { SyncDataType } from "../../constants.ts";
 import { loadScript } from "../../util/load-script.ts";
-import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { getLatestFirmwareVersion } from "./util/get-latest-firmware-version.ts";
+import { uploadFirmwareEntry } from "./util/upload-firmware-entry.ts";
 
 const initialFirmwareRetry = async (
   dirPath: string,
@@ -71,13 +67,6 @@ const flash = async (
 };
 
 export const flashFirmware = async (firmwareVersion?: string) => {
-  const {
-    deviceContext: { deviceId, contextId },
-    email,
-    env,
-    device: { id },
-  } = getActiveUser();
-
   let versionToFlash = firmwareVersion;
 
   if (!versionToFlash) {
@@ -85,30 +74,7 @@ export const flashFirmware = async (firmwareVersion?: string) => {
   }
 
   await flash(versionToFlash, "flash-firmware");
-
-  if (id && id !== "guest") {
-    const dataToUpload = {
-      version: versionToFlash,
-      installedAt: new Date().toISOString(),
-      deviceId,
-      contextId,
-    };
-    try {
-      await createFirmwareHistoryEntry({ ...dataToUpload });
-    } catch (error) {
-      db.update((data) => {
-        data[email][env].toSync = [
-          {
-            requestId: randomUUID(),
-            data: dataToUpload,
-            type: SyncDataType.FirmwareHistory,
-          },
-        ];
-      });
-      console.log("firmware cloud upload failed");
-      errorHandler({ error, exit: true });
-    }
-  }
+  await uploadFirmwareEntry(versionToFlash);
 };
 
 export const flashInitialFirmware = async (
