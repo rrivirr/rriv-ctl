@@ -14,7 +14,7 @@ import { JwtPayload } from "../../types.ts";
 import { getLoggedInUser } from "../../util/get-logged-in-user.ts";
 import { getConfig } from "../../util/config.ts";
 
-export const login = async (email: string) => {
+export const login = async (email?: string) => {
   try {
     const { activeEmail } = db.data;
     const emailToLogin = email || activeEmail;

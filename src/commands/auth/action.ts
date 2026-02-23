@@ -11,7 +11,7 @@ export const signupAction = async (options: any) => {
   await signup(options);
 };
 
-export const loginAction = async (email: string) => {
+export const loginAction = async (email?: string) => {
   await login(email);
 };
 
