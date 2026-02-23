@@ -11,6 +11,11 @@ export const spawn = (
       stdio: "inherit",
     });
 
+    // ensure cleanup function runs if user cancels
+    process.on("SIGINT", () => {
+      stdout.kill();
+    });
+
     stdout.on("error", (error) => {
       reject(error);
     });
