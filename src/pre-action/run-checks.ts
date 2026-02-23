@@ -59,6 +59,7 @@ export const runChecks = async (body: {
       if (
         !(
           commandName === "connect" ||
+          commandName === "flash" ||
           (commandName === "list" && commandArgument === "device")
         )
       ) {
