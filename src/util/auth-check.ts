@@ -1,13 +1,10 @@
-import { italic } from "yoctocolors";
 import { getLoggedInUser } from "./get-logged-in-user.ts";
+import { login } from "../modules/auth/auth.service.ts";
 
 export const authCheck = async () => {
   const user = getLoggedInUser();
 
   if (!user) {
-    console.log(
-      `You are not logged in.\nYou may log in with ${italic("rrivctlv2 auth login <email>")}\nOr sign up an account with ${italic("rrivctlv2 auth signup")}`
-    );
-    process.exit();
+    await login();
   }
 };
