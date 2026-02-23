@@ -58,7 +58,7 @@
     ]
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.946.0",
     "@inquirer/prompts": "^7.3.1",
