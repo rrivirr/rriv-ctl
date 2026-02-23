@@ -74,7 +74,7 @@ export const sendSingleCommand = (
         // skip this line, it's just the echo back
         timeout = setTimeout(function () {
           serialPort.close();
-          reject("Timeout following action response");
+          reject("Timeout following action/empty response");
         }, 5000);
         return;
       } else {
