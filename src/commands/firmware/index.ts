@@ -3,6 +3,7 @@ import {
   debugAction,
   flashAction,
   listFirmwareHistoryAction,
+  diagnosticAction,
 } from "./action.ts";
 
 export const makeFirmwareCommands = (cli: Command) => {
@@ -20,11 +21,17 @@ export const makeFirmwareCommands = (cli: Command) => {
     .argument("[firmwareVersion]")
     .action(flashAction);
 
-  cli
-    .command("firmware")
+  const firmwareCommand = cli.command("firmware");
+
+  firmwareCommand
     .command("get")
     .command("history")
     .description("get the firmware history of a device")
     .argument("[serialNumber]")
     .action(listFirmwareHistoryAction);
+
+  firmwareCommand
+    .command("diagnostic")
+    .argument("[firmwareVersion]")
+    .action(diagnosticAction);
 };
