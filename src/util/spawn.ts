@@ -20,8 +20,8 @@ export const spawn = (
       reject(error);
     });
 
-    stdout.on("close", async (exitCode) => {
-      logAsDebug("script exitCode", exitCode);
+    stdout.on("close", async (exitCode, signal) => {
+      logAsDebug("script exitCode:signal", exitCode, ":", signal);
       if (exitCode !== 0) {
         if (errorCleanUp) {
           await errorCleanUp();
