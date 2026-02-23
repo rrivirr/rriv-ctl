@@ -4,7 +4,7 @@ import { getLoggedInUser } from "../util/get-logged-in-user.ts";
 import { getAutoCompleteTree } from "../auto-complete-tree.ts";
 
 export const getCommandNames = (cli: Command) => {
-  const commandNamesToNotSupport = ["auth", "update"];
+  const commandNamesToNotSupport = ["auth", "update", "firmware"];
 
   const commandNames = cli.commands
     .map((c) => c.name())
