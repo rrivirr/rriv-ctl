@@ -35,7 +35,7 @@ export function getReplEvalFunction(cli: Command) {
       callback(null, await processReplCommand(this, args, cli));
     } else {
       console.log(
-        `${trimmedCode} is not a valid command\ntype ${bold("help")} to view list of commands`
+        `${trimmedCode} is not a valid or supported command\ntype ${bold("help")} to view list of commands`,
       );
       this.displayPrompt();
     }
