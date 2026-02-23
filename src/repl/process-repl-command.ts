@@ -7,7 +7,7 @@ import { runChecks } from "../pre-action/run-checks.ts";
 export async function processReplCommand(
   replServer: REPLServer,
   args: string[],
-  cli: Command
+  cli: Command,
 ) {
   const commandName = args[0];
   if (commandName === "help") {

@@ -39,7 +39,7 @@ export const unbindDevice = async (body: { serialNumber: string }) => {
   const { serialNumber } = body;
   const response = await rrivApiAxios.post(
     `/device/${serialNumber}/unbind`,
-    {}
+    {},
   );
 
   return response.data;
@@ -65,7 +65,7 @@ export const getFirmwareHistory = async (
     | {
         deviceId: string;
       }
-    | { serialNumber: string }
+    | { serialNumber: string },
 ): Promise<
   {
     version: string;

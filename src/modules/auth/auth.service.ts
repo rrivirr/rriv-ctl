@@ -20,7 +20,7 @@ export const login = async (email: string) => {
     const emailToLogin = email || activeEmail;
     if (!emailToLogin) {
       console.log(
-        `Specify an email with ${italic("rrivctlv2 auth login <email>")}`
+        `Specify an email with ${italic("rrivctlv2 auth login <email>")}`,
       );
       process.exit();
     }
@@ -80,7 +80,7 @@ export const login = async (email: string) => {
       console.log(
         `\nYou must verify your email address to log in.
 Please check your email and follow the verification link.
-To resend the verification email run the command ${italic(`rrivctlv2 auth verify ${email}`)}`
+To resend the verification email run the command ${italic(`rrivctlv2 auth verify ${email}`)}`,
       );
       return;
     }
@@ -123,7 +123,7 @@ export const signup = async (body: Partial<Omit<SignupDto, "password">>) => {
   const config = getConfig();
 
   console.log(
-    `\nRegistration successful!\nContact an admin to approve your account and start using rrivctl.\n${config.ADMIN_EMAIL || ""}`
+    `\nRegistration successful!\nContact an admin to approve your account and start using rrivctl.\n${config.ADMIN_EMAIL || ""}`,
   );
 };
 

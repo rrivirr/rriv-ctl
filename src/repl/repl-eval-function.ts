@@ -12,7 +12,7 @@ export function getReplEvalFunction(cli: Command) {
     code: string,
     context: Context,
     replResourceName: string,
-    callback: (err: Error | null, result: any) => void
+    callback: (err: Error | null, result: any) => void,
   ) {
     const commandNames = getCommandNames(cli);
     const trimmedCode = code.trim();

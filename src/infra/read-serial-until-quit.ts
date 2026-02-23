@@ -10,7 +10,7 @@ import { logAsDebug } from "../util/debug-logger.ts";
 export const readSerialUntilQuit = (
   serialPortPath: string,
   file: string,
-  debug: boolean
+  debug: boolean,
 ) => {
   return new Promise<void>((resolve) => {
     const logPath = path.join(paths.getRRIVDir(), "watch", file);
@@ -34,11 +34,11 @@ export const readSerialUntilQuit = (
         serialPort.pipe(parser);
         if (debug) {
           serialPort.write(
-            '{"object":"datalogger", "action":"set", "mode":"watch-debug"}\n'
+            '{"object":"datalogger", "action":"set", "mode":"watch-debug"}\n',
           );
         } else {
           serialPort.write(
-            '{"object":"datalogger", "action":"set", "mode":"watch"}\n'
+            '{"object":"datalogger", "action":"set", "mode":"watch"}\n',
           );
         }
       }, 1000);
@@ -56,7 +56,7 @@ export const readSerialUntilQuit = (
       fs.writeFileSync(
         logPath,
         moment().format() + "," + data.toString() + "\n",
-        { flag: "a" }
+        { flag: "a" },
       );
     });
 
