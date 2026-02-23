@@ -4,7 +4,6 @@ import moment from "moment";
 import path from "path";
 import paths from "../util/paths.ts";
 import { connectSerial } from "./connect-serial.ts";
-import db from "../db/db.ts";
 import { logAsDebug } from "../util/debug-logger.ts";
 
 export const readSerialUntilQuit = (
@@ -60,15 +59,9 @@ export const readSerialUntilQuit = (
       );
     });
 
-    const replSigIntFunctions = db.data.replSigIntFunctions || [];
-    db.update((data) => {
-      data.replSigIntFunctions = [
-        ...replSigIntFunctions,
-        () => {
-          serialPort.close();
-          resolve();
-        },
-      ];
+    process.on("SIGINT", async () => {
+      serialPort.close();
+      resolve();
     });
   });
 };
