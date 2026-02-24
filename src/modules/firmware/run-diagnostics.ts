@@ -19,7 +19,6 @@ export const runDiagnostics = async (customVersion?: string) => {
 
   await loadScript(script, `${fileName}`);
   const cleanup = async () => {
-    console.log("time to clean up");
     await spawn("rm", [`${fileName}`]);
     await uploadFirmwareEntry(`diagnostic-${versionToFlash}`);
   };
