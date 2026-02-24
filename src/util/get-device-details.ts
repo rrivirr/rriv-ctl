@@ -4,7 +4,7 @@ export const getDeviceDetails = async (path: string) => {
   const result = await sendCommands(
     [JSON.stringify({ object: "device", action: "get" })],
     false,
-    path
+    path,
   );
 
   const { serial_number, uid } = result[0];
@@ -15,7 +15,7 @@ export const getBoardVersion = async (path: string) => {
   const result = await sendCommands(
     [JSON.stringify({ object: "board", action: "get", parameter: "version" })],
     false,
-    path
+    path,
   );
 
   const { message } = result[0];
