@@ -91,7 +91,10 @@ export const runChecks = async (body: {
               serialPortPath: "",
             };
           });
-          await connectAction({ fromRunCheck: true });
+          await connectAction({
+            fromRunCheck: true,
+            connectedDeviceInfo: connectedDevice,
+          });
           if (replServer) {
             replServer.setPrompt(getPrompt());
           }

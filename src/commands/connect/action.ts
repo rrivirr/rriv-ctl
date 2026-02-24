@@ -11,12 +11,19 @@ import { bold, italic } from "yoctocolors";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const connectAction = async (options: any) => {
-  const { assignedDeviceName, path, fromRunCheck } = options;
+  const { assignedDeviceName, path, fromRunCheck, connectedDeviceInfo } =
+    options;
 
-  const connectedDevice = await getConnectedDevice({
-    specifiedSerialPortPath: path,
-    fromRunCheck,
-  });
+  let connectedDevice: Awaited<ReturnType<typeof getConnectedDevice>> =
+    connectedDeviceInfo;
+
+  if (!connectedDevice) {
+    connectedDevice = await getConnectedDevice({
+      specifiedSerialPortPath: path,
+      fromRunCheck,
+    });
+  }
+
   const serialNumber = connectedDevice!.serialNumber;
   const serialPortPath = connectedDevice!.serialPortPath;
   const wait = connectedDevice!.wait;
