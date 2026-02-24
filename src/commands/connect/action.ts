@@ -34,7 +34,7 @@ export const connectAction = async (options: any) => {
   let toBindDevice = false;
   let pullConfig = false;
   let device: Device | undefined;
-  if (!id || !existingUniqueName || !existingSerialNumber || id === 'guest') {
+  if (!id || !existingUniqueName || !existingSerialNumber || id === "guest") {
     toBindDevice = true;
   }
 
@@ -64,12 +64,12 @@ export const connectAction = async (options: any) => {
         });
         pullConfig = true;
       } catch (e: any) {
-        console.log('accessing device as guest...\n')
-        if (e?.response?.data?.message === 'device bound to another user') {
+        console.log("accessing device as guest...\n");
+        if (e?.response?.data?.message === "device bound to another user") {
           db.update((data) => {
             data[user.email][user.env].device = {
-              id: 'guest',
-              uniqueName: 'guest',
+              id: "guest",
+              uniqueName: "guest",
               serialNumber: serialNumber,
               serialPortPath,
             };
@@ -84,7 +84,6 @@ export const connectAction = async (options: any) => {
         }
         throw e;
       }
-
     }
   }
 
