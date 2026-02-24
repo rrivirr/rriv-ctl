@@ -1,3 +1,15 @@
+# [2.12.0](https://github.com/rrivirr/rriv-ctl/compare/v2.11.0...v2.12.0) (2026-02-24)
+
+
+### Bug Fixes
+
+* prevent calling getConnectedDevice twice if avoidable ([a686c65](https://github.com/rrivirr/rriv-ctl/commit/a686c656b9275388d80a8a9d20c72cd2c3620b27))
+
+
+### Features
+
+* log warning/error codes if foung ([c0f6d1f](https://github.com/rrivirr/rriv-ctl/commit/c0f6d1fafb80c56ba48e194c122594476d37692c))
+
 # [2.11.0](https://github.com/rrivirr/rriv-ctl/compare/v2.10.24...v2.11.0) (2026-02-24)
 
 
