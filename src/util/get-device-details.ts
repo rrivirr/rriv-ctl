@@ -1,3 +1,4 @@
+import { bold, yellow } from "yoctocolors";
 import { sendCommands } from "../infra/send-commands.ts";
 
 export const getDeviceDetails = async (path: string) => {
@@ -7,7 +8,12 @@ export const getDeviceDetails = async (path: string) => {
     path,
   );
 
-  const { serial_number, uid } = result[0];
+  const { serial_number, uid, codes } = result[0];
+  if (codes && codes.length) {
+    console.log(
+      `${yellow("Warning!")} Device codes raised: ${bold(codes.join(","))}`,
+    );
+  }
   return { serialNumber: serial_number, uid };
 };
 
