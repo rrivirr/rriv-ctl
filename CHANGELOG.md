@@ -1,3 +1,26 @@
+# [2.11.0](https://github.com/rrivirr/rriv-ctl/compare/v2.10.24...v2.11.0) (2026-02-24)
+
+
+### Bug Fixes
+
+* add firmware command to list of commands not supported by repl ([96f5e06](https://github.com/rrivirr/rriv-ctl/commit/96f5e06d05ae92a57b054082c448483a5fc9e4a0))
+* add SIGINT(ctrl+c) process listener/handler ([6ad2d1e](https://github.com/rrivirr/rriv-ctl/commit/6ad2d1e6b2d7794136fc58c3e92682422355c6e7))
+* auto attempt to login if auth check fails ([4b5fd1b](https://github.com/rrivirr/rriv-ctl/commit/4b5fd1b87c5632f7d34b50075f1a39e6aedd76f8))
+* exempt firmware commands(diagnostic) from device and context checks ([fcf053b](https://github.com/rrivirr/rriv-ctl/commit/fcf053b372662363e8a6342f93c3f4ecd2e1b0f4))
+* exempt firmware get history from context and device checks if serial number is provided ([57f35ef](https://github.com/rrivirr/rriv-ctl/commit/57f35ef0cf9354d79a4229d8dbdc13757bfd8506))
+* exempt flash command from device checks ([b38c998](https://github.com/rrivirr/rriv-ctl/commit/b38c998b69b1dff0cdad5c152c7abb365229b942))
+* extend getLatestFirmwareVersion to support firmware and scripts repos ([2500797](https://github.com/rrivirr/rriv-ctl/commit/25007978ab6dd7c2dcc00b432c2799fa9b82a0de))
+* extract firmware flash log cloud upload to a new file ([3fcd5ce](https://github.com/rrivirr/rriv-ctl/commit/3fcd5cea6923eacf7447719e11b99ad0796a49e8))
+* firmware version log upload extracted to separate file ([da8a09f](https://github.com/rrivirr/rriv-ctl/commit/da8a09fce5a0e8a0f06e8f53092ed6e29ce42e3f))
+* replace sigIntFunctions functionality with process.on sigInt handler/process.emit(sigint) ([7498a58](https://github.com/rrivirr/rriv-ctl/commit/7498a5878ef15c8a5f56cc50c6ec1e65be121d34))
+* run diagnostics script ([efb9d0e](https://github.com/rrivirr/rriv-ctl/commit/efb9d0e990cfed6de043e600ab67315da9c8e8a2))
+
+
+### Features
+
+* new firmware diagnostic command ([db5d893](https://github.com/rrivirr/rriv-ctl/commit/db5d89351be415c531a6144adc54de2c025696ff))
+* run diagnostics firmware functionality ([11cea67](https://github.com/rrivirr/rriv-ctl/commit/11cea6785dba4cfd27ae8f700632f8e4e65c4622))
+
 ## [2.10.24](https://github.com/rrivirr/rriv-ctl/compare/v2.10.23...v2.10.24) (2026-02-19)
 
 
