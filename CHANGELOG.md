@@ -1,3 +1,10 @@
+## [2.12.1](https://github.com/rrivirr/rriv-ctl/compare/v2.12.0...v2.12.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* make scripts executable ([19b44c4](https://github.com/rrivirr/rriv-ctl/commit/19b44c412d3bdde77d782337a138f4b95f872d0d))
+
 # [2.12.0](https://github.com/rrivirr/rriv-ctl/compare/v2.11.0...v2.12.0) (2026-02-24)
 
 
