@@ -31,7 +31,7 @@ const setupAutoComplete = () => {
           data.autoCompleteSetup = true;
         });
       } else {
-        completion.setupShellInitFile(); // calls process.exit
+        completion.setupShellInitFile(); //  calls process.exit
       }
     } else {
       logAsDebug(process.env.SHELL, " found");
