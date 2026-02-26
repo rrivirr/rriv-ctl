@@ -1,3 +1,10 @@
+## [2.12.3-alpha.1](https://github.com/rrivirr/rriv-ctl/compare/v2.12.2...v2.12.3-alpha.1) (2026-02-26)
+
+
+### Bug Fixes
+
+* change license ([040f88b](https://github.com/rrivirr/rriv-ctl/commit/040f88b01c4b7b5cbdcab11e36244051f1eb562a))
+
 ## [2.12.2](https://github.com/rrivirr/rriv-ctl/compare/v2.12.1...v2.12.2) (2026-02-26)
 
 
