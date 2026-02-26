@@ -1,3 +1,10 @@
+## [2.12.3](https://github.com/rrivirr/rriv-ctl/compare/v2.12.2...v2.12.3) (2026-02-26)
+
+
+### Bug Fixes
+
+* license ([f9712ad](https://github.com/rrivirr/rriv-ctl/commit/f9712ad502b56af3dbfd6f2f01a1e75f93c6f9ee))
+
 ## [2.12.2](https://github.com/rrivirr/rriv-ctl/compare/v2.12.1...v2.12.2) (2026-02-26)
 
 
