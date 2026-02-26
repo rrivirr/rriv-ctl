@@ -1,3 +1,10 @@
+## [2.12.2](https://github.com/rrivirr/rriv-ctl/compare/v2.12.1...v2.12.2) (2026-02-26)
+
+
+### Bug Fixes
+
+* rework auto complete check ([dac2413](https://github.com/rrivirr/rriv-ctl/commit/dac241342807f5114d60d3701774d5714dde5ad7))
+
 ## [2.12.1](https://github.com/rrivirr/rriv-ctl/compare/v2.12.0...v2.12.1) (2026-02-25)
 
 
