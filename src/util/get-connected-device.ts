@@ -7,8 +7,10 @@ export const getConnectedDevice = async (body: {
   specifiedSerialPortPath?: string;
   provisionCommand?: boolean;
   fromRunCheck?: boolean;
+  getPath?: boolean;
 }) => {
-  const { specifiedSerialPortPath, provisionCommand, fromRunCheck } = body;
+  const { specifiedSerialPortPath, provisionCommand, fromRunCheck, getPath } =
+    body;
   let serialPortPath = "";
   let count = 0;
   let wait = false;
@@ -24,6 +26,9 @@ export const getConnectedDevice = async (body: {
         (pathItem.pnpId?.includes("rriv") || pathItem.path?.includes("rriv"))
       ) {
         serialPortPath = pathItem.path;
+        if (getPath) {
+          return { serialPortPath };
+        }
         if (device.serialPortPath || fromRunCheck) {
           // to avoid logging each time
           break w;
