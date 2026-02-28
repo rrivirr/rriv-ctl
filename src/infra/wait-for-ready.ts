@@ -1,10 +1,19 @@
 import { ReadlineParser } from "serialport";
 import { connectSerial } from "./connect-serial.ts";
 import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
+import { getConnectedDevice } from "../util/get-connected-device.ts";
 
 export const waitForReady = async (milliseconds?: number) => {
   await new Promise((resolve) => setTimeout(resolve, milliseconds || 7000));
-  const serialPortPath = getSerialPathFromCache();
+  let serialPortPath = getSerialPathFromCache();
+  if (!serialPortPath) {
+    const device = await getConnectedDevice({ getPath: true });
+    const connectedPath = device?.serialPortPath;
+    if (!connectedPath) {
+      throw new Error("ensure device is connected");
+    }
+    serialPortPath = connectedPath;
+  }
   const serialPort = connectSerial(serialPortPath);
 
   return new Promise<void>((resolve, reject) => {
