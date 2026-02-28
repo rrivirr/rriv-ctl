@@ -27,6 +27,7 @@ const initialFirmwareRetry = async (
       cleanup,
     );
     await cleanup();
+    return true;
   } catch (error) {
     errorHandler({ error, exit: true });
   }
