@@ -1,3 +1,17 @@
+# [2.13.0](https://github.com/rrivirr/rriv-ctl/compare/v2.12.3...v2.13.0) (2026-02-28)
+
+
+### Bug Fixes
+
+* customize action after errorCleanup ([4294362](https://github.com/rrivirr/rriv-ctl/commit/4294362eba784ef5e0f852cf1bab7427f2fdd1d5))
+* rewrite waitForReady to get path directly iff needed ([e12a4dd](https://github.com/rrivirr/rriv-ctl/commit/e12a4dd2142f3d36b8e1f1ce2635cae629ea2264))
+
+
+### Features
+
+* clear eeprom before provisioning ([7658f46](https://github.com/rrivirr/rriv-ctl/commit/7658f4629c25c0b8b354a7a002d52cdeaedbc030))
+* clear-eeprom script ([0a60c68](https://github.com/rrivirr/rriv-ctl/commit/0a60c689d7bb26953c8df08e00264ddfa170075c))
+
 ## [2.12.3](https://github.com/rrivirr/rriv-ctl/compare/v2.12.2...v2.12.3) (2026-02-26)
 
 
