@@ -108,3 +108,5 @@ dist
 data
 
 apps
+
+.DS_Store
