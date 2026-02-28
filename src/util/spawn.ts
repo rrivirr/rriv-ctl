@@ -4,7 +4,7 @@ import { logAsDebug } from "./debug-logger.ts";
 export const spawn = (
   cmd: string,
   args: string[],
-  errorCleanUp?: () => Promise<void>,
+  errorCleanUp?: (() => Promise<void>) | (() => Promise<boolean | undefined>),
 ) =>
   new Promise<void>((resolve, reject) => {
     const stdout = ChildProcess.spawn(cmd, args, {
@@ -24,7 +24,10 @@ export const spawn = (
       logAsDebug("script exitCode:signal", exitCode, ":", signal);
       if (exitCode !== 0) {
         if (errorCleanUp) {
-          await errorCleanUp();
+          const toResolve = await errorCleanUp();
+          if (toResolve) {
+            return resolve();
+          }
         }
         return reject({ message: "exit" });
       }
