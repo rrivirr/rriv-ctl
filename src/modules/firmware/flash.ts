@@ -6,6 +6,27 @@ import { errorHandler } from "../../util/error-handler.ts";
 import { loadScript } from "../../util/load-script.ts";
 import { getLatestFirmwareVersion } from "./util/get-latest-firmware-version.ts";
 import { uploadFirmwareEntry } from "./util/upload-firmware-entry.ts";
+import { existsSync } from "node:fs";
+
+const clearEeprom = async (dirPath: string) => {
+  const rrivScriptsVersion = await getLatestFirmwareVersion(true);
+
+  console.log("clearing eeprom");
+  const fileName = "clear-eeprom.sh";
+  const cleanup = async () => {
+    await spawn("rm", [fileName]);
+  };
+  await loadScript(`../src/modules/firmware/scripts/${fileName}`, fileName);
+
+  try {
+    await spawn("bash", [fileName, dirPath, rrivScriptsVersion], cleanup);
+    await cleanup();
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    console.log("eeprom cleared...");
+  } catch (error) {
+    errorHandler({ error, exit: true });
+  }
+};
 
 const initialFirmwareRetry = async (
   dirPath: string,
@@ -38,16 +59,22 @@ const flash = async (
   fileName: string,
   initialFirmware?: boolean,
 ) => {
-  console.log("flashing", firmwareVersion, "to device");
-
   await probeRsCheck();
   const dirPath = getRrivCtlDir();
 
-  const script = `../src/modules/firmware/scripts/${fileName}.sh`;
+  if (initialFirmware) {
+    await clearEeprom(dirPath);
+  }
 
+  console.log("flashing", firmwareVersion, "to device");
+
+  const script = `../src/modules/firmware/scripts/${fileName}.sh`;
   await loadScript(script, `${fileName}.sh`);
   const cleanup = async () => {
-    await spawn("rm", [`${fileName}.sh`]);
+    const fileExists = existsSync(`${fileName}.sh`);
+    if (fileExists) {
+      await spawn("rm", [`${fileName}.sh`]);
+    }
   };
 
   await spawn(
@@ -59,11 +86,7 @@ const flash = async (
   );
   await cleanup();
 
-  if (initialFirmware) {
-    await new Promise((resolve) => setTimeout(resolve, 7000));
-  } else {
-    await waitForReady(3000);
-  }
+  await waitForReady();
   console.log("device successfully flashed...");
 };
 
