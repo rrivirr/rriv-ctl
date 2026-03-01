@@ -1,3 +1,10 @@
+# [2.14.0](https://github.com/rrivirr/rriv-ctl/compare/v2.13.0...v2.14.0) (2026-03-01)
+
+
+### Features
+
+* clear eeprom command ([30cbf06](https://github.com/rrivirr/rriv-ctl/commit/30cbf06dd503ca7b56f34a6ca5e127dee8a82d58))
+
 # [2.13.0](https://github.com/rrivirr/rriv-ctl/compare/v2.12.3...v2.13.0) (2026-02-28)
 
 
