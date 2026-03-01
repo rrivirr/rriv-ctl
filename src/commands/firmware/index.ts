@@ -4,6 +4,7 @@ import {
   flashAction,
   listFirmwareHistoryAction,
   diagnosticAction,
+  clearEepromAction,
 } from "./action.ts";
 
 export const makeFirmwareCommands = (cli: Command) => {
@@ -34,4 +35,6 @@ export const makeFirmwareCommands = (cli: Command) => {
     .command("diagnostic")
     .argument("[firmwareVersion]")
     .action(diagnosticAction);
+
+  firmwareCommand.command("clear-eeprom").action(clearEepromAction);
 };

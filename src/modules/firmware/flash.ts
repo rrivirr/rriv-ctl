@@ -8,7 +8,7 @@ import { getLatestFirmwareVersion } from "./util/get-latest-firmware-version.ts"
 import { uploadFirmwareEntry } from "./util/upload-firmware-entry.ts";
 import { existsSync } from "node:fs";
 
-const clearEeprom = async (dirPath: string) => {
+export const clearEeprom = async (dirPath: string = getRrivCtlDir()) => {
   const rrivScriptsVersion = await getLatestFirmwareVersion(true);
 
   console.log("clearing eeprom");
