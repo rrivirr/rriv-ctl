@@ -21,4 +21,5 @@ export const diagnosticAction = async (firmwareVersion?: string) => {
 
 export const clearEepromAction = async () => {
   await clearEeprom();
+  await flashFirmware();
 };
