@@ -28,7 +28,7 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
 
   const currentTag = `v${packageJson.version}`;
 
-  const args = ["update.sh"];
+  const args = [];
 
   if (tag) {
     if (
@@ -63,13 +63,12 @@ export const updateRrivctl = async (tag?: string, channel?: UpdateChannel) => {
     }
   }
 
-  const cleanup = async () => {
-    await spawn("rm", [args[0]]);
-  };
-  await loadScript("../src/modules/update/util/update.sh", "update.sh");
-
-  await spawn(`bash`, args, cleanup);
-  await cleanup();
+  const newFilePath = await loadScript(
+    "../src/modules/update/util/update.sh",
+    "update.sh",
+  );
+  args.unshift(newFilePath);
+  await spawn(`bash`, args);
 };
 
 export const checkVersionAndUpdate = async () => {

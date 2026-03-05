@@ -1,26 +1,26 @@
 import { probeRsCheck } from "./util/probe-rs-check.ts";
-import { getRrivCtlDir } from "../../util/paths.ts";
+import { getRrivCtlFirmwareDir } from "../../util/paths.ts";
 import { spawn } from "../../util/spawn.ts";
 import { waitForReady } from "../../infra/wait-for-ready.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { loadScript } from "../../util/load-script.ts";
 import { getLatestFirmwareVersion } from "./util/get-latest-firmware-version.ts";
 import { uploadFirmwareEntry } from "./util/upload-firmware-entry.ts";
-import { existsSync } from "node:fs";
 
-export const clearEeprom = async (dirPath: string = getRrivCtlDir()) => {
+export const clearEeprom = async () => {
   const rrivScriptsVersion = await getLatestFirmwareVersion(true);
+  const dirPath = getRrivCtlFirmwareDir();
 
   console.log("clearing eeprom");
   const fileName = "clear-eeprom.sh";
-  const cleanup = async () => {
-    await spawn("rm", [fileName]);
-  };
-  await loadScript(`../src/modules/firmware/scripts/${fileName}`, fileName);
+
+  const newFilePath = await loadScript(
+    `../src/modules/firmware/scripts/${fileName}`,
+    fileName,
+  );
 
   try {
-    await spawn("bash", [fileName, dirPath, rrivScriptsVersion], cleanup);
-    await cleanup();
+    await spawn("bash", [newFilePath, dirPath, rrivScriptsVersion]);
     await new Promise((resolve) => setTimeout(resolve, 5000));
     console.log("eeprom cleared...");
   } catch (error) {
@@ -32,22 +32,13 @@ const initialFirmwareRetry = async (
   dirPath: string,
   firmwareVersion: string,
 ) => {
-  const cleanup = async () => {
-    await spawn("rm", [`flash-initial-firmware.sh`]);
-    await spawn("rm", [`flash-firmware.sh`]);
-  };
-  await loadScript(
+  const newFilePath = await loadScript(
     "../src/modules/firmware/scripts/flash-firmware.sh",
     `flash-firmware.sh`,
   );
   try {
     console.log("\nretrying...");
-    await spawn(
-      "bash",
-      [`flash-firmware.sh`, dirPath, firmwareVersion],
-      cleanup,
-    );
-    await cleanup();
+    await spawn("bash", [newFilePath, dirPath, firmwareVersion]);
     return true;
   } catch (error) {
     errorHandler({ error, exit: true });
@@ -60,31 +51,24 @@ const flash = async (
   initialFirmware?: boolean,
 ) => {
   await probeRsCheck();
-  const dirPath = getRrivCtlDir();
+  const dirPath = getRrivCtlFirmwareDir();
 
   if (initialFirmware) {
-    await clearEeprom(dirPath);
+    await clearEeprom();
   }
 
   console.log("flashing", firmwareVersion, "to device");
 
   const script = `../src/modules/firmware/scripts/${fileName}.sh`;
-  await loadScript(script, `${fileName}.sh`);
-  const cleanup = async () => {
-    const fileExists = existsSync(`${fileName}.sh`);
-    if (fileExists) {
-      await spawn("rm", [`${fileName}.sh`]);
-    }
-  };
+  const newFilePath = await loadScript(script, `${fileName}.sh`);
 
   await spawn(
     "bash",
-    [`${fileName}.sh`, dirPath, firmwareVersion],
+    [newFilePath, dirPath, firmwareVersion],
     initialFirmware
       ? () => initialFirmwareRetry(dirPath, firmwareVersion)
-      : cleanup,
+      : undefined,
   );
-  await cleanup();
 
   await waitForReady();
   console.log("device successfully flashed...");
