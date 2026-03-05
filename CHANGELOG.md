@@ -1,3 +1,10 @@
+## [2.14.2](https://github.com/rrivirr/rriv-ctl/compare/v2.14.1...v2.14.2) (2026-03-05)
+
+
+### Bug Fixes
+
+* flash device after clear eprom command ([f280122](https://github.com/rrivirr/rriv-ctl/commit/f28012219273144351766fdeb5185ea9fcdecca1))
+
 ## [2.14.1](https://github.com/rrivirr/rriv-ctl/compare/v2.14.0...v2.14.1) (2026-03-05)
 
 
