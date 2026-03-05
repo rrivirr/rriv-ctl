@@ -1,3 +1,13 @@
+## [2.14.1](https://github.com/rrivirr/rriv-ctl/compare/v2.14.0...v2.14.1) (2026-03-05)
+
+
+### Bug Fixes
+
+* check if firmware exists ([fc9b6db](https://github.com/rrivirr/rriv-ctl/commit/fc9b6db710790ceb1e9329eaa2b16467bbe6fb4a))
+* check if script is in scripts folder before attempting to load ([961d971](https://github.com/rrivirr/rriv-ctl/commit/961d9716dc33b119fa45401e361b76a062b21e7c))
+* functions for firmware and scripts directories ([13fc931](https://github.com/rrivirr/rriv-ctl/commit/13fc9313093eb8630d788b9057f509d4a8b5408f))
+* move scripts to local directory ([b35c43c](https://github.com/rrivirr/rriv-ctl/commit/b35c43c838c18663888621ce0327fc6c78644431))
+
 # [2.14.0](https://github.com/rrivirr/rriv-ctl/compare/v2.13.0...v2.14.0) (2026-03-01)
 
 
