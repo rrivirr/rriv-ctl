@@ -92,3 +92,22 @@ export const sendCommand = async (body: {
   const response = await rrivApiAxios.post(`/device/sendCommand`, body);
   return response.data;
 };
+
+export const createLog = async (body: { log: string; identifier: string }) => {
+  await rrivApiAxios.post(`/device/log`, body);
+};
+
+export const getLogs = async (query: {
+  identifier: string;
+}): Promise<
+  {
+    log: string;
+    createdAt: string;
+    Creator: { firstName: string; lastName: string };
+  }[]
+> => {
+  const response = await rrivApiAxios.get("/device/log", {
+    params: { ...query },
+  });
+  return response.data;
+};

@@ -59,6 +59,7 @@ export const preAction = async (
         commandParentName === "history" ||
         commandParentName === "library" ||
         commandParentName === "firmware" ||
+        commandParentName === "logs" ||
         (commandName === "watch" && args.length) ||
         (commandName === "history" &&
           commandParentName === "get" &&
