@@ -1,3 +1,10 @@
+# [2.15.0](https://github.com/rrivirr/rriv-ctl/compare/v2.14.2...v2.15.0) (2026-03-09)
+
+
+### Features
+
+* add logs command ([de0d5b9](https://github.com/rrivirr/rriv-ctl/commit/de0d5b94cd4ef3980d43d736105743bb1b1a59fd))
+
 ## [2.14.2](https://github.com/rrivirr/rriv-ctl/compare/v2.14.1...v2.14.2) (2026-03-05)
 
 
