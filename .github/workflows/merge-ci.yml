@@ -37,6 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   binaries:
+    if: ${{ needs.release.outputs.new-release-git-tag }}
     name: Publish binaries
     runs-on: ubuntu-latest
     needs: release
