@@ -27,3 +27,37 @@ jobs:
 
       # - name: run test
       #   run: npm test
+
+  test-prerelease-script:
+    if: github.base_ref == 'main' && startsWith(github.head_ref, 'preview-')
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Get tag
+        id: version
+        run: echo "pkg_version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Download script for specified version
+        run: |
+          curl --proto '=https' --tlsv1.2 -LsSf https://github.com/rrivirr/rriv-ctl/releases/download/${{steps.version.outputs.pkg_version}}/rrivctl-installer.sh | bash -s ${{steps.version.outputs.pkg_version}}
+
+      - name: Confirm rrivctl is working correctly
+        run: |
+          rrivctl_version=$(rrivctlv2 --version)
+          pkg_version="${{ steps.output.version.pkg_version }}"
+
+          if [[ "$rrivctl_version" != "$pkg_version" ]]; then
+            echo "ERROR: Version mismatch!"
+            echo "rrivctlv2 version: $rrivctl_version"
+            echo "pkg version: $pkg_version"
+            exit 1
+          fi
+          echo "Versions match!"
