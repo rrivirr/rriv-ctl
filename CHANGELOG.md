@@ -1,11 +1,10 @@
-## [2.15.1-preview-test.1](https://github.com/rrivirr/rriv-ctl/compare/v2.15.0...v2.15.1-preview-test.1) (2026-03-10)
+## [2.15.1](https://github.com/rrivirr/rriv-ctl/compare/v2.15.0...v2.15.1) (2026-03-10)
 
 
 ### Bug Fixes
 
 * add binary pr check ([b4eeb37](https://github.com/rrivirr/rriv-ctl/commit/b4eeb374c2e3e33d7d26149cc38bb210feaf9759))
 * source shell file if required ([f71bbe6](https://github.com/rrivirr/rriv-ctl/commit/f71bbe6f477834a2c4b81eab62b12748722a4305))
-* test release ([5898671](https://github.com/rrivirr/rriv-ctl/commit/5898671e9cbe15b3b402bb6c9c863aab25e39300))
 
 # [2.15.0](https://github.com/rrivirr/rriv-ctl/compare/v2.14.2...v2.15.0) (2026-03-09)
 
