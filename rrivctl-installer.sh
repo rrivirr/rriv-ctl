@@ -69,6 +69,8 @@ function rrivctlv2() {
     $app_location "\$@"
 }
 EOL
+
+        source $shell_rc
     }
     
     rm_prev_alias()
