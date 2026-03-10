@@ -4,7 +4,7 @@ import { DefaultObject } from "./types.ts";
 export const getAutoCompleteTree = (cli: Command) => {
   const traverseCommands = (
     command: Command,
-    childTree: DefaultObject = {}
+    childTree: DefaultObject = {},
   ) => {
     const commandName = command.name();
     const isCommandRoot = commandName === "rrivctl";
@@ -21,7 +21,7 @@ export const getAutoCompleteTree = (cli: Command) => {
               acc[curr] = ["-h"];
               return acc;
             },
-            {}
+            {},
           );
         } else {
           childTree[commandName] = ["-h"];
@@ -34,10 +34,9 @@ export const getAutoCompleteTree = (cli: Command) => {
     for (const child of command.commands) {
       traverseCommands(
         child,
-        !isCommandRoot ? childTree[commandName] : childTree
+        !isCommandRoot ? childTree[commandName] : childTree,
       );
     }
-
     return childTree;
   };
 

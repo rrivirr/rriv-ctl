@@ -1,326 +1,310 @@
-## [2.15.1](https://github.com/rrivirr/rriv-ctl/compare/v2.15.0...v2.15.1) (2026-03-10)
-
+## [2.15.2-preview-test.2](https://github.com/rrivirr/rriv-ctl/compare/v2.15.2-preview-test.1...v2.15.2-preview-test.2) (2026-03-10)
 
 ### Bug Fixes
 
-* add binary pr check ([b4eeb37](https://github.com/rrivirr/rriv-ctl/commit/b4eeb374c2e3e33d7d26149cc38bb210feaf9759))
-* source shell file if required ([f71bbe6](https://github.com/rrivirr/rriv-ctl/commit/f71bbe6f477834a2c4b81eab62b12748722a4305))
+- test release ([8ab65a2](https://github.com/rrivirr/rriv-ctl/commit/8ab65a2ec20b131a45960d36ae1a538960fd15f0))
+
+### Bug Fixes
+
+- test release ([8ab65a2](https://github.com/rrivirr/rriv-ctl/commit/8ab65a2ec20b131a45960d36ae1a538960fd15f0))
+
+## [2.15.2-preview-test.1](https://github.com/rrivirr/rriv-ctl/compare/v2.15.1...v2.15.2-preview-test.1) (2026-03-10)
+
+### Bug Fixes
+
+- test release ([5898671](https://github.com/rrivirr/rriv-ctl/commit/5898671e9cbe15b3b402bb6c9c863aab25e39300))
+  <<<<<<< HEAD
+  =======
+
+## [2.15.1](https://github.com/rrivirr/rriv-ctl/compare/v2.15.0...v2.15.1) (2026-03-10)
+
+### Bug Fixes
+
+- test release ([5898671](https://github.com/rrivirr/rriv-ctl/commit/5898671e9cbe15b3b402bb6c9c863aab25e39300))
+  > > > > > > > b1cfa75d782b75e744c539d274f5af6df98f5286
+
+## [2.15.1](https://github.com/rrivirr/rriv-ctl/compare/v2.15.0...v2.15.1) (2026-03-10)
+
+## [2.15.1-preview-test.1](https://github.com/rrivirr/rriv-ctl/compare/v2.15.0...v2.15.1-preview-test.1) (2026-03-10)
+
+### Bug Fixes
+
+- add binary pr check ([b4eeb37](https://github.com/rrivirr/rriv-ctl/commit/b4eeb374c2e3e33d7d26149cc38bb210feaf9759))
+- source shell file if required ([f71bbe6](https://github.com/rrivirr/rriv-ctl/commit/f71bbe6f477834a2c4b81eab62b12748722a4305))
+- test release ([5898671](https://github.com/rrivirr/rriv-ctl/commit/5898671e9cbe15b3b402bb6c9c863aab25e39300))
 
 # [2.15.0](https://github.com/rrivirr/rriv-ctl/compare/v2.14.2...v2.15.0) (2026-03-09)
 
-
 ### Features
 
-* add logs command ([de0d5b9](https://github.com/rrivirr/rriv-ctl/commit/de0d5b94cd4ef3980d43d736105743bb1b1a59fd))
+- add logs command ([de0d5b9](https://github.com/rrivirr/rriv-ctl/commit/de0d5b94cd4ef3980d43d736105743bb1b1a59fd))
 
 ## [2.14.2](https://github.com/rrivirr/rriv-ctl/compare/v2.14.1...v2.14.2) (2026-03-05)
 
-
 ### Bug Fixes
 
-* flash device after clear eprom command ([f280122](https://github.com/rrivirr/rriv-ctl/commit/f28012219273144351766fdeb5185ea9fcdecca1))
+- flash device after clear eprom command ([f280122](https://github.com/rrivirr/rriv-ctl/commit/f28012219273144351766fdeb5185ea9fcdecca1))
 
 ## [2.14.1](https://github.com/rrivirr/rriv-ctl/compare/v2.14.0...v2.14.1) (2026-03-05)
 
-
 ### Bug Fixes
 
-* check if firmware exists ([fc9b6db](https://github.com/rrivirr/rriv-ctl/commit/fc9b6db710790ceb1e9329eaa2b16467bbe6fb4a))
-* check if script is in scripts folder before attempting to load ([961d971](https://github.com/rrivirr/rriv-ctl/commit/961d9716dc33b119fa45401e361b76a062b21e7c))
-* functions for firmware and scripts directories ([13fc931](https://github.com/rrivirr/rriv-ctl/commit/13fc9313093eb8630d788b9057f509d4a8b5408f))
-* move scripts to local directory ([b35c43c](https://github.com/rrivirr/rriv-ctl/commit/b35c43c838c18663888621ce0327fc6c78644431))
+- check if firmware exists ([fc9b6db](https://github.com/rrivirr/rriv-ctl/commit/fc9b6db710790ceb1e9329eaa2b16467bbe6fb4a))
+- check if script is in scripts folder before attempting to load ([961d971](https://github.com/rrivirr/rriv-ctl/commit/961d9716dc33b119fa45401e361b76a062b21e7c))
+- functions for firmware and scripts directories ([13fc931](https://github.com/rrivirr/rriv-ctl/commit/13fc9313093eb8630d788b9057f509d4a8b5408f))
+- move scripts to local directory ([b35c43c](https://github.com/rrivirr/rriv-ctl/commit/b35c43c838c18663888621ce0327fc6c78644431))
 
 # [2.14.0](https://github.com/rrivirr/rriv-ctl/compare/v2.13.0...v2.14.0) (2026-03-01)
 
-
 ### Features
 
-* clear eeprom command ([30cbf06](https://github.com/rrivirr/rriv-ctl/commit/30cbf06dd503ca7b56f34a6ca5e127dee8a82d58))
+- clear eeprom command ([30cbf06](https://github.com/rrivirr/rriv-ctl/commit/30cbf06dd503ca7b56f34a6ca5e127dee8a82d58))
 
 # [2.13.0](https://github.com/rrivirr/rriv-ctl/compare/v2.12.3...v2.13.0) (2026-02-28)
 
-
 ### Bug Fixes
 
-* customize action after errorCleanup ([4294362](https://github.com/rrivirr/rriv-ctl/commit/4294362eba784ef5e0f852cf1bab7427f2fdd1d5))
-* rewrite waitForReady to get path directly iff needed ([e12a4dd](https://github.com/rrivirr/rriv-ctl/commit/e12a4dd2142f3d36b8e1f1ce2635cae629ea2264))
-
+- customize action after errorCleanup ([4294362](https://github.com/rrivirr/rriv-ctl/commit/4294362eba784ef5e0f852cf1bab7427f2fdd1d5))
+- rewrite waitForReady to get path directly iff needed ([e12a4dd](https://github.com/rrivirr/rriv-ctl/commit/e12a4dd2142f3d36b8e1f1ce2635cae629ea2264))
 
 ### Features
 
-* clear eeprom before provisioning ([7658f46](https://github.com/rrivirr/rriv-ctl/commit/7658f4629c25c0b8b354a7a002d52cdeaedbc030))
-* clear-eeprom script ([0a60c68](https://github.com/rrivirr/rriv-ctl/commit/0a60c689d7bb26953c8df08e00264ddfa170075c))
+- clear eeprom before provisioning ([7658f46](https://github.com/rrivirr/rriv-ctl/commit/7658f4629c25c0b8b354a7a002d52cdeaedbc030))
+- clear-eeprom script ([0a60c68](https://github.com/rrivirr/rriv-ctl/commit/0a60c689d7bb26953c8df08e00264ddfa170075c))
 
 ## [2.12.3](https://github.com/rrivirr/rriv-ctl/compare/v2.12.2...v2.12.3) (2026-02-26)
 
-
 ### Bug Fixes
 
-* license ([f9712ad](https://github.com/rrivirr/rriv-ctl/commit/f9712ad502b56af3dbfd6f2f01a1e75f93c6f9ee))
+- license ([f9712ad](https://github.com/rrivirr/rriv-ctl/commit/f9712ad502b56af3dbfd6f2f01a1e75f93c6f9ee))
 
 ## [2.12.2](https://github.com/rrivirr/rriv-ctl/compare/v2.12.1...v2.12.2) (2026-02-26)
 
-
 ### Bug Fixes
 
-* rework auto complete check ([dac2413](https://github.com/rrivirr/rriv-ctl/commit/dac241342807f5114d60d3701774d5714dde5ad7))
+- rework auto complete check ([dac2413](https://github.com/rrivirr/rriv-ctl/commit/dac241342807f5114d60d3701774d5714dde5ad7))
 
 ## [2.12.1](https://github.com/rrivirr/rriv-ctl/compare/v2.12.0...v2.12.1) (2026-02-25)
 
-
 ### Bug Fixes
 
-* make scripts executable ([19b44c4](https://github.com/rrivirr/rriv-ctl/commit/19b44c412d3bdde77d782337a138f4b95f872d0d))
+- make scripts executable ([19b44c4](https://github.com/rrivirr/rriv-ctl/commit/19b44c412d3bdde77d782337a138f4b95f872d0d))
 
 # [2.12.0](https://github.com/rrivirr/rriv-ctl/compare/v2.11.0...v2.12.0) (2026-02-24)
 
-
 ### Bug Fixes
 
-* prevent calling getConnectedDevice twice if avoidable ([a686c65](https://github.com/rrivirr/rriv-ctl/commit/a686c656b9275388d80a8a9d20c72cd2c3620b27))
-
+- prevent calling getConnectedDevice twice if avoidable ([a686c65](https://github.com/rrivirr/rriv-ctl/commit/a686c656b9275388d80a8a9d20c72cd2c3620b27))
 
 ### Features
 
-* log warning/error codes if foung ([c0f6d1f](https://github.com/rrivirr/rriv-ctl/commit/c0f6d1fafb80c56ba48e194c122594476d37692c))
+- log warning/error codes if foung ([c0f6d1f](https://github.com/rrivirr/rriv-ctl/commit/c0f6d1fafb80c56ba48e194c122594476d37692c))
 
 # [2.11.0](https://github.com/rrivirr/rriv-ctl/compare/v2.10.24...v2.11.0) (2026-02-24)
 
-
 ### Bug Fixes
 
-* add firmware command to list of commands not supported by repl ([96f5e06](https://github.com/rrivirr/rriv-ctl/commit/96f5e06d05ae92a57b054082c448483a5fc9e4a0))
-* add SIGINT(ctrl+c) process listener/handler ([6ad2d1e](https://github.com/rrivirr/rriv-ctl/commit/6ad2d1e6b2d7794136fc58c3e92682422355c6e7))
-* auto attempt to login if auth check fails ([4b5fd1b](https://github.com/rrivirr/rriv-ctl/commit/4b5fd1b87c5632f7d34b50075f1a39e6aedd76f8))
-* exempt firmware commands(diagnostic) from device and context checks ([fcf053b](https://github.com/rrivirr/rriv-ctl/commit/fcf053b372662363e8a6342f93c3f4ecd2e1b0f4))
-* exempt firmware get history from context and device checks if serial number is provided ([57f35ef](https://github.com/rrivirr/rriv-ctl/commit/57f35ef0cf9354d79a4229d8dbdc13757bfd8506))
-* exempt flash command from device checks ([b38c998](https://github.com/rrivirr/rriv-ctl/commit/b38c998b69b1dff0cdad5c152c7abb365229b942))
-* extend getLatestFirmwareVersion to support firmware and scripts repos ([2500797](https://github.com/rrivirr/rriv-ctl/commit/25007978ab6dd7c2dcc00b432c2799fa9b82a0de))
-* extract firmware flash log cloud upload to a new file ([3fcd5ce](https://github.com/rrivirr/rriv-ctl/commit/3fcd5cea6923eacf7447719e11b99ad0796a49e8))
-* firmware version log upload extracted to separate file ([da8a09f](https://github.com/rrivirr/rriv-ctl/commit/da8a09fce5a0e8a0f06e8f53092ed6e29ce42e3f))
-* replace sigIntFunctions functionality with process.on sigInt handler/process.emit(sigint) ([7498a58](https://github.com/rrivirr/rriv-ctl/commit/7498a5878ef15c8a5f56cc50c6ec1e65be121d34))
-* run diagnostics script ([efb9d0e](https://github.com/rrivirr/rriv-ctl/commit/efb9d0e990cfed6de043e600ab67315da9c8e8a2))
-
+- add firmware command to list of commands not supported by repl ([96f5e06](https://github.com/rrivirr/rriv-ctl/commit/96f5e06d05ae92a57b054082c448483a5fc9e4a0))
+- add SIGINT(ctrl+c) process listener/handler ([6ad2d1e](https://github.com/rrivirr/rriv-ctl/commit/6ad2d1e6b2d7794136fc58c3e92682422355c6e7))
+- auto attempt to login if auth check fails ([4b5fd1b](https://github.com/rrivirr/rriv-ctl/commit/4b5fd1b87c5632f7d34b50075f1a39e6aedd76f8))
+- exempt firmware commands(diagnostic) from device and context checks ([fcf053b](https://github.com/rrivirr/rriv-ctl/commit/fcf053b372662363e8a6342f93c3f4ecd2e1b0f4))
+- exempt firmware get history from context and device checks if serial number is provided ([57f35ef](https://github.com/rrivirr/rriv-ctl/commit/57f35ef0cf9354d79a4229d8dbdc13757bfd8506))
+- exempt flash command from device checks ([b38c998](https://github.com/rrivirr/rriv-ctl/commit/b38c998b69b1dff0cdad5c152c7abb365229b942))
+- extend getLatestFirmwareVersion to support firmware and scripts repos ([2500797](https://github.com/rrivirr/rriv-ctl/commit/25007978ab6dd7c2dcc00b432c2799fa9b82a0de))
+- extract firmware flash log cloud upload to a new file ([3fcd5ce](https://github.com/rrivirr/rriv-ctl/commit/3fcd5cea6923eacf7447719e11b99ad0796a49e8))
+- firmware version log upload extracted to separate file ([da8a09f](https://github.com/rrivirr/rriv-ctl/commit/da8a09fce5a0e8a0f06e8f53092ed6e29ce42e3f))
+- replace sigIntFunctions functionality with process.on sigInt handler/process.emit(sigint) ([7498a58](https://github.com/rrivirr/rriv-ctl/commit/7498a5878ef15c8a5f56cc50c6ec1e65be121d34))
+- run diagnostics script ([efb9d0e](https://github.com/rrivirr/rriv-ctl/commit/efb9d0e990cfed6de043e600ab67315da9c8e8a2))
 
 ### Features
 
-* new firmware diagnostic command ([db5d893](https://github.com/rrivirr/rriv-ctl/commit/db5d89351be415c531a6144adc54de2c025696ff))
-* run diagnostics firmware functionality ([11cea67](https://github.com/rrivirr/rriv-ctl/commit/11cea6785dba4cfd27ae8f700632f8e4e65c4622))
+- new firmware diagnostic command ([db5d893](https://github.com/rrivirr/rriv-ctl/commit/db5d89351be415c531a6144adc54de2c025696ff))
+- run diagnostics firmware functionality ([11cea67](https://github.com/rrivirr/rriv-ctl/commit/11cea6785dba4cfd27ae8f700632f8e4e65c4622))
 
 ## [2.10.24](https://github.com/rrivirr/rriv-ctl/compare/v2.10.23...v2.10.24) (2026-02-19)
 
-
 ### Bug Fixes
 
-* [#164](https://github.com/rrivirr/rriv-ctl/issues/164) ([f29542e](https://github.com/rrivirr/rriv-ctl/commit/f29542eacd909c69833c8ca046659c91823fd637))
+- [#164](https://github.com/rrivirr/rriv-ctl/issues/164) ([f29542e](https://github.com/rrivirr/rriv-ctl/commit/f29542eacd909c69833c8ca046659c91823fd637))
 
 ## [2.10.23](https://github.com/rrivirr/rriv-ctl/compare/v2.10.22...v2.10.23) (2026-02-18)
 
-
 ### Bug Fixes
 
-* [#166](https://github.com/rrivirr/rriv-ctl/issues/166) ([#172](https://github.com/rrivirr/rriv-ctl/issues/172)) ([d437ec0](https://github.com/rrivirr/rriv-ctl/commit/d437ec0fc725534853083593e1299d44124504c3))
+- [#166](https://github.com/rrivirr/rriv-ctl/issues/166) ([#172](https://github.com/rrivirr/rriv-ctl/issues/172)) ([d437ec0](https://github.com/rrivirr/rriv-ctl/commit/d437ec0fc725534853083593e1299d44124504c3))
 
 ## [2.10.22](https://github.com/rrivirr/rriv-ctl/compare/v2.10.21...v2.10.22) (2026-02-18)
 
-
 ### Bug Fixes
 
-* [#156](https://github.com/rrivirr/rriv-ctl/issues/156) ([505bd6d](https://github.com/rrivirr/rriv-ctl/commit/505bd6d418df0bca7d6182ef22e1b70075f9a642))
+- [#156](https://github.com/rrivirr/rriv-ctl/issues/156) ([505bd6d](https://github.com/rrivirr/rriv-ctl/commit/505bd6d418df0bca7d6182ef22e1b70075f9a642))
 
 ## [2.10.21](https://github.com/rrivirr/rriv-ctl/compare/v2.10.20...v2.10.21) (2026-02-16)
 
-
 ### Bug Fixes
 
-* error messages ([d4ec1b1](https://github.com/rrivirr/rriv-ctl/commit/d4ec1b1ea91193291ad2930e39b545476d65457e))
+- error messages ([d4ec1b1](https://github.com/rrivirr/rriv-ctl/commit/d4ec1b1ea91193291ad2930e39b545476d65457e))
 
 ## [2.10.20](https://github.com/rrivirr/rriv-ctl/compare/v2.10.19...v2.10.20) (2026-02-13)
 
-
 ### Bug Fixes
 
-* ?.includes ([063750a](https://github.com/rrivirr/rriv-ctl/commit/063750ac826bf5fc2f6e8dfdbe27c7231065d0e4))
+- ?.includes ([063750a](https://github.com/rrivirr/rriv-ctl/commit/063750ac826bf5fc2f6e8dfdbe27c7231065d0e4))
 
 ## [2.10.19](https://github.com/rrivirr/rriv-ctl/compare/v2.10.18...v2.10.19) (2026-02-12)
 
-
 ### Bug Fixes
 
-* connect command ([14e0369](https://github.com/rrivirr/rriv-ctl/commit/14e0369d421629d60b9a9d5781299242d7573e68))
+- connect command ([14e0369](https://github.com/rrivirr/rriv-ctl/commit/14e0369d421629d60b9a9d5781299242d7573e68))
 
 ## [2.10.18](https://github.com/rrivirr/rriv-ctl/compare/v2.10.17...v2.10.18) (2026-02-12)
 
-
 ### Bug Fixes
 
-* support device access as guest ([ac22b67](https://github.com/rrivirr/rriv-ctl/commit/ac22b677454aa6e86a2335baa27d30b956432d38))
+- support device access as guest ([ac22b67](https://github.com/rrivirr/rriv-ctl/commit/ac22b677454aa6e86a2335baa27d30b956432d38))
 
 ## [2.10.17](https://github.com/rrivirr/rriv-ctl/compare/v2.10.16...v2.10.17) (2026-02-11)
 
-
 ### Bug Fixes
 
-* add downloading firmware message ([7255c17](https://github.com/rrivirr/rriv-ctl/commit/7255c176c707e682f17ae16beb0eaa4b9c1dee65))
-* add text for lookup step ([2b22b9d](https://github.com/rrivirr/rriv-ctl/commit/2b22b9d9b2155738b27015cd7917c2b9f646f55f))
+- add downloading firmware message ([7255c17](https://github.com/rrivirr/rriv-ctl/commit/7255c176c707e682f17ae16beb0eaa4b9c1dee65))
+- add text for lookup step ([2b22b9d](https://github.com/rrivirr/rriv-ctl/commit/2b22b9d9b2155738b27015cd7917c2b9f646f55f))
 
 ## [2.10.16](https://github.com/rrivirr/rriv-ctl/compare/v2.10.15...v2.10.16) (2026-02-02)
 
-
 ### Bug Fixes
 
-* remove source rc ([3e6d776](https://github.com/rrivirr/rriv-ctl/commit/3e6d776bc6c5e433955c88bbce0208761bef56a0))
+- remove source rc ([3e6d776](https://github.com/rrivirr/rriv-ctl/commit/3e6d776bc6c5e433955c88bbce0208761bef56a0))
 
 ## [2.10.15](https://github.com/rrivirr/rriv-ctl/compare/v2.10.14...v2.10.15) (2026-02-02)
 
-
 ### Bug Fixes
 
-* remove excess console.log ([bbebb92](https://github.com/rrivirr/rriv-ctl/commit/bbebb9288d0708a6d17a79831a7bf6cd2ba5598c))
+- remove excess console.log ([bbebb92](https://github.com/rrivirr/rriv-ctl/commit/bbebb9288d0708a6d17a79831a7bf6cd2ba5598c))
 
 ## [2.10.14](https://github.com/rrivirr/rriv-ctl/compare/v2.10.13...v2.10.14) (2026-02-01)
 
-
 ### Bug Fixes
 
-* remork auto setup autocomplete ([4d8c2c2](https://github.com/rrivirr/rriv-ctl/commit/4d8c2c2e236191f8fee172a5c85807e71f531367))
+- remork auto setup autocomplete ([4d8c2c2](https://github.com/rrivirr/rriv-ctl/commit/4d8c2c2e236191f8fee172a5c85807e71f531367))
 
 ## [2.10.13](https://github.com/rrivirr/rriv-ctl/compare/v2.10.12...v2.10.13) (2026-02-01)
 
-
 ### Bug Fixes
 
-* test auto complete set up ([fa26887](https://github.com/rrivirr/rriv-ctl/commit/fa268870464bc0b174f35fede2330bbac9e80872))
+- test auto complete set up ([fa26887](https://github.com/rrivirr/rriv-ctl/commit/fa268870464bc0b174f35fede2330bbac9e80872))
 
 ## [2.10.12](https://github.com/rrivirr/rriv-ctl/compare/v2.10.11...v2.10.12) (2026-02-01)
 
-
 ### Bug Fixes
 
-* installer for auto complete ([1ba9d26](https://github.com/rrivirr/rriv-ctl/commit/1ba9d2615def8684a2dec4cc7940a84e40903e8c))
+- installer for auto complete ([1ba9d26](https://github.com/rrivirr/rriv-ctl/commit/1ba9d2615def8684a2dec4cc7940a84e40903e8c))
 
 ## [2.10.11](https://github.com/rrivirr/rriv-ctl/compare/v2.10.10...v2.10.11) (2026-02-01)
 
-
 ### Bug Fixes
 
-* update script ([a80c877](https://github.com/rrivirr/rriv-ctl/commit/a80c8776803b5664023d2391ba09108328c36462))
+- update script ([a80c877](https://github.com/rrivirr/rriv-ctl/commit/a80c8776803b5664023d2391ba09108328c36462))
 
 ## [2.10.10](https://github.com/rrivirr/rriv-ctl/compare/v2.10.9...v2.10.10) (2026-02-01)
 
-
 ### Bug Fixes
 
-* auto update ([ff48819](https://github.com/rrivirr/rriv-ctl/commit/ff4881917972ab19c42206ca8aa4b0ee5742ffcf))
+- auto update ([ff48819](https://github.com/rrivirr/rriv-ctl/commit/ff4881917972ab19c42206ca8aa4b0ee5742ffcf))
 
 ## [2.10.9](https://github.com/rrivirr/rriv-ctl/compare/v2.10.8...v2.10.9) (2026-02-01)
 
-
 ### Bug Fixes
 
-* auto update ([6a7fbd7](https://github.com/rrivirr/rriv-ctl/commit/6a7fbd7c595f33365833f4c9b351320335be06b3))
+- auto update ([6a7fbd7](https://github.com/rrivirr/rriv-ctl/commit/6a7fbd7c595f33365833f4c9b351320335be06b3))
 
 ## [2.10.8](https://github.com/rrivirr/rriv-ctl/compare/v2.10.7...v2.10.8) (2026-01-27)
 
-
 ### Bug Fixes
 
-* handle empty response ([55311e3](https://github.com/rrivirr/rriv-ctl/commit/55311e33bd5326c729c746244a83d236113e88aa))
-* handle empty response ([3b39517](https://github.com/rrivirr/rriv-ctl/commit/3b395170eb7a19be6cf25807aa1f2e0fd288b26d))
+- handle empty response ([55311e3](https://github.com/rrivirr/rriv-ctl/commit/55311e33bd5326c729c746244a83d236113e88aa))
+- handle empty response ([3b39517](https://github.com/rrivirr/rriv-ctl/commit/3b395170eb7a19be6cf25807aa1f2e0fd288b26d))
 
 ## [2.10.7](https://github.com/rrivirr/rriv-ctl/compare/v2.10.6...v2.10.7) (2026-01-27)
 
-
 ### Bug Fixes
 
-* provision device with custom firmware version ([5762c28](https://github.com/rrivirr/rriv-ctl/commit/5762c28c669c8e7099378e28f8634cd7363ed601))
+- provision device with custom firmware version ([5762c28](https://github.com/rrivirr/rriv-ctl/commit/5762c28c669c8e7099378e28f8634cd7363ed601))
 
 ## [2.10.6](https://github.com/rrivirr/rriv-ctl/compare/v2.10.5...v2.10.6) (2026-01-27)
 
-
 ### Bug Fixes
 
-* add debug log ([2fbf344](https://github.com/rrivirr/rriv-ctl/commit/2fbf34457d2eba66f5106e003062bdc9200453f9))
+- add debug log ([2fbf344](https://github.com/rrivirr/rriv-ctl/commit/2fbf34457d2eba66f5106e003062bdc9200453f9))
 
 ## [2.10.5](https://github.com/rrivirr/rriv-ctl/compare/v2.10.4...v2.10.5) (2026-01-25)
 
-
 ### Bug Fixes
 
-* [#141](https://github.com/rrivirr/rriv-ctl/issues/141) ([9516a97](https://github.com/rrivirr/rriv-ctl/commit/9516a973ded18cc5341cde43f64fb4aaf6f86879))
+- [#141](https://github.com/rrivirr/rriv-ctl/issues/141) ([9516a97](https://github.com/rrivirr/rriv-ctl/commit/9516a973ded18cc5341cde43f64fb4aaf6f86879))
 
 ## [2.10.4](https://github.com/rrivirr/rriv-ctl/compare/v2.10.3...v2.10.4) (2026-01-25)
 
-
 ### Bug Fixes
 
-* [#51](https://github.com/rrivirr/rriv-ctl/issues/51) ([50e8af6](https://github.com/rrivirr/rriv-ctl/commit/50e8af6fdc58da43e22105ac3364779c96444dcd))
+- [#51](https://github.com/rrivirr/rriv-ctl/issues/51) ([50e8af6](https://github.com/rrivirr/rriv-ctl/commit/50e8af6fdc58da43e22105ac3364779c96444dcd))
 
 ## [2.10.3](https://github.com/rrivirr/rriv-ctl/compare/v2.10.2...v2.10.3) (2026-01-23)
 
-
 ### Bug Fixes
 
-* [#115](https://github.com/rrivirr/rriv-ctl/issues/115) ([c23d710](https://github.com/rrivirr/rriv-ctl/commit/c23d710d302ee222c318f98c2a7901e6b3be2996))
+- [#115](https://github.com/rrivirr/rriv-ctl/issues/115) ([c23d710](https://github.com/rrivirr/rriv-ctl/commit/c23d710d302ee222c318f98c2a7901e6b3be2996))
 
 ## [2.10.2](https://github.com/rrivirr/rriv-ctl/compare/v2.10.1...v2.10.2) (2026-01-23)
 
-
 ### Bug Fixes
 
-* [#127](https://github.com/rrivirr/rriv-ctl/issues/127) ([e3f75aa](https://github.com/rrivirr/rriv-ctl/commit/e3f75aae7486da445e83648331f90379c6f32658))
+- [#127](https://github.com/rrivirr/rriv-ctl/issues/127) ([e3f75aa](https://github.com/rrivirr/rriv-ctl/commit/e3f75aae7486da445e83648331f90379c6f32658))
 
 ## [2.10.1](https://github.com/rrivirr/rriv-ctl/compare/v2.10.0...v2.10.1) (2026-01-23)
 
-
 ### Bug Fixes
 
-* firmware download location ([3325959](https://github.com/rrivirr/rriv-ctl/commit/33259597efa966703a7601d4b8d7247b6aadade3))
+- firmware download location ([3325959](https://github.com/rrivirr/rriv-ctl/commit/33259597efa966703a7601d4b8d7247b6aadade3))
 
 # [2.10.0](https://github.com/rrivirr/rriv-ctl/compare/v2.9.6...v2.10.0) (2026-01-22)
 
-
 ### Features
 
-* [#125](https://github.com/rrivirr/rriv-ctl/issues/125) ([007d084](https://github.com/rrivirr/rriv-ctl/commit/007d08498c2b7da9b32d464496d581eb66fb41dc))
+- [#125](https://github.com/rrivirr/rriv-ctl/issues/125) ([007d084](https://github.com/rrivirr/rriv-ctl/commit/007d08498c2b7da9b32d464496d581eb66fb41dc))
 
 ## [2.9.6](https://github.com/rrivirr/rriv-ctl/compare/v2.9.5...v2.9.6) (2026-01-20)
 
-
 ### Bug Fixes
 
-* [#106](https://github.com/rrivirr/rriv-ctl/issues/106) ([ded2d9f](https://github.com/rrivirr/rriv-ctl/commit/ded2d9ffcf5b5e509fa3403b4b2ab173d6f3ad29))
+- [#106](https://github.com/rrivirr/rriv-ctl/issues/106) ([ded2d9f](https://github.com/rrivirr/rriv-ctl/commit/ded2d9ffcf5b5e509fa3403b4b2ab173d6f3ad29))
 
 ## [2.9.5](https://github.com/rrivirr/rriv-ctl/compare/v2.9.4...v2.9.5) (2026-01-20)
 
-
 ### Bug Fixes
 
-* auth changes ([b3fb972](https://github.com/rrivirr/rriv-ctl/commit/b3fb9728834f3ece79496dfeeec1d12b10d483fe))
-* auth while env switching ([bad437e](https://github.com/rrivirr/rriv-ctl/commit/bad437e44606475239e2de10c34c6d8336452d73))
+- auth changes ([b3fb972](https://github.com/rrivirr/rriv-ctl/commit/b3fb9728834f3ece79496dfeeec1d12b10d483fe))
+- auth while env switching ([bad437e](https://github.com/rrivirr/rriv-ctl/commit/bad437e44606475239e2de10c34c6d8336452d73))
 
 ## [2.9.4](https://github.com/rrivirr/rriv-ctl/compare/v2.9.3...v2.9.4) (2026-01-14)
 
-
 ### Bug Fixes
 
-* signup message ([489c7e6](https://github.com/rrivirr/rriv-ctl/commit/489c7e6459e2888751c97ec2552292c0ce15f3b2))
+- signup message ([489c7e6](https://github.com/rrivirr/rriv-ctl/commit/489c7e6459e2888751c97ec2552292c0ce15f3b2))
 
 ## [2.9.3](https://github.com/rrivirr/rriv-ctl/compare/v2.9.2...v2.9.3) (2026-01-14)
 
-
 ### Bug Fixes
 
-* get data should use identifier ([13dab83](https://github.com/rrivirr/rriv-ctl/commit/13dab834756de8f24ff68dd34df139d07edf1777))
+- get data should use identifier ([13dab83](https://github.com/rrivirr/rriv-ctl/commit/13dab834756de8f24ff68dd34df139d07edf1777))
 
 ## [2.9.2](https://github.com/rrivirr/rriv-ctl/compare/v2.9.1...v2.9.2) (2026-01-14)
 
-
 ### Bug Fixes
 
-* merge alpha ([d6b95e7](https://github.com/rrivirr/rriv-ctl/commit/d6b95e75cc2b9b5a499f4c890ec8cf0c15a21a0b))
-* remove quiet mode ([ca40b6f](https://github.com/rrivirr/rriv-ctl/commit/ca40b6fb8387ca2d341f6664fee25bc2927b8b83))
-* skip flashing for provision device ([f7529d3](https://github.com/rrivirr/rriv-ctl/commit/f7529d3f90391ba1094d5cdadb4151ed34bbe6b3))
+- merge alpha ([d6b95e7](https://github.com/rrivirr/rriv-ctl/commit/d6b95e75cc2b9b5a499f4c890ec8cf0c15a21a0b))
+- remove quiet mode ([ca40b6f](https://github.com/rrivirr/rriv-ctl/commit/ca40b6fb8387ca2d341f6664fee25bc2927b8b83))
+- skip flashing for provision device ([f7529d3](https://github.com/rrivirr/rriv-ctl/commit/f7529d3f90391ba1094d5cdadb4151ed34bbe6b3))
 
 ## [2.9.1](https://github.com/rrivirr/rriv-ctl/compare/v2.9.0...v2.9.1) (2026-01-13)
 
