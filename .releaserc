@@ -8,6 +8,10 @@
     {
       "name": "beta",
       "prerelease": true
+    },
+    {
+      "name": "preview-*",
+      "prerelease": true
     }
   ],
   "plugins": [
