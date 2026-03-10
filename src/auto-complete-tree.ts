@@ -37,7 +37,6 @@ export const getAutoCompleteTree = (cli: Command) => {
         !isCommandRoot ? childTree[commandName] : childTree,
       );
     }
-
     return childTree;
   };
 
