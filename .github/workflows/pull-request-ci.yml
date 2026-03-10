@@ -51,7 +51,7 @@ jobs:
 
       - name: Confirm rrivctl is working correctly
         run: |
-          rrivctl_version=$(rrivctlv2 --version)
+          rrivctl_version=$(~/.rriv/.rrivctl/rrivctl -v)
           pkg_version="${{ steps.output.version.pkg_version }}"
 
           if [[ "$rrivctl_version" != "$pkg_version" ]]; then
