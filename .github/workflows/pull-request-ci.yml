@@ -47,7 +47,7 @@ jobs:
 
       - name: Download script for specified version
         run: |
-          curl --proto '=https' --tlsv1.2 -LsSf https://github.com/rrivirr/rriv-ctl/releases/download/${{steps.version.outputs.pkg_version}}/rrivctl-installer.sh | bash -s ${{steps.version.outputs.pkg_version}}
+          curl --proto '=https' --tlsv1.2 -LsSf https://github.com/rrivirr/rriv-ctl/releases/download/v${{steps.version.outputs.pkg_version}}/rrivctl-installer.sh | bash -s v${{steps.version.outputs.pkg_version}}
 
       - name: Confirm rrivctl is working correctly
         run: |
