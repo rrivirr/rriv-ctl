@@ -1,3 +1,16 @@
+## [2.15.3](https://github.com/rrivirr/rriv-ctl/compare/v2.15.2...v2.15.3) (2026-03-13)
+
+
+### Bug Fixes
+
+* commit package.json for pre-releases ([872832a](https://github.com/rrivirr/rriv-ctl/commit/872832a299836ebaffa159d87049f4ddc32439a1))
+* debug script ([2055a0d](https://github.com/rrivirr/rriv-ctl/commit/2055a0dc028480d61babdccedd997ccc6ba1dd1f))
+* increase wait time after flashing ([7faf59b](https://github.com/rrivirr/rriv-ctl/commit/7faf59b045d5430669e01efbf09d5609b5d7e0c5))
+* load script without checking for duplicate ([37a4686](https://github.com/rrivirr/rriv-ctl/commit/37a46869a576d96e65ad2a90a16557e712d61986))
+* rename to firmware reset ([eeaa58a](https://github.com/rrivirr/rriv-ctl/commit/eeaa58ab30b198a2d29d1de4415b63e67df2e4b3))
+* rework clear eeprom to support two firmware types ([30058e7](https://github.com/rrivirr/rriv-ctl/commit/30058e78d12aac01be3b6f9b9a4cfffbaf1a6f83))
+* trigger release ([38f760d](https://github.com/rrivirr/rriv-ctl/commit/38f760dc0f3abd2d538215bf274325c46a222587))
+
 ## [2.15.2](https://github.com/rrivirr/rriv-ctl/compare/v2.15.1...v2.15.2) (2026-03-10)
 
 
