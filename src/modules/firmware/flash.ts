@@ -6,8 +6,9 @@ import { errorHandler } from "../../util/error-handler.ts";
 import { loadScript } from "../../util/load-script.ts";
 import { getLatestFirmwareVersion } from "./util/get-latest-firmware-version.ts";
 import { uploadFirmwareEntry } from "./util/upload-firmware-entry.ts";
+import { yellowBright } from "yoctocolors";
 
-export const clearEeprom = async () => {
+export const clearEeprom = async (type: "complete" | "config") => {
   const rrivScriptsVersion = await getLatestFirmwareVersion(true);
   const dirPath = getRrivCtlFirmwareDir();
 
@@ -19,8 +20,18 @@ export const clearEeprom = async () => {
     fileName,
   );
 
+  const clearEepromTypeFirmware =
+    type === "complete"
+      ? "clear-eeprom-complete"
+      : "clear-eeprom-configurations";
+
   try {
-    await spawn("bash", [newFilePath, dirPath, rrivScriptsVersion]);
+    await spawn("bash", [
+      newFilePath,
+      dirPath,
+      rrivScriptsVersion,
+      clearEepromTypeFirmware,
+    ]);
     await new Promise((resolve) => setTimeout(resolve, 5000));
     console.log("eeprom cleared...");
   } catch (error) {
@@ -37,7 +48,7 @@ const initialFirmwareRetry = async (
     `flash-firmware.sh`,
   );
   try {
-    console.log("\nretrying...");
+    console.log(`\n${yellowBright("RETRYING...")}\n`);
     await spawn("bash", [newFilePath, dirPath, firmwareVersion]);
     return true;
   } catch (error) {
@@ -54,7 +65,7 @@ const flash = async (
   const dirPath = getRrivCtlFirmwareDir();
 
   if (initialFirmware) {
-    await clearEeprom();
+    await clearEeprom("complete");
   }
 
   console.log("flashing", firmwareVersion, "to device");
