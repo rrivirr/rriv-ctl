@@ -43,6 +43,14 @@ if (
       message: "chore(release): ${nextRelease.version} [skip ci]",
     },
   ]);
+} else {
+  config.plugins.push([
+    "@semantic-release/git",
+    {
+      assets: ["package.json"],
+      message: "chore(pre-release): ${nextRelease.version} [skip ci]",
+    },
+  ]);
 }
 
 module.exports = config;
