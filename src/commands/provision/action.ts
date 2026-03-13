@@ -95,4 +95,5 @@ export const registerEuiAction = async () => {
     device: { id },
   } = getActiveUser();
   await registerEui({ eui, deviceId: id });
+  console.log("successful");
 };
