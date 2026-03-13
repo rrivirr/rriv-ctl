@@ -10,6 +10,16 @@ if [ ! -e "$file_path" ]; then
    curl --progress-bar --proto '=https' --tlsv1.2 -fSLo $file_path https://github.com/rrivirr/rriv-firmware/releases/download/$firmware_version/rriv-firmware-debug.elf
 fi
 
+probe-rs download $file_path \
+      --chip STM32F103RE  \
+      --protocol swd \
+      --allow-erase-all \
+      --chip-erase
+
+probe-rs reset \
+      --chip STM32F103RE  \
+      --protocol swd
+
 probe-rs attach $file_path \
         --chip STM32F103RE  \
         --protocol swd \
