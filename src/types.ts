@@ -9,7 +9,6 @@ import { SyncDataType } from "./constants.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type DefaultObject = Record<string, any>;
-
 export type toSyncConfig = { requestId: string } & (
   | {
       type: SyncDataType.DataloggerConfig;
