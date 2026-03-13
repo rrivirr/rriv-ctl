@@ -19,7 +19,7 @@ export const diagnosticAction = async (firmwareVersion?: string) => {
   await runDiagnostics(firmwareVersion);
 };
 
-export const clearEepromAction = async () => {
-  await clearEeprom();
+export const firmwareResetAction = async () => {
+  await clearEeprom("config");
   await flashFirmware();
 };
