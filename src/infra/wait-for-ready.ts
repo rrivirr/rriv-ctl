@@ -20,7 +20,7 @@ export const waitForReady = async (milliseconds?: number) => {
     let timeout: ReturnType<typeof setTimeout> | null = setTimeout(function () {
       serialPort.close();
       reject("Timed out waiting for datalogger-ready status");
-    }, 10000);
+    }, 13000);
 
     const parser = new ReadlineParser({
       delimiter: "\n",
