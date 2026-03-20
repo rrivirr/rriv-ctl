@@ -33,7 +33,7 @@ export default {
     dir: "./dist",
     entryFileNames: "index.cjs",
     format: "cjs",
-    sourcemap: false,
+    sourcemap: true,
   },
   plugins: [
     json(),
