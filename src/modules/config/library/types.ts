@@ -19,7 +19,7 @@ export interface PublishLibraryConfigDto {
 }
 
 export interface GetLibraryConfigDto {
-  name: string;
+  name?: string;
   author?: string;
   version?: number;
   returnResult?: boolean;
