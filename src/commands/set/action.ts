@@ -10,10 +10,11 @@ export const setAction = async (
   id: string,
   propertyArg: string,
   propertyValueArg: string,
-  options: any
+  options: any,
 ) => {
   const payload: DefaultObject = { object };
 
+  let sensorId;
   let property = propertyArg;
   let propertyValue = propertyValueArg;
 
@@ -22,8 +23,8 @@ export const setAction = async (
     property = id;
     propertyValue = propertyArg;
   } else {
-    if (id) {
-      payload["id"] = id.toUpperCase();
+    if (id && object === "sensor") {
+      sensorId = id.toLowerCase();
     }
   }
 
@@ -44,8 +45,14 @@ export const setAction = async (
     Object.assign(payload, fileObject);
   }
 
-  if (object !== "board" && object !== "datalogger" && !payload.id) {
-    throw new Error("id is required");
+  if (object === "sensor") {
+    if (sensorId) {
+      payload["id"] = sensorId;
+    }
+
+    if (!payload.id) {
+      throw new Error("id is required");
+    }
   }
 
   const appliedConfig = await writeConfigToDevice(payload);
