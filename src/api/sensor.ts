@@ -58,12 +58,14 @@ export const publishNewSensorLibraryConfig = async (body: {
   name: string;
   description?: string;
   config: object;
+  sensorName: string;
 }): Promise<void> => {
-  const { name, description, config } = body;
+  const { name, description, config, sensorName } = body;
   await rrivApiAxios.post(`/sensor/libraryConfig`, {
     name,
     description,
     config,
+    sensorName,
   });
 };
 

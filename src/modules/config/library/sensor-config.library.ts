@@ -1,5 +1,4 @@
 import Table from "cli-table3";
-import crypto from "crypto";
 import {
   getSensorLibraryConfig,
   getSensorLibraryConfigById,
@@ -65,9 +64,7 @@ export const saveSensorConfig = async (body: SaveConfigToLibraryDto) => {
       }
 
       const sensor = history.snapshotToLog.sensors[0];
-      const { id, ...sensorConfig } = sensor;
-
-      config = { name: id, ...sensorConfig };
+      config = { ...sensor };
     } else {
       const [sensorConfig] = await sendCommands(
         [JSON.stringify({ object: "sensor", action: "get", id: sensorId })],
@@ -87,6 +84,8 @@ export const saveSensorConfig = async (body: SaveConfigToLibraryDto) => {
   });
   const existingSensorLibraryConfig = existingSensorLibraryConfigs[0];
 
+  const sensorIdToUse = config.id;
+  delete config.id;
   if (update) {
     if (!existingSensorLibraryConfig) {
       throw new Error("no existing library found with name");
@@ -95,13 +94,14 @@ export const saveSensorConfig = async (body: SaveConfigToLibraryDto) => {
       config,
       sensorLibraryId: existingSensorLibraryConfig.id,
       description: note,
-      sensorName: config.name || crypto.randomBytes(5).toString("hex"),
+      sensorName: sensorIdToUse,
     });
   } else {
     await publishNewSensorLibraryConfig({
       name,
       description: note,
       config,
+      sensorName: sensorIdToUse,
     });
   }
 
@@ -285,7 +285,7 @@ export const applyLibrarySensorConfig = async (body: ApplyLibraryConfigDto) => {
     throw new Error("library config is empty");
   }
 
-  const id = sensorId?.toUpperCase() || crypto.randomBytes(5).toString("hex");
+  const id = sensorId?.toLowerCase() || config.id;
 
   await writeConfigToDevice({ ...config, id });
   await uploadSensorConfig({ ...config, id });
