@@ -28,7 +28,7 @@ export const refactorDatetime = (datetime: string) => {
   }
 
   const dateSpecified = new Date(
-    new Date(new Date().setFullYear(+year, +month - 1, +day)).setHours(hour)
+    new Date(new Date().setFullYear(+year, +month - 1, +day)).setHours(hour),
   ).setMinutes(minute);
   return new Date(dateSpecified).toISOString();
 };
