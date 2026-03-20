@@ -112,7 +112,7 @@ export const listConfigHistory = async (body: {
           deactivatedAt,
         ],
         [],
-        []
+        [],
       );
     }
 
@@ -174,7 +174,7 @@ export const listConfigHistory = async (body: {
             deactivatedAt,
           ],
           [],
-          []
+          [],
         );
       }
 

@@ -58,9 +58,9 @@ export const setAction = async (
   const appliedConfig = await writeConfigToDevice(payload);
   console.log("config applied to device successfully");
 
-  const user = getActiveUser()
+  const user = getActiveUser();
 
-  if (object !== "board" && user.device.id && user.device.id !== 'guest') {
+  if (object !== "board" && user.device.id && user.device.id !== "guest") {
     await uploadConfig({
       ...appliedConfig,
       object,

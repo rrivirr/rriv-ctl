@@ -13,13 +13,13 @@ const env = {
   "process.env.KEYCLOAK_URL": JSON.stringify(process.env.KEYCLOAK_URL),
   "process.env.RRIV_API_URL": JSON.stringify(process.env.RRIV_API_URL),
   "process.env.KEYCLOAK_CLIENT_ID": JSON.stringify(
-    process.env.KEYCLOAK_CLIENT_ID
+    process.env.KEYCLOAK_CLIENT_ID,
   ),
   "process.env.SPACES_ACCESS_KEY": JSON.stringify(
-    process.env.SPACES_ACCESS_KEY
+    process.env.SPACES_ACCESS_KEY,
   ),
   "process.env.SPACES_SECRET_KEY": JSON.stringify(
-    process.env.SPACES_SECRET_KEY
+    process.env.SPACES_SECRET_KEY,
   ),
   "process.env.SPACES_ENDPOINT": JSON.stringify(process.env.SPACES_ENDPOINT),
   "process.env.MQTT_URL": JSON.stringify(process.env.MQTT_URL),

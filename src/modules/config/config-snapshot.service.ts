@@ -39,14 +39,14 @@ export const getConfigSnapshot = async () => {
         },
       ],
       [],
-      []
+      [],
     );
   }
   for (const { name, config } of sensorConfig) {
     table.push(
       [name, { content: JSON.stringify(config), rowSpan: 3, vAlign: "center" }],
       [],
-      []
+      [],
     );
   }
   console.log("\n" + table.toString());
@@ -89,7 +89,7 @@ export const listConfigSnapshot = async (options: {
           },
         ],
         [],
-        []
+        [],
       );
     }
 
@@ -105,7 +105,7 @@ export const listConfigSnapshot = async (options: {
           { content: JSON.stringify(config), rowSpan: 3, vAlign: "center" },
         ],
         [],
-        []
+        [],
       );
     }
     console.log("\n" + table.toString());
@@ -176,7 +176,7 @@ export const applyConfigSnapshot = async (body: {
     await writeConfigToDevice(datalogger.config);
   }
   for (const { config, name } of sensor) {
-    await writeConfigToDevice({ ...config, id: name.toUpperCase() });
+    await writeConfigToDevice({ ...config, id: name.toLowerCase() });
   }
 
   if (datalogger?.config || sensor.length) {
