@@ -59,9 +59,9 @@ export const saveAction = async (
   datetime: string,
   options: any,
 ) => {
-  const { fileName, sensorId, update, deviceId, note } = options;
-  if (deviceId && !datetime) {
-    throw new Error("datetime is required with deviceId");
+  const { fileName, sensorId, update, deviceIdentifier, note } = options;
+  if (deviceIdentifier && !datetime) {
+    throw new Error("datetime is required with deviceIdentifier");
   }
   let fileConfig;
   if (fileName) {
@@ -71,7 +71,7 @@ export const saveAction = async (
   const payload = {
     name,
     datetime: datetime && refactorDatetime(datetime),
-    deviceId,
+    deviceIdentifier,
     sensorId,
     note,
     fileConfig,

@@ -36,12 +36,13 @@ export const refactorDatetime = (datetime: string) => {
 export const getAction = async (
   object: Resource,
   datetime: string,
-  options: any
+  deviceIdentifier: string,
+  options: any,
 ) => {
-  const { deviceId, sensorId } = options;
+  const { sensorId } = options;
   validateSensorId(object, sensorId);
   await getConfigHistoryAtTime({
-    deviceId,
+    deviceIdentifier,
     sensorId,
     resource: object,
     datetime: refactorDatetime(datetime),
@@ -51,27 +52,32 @@ export const getAction = async (
 export const applyAction = async (
   object: Resource,
   datetime: string,
-  options: any
+  deviceIdentifier: string,
+  options: any,
 ) => {
-  const { deviceId, sensorId } = options;
+  const { sensorId } = options;
   validateSensorId(object, sensorId);
   await applyConfigHistory({
-    deviceId,
+    deviceIdentifier,
     sensorId,
     resource: object,
     datetime: refactorDatetime(datetime),
   });
 };
 
-export const listAction = async (object: Resource, options: any) => {
-  const { number, deviceId, sensorId } = options;
+export const listAction = async (
+  object: Resource,
+  deviceIdentifier: string,
+  options: any,
+) => {
+  const { number, sensorId } = options;
   if (number && !+number) {
     throw new Error("Not a valid number");
   }
   validateSensorId(object, sensorId);
 
   await listConfigHistory({
-    deviceId,
+    deviceIdentifier,
     sensorId,
     limit: number,
     resource: object,

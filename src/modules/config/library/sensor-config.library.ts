@@ -26,30 +26,33 @@ export const saveSensorConfig = async (body: SaveConfigToLibraryDto) => {
     name,
     fileConfig,
     update,
-    deviceId: specifiedDeviceId,
+    deviceIdentifier: specifiedDeviceIdentifier,
     note,
     datetime,
     sensorId,
   } = body;
   const {
-    deviceContext: { deviceId: connectedDeviceId },
+    device: { serialNumber },
   } = getActiveUser();
   let config;
-  const deviceId = specifiedDeviceId || connectedDeviceId;
+  const deviceIdentifier = specifiedDeviceIdentifier || serialNumber;
 
   if (fileConfig) {
     config = { ...fileConfig, object: "sensor" };
+    if (!config.id) {
+      throw new Error("id is required in the file");
+    }
   } else {
     if (!sensorId) {
       throw new Error("no sensor id specified");
     }
-    if (!deviceId) {
+    if (!deviceIdentifier) {
       throw new Error("no connected device/deviceId specified");
     }
 
     if (datetime) {
       const history = await getConfigHistoryAtTime({
-        deviceId,
+        deviceIdentifier,
         datetime,
         resource: "sensor",
         sensorId,
