@@ -27,15 +27,15 @@ export const saveDeviceConfig = async (body: SaveConfigToLibraryDto) => {
     name,
     fileConfig,
     update,
-    deviceId: specifiedDeviceId,
+    deviceIdentifier: specifiedDeviceIdentifier,
     note,
     datetime,
   } = body;
   const {
-    deviceContext: { deviceId: connectedDeviceId },
+    device: { serialNumber },
   } = getActiveUser();
   let config;
-  const deviceId = specifiedDeviceId || connectedDeviceId;
+  const deviceIdentifier = specifiedDeviceIdentifier || serialNumber;
 
   if (fileConfig) {
     const configSensors = [];
@@ -53,12 +53,12 @@ export const saveDeviceConfig = async (body: SaveConfigToLibraryDto) => {
       sensors: configSensors,
     };
   } else {
-    if (!deviceId) {
+    if (!deviceIdentifier) {
       throw new Error("no connected device/deviceId specified");
     }
     if (datetime) {
       const history = await getConfigHistoryAtTime({
-        deviceId,
+        deviceIdentifier,
         datetime,
         resource: "device",
         returnResult: true,

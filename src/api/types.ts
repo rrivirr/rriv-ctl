@@ -21,7 +21,7 @@ export interface DeviceContextRequest {
 export interface ConfigHistoryRequest {
   limit?: number;
   asAt?: string;
-  deviceId: string;
+  deviceIdentifier: string;
   offset?: number;
   order?: string;
   sensorName?: string;

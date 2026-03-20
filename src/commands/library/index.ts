@@ -28,7 +28,7 @@ export const makeLibraryCommand = (cli: Command) => {
     .argument("[datetime]", "<YYYY:MM:DD>T[HH:MM]")
     .addOption(sensorIdOption)
     .option(
-      "-d, --device-id <deviceId>",
+      "-d, --device-identifier <deviceIdentifier>",
       "Get the configuration to tag from device other than the currently attached device.",
     )
     .option(

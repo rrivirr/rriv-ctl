@@ -3,7 +3,7 @@ export interface SaveConfigToLibraryDto {
   fileConfig?: any;
   sensorId?: string;
   update?: boolean;
-  deviceId?: string;
+  deviceIdentifier?: string;
   note?: string;
   datetime?: string;
 }

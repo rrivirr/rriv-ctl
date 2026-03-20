@@ -27,18 +27,23 @@ const modifyChangesMade = (changesMade: object) => {
 };
 
 export const listConfigHistory = async (body: {
-  deviceId?: string;
+  deviceIdentifier?: string;
   limit?: number;
   sensorId?: string;
   resource: Resource;
 }) => {
-  const { deviceId: specifiedDeviceId, limit, sensorId, resource } = body;
   const {
-    deviceContext: { deviceId: connectedDeviceId },
+    deviceIdentifier: specifiedDeviceIdentifier,
+    limit,
+    sensorId,
+    resource,
+  } = body;
+  const {
+    device: { serialNumber },
   } = getActiveUser();
-  const deviceId = specifiedDeviceId || connectedDeviceId;
+  const deviceIdentifier = specifiedDeviceIdentifier || serialNumber;
 
-  if (!deviceId) {
+  if (!deviceIdentifier) {
     throw new Error("no connected device/deviceId specified");
   }
   let dataloggerConfigs: DataloggerConfigHistory[] = [];
@@ -46,7 +51,7 @@ export const listConfigHistory = async (body: {
 
   if (resource === "device") {
     const configHistory = await getConfigHistory({
-      deviceId,
+      deviceIdentifier,
       limit,
     });
 
@@ -54,13 +59,13 @@ export const listConfigHistory = async (body: {
     sensorConfigs = configHistory.sensorConfigs;
   } else if (resource === "datalogger") {
     const dataloggerConfigHistory = await getDataloggerConfigHistory({
-      deviceId,
+      deviceIdentifier,
       limit,
     });
     dataloggerConfigs = dataloggerConfigHistory;
   } else if (resource === "sensor") {
     const sensorConfigHistory = await getSensorConfigHistory({
-      deviceId,
+      deviceIdentifier,
       limit,
       sensorName: sensorId,
     });
@@ -179,26 +184,26 @@ export const listConfigHistory = async (body: {
 };
 
 export const getConfigHistoryAtTime = async (body: {
-  deviceId?: string;
+  deviceIdentifier?: string;
   sensorId?: string;
   resource: Resource;
   datetime: string;
   returnResult?: boolean;
 }) => {
   const {
-    deviceId: specifiedDeviceId,
+    deviceIdentifier: specifiedDeviceIdentifier,
     datetime,
     sensorId,
     resource,
     returnResult,
   } = body;
   const {
-    deviceContext: { deviceId: connectedDeviceId },
+    device: { serialNumber },
   } = getActiveUser();
-  const deviceId = specifiedDeviceId || connectedDeviceId;
+  const deviceIdentifier = specifiedDeviceIdentifier || serialNumber;
 
-  if (!deviceId) {
-    throw new Error("no connected device/deviceId specified");
+  if (!deviceIdentifier) {
+    throw new Error("no connected device/deviceIdentifier specified");
   }
 
   let dataloggerConfigs: DataloggerConfigHistory[] = [];
@@ -206,7 +211,7 @@ export const getConfigHistoryAtTime = async (body: {
 
   if (resource === "device") {
     const configHistory = await getConfigHistory({
-      deviceId,
+      deviceIdentifier,
       asAt: datetime,
     });
 
@@ -214,13 +219,13 @@ export const getConfigHistoryAtTime = async (body: {
     sensorConfigs = configHistory.sensorConfigs;
   } else if (resource === "datalogger") {
     const dataloggerConfigHistory = await getDataloggerConfigHistory({
-      deviceId,
+      deviceIdentifier,
       asAt: datetime,
     });
     dataloggerConfigs = dataloggerConfigHistory;
   } else if (resource === "sensor") {
     const sensorConfigHistory = await getSensorConfigHistory({
-      deviceId,
+      deviceIdentifier,
       asAt: datetime,
       sensorName: sensorId,
     });
@@ -261,7 +266,7 @@ export const getConfigHistoryAtTime = async (body: {
 };
 
 export const applyConfigHistory = async (body: {
-  deviceId?: string;
+  deviceIdentifier?: string;
   sensorId?: string;
   resource: Resource;
   datetime: string;
