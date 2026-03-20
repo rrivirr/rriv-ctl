@@ -1,5 +1,6 @@
 import { CommanderError } from "commander";
 import { logAsDebug } from "./debug-logger.ts";
+import { italic } from "yoctocolors";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const errorHandler = (body: { error: any; exit: boolean }) => {
@@ -27,7 +28,14 @@ export const errorHandler = (body: { error: any; exit: boolean }) => {
   } else if (error.errors) {
     console.log(`${error.errors}`);
   } else {
-    console.log(`\nError`, error?.message || error);
+    if (
+      error?.message?.includes("path") &&
+      error?.message?.includes(`is not defined`)
+    ) {
+      console.log(`device path not found; run ${italic("rrivctlv2 connect")}`);
+    } else {
+      console.log(`\nError`, error?.message || error);
+    }
   }
   if (exit) {
     process.exit(0);
