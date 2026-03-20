@@ -111,8 +111,8 @@ export const listAction = async (
 
   if (nameArg) {
     const nameAuthor = getAuthorNameAndVersion(nameArg);
-    name = nameAuthor.name;
-    author = nameAuthor.author;
+    name = nameAuthor.name || undefined;
+    author = nameAuthor.author || undefined;
   }
 
   const payload = { name, author, search: filter };
