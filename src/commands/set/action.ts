@@ -53,6 +53,10 @@ export const setAction = async (
     if (!payload.id) {
       throw new Error("id is required");
     }
+
+    if (payload.id.length > 6) {
+      throw new Error("sensor id cannot be longer than 6 characters");
+    }
   }
 
   const appliedConfig = await writeConfigToDevice(payload);
