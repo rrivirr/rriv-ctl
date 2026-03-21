@@ -48,7 +48,7 @@ if (
     "@semantic-release/git",
     {
       assets: ["package.json"],
-      message: "chore(pre-release): ${nextRelease.version} [skip ci]",
+      message: "chore(pre-release): ${nextRelease.version}",
     },
   ]);
 }
