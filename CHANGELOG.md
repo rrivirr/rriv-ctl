@@ -1,3 +1,17 @@
+## [2.15.4](https://github.com/rrivirr/rriv-ctl/compare/v2.15.3...v2.15.4) (2026-03-29)
+
+
+### Bug Fixes
+
+* add sensor id length validation ([d55264d](https://github.com/rrivirr/rriv-ctl/commit/d55264de270160686178863f414f4ab10575a5bc))
+* clearer custom error message ([ac90d54](https://github.com/rrivirr/rriv-ctl/commit/ac90d5412e1096f322daf9dfffd29ed64526f950))
+* list libraries created by a user ([98a03f2](https://github.com/rrivirr/rriv-ctl/commit/98a03f2398b3f60e56aaa4571fd83e7d21296b64))
+* make library name optional for list requests ([c37e663](https://github.com/rrivirr/rriv-ctl/commit/c37e6639bf7f0ffe3f9e621debd8363501cf7fda))
+* make use of sensor name/id with libraries ([d460f2c](https://github.com/rrivirr/rriv-ctl/commit/d460f2c7d3f5a40d22ac4dbba7e2605c3ad2fa22))
+* option of overriding sensor id from file ([3aad16b](https://github.com/rrivirr/rriv-ctl/commit/3aad16b65efa4afaaf723a2de4509fda2d21793a))
+* remove skip ci for prereleases ([fba6079](https://github.com/rrivirr/rriv-ctl/commit/fba6079379f41f6ad78bd2778ba345502da3f9da))
+* use device identifiers for history/library actions ([2a1b787](https://github.com/rrivirr/rriv-ctl/commit/2a1b7870f80dceafbeee2a057f3c78ca3f0ba37a))
+
 ## [2.15.3](https://github.com/rrivirr/rriv-ctl/compare/v2.15.2...v2.15.3) (2026-03-13)
 
 
