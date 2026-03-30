@@ -17,14 +17,17 @@ export const syncCommands = async () => {
 
   try {
     for (const { requestId, data, type } of toSync) {
-      if (type === SyncDataType.ConfigSnapshot) {
-        await overwriteConfigSnapshot({ ...data });
-      } else if (type === SyncDataType.DataloggerConfig) {
-        await createDataloggerConfig({ ...data });
-      } else if (type === SyncDataType.SensorConfig) {
-        await createSensorConfig({ ...data });
-      } else if (type === SyncDataType.FirmwareHistory) {
-        await createFirmwareHistoryEntry({ ...data });
+      // ignore guest mode data
+      if (data.contextId && data.deviceId) {
+        if (type === SyncDataType.ConfigSnapshot) {
+          await overwriteConfigSnapshot({ ...data });
+        } else if (type === SyncDataType.DataloggerConfig) {
+          await createDataloggerConfig({ ...data });
+        } else if (type === SyncDataType.SensorConfig) {
+          await createSensorConfig({ ...data });
+        } else if (type === SyncDataType.FirmwareHistory) {
+          await createFirmwareHistoryEntry({ ...data });
+        }
       }
       db.update((data) => {
         const toSyncData = data[email][env].toSync;
