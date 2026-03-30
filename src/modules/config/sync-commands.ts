@@ -32,7 +32,7 @@ export const syncCommands = async () => {
       db.update((data) => {
         const toSyncData = data[email][env].toSync;
         data[email][env].toSync = toSyncData.filter(
-          (d) => d.requestId !== requestId
+          (d) => d.requestId !== requestId,
         );
       });
     }
