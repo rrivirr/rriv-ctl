@@ -17,41 +17,39 @@ export const getConnectedDevice = async (body: {
 
   const { device } = getActiveUser();
 
-  w: while (count < 50) {
-    // detect the serial port
-    const list = await SerialPort.list();
-    for (const pathItem of list) {
-      if (
-        pathItem.productId &&
-        (pathItem.pnpId?.includes("rriv") || pathItem.path?.includes("rriv"))
-      ) {
-        serialPortPath = pathItem.path;
-        if (getPath) {
-          return { serialPortPath };
-        }
-        if (device.serialPortPath || fromRunCheck) {
-          // to avoid logging each time
+  if (!specifiedSerialPortPath) {
+    w: while (count < 50) {
+      // detect the serial port
+      const list = await SerialPort.list();
+      for (const pathItem of list) {
+        console.log(pathItem);
+        if (
+          pathItem.productId &&
+          (pathItem.pnpId?.includes("rriv") || pathItem.path?.includes("rriv"))
+        ) {
+          serialPortPath = pathItem.path;
+          if (getPath) {
+            return { serialPortPath };
+          }
+          if (device.serialPortPath || fromRunCheck) {
+            // to avoid logging each time
+            break w;
+          }
+          // pnpId not populated for macos
+          console.log(`Found a RRIV device ${pathItem.pnpId || pathItem.path}`);
+          console.log(`Connecting to it at ${pathItem.path}\n`);
           break w;
         }
-        // pnpId not populated for macos
-        console.log(`Found a RRIV device ${pathItem.pnpId || pathItem.path}`);
-        console.log(`Connecting to it at ${pathItem.path}\n`);
-        break w;
       }
-    }
 
-    if (specifiedSerialPortPath) {
-      // port was specified; not found automatically
-      break;
+      if (count === 0 && !provisionCommand) {
+        console.log("No RRIV device found");
+        console.log("Waiting for a device");
+        wait = true;
+      }
+      ++count;
+      await new Promise((r) => setTimeout(r, 500));
     }
-
-    if (count === 0 && !provisionCommand) {
-      console.log("No RRIV device found");
-      console.log("Waiting for a device");
-      wait = true;
-    }
-    ++count;
-    await new Promise((r) => setTimeout(r, 500));
   }
 
   if (!serialPortPath && !specifiedSerialPortPath) {
@@ -81,7 +79,7 @@ export const getConnectedDevice = async (body: {
   }
 
   return {
-    serialPortPath,
+    serialPortPath: specifiedSerialPortPath || serialPortPath,
     serialNumber,
     uid,
     wait,
