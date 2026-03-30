@@ -8,6 +8,8 @@ export const makeProvisionCommand = (cli: Command) => {
     .command("device")
     .action(provisionAction)
     .option("-s, --skip")
-    .option("-f, --firmwareVersion <firmwareVersion>");
+    .option("-f, --firmwareVersion <firmwareVersion>")
+    .option("--factory");
+
   porvisionCommand.command("telemeter").action(registerEuiAction);
 };
