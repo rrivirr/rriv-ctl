@@ -1,16 +1,23 @@
 import { getConnectedDevice } from "../../util/get-connected-device.ts";
 import { flashInitialFirmware } from "../../modules/firmware/flash.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
-import { italic } from "yoctocolors";
+import { italic, yellowBright } from "yoctocolors";
 import { provisionDevice, registerEui } from "../../api/device.ts";
 import { logAsDebug } from "../../util/debug-logger.ts";
 import { getBoardVersion } from "../../util/get-device-details.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const provisionAction = async (options: any) => {
-  const result = await getConnectedDevice({
-    provisionCommand: true,
-  });
+  const { factory, skip, firmwareVersion } = options;
+
+  let result;
+
+  if (!factory) {
+    console.log(`${yellowBright("checking for connected rriv devices...")}`);
+    result = await getConnectedDevice({
+      provisionCommand: true,
+    });
+  }
 
   let uid = result?.uid;
   let serialPortPath = result?.serialPortPath;
@@ -20,11 +27,12 @@ export const provisionAction = async (options: any) => {
     boardVersion = await getBoardVersion(serialPortPath);
   }
 
-  if (!options.skip) {
-    await flashInitialFirmware(boardVersion, options?.firmwareVersion);
+  if (!skip) {
+    await flashInitialFirmware(boardVersion, firmwareVersion);
   }
 
   if (!uid) {
+    console.log(`${yellowBright("checking for connected rriv devices...")}`);
     const connectedDevice = await getConnectedDevice({
       provisionCommand: true,
     });
