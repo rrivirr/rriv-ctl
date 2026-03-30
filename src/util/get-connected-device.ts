@@ -22,7 +22,6 @@ export const getConnectedDevice = async (body: {
       // detect the serial port
       const list = await SerialPort.list();
       for (const pathItem of list) {
-        console.log(pathItem);
         if (
           pathItem.productId &&
           (pathItem.pnpId?.includes("rriv") || pathItem.path?.includes("rriv"))
