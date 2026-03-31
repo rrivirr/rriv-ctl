@@ -1,5 +1,4 @@
 import { getConnectedDevice } from "../../util/get-connected-device.ts";
-import { setDeviceEpoch } from "../../infra/set-device-epoch.ts";
 import db from "../../db/db.ts";
 import { getDevices } from "../../api/device.ts";
 import { bindDevice } from "../../util/bind-device.ts";
@@ -9,10 +8,17 @@ import { uploadDataloggerConfig } from "../../modules/config/datalogger-config.s
 import { waitForReady } from "../../infra/wait-for-ready.ts";
 import { bold, italic } from "yoctocolors";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
+import { applyInitSettings } from "./helper.ts";
 
 export const connectAction = async (options: any) => {
-  const { assignedDeviceName, path, fromRunCheck, connectedDeviceInfo } =
-    options;
+  const {
+    assignedDeviceName,
+    path,
+    fromRunCheck,
+    connectedDeviceInfo,
+    interactiveMode,
+  } = options;
 
   let connectedDevice: Awaited<ReturnType<typeof getConnectedDevice>> =
     connectedDeviceInfo;
@@ -85,7 +91,7 @@ export const connectAction = async (options: any) => {
           if (wait) {
             await waitForReady();
           }
-          await setDeviceEpoch();
+          await applyInitSettings(interactiveMode);
 
           return;
         }
@@ -144,8 +150,12 @@ export const connectAction = async (options: any) => {
   if (wait) {
     await waitForReady();
   }
-  const dataloggerConfig = await setDeviceEpoch();
+  await applyInitSettings(interactiveMode);
   if (pullConfig) {
-    await uploadDataloggerConfig({ ...dataloggerConfig, object: "datalogger" });
+    const result = await sendCommands(
+      [JSON.stringify({ object: "datalogger", action: "get" })],
+      false,
+    );
+    await uploadDataloggerConfig({ ...result[0], object: "datalogger" });
   }
 };
