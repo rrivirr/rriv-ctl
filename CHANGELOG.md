@@ -1,3 +1,19 @@
+# [2.16.0](https://github.com/rrivirr/rriv-ctl/compare/v2.15.4...v2.16.0) (2026-04-01)
+
+
+### Bug Fixes
+
+* [#205](https://github.com/rrivirr/rriv-ctl/issues/205) ([e74e787](https://github.com/rrivirr/rriv-ctl/commit/e74e7872e9fd563fdf47483c2f269435fc6ec425))
+* [#234](https://github.com/rrivirr/rriv-ctl/issues/234) ([faf8219](https://github.com/rrivirr/rriv-ctl/commit/faf8219e02af87a3f53a60f59ba2bf59a07b3d1a))
+* connect -p ([6ffedc5](https://github.com/rrivirr/rriv-ctl/commit/6ffedc553a2ea942c7981a566ff8352c8851f35c))
+* ignore guest mode data whenn syncing ([726b3af](https://github.com/rrivirr/rriv-ctl/commit/726b3af455b05566e4544015a5cbe3ea36862f1d))
+* sentry send user info if available ([fdef5b7](https://github.com/rrivirr/rriv-ctl/commit/fdef5b75be9b7cbe41e816319a20bece9c2c1001))
+
+
+### Features
+
+* integrate sentry ([798eb4f](https://github.com/rrivirr/rriv-ctl/commit/798eb4f4ebaa66bd71578e084ae6d9ae007a70ea))
+
 ## [2.15.4](https://github.com/rrivirr/rriv-ctl/compare/v2.15.3...v2.15.4) (2026-03-29)
 
 
