@@ -81,6 +81,10 @@ jobs:
           SPACES_ACCESS_KEY: ${{ secrets.SPACES_ACCESS_KEY }}
           SPACES_SECRET_KEY: ${{ secrets.SPACES_SECRET_KEY }}
           SPACES_ENDPOINT: ${{ secrets.SPACES_ENDPOINT }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
 
       - name: move installer
         run: cp rrivctl-installer.sh apps/
