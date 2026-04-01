@@ -1,10 +1,14 @@
 import { CommanderError } from "commander";
 import { logAsDebug } from "./debug-logger.ts";
 import { italic } from "yoctocolors";
+import * as Sentry from "@sentry/node";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const errorHandler = (body: { error: any; exit: boolean }) => {
+export const errorHandler = async (body: { error: any; exit: boolean }) => {
   const { error, exit } = body;
+  Sentry.captureException(error);
+  await Sentry.flush();
+
   logAsDebug(error);
   const errorResponse = error?.response?.data;
   if (errorResponse) {
