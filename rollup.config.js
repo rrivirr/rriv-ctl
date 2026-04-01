@@ -26,6 +26,7 @@ const env = {
   "process.env.SPACES_ENDPOINT": JSON.stringify(process.env.SPACES_ENDPOINT),
   "process.env.MQTT_URL": JSON.stringify(process.env.MQTT_URL),
   "process.env.ADMIN_EMAIL": JSON.stringify(process.env.ADMIN_EMAIL),
+  "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN),
 };
 
 export default {
