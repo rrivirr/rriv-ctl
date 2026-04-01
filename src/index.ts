@@ -11,9 +11,15 @@ import cli from "./cli.ts";
 import db from "./db/db.ts";
 import { logAsDebug } from "./util/debug-logger.ts";
 import * as Sentry from "@sentry/node";
+import { getLoggedInUser } from "./util/get-logged-in-user.ts";
+
+const user = getLoggedInUser();
 
 Sentry.setTag("version", packageJson.version);
 Sentry.setTag("command", JSON.stringify(process.argv));
+if (user) {
+  Sentry.setUser({ email: user.email });
+}
 
 const tree = getAutoCompleteTree(cli);
 const completion = initAutoComplete(tree);
