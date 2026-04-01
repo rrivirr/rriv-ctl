@@ -4,6 +4,8 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
 import replace from "@rollup/plugin-replace";
+import { sentryRollupPlugin } from "@sentry/rollup-plugin";
+import { preserveShebangs } from "rollup-plugin-preserve-shebangs";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -42,5 +44,7 @@ export default {
     replace(env),
     nodeResolve(),
     typescript({ tsconfig: "./tsconfig.json" }),
+    sentryRollupPlugin({ telemetry: false }),
+    preserveShebangs(),
   ],
 };

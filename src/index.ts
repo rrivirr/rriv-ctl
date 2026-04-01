@@ -1,13 +1,19 @@
 #!/usr/bin/env node
 import "dotenv/config";
+import "./instrument.mjs";
 import path from "node:path";
 import { readFileSync } from "node:fs";
+import packageJson from "../package.json" with { type: "json" };
 import { errorHandler } from "./util/error-handler.ts";
 import initAutoComplete from "./auto-complete.ts";
 import { getAutoCompleteTree } from "./auto-complete-tree.ts";
 import cli from "./cli.ts";
 import db from "./db/db.ts";
 import { logAsDebug } from "./util/debug-logger.ts";
+import * as Sentry from "@sentry/node";
+
+Sentry.setTag("version", packageJson.version);
+Sentry.setTag("command", JSON.stringify(process.argv));
 
 const tree = getAutoCompleteTree(cli);
 const completion = initAutoComplete(tree);
