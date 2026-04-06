@@ -213,7 +213,7 @@ export const applyConfigSnapshot = async (body: {
           ];
         });
         console.log("cloud upload failed");
-        errorHandler({ error, exit: false });
+        await errorHandler({ error });
       }
     }
   }
