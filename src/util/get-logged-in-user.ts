@@ -11,7 +11,7 @@ export const getActiveUser = () => {
 export const getLoggedInUser = (email?: string) => {
   const { activeEmail, environment } = db.data;
 
-  const env = environment.name || "prod";
+  const env = environment?.name || "prod";
 
   if (email) {
     const user = db.data?.[email]?.[env];
