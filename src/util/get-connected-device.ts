@@ -81,6 +81,5 @@ export const getConnectedDevice = async (body: {
     serialPortPath: specifiedSerialPortPath || serialPortPath,
     serialNumber,
     uid,
-    wait,
   };
 };

@@ -5,7 +5,6 @@ import { bindDevice } from "../../util/bind-device.ts";
 import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
 import { uploadDataloggerConfig } from "../../modules/config/datalogger-config.service.ts";
-import { waitForReady } from "../../infra/wait-for-ready.ts";
 import { bold, italic } from "yoctocolors";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
@@ -32,7 +31,6 @@ export const connectAction = async (options: any) => {
 
   const serialNumber = connectedDevice!.serialNumber;
   const serialPortPath = connectedDevice!.serialPortPath;
-  const wait = connectedDevice!.wait;
 
   const user = getActiveUser();
   const {
@@ -87,12 +85,7 @@ export const connectAction = async (options: any) => {
               serialPortPath,
             };
           });
-
-          if (wait) {
-            await waitForReady();
-          }
           await applyInitSettings(interactiveMode);
-
           return;
         }
         throw e;
@@ -147,9 +140,6 @@ export const connectAction = async (options: any) => {
   });
 
   // set epoch
-  if (wait) {
-    await waitForReady();
-  }
   await applyInitSettings(interactiveMode);
   if (pullConfig) {
     const result = await sendCommands(
