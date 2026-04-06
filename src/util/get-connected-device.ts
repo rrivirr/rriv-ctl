@@ -1,5 +1,7 @@
 import { SerialPort } from "serialport";
 import { italic } from "yoctocolors";
+import { PortInfo } from "@serialport/bindings-cpp";
+import { select } from "@inquirer/prompts";
 import { getDeviceDetails } from "./get-device-details.ts";
 import { getActiveUser } from "./get-logged-in-user.ts";
 
@@ -13,41 +15,48 @@ export const getConnectedDevice = async (body: {
     body;
   let serialPortPath = "";
   let count = 0;
-  let wait = false;
 
   const { device } = getActiveUser();
 
   if (!specifiedSerialPortPath) {
-    w: while (count < 50) {
+    while (count < 50) {
       // detect the serial port
       const list = await SerialPort.list();
-      for (const pathItem of list) {
-        if (
-          pathItem.productId &&
-          (pathItem.pnpId?.includes("rriv") || pathItem.path?.includes("rriv"))
-        ) {
-          serialPortPath = pathItem.path;
-          if (getPath) {
-            return { serialPortPath };
-          }
-          if (device.serialPortPath || fromRunCheck) {
-            // to avoid logging each time
-            break w;
-          }
-          // pnpId not populated for macos
-          console.log(`Found a RRIV device ${pathItem.pnpId || pathItem.path}`);
-          console.log(`Connecting to it at ${pathItem.path}\n`);
-          break w;
+      const rrivDevices = list.filter((l) => l.manufacturer === "RRIV");
+      const numOfRrivDevices = rrivDevices.length;
+      if (!numOfRrivDevices) {
+        if (count === 0 && !provisionCommand) {
+          console.log("No RRIV device found");
+          console.log("Waiting for a device");
         }
-      }
+        ++count;
+        await new Promise((r) => setTimeout(r, 500));
+      } else {
+        let selectedDevice: PortInfo;
+        if (numOfRrivDevices === 1) {
+          selectedDevice = rrivDevices[0];
+        } else {
+          const answer = await select({
+            message: "Choose a rriv device to connect to",
+            choices: rrivDevices.map((r) => ({
+              name: `${r.path}:${r.serialNumber}`,
+              value: r.path,
+            })),
+          });
+          selectedDevice = rrivDevices.find((r) => r.path === answer)!;
+        }
+        serialPortPath = selectedDevice.path;
+        if (getPath) {
+          return { serialPortPath };
+        }
 
-      if (count === 0 && !provisionCommand) {
-        console.log("No RRIV device found");
-        console.log("Waiting for a device");
-        wait = true;
+        if (device.serialPortPath || fromRunCheck) {
+          // to avoid logging each time
+          break;
+        }
+        console.log(`Found a RRIV device at ${selectedDevice.path}`);
+        break;
       }
-      ++count;
-      await new Promise((r) => setTimeout(r, 500));
     }
   }
 
