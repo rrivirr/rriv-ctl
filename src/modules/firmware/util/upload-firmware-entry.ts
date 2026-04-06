@@ -33,7 +33,7 @@ export const uploadFirmwareEntry = async (versionFlashed: string) => {
         ];
       });
       console.log("firmware cloud upload failed");
-      errorHandler({ error, exit: true });
+      await errorHandler({ error, exit: true });
     }
   }
 };

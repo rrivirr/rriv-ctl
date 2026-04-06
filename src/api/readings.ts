@@ -2,6 +2,7 @@ import axios from "axios";
 import stream from "stream/promises";
 import fs from "fs";
 import { getConfig } from "../util/config.ts";
+import { errorHandler } from "../util/error-handler.ts";
 
 export const getReadings = async (query: {
   eui: string;
@@ -29,6 +30,7 @@ export const getReadings = async (query: {
     return file;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    await errorHandler({ error, doNothing: true });
     if (error.response?.data) {
       const errorStream = error.response.data;
       let errorData = "";

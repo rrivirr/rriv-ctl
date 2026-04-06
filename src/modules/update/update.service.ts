@@ -89,7 +89,7 @@ export const checkVersionAndUpdate = async () => {
         }
       }
     } catch (error) {
-      errorHandler({ error, exit: false });
+      await errorHandler({ error, exit: false });
       console.log("auto update failed");
       console.log("==================");
     }

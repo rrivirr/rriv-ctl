@@ -72,7 +72,7 @@ export const uploadDataloggerConfig = async (payload: DefaultObject) => {
         ];
       });
       console.log("cloud upload failed");
-      errorHandler({ error, exit: false });
+      await errorHandler({ error });
     }
   }
 };

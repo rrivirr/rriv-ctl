@@ -35,7 +35,7 @@ export const clearEeprom = async (type: "complete" | "config") => {
     await new Promise((resolve) => setTimeout(resolve, 5000));
     console.log("eeprom cleared...");
   } catch (error) {
-    errorHandler({ error, exit: true });
+    await errorHandler({ error, exit: true });
   }
 };
 
@@ -52,7 +52,7 @@ const initialFirmwareRetry = async (
     await spawn("bash", [newFilePath, dirPath, firmwareVersion]);
     return true;
   } catch (error) {
-    errorHandler({ error, exit: true });
+    await errorHandler({ error, exit: true });
   }
 };
 
