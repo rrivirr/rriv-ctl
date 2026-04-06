@@ -13,11 +13,12 @@ import { passwordPrompt, signupPrompt } from "../../prompts/auth.prompt.ts";
 import { JwtPayload } from "../../types.ts";
 import { getLoggedInUser } from "../../util/get-logged-in-user.ts";
 import { getConfig } from "../../util/config.ts";
+import { errorHandler } from "../../util/error-handler.ts";
 
 export const login = async (email?: string) => {
   try {
     const { activeEmail } = db.data;
-    const emailToLogin = email || activeEmail;
+    const emailToLogin = email || (activeEmail !== "guest" ? activeEmail : "");
     if (!emailToLogin) {
       console.log(
         `Specify an email with ${italic("rrivctlv2 auth login <email>")}`,
@@ -32,7 +33,11 @@ export const login = async (email?: string) => {
         });
       }
     } else {
-      if (activeEmail && (!email || email === activeEmail)) {
+      if (
+        activeEmail &&
+        activeEmail !== "guest" &&
+        (!email || email === activeEmail)
+      ) {
         console.log(`logging in as ${bold(blue(`${activeEmail}`))}`);
       }
       const password = await passwordPrompt(false, false);
@@ -74,17 +79,49 @@ export const login = async (email?: string) => {
     console.log("authentication successful");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    if (
-      error?.response?.data?.error_description === "Account is not fully set up"
-    ) {
-      console.log(
-        `\nYou must verify your email address to log in.
+    if (error.response) {
+      const errorDescription = error.response.data?.error_description;
+      if (errorDescription === "Account is not fully set up") {
+        console.log(
+          `\nYou must verify your email address to log in.
 Please check your email and follow the verification link.
 To resend the verification email run the command ${italic(`rrivctlv2 auth verify ${email}`)}`,
-      );
-      return;
+        );
+      } else if (errorDescription === "Invalid user credentials") {
+        throw error;
+      } else {
+        await errorHandler({ error, doNothing: true });
+        const now = new Date();
+        db.update((data) => {
+          data.activeEmail = "guest";
+          data["guest"] = {
+            [data.environment.name]: {
+              accessToken: "guest",
+              name: "guest",
+              expirationTime: +now.setSeconds(now.getSeconds() + 3600),
+              lastLoginAt:
+                data?.["guest"]?.[data.environment.name]?.currentLoginAt,
+              currentLoginAt: new Date(),
+              toSync: [],
+              context: { id: "", name: "" },
+              device: {
+                id: "",
+                uniqueName: "",
+                serialNumber: "",
+                serialPortPath: "",
+              },
+              deviceContext: {
+                contextId: "",
+                deviceId: "",
+                assignedDeviceName: "",
+              },
+            },
+          };
+        });
+      }
+    } else {
+      throw error;
     }
-    throw error;
   }
 };
 
