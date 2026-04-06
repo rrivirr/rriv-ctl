@@ -5,6 +5,8 @@ import { getPrompt } from "../repl/utils.ts";
 import { REPLServer } from "repl";
 import { connectAction } from "../commands/connect/action.ts";
 import { getActiveUser } from "../util/get-logged-in-user.ts";
+import { Context } from "../api/types.ts";
+import { errorHandler } from "../util/error-handler.ts";
 
 export const runChecks = async (body: {
   commandName: string;
@@ -12,6 +14,16 @@ export const runChecks = async (body: {
   replServer?: REPLServer;
 }) => {
   const { email, context, device, deviceContext, env } = getActiveUser();
+
+  // bypass everything
+  let contexts: Context[];
+
+  try {
+    contexts = await getContexts({});
+  } catch (error) {
+    await errorHandler({ error, doNothing: true });
+    return;
+  }
 
   const { commandName, commandArgument, replServer } = body;
   if (
@@ -29,7 +41,6 @@ export const runChecks = async (body: {
     if (commandArgument !== "-h") {
       // check if context exists
       if (!context.id || !context.name) {
-        const contexts = await getContexts({});
         if (!contexts.length) {
           const context = await createContext({
             contextName: "rrivctl",
