@@ -9,6 +9,7 @@ import { bold, italic } from "yoctocolors";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 import { applyInitSettings } from "./helper.ts";
+import { errorHandler } from "../../util/error-handler.ts";
 
 export const connectAction = async (options: any) => {
   const {
@@ -50,7 +51,23 @@ export const connectAction = async (options: any) => {
   }
 
   if (!toBindDevice) {
-    const devices = await getDevices({ id });
+    let devices;
+    try {
+      devices = await getDevices({ id });
+    } catch (error) {
+      console.log("access device as guest...");
+      await errorHandler({ error, doNothing: true });
+      db.update((data) => {
+        data[user.email][user.env].device = {
+          id: "guest",
+          uniqueName: "guest",
+          serialNumber: serialNumber,
+          serialPortPath,
+        };
+      });
+      await applyInitSettings(interactiveMode);
+      return;
+    }
     const existingDevice = devices[0];
 
     if (
@@ -66,7 +83,23 @@ export const connectAction = async (options: any) => {
   }
 
   if (toBindDevice) {
-    const devices = await getDevices({ serialNumber });
+    let devices;
+    try {
+      devices = await getDevices({ serialNumber });
+    } catch (error) {
+      console.log("access device as guest...");
+      await errorHandler({ error, doNothing: true });
+      db.update((data) => {
+        data[user.email][user.env].device = {
+          id: "guest",
+          uniqueName: "guest",
+          serialNumber: serialNumber,
+          serialPortPath,
+        };
+      });
+      await applyInitSettings(interactiveMode);
+      return;
+    }
     device = devices[0];
     if (!device) {
       try {
