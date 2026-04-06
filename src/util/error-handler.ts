@@ -3,13 +3,20 @@ import { logAsDebug } from "./debug-logger.ts";
 import { italic } from "yoctocolors";
 import * as Sentry from "@sentry/node";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const errorHandler = async (body: { error: any; exit: boolean }) => {
-  const { error, exit } = body;
+export const errorHandler = async (body: {
+  error: any;
+  exit?: boolean;
+  doNothing?: boolean;
+}) => {
+  const { error, exit, doNothing } = body;
   Sentry.captureException(error);
   await Sentry.flush();
 
   logAsDebug(error);
+
+  if (doNothing) {
+    return;
+  }
   const errorResponse = error?.response?.data;
   if (errorResponse) {
     const errorMessage =

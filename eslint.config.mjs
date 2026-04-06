@@ -25,6 +25,7 @@ export default tseslint.config(
       "**/config-history.service.ts",
       "**/config/library/types.ts",
       "**/config/library/config-snapshot.library.ts",
+      "**/error-handler.ts",
     ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
@@ -60,6 +61,7 @@ export default tseslint.config(
       "src/commands/watch/action.ts",
       "src/pre-action/index.ts",
       "src/index.ts",
+      "src/util/get-connected-device.ts",
     ],
     rules: {
       "@typescript-eslint/no-non-null-assertion": "off",

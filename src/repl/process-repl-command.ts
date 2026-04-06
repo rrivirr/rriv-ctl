@@ -19,8 +19,8 @@ export async function processReplCommand(
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
       })
-      .catch((error) => {
-        errorHandler({ error, exit: false });
+      .catch(async (error) => {
+        await errorHandler({ error, exit: false });
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
       });
@@ -56,7 +56,7 @@ export async function processReplCommand(
           replServer,
         });
       } catch (error) {
-        errorHandler({ error, exit: false });
+        await errorHandler({ error, exit: false });
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
         return;
@@ -70,8 +70,8 @@ export async function processReplCommand(
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
       })
-      .catch((error) => {
-        errorHandler({ error, exit: false });
+      .catch(async (error) => {
+        await errorHandler({ error, exit: false });
         replServer.setPrompt(getPrompt());
         replServer.displayPrompt();
       });

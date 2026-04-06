@@ -39,6 +39,6 @@ export const syncCommands = async () => {
     console.log("cloud sync successful");
   } catch (error) {
     console.log("cloud sync failed");
-    errorHandler({ error, exit: false });
+    await errorHandler({ error });
   }
 };
