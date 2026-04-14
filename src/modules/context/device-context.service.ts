@@ -24,6 +24,7 @@ export const endDeviceContext = async () => {
       assignedDeviceName: "",
     };
   });
+  console.log("device removed from current context successfully");
 };
 
 export const createDeviceContext = async (body: {

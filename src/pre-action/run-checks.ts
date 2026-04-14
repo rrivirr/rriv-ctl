@@ -11,6 +11,8 @@ import { errorHandler } from "../util/error-handler.ts";
 export const runChecks = async (body: {
   commandName: string;
   commandArgument: string;
+  commandSecondArgument?: string; // repl
+  commandParentName?: string; // cli
   replServer?: REPLServer;
 }) => {
   const { email, context, device, deviceContext, env } = getActiveUser();
@@ -25,14 +27,17 @@ export const runChecks = async (body: {
     return;
   }
 
-  const { commandName, commandArgument, replServer } = body;
+  const {
+    commandName,
+    commandArgument,
+    commandSecondArgument,
+    replServer,
+    commandParentName,
+  } = body;
   if (
     !(
-      (commandName === "use" && commandArgument === "context") ||
-      (commandName === "create" && commandArgument === "context") ||
-      (commandName === "list" && commandArgument === "context") ||
-      (commandName === "end" && commandArgument === "context") ||
-      (commandName === "delete" && commandArgument === "context") ||
+      (commandName === "context" && commandArgument !== "device") || // from repl
+      commandParentName === "context" ||
       (commandName === "remove" && commandArgument === "device") ||
       (commandName === "get" && commandArgument === "data") ||
       commandName === "sync"
@@ -71,7 +76,10 @@ export const runChecks = async (body: {
         !(
           commandName === "connect" ||
           commandName === "flash" ||
-          (commandName === "list" && commandArgument === "device")
+          (commandName === "list" && commandParentName === "device") || // cli
+          (commandName === "context" && // repl
+            commandArgument === "device" &&
+            commandSecondArgument === "list")
         )
       ) {
         const connectedDevice = await getConnectedDevice({
