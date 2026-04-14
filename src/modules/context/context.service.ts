@@ -10,22 +10,41 @@ import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
-export const endContext = async () => {
+export const endContext = async (name?: string) => {
   const {
     context: { id },
     email,
     env,
   } = getActiveUser();
 
-  await updateContext({ id, end: true });
-  db.update((data) => {
-    data[email][env].context = { id: "", name: "" };
-    data[email][env].deviceContext = {
-      contextId: "",
-      deviceId: "",
-      assignedDeviceName: "",
-    };
-  });
+  let idToEnd;
+
+  if (!name) {
+    idToEnd = id;
+    db.update((data) => {
+      data[email][env].context = { id: "", name: "" };
+      data[email][env].deviceContext = {
+        contextId: "",
+        deviceId: "",
+        assignedDeviceName: "",
+      };
+    });
+  } else {
+    const context = await getContextByName({
+      contextName: name,
+    });
+    if (!context) {
+      throw new Error("context specified does not exist");
+    }
+    idToEnd = context.id;
+  }
+
+  if (!idToEnd) {
+    throw new Error("no context found/specified to end");
+  }
+
+  await updateContext({ id: idToEnd, end: true });
+  console.log("current context ended successfully");
 };
 
 export const listContexts = async (options: {
@@ -119,8 +138,7 @@ export const deleteContext = async (name: string) => {
   }
 };
 
-export const createContext = async (options: { name: string }) => {
-  const { name } = options;
+export const createContext = async (name: string) => {
   await createContextApiCall({ contextName: name });
   console.log("context created successfully");
 };

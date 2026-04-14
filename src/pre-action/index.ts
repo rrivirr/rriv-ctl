@@ -52,7 +52,7 @@ export const preAction = async (
     if (
       !(
         commandName === "rrivctl" ||
-        (commandName === "list" && args[0] === "device" && options.all) ||
+        (commandName === "list" && args[0] === "device") ||
         (commandName === "send" && args[0] === "command") ||
         (commandName === "device" && commandParentName === "provision") ||
         (commandName === "debug" && commandParentName === "probe") ||
@@ -69,6 +69,7 @@ export const preAction = async (
     ) {
       await runChecks({
         commandName,
+        commandParentName,
         commandArgument: args[0],
       });
     }

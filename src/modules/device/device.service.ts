@@ -7,7 +7,6 @@ import {
 } from "../../api/device.ts";
 import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
-import { listContextDevices } from "../context/device-context.service.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const unbindDevice = async (serialNumber: string) => {
@@ -31,45 +30,41 @@ export const unbindDevice = async (serialNumber: string) => {
   console.log("device removed from your account successfully");
 };
 
-export const listDevices = async (all?: boolean) => {
+export const listDevices = async () => {
   const {
     device: { id: deviceId },
   } = getActiveUser();
 
-  if (all) {
-    const devices = await getDevicesApiCall({});
-    if (devices.length) {
-      const table = new Table({
-        head: [
-          "id",
-          "uniqueName",
-          "serialNumber",
-          "context",
-          "assignedDeviceName",
-        ],
-      });
-      for (const { id, uniqueName, serialNumber, DeviceContext } of devices) {
-        const assignedDeviceName = DeviceContext[0]?.assignedDeviceName;
-        const name = DeviceContext[0]?.Context?.name;
+  const devices = await getDevicesApiCall({});
+  if (devices.length) {
+    const table = new Table({
+      head: [
+        "id",
+        "uniqueName",
+        "serialNumber",
+        "context",
+        "assignedDeviceName",
+      ],
+    });
+    for (const { id, uniqueName, serialNumber, DeviceContext } of devices) {
+      const assignedDeviceName = DeviceContext[0]?.assignedDeviceName;
+      const name = DeviceContext[0]?.Context?.name;
 
-        if (id === deviceId) {
-          table.push([
-            pronounce(id),
-            pronounce(uniqueName),
-            pronounce(serialNumber),
-            pronounce(name),
-            pronounce(assignedDeviceName),
-          ]);
-        } else {
-          table.push([id, uniqueName, serialNumber, name, assignedDeviceName]);
-        }
+      if (id === deviceId) {
+        table.push([
+          pronounce(id),
+          pronounce(uniqueName),
+          pronounce(serialNumber),
+          pronounce(name),
+          pronounce(assignedDeviceName),
+        ]);
+      } else {
+        table.push([id, uniqueName, serialNumber, name, assignedDeviceName]);
       }
-      console.log("\n" + table.toString());
-    } else {
-      console.log("no devices found bound to you");
     }
+    console.log("\n" + table.toString());
   } else {
-    await listContextDevices();
+    console.log("no devices found bound to you");
   }
 };
 
