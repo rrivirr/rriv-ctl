@@ -13,6 +13,33 @@
 * optional chaining ([a02e373](https://github.com/rrivirr/rriv-ctl/commit/a02e3736c4fd6b951eceb57ecd949dc1d8a047ad))
 * remove wait option on connnect ([d8f7dce](https://github.com/rrivirr/rriv-ctl/commit/d8f7dced945c47e20b6ae2a4719b1e290058d32d))
 * sentry send user info if available ([fa2adbb](https://github.com/rrivirr/rriv-ctl/commit/fa2adbb0b5ea4802f7a5e820f41d89b394495412))
+* trigger release ([966eafb](https://github.com/rrivirr/rriv-ctl/commit/966eafbcaf2342586ab51def71ec0cd0fec4bbd5))
+* trigger release ([f52e8a7](https://github.com/rrivirr/rriv-ctl/commit/f52e8a79b8d89b175ba6a651f3551c727051b279))
+* use error handler in catch functions ([113b30a](https://github.com/rrivirr/rriv-ctl/commit/113b30abf137f7e13d49d84d25b2f61411bf812e))
+
+
+### Features
+
+* integrate sentry ([5e23d9f](https://github.com/rrivirr/rriv-ctl/commit/5e23d9f4b888bc233458474c86f97bff1545b779))
+* rework context commands ([4c5cee2](https://github.com/rrivirr/rriv-ctl/commit/4c5cee21f73881dca8aa3bb716b20d18ceb94029))
+* support multiple rriv devices ([1ea0967](https://github.com/rrivirr/rriv-ctl/commit/1ea09679a8d076845ce8a6de9a06846b2fe2d7c1))
+* support use under degraded circumstances ([d036c60](https://github.com/rrivirr/rriv-ctl/commit/d036c60f5a2e9989aedd53b651af861bfc29be9f))
+
+# [2.16.0](https://github.com/rrivirr/rriv-ctl/compare/v2.15.4...v2.16.0) (2026-04-14)
+
+
+### Bug Fixes
+
+* [#205](https://github.com/rrivirr/rriv-ctl/issues/205) ([200199e](https://github.com/rrivirr/rriv-ctl/commit/200199e6cc4934d5d27d4bd495a5b39c8f1837d3))
+* [#208](https://github.com/rrivirr/rriv-ctl/issues/208) ([e5de139](https://github.com/rrivirr/rriv-ctl/commit/e5de139975903276d60e4b29c49bf043aa2cd815))
+* command to rename device in context ([37c73fe](https://github.com/rrivirr/rriv-ctl/commit/37c73fed014c3220612d5ebbe715e5523f22044b))
+* connect -p ([6ffedc5](https://github.com/rrivirr/rriv-ctl/commit/6ffedc553a2ea942c7981a566ff8352c8851f35c))
+* env default check ([23f00c1](https://github.com/rrivirr/rriv-ctl/commit/23f00c1ce238f1911cb2ecedef950bcf928ee7d4))
+* ignore guest mode data whenn syncing ([726b3af](https://github.com/rrivirr/rriv-ctl/commit/726b3af455b05566e4544015a5cbe3ea36862f1d))
+* make device unique name the default assigned device name ([2a948b7](https://github.com/rrivirr/rriv-ctl/commit/2a948b77878c12919cc35995a05551a9c06932c7))
+* optional chaining ([a02e373](https://github.com/rrivirr/rriv-ctl/commit/a02e3736c4fd6b951eceb57ecd949dc1d8a047ad))
+* remove wait option on connnect ([d8f7dce](https://github.com/rrivirr/rriv-ctl/commit/d8f7dced945c47e20b6ae2a4719b1e290058d32d))
+* sentry send user info if available ([fa2adbb](https://github.com/rrivirr/rriv-ctl/commit/fa2adbb0b5ea4802f7a5e820f41d89b394495412))
 * trigger release ([f52e8a7](https://github.com/rrivirr/rriv-ctl/commit/f52e8a79b8d89b175ba6a651f3551c727051b279))
 * use error handler in catch functions ([113b30a](https://github.com/rrivirr/rriv-ctl/commit/113b30abf137f7e13d49d84d25b2f61411bf812e))
 
