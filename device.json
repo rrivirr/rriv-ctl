@@ -17,7 +17,7 @@
     {
       "id": "aht01",
       "type": "aht20",
-      "wait_time": 1
+      "wait_time": 2
     },
     {
       "id": "methan",
