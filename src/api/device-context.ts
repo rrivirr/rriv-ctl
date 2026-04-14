@@ -2,19 +2,19 @@ import { DeviceContext, DeviceContextRequest } from "./types.ts";
 import { rrivApiAxios } from "./axios.ts";
 
 export const getDeviceContext = async (
-  body: DeviceContextRequest
+  body: DeviceContextRequest,
 ): Promise<DeviceContext> => {
   const { deviceId, contextId } = body;
 
   const response = await rrivApiAxios.get(
-    `/context/${contextId}/device/${deviceId}`
+    `/context/${contextId}/device/${deviceId}`,
   );
 
   return response.data;
 };
 
 export const createDeviceContext = async (
-  body: DeviceContextRequest & { assignedDeviceName: string }
+  body: DeviceContextRequest & { assignedDeviceName: string },
 ): Promise<void> => {
   const { deviceId, contextId, assignedDeviceName } = body;
 
@@ -24,9 +24,12 @@ export const createDeviceContext = async (
 };
 
 export const updateDeviceContext = async (
-  body: DeviceContextRequest & { end: true }
+  body: DeviceContextRequest & { end?: true; assignedDeviceName?: string },
 ): Promise<void> => {
-  const { contextId, deviceId, end } = body;
+  const { contextId, deviceId, end, assignedDeviceName } = body;
 
-  await rrivApiAxios.patch(`/context/${contextId}/device/${deviceId}`, { end });
+  await rrivApiAxios.patch(`/context/${contextId}/device/${deviceId}`, {
+    end,
+    assignedDeviceName,
+  });
 };

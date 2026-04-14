@@ -7,6 +7,7 @@ import {
   endDeviceContextAction,
   listContextAction,
   listDeviceContextAction,
+  renameDeviceInContextAction,
 } from "./action.ts";
 
 export const makeContextCommand = (cli: Command) => {
@@ -25,4 +26,8 @@ export const makeContextCommand = (cli: Command) => {
   const deviceContextCommand = contextCommand.command("device");
   deviceContextCommand.command("end").action(endDeviceContextAction);
   deviceContextCommand.command("list").action(listDeviceContextAction);
+  deviceContextCommand
+    .command("rename")
+    .argument("name")
+    .action(renameDeviceInContextAction);
 };
