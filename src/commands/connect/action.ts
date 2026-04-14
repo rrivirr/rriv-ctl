@@ -5,20 +5,14 @@ import { bindDevice } from "../../util/bind-device.ts";
 import { Device } from "../../api/types.ts";
 import { createDeviceContext } from "../../modules/context/device-context.service.ts";
 import { uploadDataloggerConfig } from "../../modules/config/datalogger-config.service.ts";
-import { bold, italic } from "yoctocolors";
+import { bold } from "yoctocolors";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 import { applyInitSettings } from "./helper.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 
 export const connectAction = async (options: any) => {
-  const {
-    assignedDeviceName,
-    path,
-    fromRunCheck,
-    connectedDeviceInfo,
-    interactiveMode,
-  } = options;
+  const { path, fromRunCheck, connectedDeviceInfo, interactiveMode } = options;
 
   let connectedDevice: Awaited<ReturnType<typeof getConnectedDevice>> =
     connectedDeviceInfo;
@@ -141,7 +135,7 @@ export const connectAction = async (options: any) => {
   });
 
   const { id: currentContextId } = context;
-  let deviceNameToAssign = assignedDeviceName;
+  let deviceNameToAssign = device.uniqueName;
 
   if (device.DeviceContext?.length) {
     const deviceContext = device.DeviceContext[0];
@@ -152,15 +146,11 @@ export const connectAction = async (options: any) => {
         `device already in another context: ${bold(deviceContext.Context.name)}`,
       );
     }
-  } else if (!assignedDeviceName) {
-    throw new Error(
-      `device yet to be added to current context\nrun ${italic("rrivctlv2 connect --assigned-device-name <name to assign device in current context>")}`,
-    );
   } else {
     await createDeviceContext({
       contextId: currentContextId,
       deviceId: device.id,
-      assignedDeviceName,
+      assignedDeviceName: deviceNameToAssign,
     });
   }
 
