@@ -8,6 +8,7 @@ import {
 import {
   endDeviceContext,
   listContextDevices,
+  renameDeviceInContext,
 } from "../../modules/context/device-context.service.ts";
 
 export const createAction = async (name: string) => {
@@ -36,4 +37,8 @@ export const endDeviceContextAction = async () => {
 
 export const listDeviceContextAction = async () => {
   await listContextDevices();
+};
+
+export const renameDeviceInContextAction = async (name: string) => {
+  await renameDeviceInContext(name);
 };

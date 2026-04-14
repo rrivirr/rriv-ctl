@@ -5,6 +5,28 @@ import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
+export const renameDeviceInContext = async (name: string) => {
+  const {
+    deviceContext: { deviceId, contextId },
+    email,
+    env,
+  } = getActiveUser();
+
+  await DeviceContextApiCalls.updateDeviceContext({
+    deviceId,
+    contextId,
+    assignedDeviceName: name,
+  });
+
+  db.update((data) => {
+    data[email][env].deviceContext = {
+      contextId,
+      deviceId,
+      assignedDeviceName: name,
+    };
+  });
+};
+
 export const endDeviceContext = async () => {
   const {
     deviceContext: { deviceId, contextId },
