@@ -7,12 +7,19 @@ import { getSerialPathFromCache } from "../../util/get-serial-path-from-cache.ts
 import { readSerialUntilQuit } from "../../infra/read-serial-until-quit.ts";
 import { getDevices } from "../../api/device.ts";
 import { getConfig } from "../../util/config.ts";
+import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
 export const watchAction = async (deviceIdentifier: string, options: any) => {
   const project = options.project ?? "rriv";
+  const {
+    context: { id },
+  } = getActiveUser();
 
   if (deviceIdentifier) {
-    const device = await getDevices({ identifier: deviceIdentifier });
+    const device = await getDevices({
+      identifier: deviceIdentifier,
+      contextId: id || undefined,
+    });
     if (!device.length) {
       console.log("no device found with specified identifier");
       return;
