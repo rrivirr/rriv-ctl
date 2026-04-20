@@ -40,7 +40,7 @@ export const setConfig = async (env: Environment) => {
       new GetObjectCommand({
         Bucket: "rriv-envs",
         Key,
-      })
+      }),
     );
     const body = await r.Body?.transformToString();
     const config = JSON.parse(body!);
