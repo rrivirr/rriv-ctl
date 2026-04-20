@@ -48,9 +48,16 @@ export const watchAction = async (deviceIdentifier: string, options: any) => {
 
     console.log(`listening and logging data to ${logPath}\n`);
 
-    client.on("message", (topic, message) => {
-      console.log("Received:", JSON.parse(message.toString()));
-      fs.writeFileSync(logPath, message.toString() + "\n", { flag: "a" });
+    await new Promise<void>((resolve) => {
+      client.on("message", (topic, message) => {
+        console.log("Received:", JSON.parse(message.toString()));
+        fs.writeFileSync(logPath, message.toString() + "\n", { flag: "a" });
+      });
+
+      process.on("SIGINT", () => {
+        client.end();
+        resolve();
+      });
     });
   } else {
     const file =
