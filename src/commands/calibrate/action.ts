@@ -1,3 +1,4 @@
+import { oraPromise } from "ora";
 import { sendCommands } from "../../infra/send-commands.ts";
 
 export const calibrateAction = async (
@@ -5,7 +6,7 @@ export const calibrateAction = async (
   id?: string,
   subcommand?: string,
   point?: string,
-  _tag?: string
+  _tag?: string,
 ) => {
   const payload = new Map();
   payload.set("object", object);
@@ -24,5 +25,5 @@ export const calibrateAction = async (
 
   const payloadString = JSON.stringify(Object.fromEntries(payload));
 
-  await sendCommands([payloadString]);
+  await oraPromise(() => sendCommands([payloadString]));
 };

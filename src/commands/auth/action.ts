@@ -6,6 +6,7 @@ import {
   verify,
   resetPassword,
 } from "../../modules/auth/auth.service.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const signupAction = async (options: any) => {
   await signup(options);
@@ -17,11 +18,11 @@ export const loginAction = async (email?: string) => {
 
 // @TODO debug and fix this swap email bug
 export const verifyAction = async (email: string) => {
-  await resetPassword(email);
+  await oraPromise(() => resetPassword(email));
 };
 
 export const resetPasswordAction = async (email: string) => {
-  await verify(email);
+  await oraPromise(() => verify(email));
 };
 
 export const whoamiAction = async () => {

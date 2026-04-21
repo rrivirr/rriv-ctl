@@ -2,9 +2,10 @@ import { listFirmwareHistory } from "../../modules/firmware/firmware.service.ts"
 import { clearEeprom, flashFirmware } from "../../modules/firmware/flash.ts";
 import { probeDebug } from "../../modules/firmware/probe-debug.ts";
 import { runDiagnostics } from "../../modules/firmware/run-diagnostics.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const flashAction = async (firmwareVersion?: string) => {
-  await flashFirmware(firmwareVersion);
+  await oraPromise(() => flashFirmware(firmwareVersion));
 };
 
 export const debugAction = async (firmwareVersion: string) => {
@@ -12,7 +13,7 @@ export const debugAction = async (firmwareVersion: string) => {
 };
 
 export const listFirmwareHistoryAction = async (serialNumber?: string) => {
-  await listFirmwareHistory(serialNumber);
+  await oraPromise(() => listFirmwareHistory(serialNumber));
 };
 
 export const diagnosticAction = async (firmwareVersion?: string) => {
@@ -20,6 +21,6 @@ export const diagnosticAction = async (firmwareVersion?: string) => {
 };
 
 export const firmwareResetAction = async () => {
-  await clearEeprom("config");
-  await flashFirmware();
+  await oraPromise(() => clearEeprom("config"));
+  await oraPromise(flashFirmware);
 };

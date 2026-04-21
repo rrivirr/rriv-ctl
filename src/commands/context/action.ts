@@ -10,35 +10,36 @@ import {
   listContextDevices,
   renameDeviceInContext,
 } from "../../modules/context/device-context.service.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const createAction = async (name: string) => {
-  await createContext(name);
+  await oraPromise(() => createContext(name));
 };
 
 export const useAction = async (name: string) => {
-  await useContext(name);
+  await oraPromise(() => useContext(name));
 };
 
 export const deleteAction = async (name: string) => {
-  await deleteContext(name);
+  await oraPromise(() => deleteContext(name));
 };
 
 export const endContextAction = async (name?: string) => {
-  await endContext(name);
+  await oraPromise(() => endContext(name));
 };
 
 export const listContextAction = async (options: any) => {
-  await listContexts(options);
+  await oraPromise(() => listContexts(options));
 };
 
 export const endDeviceContextAction = async () => {
-  await endDeviceContext();
+  await oraPromise(endDeviceContext);
 };
 
 export const listDeviceContextAction = async () => {
-  await listContextDevices();
+  await oraPromise(listContextDevices);
 };
 
 export const renameDeviceInContextAction = async (name: string) => {
-  await renameDeviceInContext(name);
+  await oraPromise(() => renameDeviceInContext(name));
 };

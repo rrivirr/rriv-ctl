@@ -24,6 +24,7 @@ import {
   publishSensorConfig,
   deleteLibrarySensorConfig,
 } from "../../modules/config/library/sensor-config.library.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const getNameAndVersion = (arg: string) => {
   const [name, version] = arg.split(":");
@@ -45,11 +46,11 @@ const getAuthorNameAndVersion = (arg: string) => {
 
 export const publishAction = async (object: string, name: string) => {
   if (object === "device") {
-    await publishDeviceConfig({ name });
+    await oraPromise(() => publishDeviceConfig({ name }));
   } else if (object === "datalogger") {
-    await publishDataloggerConfig({ name });
+    await oraPromise(() => publishDataloggerConfig({ name }));
   } else if (object === "sensor") {
-    await publishSensorConfig({ name });
+    await oraPromise(() => publishSensorConfig({ name }));
   }
 };
 
@@ -79,11 +80,11 @@ export const saveAction = async (
   };
 
   if (object === "device") {
-    await saveDeviceConfig(payload);
+    await oraPromise(() => saveDeviceConfig(payload));
   } else if (object === "datalogger") {
-    await saveDataloggerConfig(payload);
+    await oraPromise(() => saveDataloggerConfig(payload));
   } else if (object === "sensor") {
-    await saveSensorConfig(payload);
+    await oraPromise(() => saveSensorConfig(payload));
   }
 };
 
@@ -92,11 +93,11 @@ export const getAction = async (object: string, arg: string) => {
 
   const payload = { name, version, author };
   if (object === "device") {
-    await getLibraryDeviceConfig(payload);
+    await oraPromise(() => getLibraryDeviceConfig(payload));
   } else if (object === "datalogger") {
-    await getLibraryDataloggerConfig(payload);
+    await oraPromise(() => getLibraryDataloggerConfig(payload));
   } else if (object === "sensor") {
-    await getLibrarySensorConfig(payload);
+    await oraPromise(() => getLibrarySensorConfig(payload));
   }
 };
 
@@ -118,11 +119,11 @@ export const listAction = async (
   const payload = { name, author, search: filter };
 
   if (object === "device") {
-    await listLibraryDeviceConfig(payload);
+    await oraPromise(() => listLibraryDeviceConfig(payload));
   } else if (object === "datalogger") {
-    await listLibraryDataloggerConfig(payload);
+    await oraPromise(() => listLibraryDataloggerConfig(payload));
   } else if (object === "sensor") {
-    await listLibrarySensorConfig(payload);
+    await oraPromise(() => listLibrarySensorConfig(payload));
   }
 };
 
@@ -136,20 +137,20 @@ export const applyAction = async (
 
   const payload = { name, version, author, sensorId };
   if (object === "device") {
-    await applyLibraryDeviceConfig(payload);
+    await oraPromise(() => applyLibraryDeviceConfig(payload));
   } else if (object === "datalogger") {
-    await applyLibraryDataloggerConfig(payload);
+    await oraPromise(() => applyLibraryDataloggerConfig(payload));
   } else if (object === "sensor") {
-    await applyLibrarySensorConfig(payload);
+    await oraPromise(() => applyLibrarySensorConfig(payload));
   }
 };
 
 export const deleteAction = async (object: string, name: string) => {
   if (object === "device") {
-    await deleteLibraryDeviceConfig(name);
+    await oraPromise(() => deleteLibraryDeviceConfig(name));
   } else if (object === "datalogger") {
-    await deleteLibraryDataloggerConfig(name);
+    await oraPromise(() => deleteLibraryDataloggerConfig(name));
   } else if (object === "sensor") {
-    await deleteLibrarySensorConfig(name);
+    await oraPromise(() => deleteLibrarySensorConfig(name));
   }
 };

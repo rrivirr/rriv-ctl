@@ -4,6 +4,7 @@ import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { uploadConfig } from "../../modules/config/config.service.ts";
 import { logAsDebug } from "../../util/debug-logger.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const setAction = async (
   object: string,
@@ -59,7 +60,7 @@ export const setAction = async (
     }
   }
 
-  const appliedConfig = await writeConfigToDevice(payload);
+  const appliedConfig = await oraPromise(() => writeConfigToDevice(payload));
   console.log("config applied to device successfully");
 
   const user = getActiveUser();

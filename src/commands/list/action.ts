@@ -1,6 +1,7 @@
 import { listConfigSnapshot } from "../../modules/config/config-snapshot.service.ts";
 import { listDevices } from "../../modules/device/device.service.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const listAction = async (object: string, options: any) => {
   if (["sensor", "actuator", "telemeter"].includes(object)) {
@@ -9,10 +10,10 @@ export const listAction = async (object: string, options: any) => {
     payload.set("action", "list");
     const payloadString = JSON.stringify(Object.fromEntries(payload));
 
-    await sendCommands([payloadString]);
+    await oraPromise(() => sendCommands([payloadString]));
   } else if (object === "device") {
-    await listDevices();
+    await oraPromise(listDevices);
   } else if (object === "config-snapshot") {
-    await listConfigSnapshot(options);
+    await oraPromise(() => listConfigSnapshot(options));
   }
 };

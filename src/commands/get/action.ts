@@ -3,6 +3,7 @@ import { getReadings } from "../../api/readings.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 import { getConfigSnapshot } from "../../modules/config/config-snapshot.service.ts";
 import { getDevices } from "../../api/device.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const getAction = async (
   object: string,
@@ -17,7 +18,7 @@ export const getAction = async (
       throw new Error("device identifier required");
     }
 
-    const device = await getDevices({ identifier: id });
+    const device = await oraPromise(() => getDevices({ identifier: id }));
     if (!device.length) {
       console.log("no device found with specified identifier");
       return;
@@ -33,13 +34,15 @@ export const getAction = async (
       fs.mkdirSync(dirPath);
     }
 
-    const file = await getReadings({ eui, dirPath, startDate, endDate });
+    const file = await oraPromise(() =>
+      getReadings({ eui, dirPath, startDate, endDate }),
+    );
     if (file) {
       console.log(`saved to ${file}`);
     }
     return;
   } else if (object === "config-snapshot") {
-    await getConfigSnapshot();
+    await oraPromise(getConfigSnapshot);
     return;
   }
 
@@ -63,5 +66,5 @@ export const getAction = async (
     }
   }
   const payloadString = JSON.stringify(Object.fromEntries(payload));
-  await sendCommands([payloadString]);
+  await oraPromise(() => sendCommands([payloadString]));
 };
