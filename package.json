@@ -1,6 +1,6 @@
 {
   "name": "rriv-cli",
-  "version": "2.17.0-preview-repl.2",
+  "version": "2.17.0-preview-repl.3",
   "description": "rriv cross-platform cli client",
   "bin": "./dist/index.cjs",
   "engines": {
