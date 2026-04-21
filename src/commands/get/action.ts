@@ -8,7 +8,7 @@ export const getAction = async (
   object: string,
   id?: string,
   parameter?: string,
-  endDate?: string
+  endDate?: string,
 ) => {
   if (object === "data") {
     const startDate = parameter;
@@ -52,7 +52,11 @@ export const getAction = async (
     }
   } else {
     if (id) {
-      payload.set("id", id);
+      if (object === "sensor") {
+        payload.set("id", id.toLowerCase());
+      } else {
+        payload.set("id", id);
+      }
     }
     if (parameter) {
       payload.set("parameter", parameter);
