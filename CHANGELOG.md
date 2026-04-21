@@ -1,3 +1,16 @@
+# [2.17.0](https://github.com/rrivirr/rriv-ctl/compare/v2.16.1...v2.17.0) (2026-04-21)
+
+
+### Bug Fixes
+
+* set sensor id to lowercase ([1fd9344](https://github.com/rrivirr/rriv-ctl/commit/1fd934452cb7da4e0203b6902d8015ef85fa278b))
+* watch mqtt issue ([7aaadc3](https://github.com/rrivirr/rriv-ctl/commit/7aaadc323ae378aa1f62da74bd2b292794088f9a))
+
+
+### Features
+
+* support session based repl ([e35a181](https://github.com/rrivirr/rriv-ctl/commit/e35a181a3d2d235a26c0766a81f7bb1e311ed4b7))
+
 ## [2.16.1](https://github.com/rrivirr/rriv-ctl/compare/v2.16.0...v2.16.1) (2026-04-17)
 
 
