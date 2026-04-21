@@ -135,7 +135,8 @@ export const connectAction = async (options: any) => {
   });
 
   const { id: currentContextId } = context;
-  let deviceNameToAssign = device.uniqueName;
+  // temporary
+  let deviceNameToAssign = device.uniqueName.substring(0, 20);
 
   if (device.DeviceContext?.length) {
     const deviceContext = device.DeviceContext[0];
