@@ -4,6 +4,7 @@ import {
   applyConfigHistory,
 } from "../../modules/config/config-history.service.ts";
 import { Resource } from "../../types.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 const validateSensorId = (object: string, sensorId?: string) => {
   if (object === "sensor" && !sensorId) {
@@ -41,12 +42,14 @@ export const getAction = async (
 ) => {
   const { sensorId } = options;
   validateSensorId(object, sensorId);
-  await getConfigHistoryAtTime({
-    deviceIdentifier,
-    sensorId,
-    resource: object,
-    datetime: refactorDatetime(datetime),
-  });
+  await oraPromise(() =>
+    getConfigHistoryAtTime({
+      deviceIdentifier,
+      sensorId,
+      resource: object,
+      datetime: refactorDatetime(datetime),
+    }),
+  );
 };
 
 export const applyAction = async (
@@ -57,12 +60,14 @@ export const applyAction = async (
 ) => {
   const { sensorId } = options;
   validateSensorId(object, sensorId);
-  await applyConfigHistory({
-    deviceIdentifier,
-    sensorId,
-    resource: object,
-    datetime: refactorDatetime(datetime),
-  });
+  await oraPromise(() =>
+    applyConfigHistory({
+      deviceIdentifier,
+      sensorId,
+      resource: object,
+      datetime: refactorDatetime(datetime),
+    }),
+  );
 };
 
 export const listAction = async (
@@ -76,10 +81,12 @@ export const listAction = async (
   }
   validateSensorId(object, sensorId);
 
-  await listConfigHistory({
-    deviceIdentifier,
-    sensorId,
-    limit: number,
-    resource: object,
-  });
+  await oraPromise(() =>
+    listConfigHistory({
+      deviceIdentifier,
+      sensorId,
+      limit: number,
+      resource: object,
+    }),
+  );
 };

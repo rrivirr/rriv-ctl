@@ -37,6 +37,7 @@ export type DB = {
     [key: string]: Data;
   };
 } & {
+  spinner: string;
   activeEmail: string;
   lastVersionCheckAt: Date;
   updateChannel: UpdateChannel;
@@ -97,6 +98,7 @@ class Database {
       lastVersionCheckAt,
       updateChannel,
       debugMode,
+      spinner,
       ...mainDb
     } = this.defaultDb.data;
     this.db.update((data) => {
@@ -105,6 +107,7 @@ class Database {
       data[activeEmail][environment.name] = {
         ...mainDb[activeEmail][environment.name],
       };
+      data.spinner = spinner;
       data.autoCompleteSetup = autoCompleteSetup;
       data.lastVersionCheckAt = lastVersionCheckAt;
       data.updateChannel = updateChannel;

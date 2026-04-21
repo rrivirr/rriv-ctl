@@ -26,6 +26,8 @@ export default tseslint.config(
       "**/config/library/types.ts",
       "**/config/library/config-snapshot.library.ts",
       "**/error-handler.ts",
+      "**/cli.ts",
+      "**/ora-promise.ts",
     ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
