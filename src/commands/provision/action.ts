@@ -6,6 +6,7 @@ import { provisionDevice, registerEui } from "../../api/device.ts";
 import { logAsDebug } from "../../util/debug-logger.ts";
 import { getBoardVersion } from "../../util/get-device-details.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const provisionAction = async (options: any) => {
   const { factory, skip, firmwareVersion } = options;
@@ -14,9 +15,11 @@ export const provisionAction = async (options: any) => {
 
   if (!factory) {
     console.log(`${yellowBright("checking for connected rriv devices...")}`);
-    result = await getConnectedDevice({
-      provisionCommand: true,
-    });
+    result = await oraPromise(() =>
+      getConnectedDevice({
+        provisionCommand: true,
+      }),
+    );
   }
 
   let uid = result?.uid;
@@ -24,7 +27,7 @@ export const provisionAction = async (options: any) => {
   let boardVersion = "";
 
   if (uid && serialPortPath) {
-    boardVersion = await getBoardVersion(serialPortPath);
+    boardVersion = await oraPromise(() => getBoardVersion(serialPortPath));
   }
 
   if (!skip) {
@@ -33,9 +36,11 @@ export const provisionAction = async (options: any) => {
 
   if (!uid) {
     console.log(`${yellowBright("checking for connected rriv devices...")}`);
-    const connectedDevice = await getConnectedDevice({
-      provisionCommand: true,
-    });
+    const connectedDevice = await oraPromise(() =>
+      getConnectedDevice({
+        provisionCommand: true,
+      }),
+    );
     uid = connectedDevice?.uid;
     serialPortPath = connectedDevice?.serialPortPath;
   }
@@ -48,18 +53,20 @@ export const provisionAction = async (options: any) => {
   if (!matched) {
     throw new Error(`invalid uid received: ${uid}`);
   }
-  const device = await provisionDevice({ uid });
+  const device = await oraPromise(() => provisionDevice({ uid }));
   logAsDebug("setting serial number on device...");
-  await sendCommands(
-    [
-      JSON.stringify({
-        action: "set",
-        object: "device",
-        serial_number: device.serialNumber,
-      }),
-    ],
-    false,
-    serialPortPath,
+  await oraPromise(() =>
+    sendCommands(
+      [
+        JSON.stringify({
+          action: "set",
+          object: "device",
+          serial_number: device.serialNumber,
+        }),
+      ],
+      false,
+      serialPortPath,
+    ),
   );
   console.log(
     `device successfully provisioned
@@ -71,15 +78,19 @@ export const provisionAction = async (options: any) => {
 export const registerEuiAction = async () => {
   let eui;
 
-  const [result1] = await sendCommands(
-    [JSON.stringify({ object: "telemeter", action: "get" })],
-    false,
+  const [result1] = await oraPromise(() =>
+    sendCommands(
+      [JSON.stringify({ object: "telemeter", action: "get" })],
+      false,
+    ),
   );
   if (result1.message) {
     // try again
-    const [result2] = await sendCommands(
-      [JSON.stringify({ object: "telemeter", action: "get" })],
-      false,
+    const [result2] = await oraPromise(() =>
+      sendCommands(
+        [JSON.stringify({ object: "telemeter", action: "get" })],
+        false,
+      ),
     );
 
     if (result2.message) {
@@ -102,6 +113,6 @@ export const registerEuiAction = async () => {
   const {
     device: { id },
   } = getActiveUser();
-  await registerEui({ eui, deviceId: id });
+  await oraPromise(() => registerEui({ eui, deviceId: id }));
   console.log("successful");
 };
