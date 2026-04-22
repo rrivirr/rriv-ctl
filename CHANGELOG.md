@@ -1,3 +1,10 @@
+## [2.17.3](https://github.com/rrivirr/rriv-ctl/compare/v2.17.2...v2.17.3) (2026-04-22)
+
+
+### Bug Fixes
+
+* update sentry for axios errors ([9c85b7d](https://github.com/rrivirr/rriv-ctl/commit/9c85b7dd0b33802edff1ca307fdefdfc5cf60794))
+
 ## [2.17.2](https://github.com/rrivirr/rriv-ctl/compare/v2.17.1...v2.17.2) (2026-04-22)
 
 
