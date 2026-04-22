@@ -10,6 +10,7 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 import { applyInitSettings } from "./helper.ts";
 import { errorHandler } from "../../util/error-handler.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const connectAction = async (options: any) => {
   const { path, fromRunCheck, connectedDeviceInfo, interactiveMode } = options;
@@ -18,10 +19,12 @@ export const connectAction = async (options: any) => {
     connectedDeviceInfo;
 
   if (!connectedDevice) {
-    connectedDevice = await getConnectedDevice({
-      specifiedSerialPortPath: path,
-      fromRunCheck,
-    });
+    connectedDevice = await oraPromise(() =>
+      getConnectedDevice({
+        specifiedSerialPortPath: path,
+        fromRunCheck,
+      }),
+    );
   }
 
   const serialNumber = connectedDevice!.serialNumber;
@@ -47,7 +50,7 @@ export const connectAction = async (options: any) => {
   if (!toBindDevice) {
     let devices;
     try {
-      devices = await getDevices({ id });
+      devices = await oraPromise(() => getDevices({ id }));
     } catch (error) {
       console.log("access device as guest...");
       await errorHandler({ error, doNothing: true });
@@ -59,7 +62,7 @@ export const connectAction = async (options: any) => {
           serialPortPath,
         };
       });
-      await applyInitSettings(interactiveMode);
+      await oraPromise(() => applyInitSettings(interactiveMode));
       return;
     }
     const existingDevice = devices[0];
@@ -79,7 +82,7 @@ export const connectAction = async (options: any) => {
   if (toBindDevice) {
     let devices;
     try {
-      devices = await getDevices({ serialNumber });
+      devices = await oraPromise(() => getDevices({ serialNumber }));
     } catch (error) {
       console.log("access device as guest...");
       await errorHandler({ error, doNothing: true });
@@ -91,15 +94,17 @@ export const connectAction = async (options: any) => {
           serialPortPath,
         };
       });
-      await applyInitSettings(interactiveMode);
+      await oraPromise(() => applyInitSettings(interactiveMode));
       return;
     }
     device = devices[0];
     if (!device) {
       try {
-        device = await bindDevice({
-          serialNumber,
-        });
+        device = await oraPromise(() =>
+          bindDevice({
+            serialNumber,
+          }),
+        );
         pullConfig = true;
       } catch (e: any) {
         console.log("accessing device as guest...\n");
@@ -112,7 +117,7 @@ export const connectAction = async (options: any) => {
               serialPortPath,
             };
           });
-          await applyInitSettings(interactiveMode);
+          await oraPromise(() => applyInitSettings(interactiveMode));
           return;
         }
         throw e;
@@ -148,11 +153,13 @@ export const connectAction = async (options: any) => {
       );
     }
   } else {
-    await createDeviceContext({
-      contextId: currentContextId,
-      deviceId: device.id,
-      assignedDeviceName: deviceNameToAssign,
-    });
+    await oraPromise(() =>
+      createDeviceContext({
+        contextId: currentContextId,
+        deviceId: device.id,
+        assignedDeviceName: deviceNameToAssign,
+      }),
+    );
   }
 
   db.update((data) => {
@@ -164,12 +171,16 @@ export const connectAction = async (options: any) => {
   });
 
   // set epoch
-  await applyInitSettings(interactiveMode);
+  await oraPromise(() => applyInitSettings(interactiveMode));
   if (pullConfig) {
-    const result = await sendCommands(
-      [JSON.stringify({ object: "datalogger", action: "get" })],
-      false,
+    const result = await oraPromise(() =>
+      sendCommands(
+        [JSON.stringify({ object: "datalogger", action: "get" })],
+        false,
+      ),
     );
-    await uploadDataloggerConfig({ ...result[0], object: "datalogger" });
+    await oraPromise(() =>
+      uploadDataloggerConfig({ ...result[0], object: "datalogger" }),
+    );
   }
 };
