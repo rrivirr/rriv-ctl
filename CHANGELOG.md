@@ -1,3 +1,10 @@
+## [2.17.2](https://github.com/rrivirr/rriv-ctl/compare/v2.17.1...v2.17.2) (2026-04-22)
+
+
+### Bug Fixes
+
+* extend loading animation ([#217](https://github.com/rrivirr/rriv-ctl/issues/217)) ([4d82e5e](https://github.com/rrivirr/rriv-ctl/commit/4d82e5ef818bbf037b97612ced7b8069f72de08b))
+
 ## [2.17.1](https://github.com/rrivirr/rriv-ctl/compare/v2.17.0...v2.17.1) (2026-04-22)
 
 
