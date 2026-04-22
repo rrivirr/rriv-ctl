@@ -1,5 +1,5 @@
-import { oraPromise } from "ora";
 import { sendCommands } from "../../infra/send-commands.ts";
+import { oraPromise } from "../../util/ora-promise.ts";
 
 export const calibrateAction = async (
   object: string,
