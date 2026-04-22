@@ -1,3 +1,12 @@
+## [2.17.1](https://github.com/rrivirr/rriv-ctl/compare/v2.17.0...v2.17.1) (2026-04-22)
+
+
+### Bug Fixes
+
+* add temporary assigned device limit ([90f03cc](https://github.com/rrivirr/rriv-ctl/commit/90f03cc10a43cc4f2bfebe402fcc6c91575789f6))
+* minor fix ([989504c](https://github.com/rrivirr/rriv-ctl/commit/989504c9edeb63b474b89242cfe97ad7b7361833))
+* support loading animation ([a4919b4](https://github.com/rrivirr/rriv-ctl/commit/a4919b46e5729637473d98c71a0a3cdd68ec2143))
+
 # [2.17.0](https://github.com/rrivirr/rriv-ctl/compare/v2.16.1...v2.17.0) (2026-04-21)
 
 
