@@ -9,7 +9,8 @@ export const errorHandler = async (body: {
   doNothing?: boolean;
 }) => {
   const { error, exit, doNothing } = body;
-  Sentry.captureException(error);
+  const errorResponse = error?.response?.data;
+  Sentry.captureException(JSON.stringify(errorResponse) || error);
   await Sentry.flush();
 
   logAsDebug(error);
@@ -17,7 +18,6 @@ export const errorHandler = async (body: {
   if (doNothing) {
     return;
   }
-  const errorResponse = error?.response?.data;
   if (errorResponse) {
     const errorMessage =
       `ApiError: ` +
