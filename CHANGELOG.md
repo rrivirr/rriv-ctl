@@ -1,3 +1,10 @@
+## [2.17.4](https://github.com/rrivirr/rriv-ctl/compare/v2.17.3...v2.17.4) (2026-04-24)
+
+
+### Bug Fixes
+
+* remove trailing backslash ([9cade1a](https://github.com/rrivirr/rriv-ctl/commit/9cade1a1e2bd5269c12670b20366d69b70c13bc8))
+
 ## [2.17.3](https://github.com/rrivirr/rriv-ctl/compare/v2.17.2...v2.17.3) (2026-04-22)
 
 
