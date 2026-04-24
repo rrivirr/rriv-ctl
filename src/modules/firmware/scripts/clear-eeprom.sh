@@ -20,4 +20,4 @@ probe-rs download $eeprom_file_path \
 
 probe-rs reset \
 	--chip STM32F103RE  \
- 	--protocol swd \
+ 	--protocol swd 
