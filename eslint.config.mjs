@@ -25,6 +25,7 @@ export default tseslint.config(
       "**/config-history.service.ts",
       "**/config/library/types.ts",
       "**/config/library/config-snapshot.library.ts",
+      "**/config/config-snapshot.service.ts",
       "**/error-handler.ts",
       "**/cli.ts",
       "**/ora-promise.ts",

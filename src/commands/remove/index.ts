@@ -10,9 +10,10 @@ export const makeRemoveCommand = (cli: Command) => {
         "actuator",
         "telemeter",
         "device",
-      ])
+      ]),
     )
-    .argument("<id>", "or serial number in the case of device")
+    .option("-a, --all", "remove all sensors")
+    .argument("[id]", "or serial number in the case of device")
     .description("remove an object")
     .action(removeAction);
 };

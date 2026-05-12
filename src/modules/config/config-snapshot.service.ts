@@ -11,6 +11,7 @@ import { writeConfigToDevice } from "../../infra/write-config-to-device.ts";
 import { errorHandler } from "../../util/error-handler.ts";
 import { SyncDataType } from "../../constants.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
+import { sendCommands } from "../../infra/send-commands.ts";
 
 export const getConfigSnapshot = async () => {
   const {
@@ -160,16 +161,20 @@ export const applyConfigSnapshot = async (body: {
     env,
   } = getActiveUser();
 
-  // @TODO remove all sensors?
-  // await sendCommandAndEchoResponse(
-  //   JSON.stringify({ action: "remove", object: "datalogger" })
-  // );
-  // await sendCommandAndEchoResponse(
-  //   JSON.stringify({ action: "remove", object: "actuator" })
-  // );
-  // await sendCommandAndEchoResponse(
-  //   JSON.stringify({ action: "remove", object: "sensor" })
-  // );
+  console.log("removing previous sensors...");
+
+  const [sensors] = await sendCommands(
+    [JSON.stringify({ object: "sensor", action: "list" })],
+    false,
+  );
+
+  if (sensors?.sensors?.length) {
+    await sendCommands(
+      sensors.sensors.map((s: any) =>
+        JSON.stringify({ object: "sensor", action: "remove", id: s.id }),
+      ),
+    );
+  }
 
   // apply config to the device
   if (datalogger?.config) {
