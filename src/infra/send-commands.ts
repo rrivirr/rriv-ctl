@@ -5,6 +5,7 @@ import { DefaultObject } from "../types.ts";
 import { waitForReady } from "./wait-for-ready.ts";
 import { logAsDebug } from "../util/debug-logger.ts";
 import cli from "../cli.ts";
+import { errorHandler } from "../util/error-handler.ts";
 
 export const sendCommands = async (
   commands: string[],
@@ -53,11 +54,18 @@ export const sendSingleCommand = (
   const serialPort = connectSerial(serialPortPath);
 
   return new Promise<DefaultObject>((resolve, reject) => {
-    let timeout: ReturnType<typeof setTimeout> | null = setTimeout(function () {
-      serialPort.close();
-      logAsDebug("no data received from the device");
-      reject("Timed out talking to the datalogger. Ensure it is plugged in.");
-    }, 5000);
+    let timeout: ReturnType<typeof setTimeout> | null = setTimeout(
+      async function () {
+        try {
+          serialPort.close();
+        } catch (e) {
+          await errorHandler({ error: e, doNothing: true });
+        }
+        logAsDebug("no data received from the device");
+        reject("Timed out talking to the datalogger. Ensure it is plugged in.");
+      },
+      5000,
+    );
 
     const parser = new ReadlineParser({
       delimiter: "\n",
