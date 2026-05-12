@@ -11,5 +11,8 @@ export const makeProvisionCommand = (cli: Command) => {
     .option("-f, --firmwareVersion <firmwareVersion>")
     .option("--factory");
 
-  porvisionCommand.command("telemeter").action(registerEuiAction);
+  porvisionCommand
+    .command("telemeter")
+    .argument("[application]")
+    .action(registerEuiAction);
 };
