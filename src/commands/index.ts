@@ -19,6 +19,7 @@ import { makeHistoryCommand } from "./history/index.ts";
 import { makeLibraryCommand } from "./library/index.ts";
 import { makeSendCommand } from "./send/index.ts";
 import { makeLogsCommand } from "./logs_/index.ts";
+import { makeTelemetryCommand } from "./telemetry/index.ts";
 
 export const initializeCommands = (cli: Command) => {
   makeWatchCommand(cli);
@@ -41,4 +42,5 @@ export const initializeCommands = (cli: Command) => {
   makeHistoryCommand(cli);
   makeLibraryCommand(cli);
   makeLogsCommand(cli);
+  makeTelemetryCommand(cli);
 };
