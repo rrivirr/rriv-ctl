@@ -75,8 +75,9 @@ export const provisionAction = async (options: any) => {
   );
 };
 
-export const registerEuiAction = async () => {
+export const registerEuiAction = async (application: string) => {
   let eui;
+  let joinEui;
 
   const [result1] = await oraPromise(() =>
     sendCommands(
@@ -99,20 +100,24 @@ export const registerEuiAction = async () => {
     } else {
       logAsDebug(result2);
       eui = result1.dev_eui;
+      joinEui = result1.join_eui;
     }
   } else {
     logAsDebug(result1);
     eui = result1.dev_eui;
+    joinEui = result1.join_eui;
   }
 
-  if (!eui) {
-    console.log("no valid eui found");
+  if (!eui || !joinEui) {
+    console.log(`no valid eui found. eui: ${eui} joinEui: ${joinEui}`);
     process.exit();
   }
 
   const {
     device: { id },
   } = getActiveUser();
-  await oraPromise(() => registerEui({ eui, deviceId: id }));
+  await oraPromise(() =>
+    registerEui({ eui, joinEui, deviceId: id, application }),
+  );
   console.log("successful");
 };
