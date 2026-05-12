@@ -2,6 +2,7 @@ import { ReadlineParser } from "serialport";
 import { connectSerial } from "./connect-serial.ts";
 import { getSerialPathFromCache } from "../util/get-serial-path-from-cache.ts";
 import { getConnectedDevice } from "../util/get-connected-device.ts";
+import { errorHandler } from "../util/error-handler.ts";
 
 export const waitForReady = async (milliseconds?: number) => {
   await new Promise((resolve) => setTimeout(resolve, milliseconds || 7000));
@@ -17,10 +18,17 @@ export const waitForReady = async (milliseconds?: number) => {
   const serialPort = connectSerial(serialPortPath);
 
   return new Promise<void>((resolve, reject) => {
-    let timeout: ReturnType<typeof setTimeout> | null = setTimeout(function () {
-      serialPort.close();
-      reject("Timed out waiting for datalogger-ready status");
-    }, 13000);
+    let timeout: ReturnType<typeof setTimeout> | null = setTimeout(
+      async function () {
+        try {
+          serialPort.close();
+        } catch (e) {
+          await errorHandler({ error: e, doNothing: true });
+        }
+        reject("Timed out waiting for datalogger-ready status");
+      },
+      13000,
+    );
 
     const parser = new ReadlineParser({
       delimiter: "\n",
