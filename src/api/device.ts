@@ -90,6 +90,11 @@ export const registerEui = async (body: {
   await rrivApiAxios.post(`/device/registerEui`, body);
 };
 
+export const getApplications = async () => {
+  const response = await rrivApiAxios.get(`/device/applications`);
+  return response.data;
+};
+
 export const sendCommand = async (body: {
   command: string;
   identifier: string;

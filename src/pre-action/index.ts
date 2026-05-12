@@ -64,7 +64,10 @@ export const preAction = async (
         (commandName === "history" &&
           commandParentName === "get" &&
           actionCommand.parent?.parent?.name() === "firmware" &&
-          args.length)
+          args.length) ||
+        (commandName === "list" &&
+          commandParentName === "lorawan" &&
+          actionCommand.parent?.parent?.name() === "telemetry")
       )
     ) {
       await runChecks({
