@@ -1,3 +1,13 @@
+## [2.17.5](https://github.com/rrivirr/rriv-ctl/compare/v2.17.4...v2.17.5) (2026-05-12)
+
+
+### Bug Fixes
+
+* [#220](https://github.com/rrivirr/rriv-ctl/issues/220) ([b63c887](https://github.com/rrivirr/rriv-ctl/commit/b63c8878b183e05ee0bb3e0af9c98df28fd9d5b1))
+* [#221](https://github.com/rrivirr/rriv-ctl/issues/221) ([ba0e25b](https://github.com/rrivirr/rriv-ctl/commit/ba0e25b6816d51e0c4c7858f1ab0b3e07295e2e6))
+* additional params for register eui ([6980b3f](https://github.com/rrivirr/rriv-ctl/commit/6980b3f512bf7689c7a8d99d5779452f72369435))
+* remove all sensors ([680db64](https://github.com/rrivirr/rriv-ctl/commit/680db649d19dcb374b054528a07db87e85816154))
+
 ## [2.17.4](https://github.com/rrivirr/rriv-ctl/compare/v2.17.3...v2.17.4) (2026-04-24)
 
 
