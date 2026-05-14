@@ -60,7 +60,7 @@
     ]
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPLV3",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.946.0",
     "@inquirer/prompts": "^7.3.1",
