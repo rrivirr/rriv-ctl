@@ -1,3 +1,10 @@
+## [2.17.6](https://github.com/rrivirr/rriv-ctl/compare/v2.17.5...v2.17.6) (2026-05-14)
+
+
+### Bug Fixes
+
+* update license ([368c4de](https://github.com/rrivirr/rriv-ctl/commit/368c4de12afde5ad31ed508d37b4ee3f4ba05476))
+
 ## [2.17.5](https://github.com/rrivirr/rriv-ctl/compare/v2.17.4...v2.17.5) (2026-05-12)
 
 
