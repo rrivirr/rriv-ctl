@@ -23,5 +23,5 @@ probe-rs reset \
 probe-rs attach $file_path \
         --chip STM32F103RE  \
         --protocol swd \
-        --allow-erase-all \
-        --chip-erase
+        --no-catch-hardfault \
+        --no-catch-reset
