@@ -7,9 +7,18 @@ export const makeProvisionCommand = (cli: Command) => {
   porvisionCommand
     .command("device")
     .action(provisionAction)
-    .option("-s, --skip")
-    .option("-f, --firmwareVersion <firmwareVersion>")
-    .option("--factory");
+    .option(
+      "-s, --skip",
+      "skip programming firmware and just provision the device with the cloud",
+    )
+    .option(
+      "-f, --firmwareVersion <firmwareVersion>",
+      "provision the device with a specific firmware version",
+    )
+    .option(
+      "--factory",
+      "indicates that the device has no previous firmware programmed on it",
+    );
 
   porvisionCommand
     .command("telemeter")
