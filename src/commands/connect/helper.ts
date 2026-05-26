@@ -10,7 +10,7 @@ export const applyInitSettings = async (interactiveMode?: boolean) => {
     epoch,
   };
   const commands = [JSON.stringify(payload)];
-  console.log("setting epoch...");
+  console.log("connecting to the device and setting epoch...");
 
   if (interactiveMode) {
     console.log("setting device to interactive mode...");
