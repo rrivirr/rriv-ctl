@@ -40,6 +40,9 @@ export const listDeviceContextAction = async () => {
   await oraPromise(listContextDevices);
 };
 
-export const renameDeviceInContextAction = async (name: string) => {
-  await oraPromise(() => renameDeviceInContext(name));
+export const renameDeviceInContextAction = async (
+  name: string,
+  options: any,
+) => {
+  await oraPromise(() => renameDeviceInContext(name, options.deviceIdentifier));
 };

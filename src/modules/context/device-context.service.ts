@@ -5,12 +5,39 @@ import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
 
-export const renameDeviceInContext = async (name: string) => {
+export const renameDeviceInContext = async (
+  name: string,
+  deviceIdentifier?: string,
+) => {
+  let deviceId;
+  let contextId;
   const {
-    deviceContext: { deviceId, contextId },
+    deviceContext: {
+      deviceId: connectedDeviceId,
+      contextId: connectedContextId,
+    },
     email,
     env,
   } = getActiveUser();
+
+  if (deviceIdentifier) {
+    const devices = await getDevices({ identifier: deviceIdentifier });
+    if (!devices.length) {
+      throw new Error("invalid identifier received");
+    }
+    deviceId = devices[0].id;
+    contextId = devices[0].DeviceContext[0].Context.id;
+
+    if (!contextId) {
+      throw new Error("device specified not in a context");
+    }
+  } else {
+    if (!connectedDeviceId || !connectedContextId) {
+      throw new Error("connect your device or specify a device to rename");
+    }
+    deviceId = connectedDeviceId;
+    contextId = connectedContextId;
+  }
 
   await DeviceContextApiCalls.updateDeviceContext({
     deviceId,
@@ -18,13 +45,15 @@ export const renameDeviceInContext = async (name: string) => {
     assignedDeviceName: name,
   });
 
-  db.update((data) => {
-    data[email][env].deviceContext = {
-      contextId,
-      deviceId,
-      assignedDeviceName: name,
-    };
-  });
+  if (!deviceIdentifier) {
+    db.update((data) => {
+      data[email][env].deviceContext = {
+        contextId,
+        deviceId,
+        assignedDeviceName: name,
+      };
+    });
+  }
 };
 
 export const endDeviceContext = async () => {
