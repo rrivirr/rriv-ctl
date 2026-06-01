@@ -1,3 +1,13 @@
+## [2.17.7](https://github.com/rrivirr/rriv-ctl/compare/v2.17.6...v2.17.7) (2026-05-29)
+
+
+### Bug Fixes
+
+* [#226](https://github.com/rrivirr/rriv-ctl/issues/226) ([4ff5069](https://github.com/rrivirr/rriv-ctl/commit/4ff5069794e5f82afb0890b2268eba7cc1919e57))
+* [#227](https://github.com/rrivirr/rriv-ctl/issues/227) ([818948e](https://github.com/rrivirr/rriv-ctl/commit/818948ea506f8d992189cbc015d31cded669b3f6))
+* [#228](https://github.com/rrivirr/rriv-ctl/issues/228) ([6a20a23](https://github.com/rrivirr/rriv-ctl/commit/6a20a2355fcc08b5ef05342abf49c70caed88baa))
+* [#231](https://github.com/rrivirr/rriv-ctl/issues/231) ([a353438](https://github.com/rrivirr/rriv-ctl/commit/a3534380880b049f45381d2da8bdbf69d72eda81))
+
 ## [2.17.6](https://github.com/rrivirr/rriv-ctl/compare/v2.17.5...v2.17.6) (2026-05-14)
 
 
