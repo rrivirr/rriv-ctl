@@ -29,5 +29,9 @@ export const makeContextCommand = (cli: Command) => {
   deviceContextCommand
     .command("rename")
     .argument("name")
+    .option(
+      "-d, --device-identifier <deviceIdentifier>",
+      "rename device other than the currently attached device.",
+    )
     .action(renameDeviceInContextAction);
 };

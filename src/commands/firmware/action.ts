@@ -5,7 +5,7 @@ import { runDiagnostics } from "../../modules/firmware/run-diagnostics.ts";
 import { oraPromise } from "../../util/ora-promise.ts";
 
 export const flashAction = async (firmwareVersion?: string) => {
-  await oraPromise(() => flashFirmware(firmwareVersion));
+  await flashFirmware(firmwareVersion);
 };
 
 export const debugAction = async (firmwareVersion: string) => {
@@ -21,6 +21,6 @@ export const diagnosticAction = async (firmwareVersion?: string) => {
 };
 
 export const firmwareResetAction = async () => {
-  await oraPromise(() => clearEeprom("config"));
-  await oraPromise(flashFirmware);
+  await clearEeprom("config");
+  await flashFirmware();
 };

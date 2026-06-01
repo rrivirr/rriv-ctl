@@ -36,7 +36,11 @@ export const runChecks = async (body: {
   } = body;
   if (
     !(
-      (commandName === "context" && commandArgument !== "device") || // from repl
+      (commandName === "context" &&
+        (commandArgument !== "device" ||
+          (commandArgument === "device" &&
+            commandSecondArgument === "rename"))) || // from repl
+      (commandName === "rename" && commandParentName === "device") || // from cli
       commandParentName === "context" ||
       (commandName === "remove" && commandArgument === "device") ||
       (commandName === "get" && commandArgument === "data") ||
