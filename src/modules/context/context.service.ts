@@ -5,10 +5,26 @@ import {
   updateContext,
   deleteContext as deleteContextApiCall,
   createContext as createContextApiCall,
+  shareContext as shareContextApiCall,
+  getShareRecipients,
+  getSharedContexts as getSharedContextsApiCall,
 } from "../../api/context.ts";
 import db from "../../db/db.ts";
 import { pronounce } from "../../util/console-log.ts";
 import { getActiveUser } from "../../util/get-logged-in-user.ts";
+
+const getValidContextByName = async (name: string) => {
+  const context = await getContextByName({
+    contextName: name,
+  });
+  if (!context) {
+    throw new Error("context specified does not exist");
+  }
+  if (context.endedAt) {
+    throw new Error("context specified has already ended");
+  }
+  return context;
+};
 
 export const endContext = async (name?: string) => {
   const {
@@ -58,14 +74,17 @@ export const listContexts = async (options: {
 
   const userContexts = await getContexts({ name, search });
   if (userContexts.length) {
-    const table = new Table({ head: ["id", "name", "startedAt", "endedAt"] });
-    for (const { id, name, startedAt, endedAt } of userContexts) {
+    const table = new Table({
+      head: ["id", "name", "startedAt", "endedAt", "owner"],
+    });
+    for (const { id, name, startedAt, endedAt, Account } of userContexts) {
       if (id === existingContextId) {
         table.push([
           pronounce(id),
           pronounce(name),
           pronounce(new Date(startedAt).toISOString()),
           pronounce(endedAt ? new Date(endedAt).toISOString() : ""),
+          pronounce(Account?.email || ""),
         ]);
       } else {
         table.push([
@@ -73,6 +92,7 @@ export const listContexts = async (options: {
           name,
           new Date(startedAt).toISOString(),
           endedAt ? new Date(endedAt).toISOString() : "",
+          Account?.email,
         ]);
       }
     }
@@ -84,16 +104,8 @@ export const listContexts = async (options: {
 
 export const useContext = async (name: string) => {
   const { email, env } = getActiveUser();
+  const context = await getValidContextByName(name);
 
-  const context = await getContextByName({
-    contextName: name,
-  });
-  if (!context) {
-    throw new Error("context specified does not exist");
-  }
-  if (context.endedAt) {
-    throw new Error("context specified has already ended");
-  }
   db.update((data) => {
     data[email][env].context = {
       id: context.id,
@@ -141,4 +153,36 @@ export const deleteContext = async (name: string) => {
 export const createContext = async (name: string) => {
   await createContextApiCall({ contextName: name });
   console.log("context created successfully");
+};
+
+export const shareContext = async (body: {
+  identifier: string;
+  email: string;
+}) => {
+  const { identifier, email } = body;
+  const context = await getValidContextByName(identifier);
+  await shareContextApiCall({ email, id: context.id });
+};
+
+export const getContextShareRecipients = async (body: {
+  identifier: string;
+}) => {
+  const { identifier } = body;
+  const context = await getValidContextByName(identifier);
+  const contexts = await getShareRecipients({ id: context.id });
+  const table = new Table({ head: ["id", "name", "email"] });
+  for (const { id, firstName, lastName, email } of contexts) {
+    table.push([id, `${firstName} ${lastName}`, email]);
+  }
+  console.log(table.toString());
+};
+
+export const getSharedContexts = async () => {
+  const contexts = await getSharedContextsApiCall();
+
+  const table = new Table({ head: ["id", "name", "startedAt", "endedAt"] });
+  for (const { id, name, startedAt, endedAt } of contexts) {
+    table.push([id, name, startedAt, endedAt]);
+  }
+  console.log(table.toString());
 };

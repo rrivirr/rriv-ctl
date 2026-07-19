@@ -20,6 +20,7 @@ import { makeLibraryCommand } from "./library/index.ts";
 import { makeSendCommand } from "./send/index.ts";
 import { makeLogsCommand } from "./logs_/index.ts";
 import { makeTelemetryCommand } from "./telemetry/index.ts";
+import { makeShareCommand } from "./share/index.ts";
 
 export const initializeCommands = (cli: Command) => {
   makeWatchCommand(cli);
@@ -43,4 +44,5 @@ export const initializeCommands = (cli: Command) => {
   makeLibraryCommand(cli);
   makeLogsCommand(cli);
   makeTelemetryCommand(cli);
+  makeShareCommand(cli);
 };
