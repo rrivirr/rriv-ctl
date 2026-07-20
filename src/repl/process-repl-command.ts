@@ -46,6 +46,7 @@ export async function processReplCommand(
         commandName === "history" ||
         commandName === "logs" ||
         commandName === "library" ||
+        commandName === "share" ||
         commandName === "firmware"
       )
     ) {

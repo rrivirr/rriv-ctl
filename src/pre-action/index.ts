@@ -52,6 +52,8 @@ export const preAction = async (
     if (
       !(
         commandName === "rrivctl" ||
+        commandName === "share" ||
+        (commandName === "list" && commandParentName === "share") ||
         (commandName === "list" && args[0] === "device") ||
         (commandName === "send" && args[0] === "command") ||
         (commandName === "device" && commandParentName === "provision") ||

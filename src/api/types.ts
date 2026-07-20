@@ -12,6 +12,10 @@ export interface Context {
   accountId: string;
   startedAt: string;
   endedAt: string;
+  Account?: {
+    id: string;
+    email: string;
+  };
 }
 
 export interface DeviceContextRequest {
