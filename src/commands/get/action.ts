@@ -1,4 +1,3 @@
-import fs from "fs";
 import { getReadings } from "../../api/readings.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 import { getConfigSnapshot } from "../../modules/config/config-snapshot.service.ts";
@@ -7,15 +6,21 @@ import { oraPromise } from "../../util/ora-promise.ts";
 
 export const getAction = async (
   object: string,
-  id?: string,
-  parameter?: string,
-  endDate?: string,
+  id: string,
+  parameter: string,
+  endDate: string,
+  options: any,
 ) => {
   if (object === "data") {
     const startDate = parameter;
+    const { fileName, limit } = options;
 
     if (!id) {
       throw new Error("device identifier required");
+    }
+
+    if (limit && !+limit) {
+      throw new Error("invalid limit received");
     }
 
     const device = await oraPromise(() => getDevices({ identifier: id }));
@@ -29,13 +34,8 @@ export const getAction = async (
       return;
     }
 
-    const dirPath = "./data";
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath);
-    }
-
     const file = await oraPromise(() =>
-      getReadings({ eui, dirPath, startDate, endDate }),
+      getReadings({ eui, startDate, endDate, fileName, limit }),
     );
     if (file) {
       console.log(`saved to ${file}`);
