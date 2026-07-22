@@ -5,12 +5,7 @@ export const makeRemoveCommand = (cli: Command) => {
   cli
     .command("remove")
     .addArgument(
-      new Argument("<object>").choices([
-        "sensor",
-        "actuator",
-        "telemeter",
-        "device",
-      ]),
+      new Argument("<object>").choices(["sensor", "telemeter", "device"]),
     )
     .option("-a, --all", "remove all sensors")
     .argument("[id]", "or serial number in the case of device")

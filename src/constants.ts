@@ -1,4 +1,4 @@
-export const SENSOR_CONFIGS = ["sensor", "actuator"] as const;
+export const SENSOR_CONFIGS = ["sensor"] as const;
 
 export const CONFIGS = [
   ...SENSOR_CONFIGS,

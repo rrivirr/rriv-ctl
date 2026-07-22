@@ -4,7 +4,7 @@ import { sendCommands } from "../../infra/send-commands.ts";
 import { oraPromise } from "../../util/ora-promise.ts";
 
 export const listAction = async (object: string, options: any) => {
-  if (["sensor", "actuator", "telemeter"].includes(object)) {
+  if (["sensor", "telemeter"].includes(object)) {
     const payload = new Map();
     payload.set("object", object);
     payload.set("action", "list");
