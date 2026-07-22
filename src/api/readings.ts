@@ -30,7 +30,6 @@ export const getReadings = async (query: {
     return file;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    await errorHandler({ error, doNothing: true });
     if (error.response?.data) {
       const errorStream = error.response.data;
       let errorData = "";
@@ -39,13 +38,15 @@ export const getReadings = async (query: {
         errorData += chunk.toString();
       });
 
-      errorStream.on("end", () => {
+      errorStream.on("end", async () => {
         console.error(errorData);
         console.error(JSON.parse(errorData));
+        await errorHandler({ error: errorData, doNothing: true });
       });
     } else {
       console.log(error);
       console.log(error?.toJSON().code || error?.message);
+      await errorHandler({ error, doNothing: true });
     }
     return ``;
   }
