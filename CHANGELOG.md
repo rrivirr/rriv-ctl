@@ -1,3 +1,14 @@
+## [2.17.9](https://github.com/rrivirr/rriv-ctl/compare/v2.17.8...v2.17.9) (2026-07-22)
+
+
+### Bug Fixes
+
+* [#235](https://github.com/rrivirr/rriv-ctl/issues/235) ([17fa152](https://github.com/rrivirr/rriv-ctl/commit/17fa152b86a2764d3f4d6ce452262058b19f7f1e))
+* [#239](https://github.com/rrivirr/rriv-ctl/issues/239) ([7a536c0](https://github.com/rrivirr/rriv-ctl/commit/7a536c0274682f0087c90cecdaea482908a02bfa))
+* [#240](https://github.com/rrivirr/rriv-ctl/issues/240) ([7ee63c8](https://github.com/rrivirr/rriv-ctl/commit/7ee63c805fae1276941910d53e709d6d92b60e16))
+* remove actuator ([8a24e94](https://github.com/rrivirr/rriv-ctl/commit/8a24e942ff6d4ee42b9d3318693688f933f3bb5c))
+* remove redundant private option ([c5376f9](https://github.com/rrivirr/rriv-ctl/commit/c5376f94794ec3c7a45400fb0a32905295cd94c5))
+
 ## [2.17.8](https://github.com/rrivirr/rriv-ctl/compare/v2.17.7...v2.17.8) (2026-06-01)
 
 
