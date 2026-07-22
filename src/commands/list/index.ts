@@ -18,10 +18,6 @@ export const makeListCommand = (cli: Command) => {
       "-s, --search <search>",
       "get resources with names that includes specified parameter",
     )
-    .option(
-      "-p, --private <private>",
-      "true/false, get library configs that belong to you",
-    )
     .description("list resources")
     .action(listAction);
 };
