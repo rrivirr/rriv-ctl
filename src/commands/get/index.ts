@@ -6,11 +6,13 @@ export const makeGetCommand = (cli: Command) => {
   cli
     .command("get")
     .addArgument(
-      new Argument("<object>").choices([...CONFIGS, "data", "config-snapshot"])
+      new Argument("<object>").choices([...CONFIGS, "data", "config-snapshot"]),
     )
     .argument("[id]")
     .argument("[parameterOrstartDate]")
     .argument("[endDate]")
+    .option("-f, --fileName [fileName]")
+    .option("-l, --limit [limit]")
     .description("get values on an object")
     .action(getAction);
 };

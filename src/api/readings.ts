@@ -6,28 +6,43 @@ import { errorHandler } from "../util/error-handler.ts";
 
 export const getReadings = async (query: {
   eui: string;
-  dirPath: string;
   startDate?: string;
   endDate?: string;
-}): Promise<string> => {
-  const { eui, dirPath, startDate, endDate } = query;
+  limit?: number;
+  fileName?: string | boolean;
+}): Promise<string | undefined> => {
+  const { eui, limit, fileName, startDate, endDate } = query;
   try {
     const config = getConfig();
     const response = await axios.get(`${config.DATA_API_URL}/readings/${eui}`, {
-      params: { rangeStart: startDate, rangeEnd: endDate, format: "csv" },
-      responseType: "stream",
+      params: {
+        rangeStart: startDate,
+        rangeEnd: endDate,
+        format: fileName ? "csv" : "json",
+        limit: limit || (!fileName ? 10 : undefined),
+      },
+      ...(fileName && { responseType: "stream" }),
     });
+    if (fileName) {
+      const contentDisposition = response.headers["content-disposition"];
+      const defaultFilename = contentDisposition.split("=")[1];
+      const file = (
+        fileName !== true ? `${fileName}.csv` : defaultFilename
+      ).replaceAll(/:|-/g, "_");
 
-    const contentDisposition = response.headers["content-disposition"];
-    const filename = contentDisposition.split("=")[1];
-    const file = `${dirPath}/${filename}`;
+      const finishedDownload = stream.finished;
+      const writer = fs.createWriteStream(file);
 
-    const finishedDownload = stream.finished;
-    const writer = fs.createWriteStream(file);
+      response.data.pipe(writer);
+      await finishedDownload(writer);
+      return file;
+    } else {
+      console.log(response.data);
+      if (!limit) {
+        console.log("\ndata has been limited to 10 records");
+      }
+    }
 
-    response.data.pipe(writer);
-    await finishedDownload(writer);
-    return file;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.response?.data) {
