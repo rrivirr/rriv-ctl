@@ -44,22 +44,39 @@ export const listDevices = async () => {
         "serialNumber",
         "context",
         "assignedDeviceName",
+        "eui",
       ],
     });
-    for (const { id, uniqueName, serialNumber, DeviceContext } of devices) {
+    for (const {
+      id,
+      uniqueName,
+      serialNumber,
+      DeviceContext,
+      DeviceEuis,
+    } of devices) {
       const assignedDeviceName = DeviceContext[0]?.assignedDeviceName;
       const name = DeviceContext[0]?.Context?.name;
+      const eui = DeviceEuis[0]?.eui;
+      const slicedId = id.slice(0, 8);
 
       if (id === deviceId) {
         table.push([
-          pronounce(id),
+          pronounce(slicedId),
           pronounce(uniqueName),
           pronounce(serialNumber),
           pronounce(name),
           pronounce(assignedDeviceName),
+          pronounce(eui),
         ]);
       } else {
-        table.push([id, uniqueName, serialNumber, name, assignedDeviceName]);
+        table.push([
+          slicedId,
+          uniqueName,
+          serialNumber,
+          name,
+          assignedDeviceName,
+          eui,
+        ]);
       }
     }
     console.log("\n" + table.toString());
