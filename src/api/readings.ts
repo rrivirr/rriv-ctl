@@ -1,6 +1,7 @@
 import axios from "axios";
 import stream from "stream/promises";
 import fs from "fs";
+import { Parser } from "@json2csv/plainjs";
 import { getConfig } from "../util/config.ts";
 import { errorHandler } from "../util/error-handler.ts";
 
@@ -37,8 +38,11 @@ export const getReadings = async (query: {
       await finishedDownload(writer);
       return file;
     } else {
-      console.log(response.data);
-      if (!limit) {
+      const parser = new Parser();
+      const csv = parser.parse(response.data);
+      console.log(csv);
+
+      if (!limit && response.data.length) {
         console.log("\ndata has been limited to 10 records");
       }
     }

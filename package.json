@@ -64,6 +64,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.946.0",
     "@inquirer/prompts": "^7.3.1",
+    "@json2csv/plainjs": "^7.0.7",
     "@octokit/rest": "^22.0.0",
     "@sentry/node": "^10.46.0",
     "@types/omelette": "^0.4.5",
