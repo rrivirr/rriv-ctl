@@ -1,3 +1,10 @@
+## [2.17.12](https://github.com/rrivirr/rriv-ctl/compare/v2.17.11...v2.17.12) (2026-08-02)
+
+
+### Bug Fixes
+
+* remove ids from tables ([94ed8d4](https://github.com/rrivirr/rriv-ctl/commit/94ed8d4b9d44acc2871a885e66e9d9b27c2bfd2d))
+
 ## [2.17.11](https://github.com/rrivirr/rriv-ctl/compare/v2.17.10...v2.17.11) (2026-07-29)
 
 
