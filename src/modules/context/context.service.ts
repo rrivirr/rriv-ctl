@@ -58,18 +58,16 @@ export const listContexts = async (options: {
 
   const userContexts = await getContexts({ name, search });
   if (userContexts.length) {
-    const table = new Table({ head: ["id", "name", "startedAt", "endedAt"] });
+    const table = new Table({ head: ["name", "startedAt", "endedAt"] });
     for (const { id, name, startedAt, endedAt } of userContexts) {
       if (id === existingContextId) {
         table.push([
-          pronounce(id),
           pronounce(name),
           pronounce(new Date(startedAt).toISOString()),
           pronounce(endedAt ? new Date(endedAt).toISOString() : ""),
         ]);
       } else {
         table.push([
-          id,
           name,
           new Date(startedAt).toISOString(),
           endedAt ? new Date(endedAt).toISOString() : "",
