@@ -43,7 +43,7 @@ export const listDevices = async () => {
         "serialNumber",
         "context",
         "assignedDeviceName",
-        "eui",
+        "telemetry",
       ],
     });
     for (const {
@@ -56,6 +56,7 @@ export const listDevices = async () => {
       const assignedDeviceName = DeviceContext[0]?.assignedDeviceName;
       const name = DeviceContext[0]?.Context?.name;
       const eui = DeviceEuis[0]?.eui;
+      const telemetryString = eui ? `lorawan:${eui}` : "none";
 
       if (id === deviceId) {
         table.push([
@@ -63,10 +64,16 @@ export const listDevices = async () => {
           pronounce(serialNumber),
           pronounce(name),
           pronounce(assignedDeviceName),
-          pronounce(eui),
+          pronounce(telemetryString),
         ]);
       } else {
-        table.push([uniqueName, serialNumber, name, assignedDeviceName, eui]);
+        table.push([
+          uniqueName,
+          serialNumber,
+          name,
+          assignedDeviceName,
+          telemetryString,
+        ]);
       }
     }
     console.log("\n" + table.toString());
