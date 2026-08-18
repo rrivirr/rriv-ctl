@@ -1,3 +1,11 @@
+## [2.17.13](https://github.com/rrivirr/rriv-ctl/compare/v2.17.12...v2.17.13) (2026-08-18)
+
+
+### Bug Fixes
+
+* 248 ([133760c](https://github.com/rrivirr/rriv-ctl/commit/133760c01245d10c1d522b22cb11751202e574b1))
+* 249 ([4ec9461](https://github.com/rrivirr/rriv-ctl/commit/4ec946185d87d9e059059423905626a8574770a4))
+
 ## [2.17.12](https://github.com/rrivirr/rriv-ctl/compare/v2.17.11...v2.17.12) (2026-08-02)
 
 
