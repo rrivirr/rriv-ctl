@@ -140,17 +140,30 @@ export const connectAction = async (options: any) => {
   });
 
   const { id: currentContextId } = context;
-  // temporary
-  let deviceNameToAssign = device.uniqueName.substring(0, 20);
+  let deviceNameToAssign = device.uniqueName;
+  let addToCurrentContext = true;
 
   if (device.DeviceContext?.length) {
     const deviceContext = device.DeviceContext[0];
     if (deviceContext.Context.id === currentContextId) {
       deviceNameToAssign = deviceContext.assignedDeviceName;
     } else {
-      throw new Error(
-        `device already in another context: ${bold(deviceContext.Context.name)}`,
-      );
+      const { name, id } = deviceContext.Context;
+      console.log(`Device found in context ${bold(name)}`);
+      console.log(`Moving to context ${bold(name)}`);
+
+      db.update((data) => {
+        data[user.email][user.env].deviceContext = {
+          contextId: id,
+          deviceId: device.id,
+          assignedDeviceName: deviceContext.assignedDeviceName,
+        };
+        data[user.email][user.env].context = {
+          id,
+          name,
+        };
+      });
+      addToCurrentContext = false;
     }
   } else {
     await oraPromise(() =>
@@ -162,13 +175,15 @@ export const connectAction = async (options: any) => {
     );
   }
 
-  db.update((data) => {
-    data[user.email][user.env].deviceContext = {
-      contextId: currentContextId,
-      deviceId: device.id,
-      assignedDeviceName: deviceNameToAssign,
-    };
-  });
+  if (addToCurrentContext) {
+    db.update((data) => {
+      data[user.email][user.env].deviceContext = {
+        contextId: currentContextId,
+        deviceId: device.id,
+        assignedDeviceName: deviceNameToAssign,
+      };
+    });
+  }
 
   // set epoch
   await oraPromise(() => applyInitSettings(interactiveMode));

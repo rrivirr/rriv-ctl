@@ -53,7 +53,7 @@ export const login = async (email?: string) => {
         data[emailToLogin] = {
           [data.environment.name]: {
             accessToken,
-            name: decodedToken.name,
+            name: decodedToken.name || emailToLogin,
             expirationTime: +now.setSeconds(now.getSeconds() + expiresIn),
             lastLoginAt:
               data?.[emailToLogin]?.[data.environment.name]?.currentLoginAt,
