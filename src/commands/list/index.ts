@@ -7,7 +7,6 @@ export const makeListCommand = (cli: Command) => {
     .addArgument(
       new Argument("<object>", "resource").choices([
         "sensor",
-        "actuator",
         "telemeter",
         "device",
         "config-snapshot",
@@ -17,10 +16,6 @@ export const makeListCommand = (cli: Command) => {
     .option(
       "-s, --search <search>",
       "get resources with names that includes specified parameter",
-    )
-    .option(
-      "-p, --private <private>",
-      "true/false, get library configs that belong to you",
     )
     .description("list resources")
     .action(listAction);

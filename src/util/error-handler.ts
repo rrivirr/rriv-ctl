@@ -10,7 +10,8 @@ export const errorHandler = async (body: {
 }) => {
   const { error, exit, doNothing } = body;
   const errorResponse = error?.response?.data;
-  Sentry.captureException(JSON.stringify(errorResponse) || error);
+  const errorToUpload = errorResponse ? JSON.stringify(errorResponse) : error;
+  Sentry.captureException(errorToUpload);
   await Sentry.flush();
 
   logAsDebug(error);

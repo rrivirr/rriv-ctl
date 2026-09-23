@@ -39,27 +39,41 @@ export const listDevices = async () => {
   if (devices.length) {
     const table = new Table({
       head: [
-        "id",
         "uniqueName",
         "serialNumber",
         "context",
         "assignedDeviceName",
+        "telemetry",
       ],
     });
-    for (const { id, uniqueName, serialNumber, DeviceContext } of devices) {
+    for (const {
+      id,
+      uniqueName,
+      serialNumber,
+      DeviceContext,
+      DeviceEuis,
+    } of devices) {
       const assignedDeviceName = DeviceContext[0]?.assignedDeviceName;
       const name = DeviceContext[0]?.Context?.name;
+      const eui = DeviceEuis[0]?.eui;
+      const telemetryString = eui ? `lorawan:${eui}` : "none";
 
       if (id === deviceId) {
         table.push([
-          pronounce(id),
           pronounce(uniqueName),
           pronounce(serialNumber),
           pronounce(name),
           pronounce(assignedDeviceName),
+          pronounce(telemetryString),
         ]);
       } else {
-        table.push([id, uniqueName, serialNumber, name, assignedDeviceName]);
+        table.push([
+          uniqueName,
+          serialNumber,
+          name,
+          assignedDeviceName,
+          telemetryString,
+        ]);
       }
     }
     console.log("\n" + table.toString());

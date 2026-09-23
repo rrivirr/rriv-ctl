@@ -13,9 +13,15 @@ const validateSensorId = (object: string, sensorId?: string) => {
 };
 
 export const refactorDatetime = (datetime: string) => {
-  const [date, time] = datetime.split("T");
-  if (!date) {
-    throw new Error("invalid datetime received");
+  let date, time;
+  if (datetime) {
+    [date, time] = datetime.split("T");
+    if (!date) {
+      throw new Error("invalid datetime received");
+    }
+  } else {
+    const now = new Date();
+    date = `${now.getFullYear()}:${now.getMonth() + 1}:${now.getDate()}`;
   }
 
   let hour = 0,
@@ -36,8 +42,8 @@ export const refactorDatetime = (datetime: string) => {
 
 export const getAction = async (
   object: Resource,
-  datetime: string,
   deviceIdentifier: string,
+  datetime: string,
   options: any,
 ) => {
   const { sensorId } = options;

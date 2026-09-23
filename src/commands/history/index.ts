@@ -29,8 +29,8 @@ export const makeHistoryCommand = (cli: Command) => {
   historyCommand
     .command("get")
     .addArgument(objectArgument)
-    .argument("datetime", "<YYYY:MM:DD>T[HH:MM]")
     .addArgument(deviceIdArgument)
+    .argument("[datetime]", "<YYYY:MM:DD>T[HH:MM]")
     .addOption(sensorIdOption)
     .action(getAction);
 

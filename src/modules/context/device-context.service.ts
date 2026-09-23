@@ -97,7 +97,7 @@ export const listContextDevices = async () => {
   const contextDevices = await getDevices({ contextId: id });
   if (contextDevices.length) {
     const table = new Table({
-      head: ["id", "uniqueName", "serialNumber", "assignedDeviceName"],
+      head: ["uniqueName", "serialNumber", "assignedDeviceName"],
     });
     for (const {
       id,
@@ -108,13 +108,12 @@ export const listContextDevices = async () => {
       const assignedDeviceName = DeviceContext[0]?.assignedDeviceName;
       if (id === deviceId) {
         table.push([
-          pronounce(id),
           pronounce(uniqueName),
           pronounce(serialNumber),
           pronounce(assignedDeviceName),
         ]);
       } else {
-        table.push([id, uniqueName, serialNumber, assignedDeviceName]);
+        table.push([uniqueName, serialNumber, assignedDeviceName]);
       }
     }
     console.log("\n" + table.toString());

@@ -1,3 +1,43 @@
+## [2.17.13](https://github.com/rrivirr/rriv-ctl/compare/v2.17.12...v2.17.13) (2026-08-18)
+
+
+### Bug Fixes
+
+* 248 ([133760c](https://github.com/rrivirr/rriv-ctl/commit/133760c01245d10c1d522b22cb11751202e574b1))
+* 249 ([4ec9461](https://github.com/rrivirr/rriv-ctl/commit/4ec946185d87d9e059059423905626a8574770a4))
+
+## [2.17.12](https://github.com/rrivirr/rriv-ctl/compare/v2.17.11...v2.17.12) (2026-08-02)
+
+
+### Bug Fixes
+
+* remove ids from tables ([94ed8d4](https://github.com/rrivirr/rriv-ctl/commit/94ed8d4b9d44acc2871a885e66e9d9b27c2bfd2d))
+
+## [2.17.11](https://github.com/rrivirr/rriv-ctl/compare/v2.17.10...v2.17.11) (2026-07-29)
+
+
+### Bug Fixes
+
+* 240 ([e40e72b](https://github.com/rrivirr/rriv-ctl/commit/e40e72b411b02ca9d245719cf081f8172095d042))
+
+## [2.17.10](https://github.com/rrivirr/rriv-ctl/compare/v2.17.9...v2.17.10) (2026-07-24)
+
+
+### Bug Fixes
+
+* [#242](https://github.com/rrivirr/rriv-ctl/issues/242) ([51c4548](https://github.com/rrivirr/rriv-ctl/commit/51c45489f790df7e5b3a240553aab4f77c2a375c))
+
+## [2.17.9](https://github.com/rrivirr/rriv-ctl/compare/v2.17.8...v2.17.9) (2026-07-22)
+
+
+### Bug Fixes
+
+* [#235](https://github.com/rrivirr/rriv-ctl/issues/235) ([17fa152](https://github.com/rrivirr/rriv-ctl/commit/17fa152b86a2764d3f4d6ce452262058b19f7f1e))
+* [#239](https://github.com/rrivirr/rriv-ctl/issues/239) ([7a536c0](https://github.com/rrivirr/rriv-ctl/commit/7a536c0274682f0087c90cecdaea482908a02bfa))
+* [#240](https://github.com/rrivirr/rriv-ctl/issues/240) ([7ee63c8](https://github.com/rrivirr/rriv-ctl/commit/7ee63c805fae1276941910d53e709d6d92b60e16))
+* remove actuator ([8a24e94](https://github.com/rrivirr/rriv-ctl/commit/8a24e942ff6d4ee42b9d3318693688f933f3bb5c))
+* remove redundant private option ([c5376f9](https://github.com/rrivirr/rriv-ctl/commit/c5376f94794ec3c7a45400fb0a32905295cd94c5))
+
 ## [2.17.8](https://github.com/rrivirr/rriv-ctl/compare/v2.17.7...v2.17.8) (2026-06-01)
 
 
