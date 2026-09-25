@@ -107,7 +107,8 @@ export const connectAction = async (options: any) => {
         );
         pullConfig = true;
       } catch (e: any) {
-        console.log("accessing device as guest...\n");
+        console.log("accessing device as guest...");
+        await errorHandler({ error: e, doNothing: true });
         if (e?.response?.data?.message === "device bound to another user") {
           db.update((data) => {
             data[user.email][user.env].device = {
