@@ -1,3 +1,10 @@
+# [2.18.0](https://github.com/rrivirr/rriv-ctl/compare/v2.17.13...v2.18.0) (2026-09-25)
+
+
+### Features
+
+* share command ([58048ce](https://github.com/rrivirr/rriv-ctl/commit/58048ce4a3c6ecb1fda49ebbc24c5ca7bde7405d))
+
 ## [2.17.13](https://github.com/rrivirr/rriv-ctl/compare/v2.17.12...v2.17.13) (2026-08-18)
 
 
