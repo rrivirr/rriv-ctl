@@ -5,8 +5,6 @@ import { getPrompt } from "../repl/utils.ts";
 import { REPLServer } from "repl";
 import { connectAction } from "../commands/connect/action.ts";
 import { getActiveUser } from "../util/get-logged-in-user.ts";
-import { Context } from "../api/types.ts";
-import { errorHandler } from "../util/error-handler.ts";
 
 export const runChecks = async (body: {
   commandName: string;
@@ -17,37 +15,21 @@ export const runChecks = async (body: {
 }) => {
   const { email, context, device, deviceContext, env } = getActiveUser();
 
-  // bypass everything
-  let contexts: Context[];
-
-  try {
-    contexts = await getContexts({});
-  } catch (error) {
-    await errorHandler({ error, doNothing: true });
-    return;
-  }
-
   const {
     commandName,
     commandArgument,
-    commandSecondArgument,
     replServer,
     commandParentName,
   } = body;
   if (
     !(
-      (commandName === "context" &&
-        (commandArgument !== "device" ||
-          (commandArgument === "device" &&
-            commandSecondArgument === "rename"))) || // from repl
-      (commandName === "rename" && commandParentName === "device") || // from cli
-      commandParentName === "context" ||
-      (commandName === "remove" && commandArgument === "device") ||
-      (commandName === "get" && commandArgument === "data") ||
+      commandName === "context" || // repl
+      commandParentName === "context" || // cli
       commandName === "sync"
     )
   ) {
     if (commandArgument !== "-h") {
+      const contexts = await getContexts({});
       // check if context exists
       if (!context.id || !context.name) {
         if (!contexts.length) {
@@ -76,16 +58,7 @@ export const runChecks = async (body: {
       }
 
       // check is device is connected and initialized
-      if (
-        !(
-          commandName === "connect" ||
-          commandName === "flash" ||
-          (commandName === "list" && commandParentName === "device") || // cli
-          (commandName === "context" && // repl
-            commandArgument === "device" &&
-            commandSecondArgument === "list")
-        )
-      ) {
+      if (!(commandName === "connect" || commandName === "flash")) {
         const connectedDevice = await getConnectedDevice({
           fromRunCheck: true,
         });

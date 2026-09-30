@@ -238,9 +238,4 @@ export type OverwriteConfigSnapshotDto = {
   createdAt: string;
 } & DeviceContextRequest;
 
-export interface SignupDto {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-}
+

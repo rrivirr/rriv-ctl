@@ -40,6 +40,8 @@ export default tseslint.config(
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unsafe-function-type": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
+      // Test doubles legitimately use no-op callbacks.
+      "@typescript-eslint/no-empty-function": "off",
     },
   },
   {

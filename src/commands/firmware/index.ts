@@ -1,10 +1,9 @@
 import { Command } from "commander";
 import {
   debugAction,
-  flashAction,
-  listFirmwareHistoryAction,
   diagnosticAction,
   firmwareResetAction,
+  flashAction,
 } from "./action.ts";
 
 export const makeFirmwareCommands = (cli: Command) => {
@@ -23,13 +22,6 @@ export const makeFirmwareCommands = (cli: Command) => {
     .action(flashAction);
 
   const firmwareCommand = cli.command("firmware");
-
-  firmwareCommand
-    .command("get")
-    .command("history")
-    .description("get the firmware history of a device")
-    .argument("[serialNumber]")
-    .action(listFirmwareHistoryAction);
 
   firmwareCommand
     .command("diagnostic")

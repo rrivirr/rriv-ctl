@@ -8,19 +8,12 @@ import { makeCalibrateCommand } from "./calibrate/index.ts";
 import { makeSerialCommand } from "./serial/index.ts";
 import { makeConnectCommand } from "./connect/index.ts";
 import { makeContextCommand } from "./context/index.ts";
-import { makeTestCommand } from "./test/index.ts";
 import { makeAuthCommand } from "./auth/index.ts";
 import { makeSyncCommand } from "./sync/index.ts";
 import { makeUpdateCommand } from "./update/index.ts";
-import { makeSaveCommand } from "./save/index.ts";
 import { makeFirmwareCommands } from "./firmware/index.ts";
 import { makeProvisionCommand } from "./provision/index.ts";
-import { makeHistoryCommand } from "./history/index.ts";
-import { makeLibraryCommand } from "./library/index.ts";
 import { makeSendCommand } from "./send/index.ts";
-import { makeLogsCommand } from "./logs_/index.ts";
-import { makeTelemetryCommand } from "./telemetry/index.ts";
-import { makeShareCommand } from "./share/index.ts";
 
 export const initializeCommands = (cli: Command) => {
   makeWatchCommand(cli);
@@ -32,17 +25,10 @@ export const initializeCommands = (cli: Command) => {
   makeSerialCommand(cli);
   makeConnectCommand(cli);
   makeContextCommand(cli);
-  makeTestCommand(cli);
   makeAuthCommand(cli);
   makeSyncCommand(cli);
   makeUpdateCommand(cli);
-  makeSaveCommand(cli);
   makeSendCommand(cli);
   makeFirmwareCommands(cli);
   makeProvisionCommand(cli);
-  makeHistoryCommand(cli);
-  makeLibraryCommand(cli);
-  makeLogsCommand(cli);
-  makeTelemetryCommand(cli);
-  makeShareCommand(cli);
 };
