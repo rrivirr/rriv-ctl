@@ -25,8 +25,11 @@ jobs:
       - name: run ESLint
         run: npm run lint
 
-      # - name: run test
-      #   run: npm test
+      - name: type-check
+        run: npm run typecheck
+
+      - name: run tests (with coverage)
+        run: npm run coverage
 
   test-prerelease-binary:
     if: github.base_ref == 'main' && startsWith(github.head_ref, 'preview-')

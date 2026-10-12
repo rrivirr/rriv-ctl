@@ -1,28 +1,7 @@
-import {
-  login,
-  whoami,
-  logout,
-  signup,
-  verify,
-  resetPassword,
-} from "../../modules/auth/auth.service.ts";
-import { oraPromise } from "../../util/ora-promise.ts";
-
-export const signupAction = async (options: any) => {
-  await signup(options);
-};
+import { login, logout, whoami } from "../../modules/auth/auth.service.ts";
 
 export const loginAction = async (email?: string) => {
   await login(email);
-};
-
-// @TODO debug and fix this swap email bug
-export const verifyAction = async (email: string) => {
-  await oraPromise(() => resetPassword(email));
-};
-
-export const resetPasswordAction = async (email: string) => {
-  await oraPromise(() => verify(email));
 };
 
 export const whoamiAction = async () => {

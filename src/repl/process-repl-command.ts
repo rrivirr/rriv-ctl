@@ -38,15 +38,9 @@ export async function processReplCommand(
 
     if (
       !(
-        (commandName === "list" && args[1] === "device") ||
-        (commandName === "send" && args[1] === "command") ||
         (commandName === "provision" && args[1] === "device") ||
         (commandName === "probe" && args[1] === "debug") ||
         (commandName === "watch" && args[1]) ||
-        commandName === "history" ||
-        commandName === "logs" ||
-        commandName === "library" ||
-        commandName === "share" ||
         commandName === "firmware"
       )
     ) {

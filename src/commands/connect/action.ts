@@ -43,7 +43,7 @@ export const connectAction = async (options: any) => {
   let toBindDevice = false;
   let pullConfig = false;
   let device: Device | undefined;
-  if (!id || !existingUniqueName || !existingSerialNumber || id === "guest") {
+  if (!id || !existingUniqueName || !existingSerialNumber) {
     toBindDevice = true;
   }
 
@@ -52,18 +52,11 @@ export const connectAction = async (options: any) => {
     try {
       devices = await oraPromise(() => getDevices({ id }));
     } catch (error) {
-      console.log("access device as guest...");
       await errorHandler({ error, doNothing: true });
-      db.update((data) => {
-        data[user.email][user.env].device = {
-          id: "guest",
-          uniqueName: "guest",
-          serialNumber: serialNumber,
-          serialPortPath,
-        };
-      });
-      await oraPromise(() => applyInitSettings(interactiveMode));
-      return;
+      console.log(
+        "Could not reach the RRIV cloud. Connecting requires access to the API — check your connection and log in again.",
+      );
+      process.exit(1);
     }
     const existingDevice = devices[0];
 
@@ -84,18 +77,11 @@ export const connectAction = async (options: any) => {
     try {
       devices = await oraPromise(() => getDevices({ serialNumber }));
     } catch (error) {
-      console.log("access device as guest...");
       await errorHandler({ error, doNothing: true });
-      db.update((data) => {
-        data[user.email][user.env].device = {
-          id: "guest",
-          uniqueName: "guest",
-          serialNumber: serialNumber,
-          serialPortPath,
-        };
-      });
-      await oraPromise(() => applyInitSettings(interactiveMode));
-      return;
+      console.log(
+        "Could not reach the RRIV cloud. Connecting requires access to the API — check your connection and log in again.",
+      );
+      process.exit(1);
     }
     device = devices[0];
     if (!device) {
@@ -107,19 +93,12 @@ export const connectAction = async (options: any) => {
         );
         pullConfig = true;
       } catch (e: any) {
-        console.log("accessing device as guest...");
         await errorHandler({ error: e, doNothing: true });
         if (e?.response?.data?.message === "device bound to another user") {
-          db.update((data) => {
-            data[user.email][user.env].device = {
-              id: "guest",
-              uniqueName: "guest",
-              serialNumber: serialNumber,
-              serialPortPath,
-            };
-          });
-          await oraPromise(() => applyInitSettings(interactiveMode));
-          return;
+          console.log(
+            "This device is already bound to another RRIV account. Ask the owner to unbind it before connecting.",
+          );
+          process.exit(1);
         }
         throw e;
       }

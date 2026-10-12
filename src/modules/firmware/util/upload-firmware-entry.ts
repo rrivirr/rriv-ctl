@@ -13,7 +13,7 @@ export const uploadFirmwareEntry = async (versionFlashed: string) => {
     device: { id },
   } = getActiveUser();
 
-  if (id && id !== "guest") {
+  if (id) {
     const dataToUpload = {
       version: versionFlashed,
       installedAt: new Date().toISOString(),

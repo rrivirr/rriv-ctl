@@ -12,8 +12,31 @@ env:
   project-directory: ./
 
 jobs:
+  tests:
+    name: Lint and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: run ESLint
+        run: npm run lint
+
+      - name: type-check
+        run: npm run typecheck
+
+      - name: run tests (with coverage)
+        run: npm run coverage
+
   release:
     name: Release and Build
+    needs: tests
     runs-on: ubuntu-latest
     outputs:
       new-release-published: ${{ steps.next-version.outputs.new-release-published }}
