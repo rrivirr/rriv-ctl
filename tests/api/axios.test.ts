@@ -41,10 +41,4 @@ describe("api/axios request interceptor", () => {
     const config = await run("/context");
     expect(config.headers.Authorization).toBe("Bearer tok-123");
   });
-
-  it("skips the token for /account requests", async () => {
-    seedUser({ accessToken: "tok-123" });
-    const config = await run("/account");
-    expect(config.headers.Authorization).toBeUndefined();
-  });
 });

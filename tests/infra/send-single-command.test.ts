@@ -32,7 +32,11 @@ describe("sendSingleCommand", () => {
   });
 
   it("writes the command and resolves with the parsed response", async () => {
-    const promise = sendSingleCommand('{"object":"datalogger"}\n', false, "/dev/tty");
+    const promise = sendSingleCommand(
+      '{"object":"datalogger"}\n',
+      false,
+      "/dev/tty",
+    );
     await vi.advanceTimersByTimeAsync(1500);
 
     const port = lastPort();
