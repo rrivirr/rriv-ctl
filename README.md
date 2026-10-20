@@ -16,6 +16,8 @@ To **install** a released version of rrivctl including either alpha or beta vers
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/rrivirr/rriv-ctl/releases/download/<version>/rrivctl-installer.sh | bash -s <version>
 ```
 
+Several features of rrivctl require udev rules to be installed on Debian based Linux systems.  These rules allow non-root users access to features of the USB ports.   A convenient script to install the necssary rules can be found at https://github.com/rrivirr/rriv-scripts/blob/main/udev/install-udev.sh 
+
 ## Initial setup
 
 After you have installed rrivctl and have plugged in a RRIV board via USB, you can connect to the device.<br><br>
