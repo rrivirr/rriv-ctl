@@ -1,10 +1,6 @@
-# rriv-client
+# rriv-ctl
  
-The client app for RRIV hardware.
-
-# regular use
-
-For regular use, switch to the `v1` branch. The main branch is for active development and may be unstable.
+The command line interface client app for RRIV hardware.
 
 # Installation
 
@@ -22,7 +18,7 @@ curl --proto '=https' --tlsv1.2 -LsSf https://github.com/rrivirr/rriv-ctl/releas
 
 ## Initial setup
 
-After you have run the NPM commands above and have plugged in a RRIV board via USB, you can connect to the device.<br><br>
+After you have installed rrivctl and have plugged in a RRIV board via USB, you can connect to the device.<br><br>
 
 - In the terminal, enter the following command to connect to your RRIV device: `rrivctl connect`
 - To configure your device, use the following settings command. This will allow you to set `site_name` (the location where the sensor has been deployed), `logger_name` (the identification ID of the board you are using), and the `deployment_identifier`, which can be used to indicate the reason for deploying a given sensor:
