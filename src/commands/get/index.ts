@@ -8,14 +8,6 @@ export const makeGetCommand = (cli: Command) => {
     string,
     { description: string; usage: string; options: Option[] }
   > = {
-    data: {
-      description: "Get data for a device",
-      usage: "rrivctl get [options] data <identifier> [startDate] [endDate]",
-      options: [
-        new Option("-f, --fileName [fileName]"),
-        new Option("-l, --limit [limit]"),
-      ],
-    },
     sensor: {
       description: "Get config values for a sensor",
       usage: "rrivctl get sensor <id>",
@@ -35,28 +27,25 @@ export const makeGetCommand = (cli: Command) => {
 
   cli
     .command("get")
-    .addArgument(
-      new Argument("<object>").choices([...CONFIGS, "data", "config-snapshot"]),
-    )
+    .addArgument(new Argument("<object>").choices([...CONFIGS]))
     .argument("[id]")
-    .argument("[parameterOrstartDate]")
-    .argument("[endDate]")
-    .addOption(getCommand.data.options[0])
-    .addOption(getCommand.data.options[1])
+    .argument("[parameter]")
     .configureHelp({
       commandUsage: (cmd: Command) => {
         const arg = cmd.args[0];
         if (arg in getCommand) {
           return getCommand[arg].usage;
         }
-        return `rrivctl get [options] <object> [id] `;
+        return `rrivctl get <object> [id] [parameter]`;
       },
       commandDescription: (cmd: Command) => {
         const arg = cmd.args[0];
         if (arg in getCommand) {
           return getCommand[arg].description;
         }
-        return `Get values for an object.\nSupported objects are ${[...CONFIGS, "data", "config-snapshot"].join(", ")}`;
+        return `Get values from the device.\nSupported objects are ${
+          [...CONFIGS].join(", ")
+        }`;
       },
       visibleOptions(cmd: Command) {
         const arg = cmd.args[0];
