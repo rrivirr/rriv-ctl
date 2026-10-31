@@ -34,7 +34,11 @@ export const preAction = async (
     });
   }
 
-  if (commandName !== "update") {
+  // `update` updates rrivctl itself; `firmware update` is a board command.
+  const selfUpdate =
+    commandName === "update" && commandParentName !== "firmware";
+
+  if (!selfUpdate) {
     await checkVersionAndUpdate();
   }
 
@@ -43,7 +47,7 @@ export const preAction = async (
       commandParentName === "auth" ||
       commandName === "test" ||
       commandName === "whoami" ||
-      commandName === "update" ||
+      selfUpdate ||
       options.env ||
       options.debugMode
     )

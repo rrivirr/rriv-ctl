@@ -18,6 +18,10 @@ export const makeProvisionCommand = (cli: Command) => {
     .option(
       "--factory",
       "indicates that the device has no previous firmware programmed on it",
+    )
+    .option(
+      "--force",
+      "erase the whole chip even if the RRIV bootloader is installed",
     );
 
   porvisionCommand

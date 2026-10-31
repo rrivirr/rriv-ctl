@@ -9,7 +9,7 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { oraPromise } from "../../util/ora-promise.ts";
 
 export const provisionAction = async (options: any) => {
-  const { factory, skip, firmwareVersion } = options;
+  const { factory, skip, firmwareVersion, force } = options;
 
   let result;
 
@@ -31,7 +31,12 @@ export const provisionAction = async (options: any) => {
   }
 
   if (!skip) {
-    await flashInitialFirmware(boardVersion, firmwareVersion);
+    await flashInitialFirmware(
+      boardVersion,
+      firmwareVersion,
+      force,
+      serialPortPath,
+    );
   }
 
   if (!uid) {

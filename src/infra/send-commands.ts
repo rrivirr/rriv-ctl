@@ -50,6 +50,8 @@ export const sendSingleCommand = (
   command: string,
   echoResponse: boolean,
   serialPortPath: string,
+  /** How long to wait for the reply (and again after the echo). */
+  timeoutMs = 5000,
 ) => {
   const serialPort = connectSerial(serialPortPath);
 
@@ -64,7 +66,7 @@ export const sendSingleCommand = (
         logAsDebug("no data received from the device");
         reject("Timed out talking to the datalogger. Ensure it is plugged in.");
       },
-      5000,
+      timeoutMs,
     );
 
     const parser = new ReadlineParser({
@@ -83,7 +85,7 @@ export const sendSingleCommand = (
         timeout = setTimeout(function () {
           serialPort.close();
           reject("Timeout following action/empty response");
-        }, 5000);
+        }, timeoutMs);
         return;
       } else {
         try {
