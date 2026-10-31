@@ -85,6 +85,26 @@ class Database {
   constructor() {
     this.db = this.defaultDb;
     this.data = this.db.data;
+    this.removeGuestState();
+  }
+
+  /**
+   * The `guest` (offline device access) concept was removed. Drop any leftover
+   * guest state so affected users are simply prompted to log in again.
+   */
+  private removeGuestState() {
+    const data = this.db.data as unknown as Record<string, unknown>;
+    if (data.activeEmail !== "guest" && data.guest === undefined) {
+      return;
+    }
+    this.db.update((dbData) => {
+      const record = dbData as unknown as Record<string, unknown>;
+      delete record.guest;
+      if (record.activeEmail === "guest") {
+        record.activeEmail = "";
+      }
+    });
+    this.data = this.db.data;
   }
 
   initializeSessionDb() {

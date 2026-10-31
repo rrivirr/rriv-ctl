@@ -1,3 +1,8 @@
+import {
+  assertNoBootloader,
+  bootloaderInstalled,
+} from "./util/bootloader-check.ts";
+import { readStartupReport, resetDatalogger } from "./board-commands.ts";
 import { probeRsCheck } from "./util/probe-rs-check.ts";
 import { getRrivCtlFirmwareDir } from "../../util/paths.ts";
 import { spawn } from "../../util/spawn.ts";
@@ -8,7 +13,12 @@ import { getLatestFirmwareVersion } from "./util/get-latest-firmware-version.ts"
 import { uploadFirmwareEntry } from "./util/upload-firmware-entry.ts";
 import { yellowBright } from "yoctocolors";
 
-export const clearEeprom = async (type: "complete" | "config") => {
+export const clearEeprom = async (
+  type: "complete" | "config",
+  force = false,
+) => {
+  await probeRsCheck();
+  await assertNoBootloader(force);
   const rrivScriptsVersion = await getLatestFirmwareVersion(true);
   const dirPath = getRrivCtlFirmwareDir();
 
@@ -60,12 +70,15 @@ const flash = async (
   firmwareVersion: string,
   fileName: string,
   initialFirmware?: boolean,
+  force = false,
 ) => {
   await probeRsCheck();
+  await assertNoBootloader(force);
   const dirPath = getRrivCtlFirmwareDir();
 
   if (initialFirmware) {
-    await clearEeprom("complete");
+    // Already checked above.
+    await clearEeprom("complete", true);
   }
 
   console.log("flashing", firmwareVersion, "to device");
@@ -85,20 +98,25 @@ const flash = async (
   console.log("device successfully flashed...");
 };
 
-export const flashFirmware = async (firmwareVersion?: string) => {
+export const flashFirmware = async (
+  firmwareVersion?: string,
+  force = false,
+) => {
   let versionToFlash = firmwareVersion;
 
   if (!versionToFlash) {
     versionToFlash = await getLatestFirmwareVersion();
   }
 
-  await flash(versionToFlash, "flash-firmware");
+  await flash(versionToFlash, "flash-firmware", false, force);
   await uploadFirmwareEntry(versionToFlash);
 };
 
 export const flashInitialFirmware = async (
   boardVersion: string,
   customVersion?: string,
+  force = false,
+  serialPortPath?: string,
 ) => {
   let versionToFlash = customVersion;
 
@@ -106,7 +124,22 @@ export const flashInitialFirmware = async (
     versionToFlash = await getLatestFirmwareVersion();
   }
 
-  if (boardVersion !== versionToFlash) {
-    await flash(versionToFlash, "flash-initial-firmware", true);
+  if (boardVersion === versionToFlash) return;
+
+  if (!force && (await bootloaderInstalled())) {
+    // The probe flashes would erase the bootloader. Clear the EEPROM with the
+    // firmware's own command instead, and leave the firmware to a USB install.
+    if (serialPortPath && (await readStartupReport(serialPortPath))) {
+      await resetDatalogger(serialPortPath);
+      console.log(
+        "datalogger settings reset to their defaults and sensors removed",
+      );
+    }
+    console.log(
+      `This board has the RRIV bootloader, so ${versionToFlash} isn't flashed with the probe. Install it from the web app's Firmware tab.`,
+    );
+    return;
   }
+
+  await flash(versionToFlash, "flash-initial-firmware", true, force);
 };

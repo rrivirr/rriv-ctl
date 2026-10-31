@@ -5,18 +5,8 @@ export const makeListCommand = (cli: Command) => {
   cli
     .command("list")
     .addArgument(
-      new Argument("<object>", "resource").choices([
-        "sensor",
-        "telemeter",
-        "device",
-        "config-snapshot",
-      ]),
+      new Argument("<object>", "resource").choices(["sensor", "telemeter"]),
     )
-    .option("-n, --name <name>", "get resource with specified name")
-    .option(
-      "-s, --search <search>",
-      "get resources with names that includes specified parameter",
-    )
-    .description("list resources")
+    .description("list resources on the device")
     .action(listAction);
 };

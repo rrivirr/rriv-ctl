@@ -35,16 +35,6 @@ export const bindDevice = async (body: {
   return response.data;
 };
 
-export const unbindDevice = async (body: { serialNumber: string }) => {
-  const { serialNumber } = body;
-  const response = await rrivApiAxios.post(
-    `/device/${serialNumber}/unbind`,
-    {},
-  );
-
-  return response.data;
-};
-
 export const createFirmwareHistoryEntry = async (body: {
   version: string;
   installedAt: string;
@@ -60,27 +50,6 @@ export const createFirmwareHistoryEntry = async (body: {
   });
 };
 
-export const getFirmwareHistory = async (
-  body:
-    | {
-        deviceId: string;
-      }
-    | { serialNumber: string },
-): Promise<
-  {
-    version: string;
-    installedAt: string;
-    createdAt: string;
-    contextName: string;
-  }[]
-> => {
-  const response = await rrivApiAxios.get(`/device/firmware/history`, {
-    params: body,
-  });
-
-  return response.data;
-};
-
 export const registerEui = async (body: {
   deviceId: string;
   eui: string;
@@ -88,36 +57,4 @@ export const registerEui = async (body: {
   application?: string;
 }) => {
   await rrivApiAxios.post(`/device/registerEui`, body);
-};
-
-export const getApplications = async () => {
-  const response = await rrivApiAxios.get(`/device/applications`);
-  return response.data;
-};
-
-export const sendCommand = async (body: {
-  command: string;
-  identifier: string;
-}): Promise<{ responseId: string }> => {
-  const response = await rrivApiAxios.post(`/device/sendCommand`, body);
-  return response.data;
-};
-
-export const createLog = async (body: { log: string; identifier: string }) => {
-  await rrivApiAxios.post(`/device/log`, body);
-};
-
-export const getLogs = async (query: {
-  identifier: string;
-}): Promise<
-  {
-    log: string;
-    createdAt: string;
-    Creator: { firstName: string; lastName: string };
-  }[]
-> => {
-  const response = await rrivApiAxios.get("/device/log", {
-    params: { ...query },
-  });
-  return response.data;
 };

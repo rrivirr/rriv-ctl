@@ -65,7 +65,7 @@ export const setAction = async (
 
   const user = getActiveUser();
 
-  if (object !== "board" && user.device.id && user.device.id !== "guest") {
+  if (object !== "board" && user.device.id) {
     await oraPromise(() =>
       uploadConfig({
         ...appliedConfig,

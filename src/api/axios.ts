@@ -7,10 +7,8 @@ const rrivApiAxios = axios.create({
 });
 
 rrivApiAxios.interceptors.request.use(async (config) => {
-  if (!config.url?.includes("/account")) {
-    const user = getActiveUser();
-    config.headers.Authorization = `Bearer ${user.accessToken}`;
-  }
+  const user = getActiveUser();
+  config.headers.Authorization = `Bearer ${user.accessToken}`;
   return config;
 });
 

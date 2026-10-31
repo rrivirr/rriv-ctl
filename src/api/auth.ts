@@ -1,6 +1,4 @@
 import axios from "axios";
-import { rrivApiAxios } from "./axios.ts";
-import { SignupDto } from "./types.ts";
 import { getConfig } from "../util/config.ts";
 
 export const login = async (loginDetails: {
@@ -27,29 +25,11 @@ export const login = async (loginDetails: {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-    }
+    },
   );
   const { access_token, expires_in } = response.data;
   return {
     accessToken: access_token,
     expiresIn: expires_in,
   };
-};
-
-export const signup = async (body: SignupDto) => {
-  await rrivApiAxios.post(`/account`, body);
-};
-
-export const verify = async (body: { email: string }) => {
-  const { email } = body;
-  await rrivApiAxios.post(`/account/verifyEmail`, {
-    email,
-  });
-};
-
-export const resetPassword = async (body: { email: string }) => {
-  const { email } = body;
-  await rrivApiAxios.post(`/account/resetPassword`, {
-    email,
-  });
 };

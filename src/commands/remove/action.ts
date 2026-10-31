@@ -1,4 +1,3 @@
-import { unbindDevice } from "../../modules/device/device.service.ts";
 import { sendCommands } from "../../infra/send-commands.ts";
 import { oraPromise } from "../../util/ora-promise.ts";
 
@@ -29,10 +28,6 @@ export const removeAction = async (
   }
   if (!id) {
     throw new Error("argument required");
-  }
-  if (object === "device") {
-    await oraPromise(() => unbindDevice(id));
-    return;
   }
   const payload = new Map();
   payload.set("object", object);

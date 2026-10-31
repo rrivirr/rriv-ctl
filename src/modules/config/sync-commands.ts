@@ -17,7 +17,7 @@ export const syncCommands = async () => {
 
   try {
     for (const { requestId, data, type } of toSync) {
-      // ignore guest mode data
+      // skip entries without a device/context (e.g. collected offline)
       if (data.contextId && data.deviceId) {
         if (type === SyncDataType.ConfigSnapshot) {
           await overwriteConfigSnapshot({ ...data });

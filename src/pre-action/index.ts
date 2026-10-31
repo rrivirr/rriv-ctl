@@ -34,7 +34,11 @@ export const preAction = async (
     });
   }
 
-  if (commandName !== "update") {
+  // `update` updates rrivctl itself; `firmware update` is a board command.
+  const selfUpdate =
+    commandName === "update" && commandParentName !== "firmware";
+
+  if (!selfUpdate) {
     await checkVersionAndUpdate();
   }
 
@@ -43,7 +47,7 @@ export const preAction = async (
       commandParentName === "auth" ||
       commandName === "test" ||
       commandName === "whoami" ||
-      commandName === "update" ||
+      selfUpdate ||
       options.env ||
       options.debugMode
     )
@@ -52,24 +56,10 @@ export const preAction = async (
     if (
       !(
         commandName === "rrivctl" ||
-        commandName === "share" ||
-        (commandName === "list" && commandParentName === "share") ||
-        (commandName === "list" && args[0] === "device") ||
-        (commandName === "send" && args[0] === "command") ||
         (commandName === "device" && commandParentName === "provision") ||
         (commandName === "debug" && commandParentName === "probe") ||
-        commandParentName === "history" ||
-        commandParentName === "library" ||
         commandParentName === "firmware" ||
-        commandParentName === "logs" ||
-        (commandName === "watch" && args.length) ||
-        (commandName === "history" &&
-          commandParentName === "get" &&
-          actionCommand.parent?.parent?.name() === "firmware" &&
-          args.length) ||
-        (commandName === "list" &&
-          commandParentName === "lorawan" &&
-          actionCommand.parent?.parent?.name() === "telemetry")
+        (commandName === "watch" && args.length)
       )
     ) {
       await runChecks({

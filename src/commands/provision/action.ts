@@ -9,7 +9,7 @@ import { getActiveUser } from "../../util/get-logged-in-user.ts";
 import { oraPromise } from "../../util/ora-promise.ts";
 
 export const provisionAction = async (options: any) => {
-  const { factory, skip, firmwareVersion } = options;
+  const { factory, skip, firmwareVersion, force } = options;
 
   let result;
 
@@ -31,7 +31,12 @@ export const provisionAction = async (options: any) => {
   }
 
   if (!skip) {
-    await flashInitialFirmware(boardVersion, firmwareVersion);
+    await flashInitialFirmware(
+      boardVersion,
+      firmwareVersion,
+      force,
+      serialPortPath,
+    );
   }
 
   if (!uid) {
@@ -53,7 +58,12 @@ export const provisionAction = async (options: any) => {
   if (!matched) {
     throw new Error(`invalid uid received: ${uid}`);
   }
-  const device = await oraPromise(() => provisionDevice({ uid }));
+  const device = await oraPromise(() =>
+    provisionDevice({ uid }).catch((error) => {
+      if (error?.response?.status === 403) throw new Error("Access denied");
+      throw error;
+    }),
+  );
   logAsDebug("setting serial number on device...");
   await oraPromise(() =>
     sendCommands(
